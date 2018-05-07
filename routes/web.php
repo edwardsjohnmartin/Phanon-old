@@ -11,8 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Auth::routes();
 
-Route::get('/jupyter', 'JupyterController@notebook');
+Route::get('/', 'PagesController@index');
+Route::get('/index', 'PagesController@index');
+
+Route::get('/dashboard', 'PagesController@dashboard');
+
+Route::get('/sandbox', 'PagesController@sandbox');
+
+Route::resource('courses', 'CoursesController');
