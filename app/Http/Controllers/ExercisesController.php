@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Exercise;
+use App\Lesson;
+
+use DB;
+
 class ExercisesController extends Controller
 {
     public function __construct(){
@@ -18,7 +23,8 @@ class ExercisesController extends Controller
      */
     public function index()
     {
-        //
+        $exercises = Exercise::paginate(5);
+        return view('exercises.index')->with('exercises', $exercises);
     }
 
     /**
@@ -28,7 +34,7 @@ class ExercisesController extends Controller
      */
     public function create()
     {
-        //
+        return view('exercises.create');
     }
 
     /**
@@ -39,7 +45,21 @@ class ExercisesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'prompt' => 'required',
+            'test_code' => 'required'
+        ]);
+
+        // Create Exercise
+        $exercise = new Exercise();
+        $exercise->prompt = $request->input('prompt');
+        $exercise->pre_code = $request->input('pre_code');
+        $exercise->start_code = $request->input('start_code');
+        $exercise->test_code = $request->input('test_code');
+
+        $exercise->save();
+        
+        return redirect('/exercises')->with('success', 'Exercise Created');
     }
 
     /**
@@ -50,7 +70,8 @@ class ExercisesController extends Controller
      */
     public function show($id)
     {
-        //
+        $exercise = Exercise::find($id);
+        return view('exercises.show')->with('exercise', $exercise);
     }
 
     /**
@@ -61,7 +82,9 @@ class ExercisesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $exercise = Exercise::find($id);
+
+        return view('exercises.edit')->with('exercise', $exercise);
     }
 
     /**
@@ -73,7 +96,21 @@ class ExercisesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'prompt' => 'required',
+            'test_code' => 'required'
+        ]);
+
+        $exercise = Exercise::find($id);
+
+        $exercise->prompt = $request->input('prompt');
+        $exercise->pre_code = $request->input('pre_code');
+        $exercise->start_code = $request->input('start_code');
+        $exercise->test_code = $request->input('test_code');
+
+        $exercise->save();
+
+        return redirect('/exercises')->with('success', 'Exercise Updated');
     }
 
     /**
@@ -84,6 +121,9 @@ class ExercisesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $exercise = Exercise::find($id);
+
+        $exercise->delete();
+        return redirect('/exercises')->with('success', 'Exercise Deleted');
     }
 }

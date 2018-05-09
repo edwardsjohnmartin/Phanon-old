@@ -12,13 +12,17 @@
             {{Form::select('modules', $modules, null, array('multiple' => 'multiple', 'name' => 'modules[]'))}}
         </div> -->
 
-        <div class="form-group">
-        <select multiple="multiple" name="modules[]" id="modules">
-        @foreach($modules as $module)
-            <option value="{{$module->id}}" >{{$module->name}}</option>
-        @endforeach
-        </select>
-        </div>
+        @if(count($modules) > 0)
+            <div class="form-group">
+            <select multiple="multiple" name="modules[]" id="modules">
+            @foreach($modules as $module)
+                <option value="{{$module->id}}" >{{$module->name}}</option>
+            @endforeach
+            </select>
+            </div>
+        @else
+            <p>No modules exist</p>
+        @endif
 
         {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}

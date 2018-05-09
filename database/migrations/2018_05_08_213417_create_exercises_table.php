@@ -16,8 +16,8 @@ class CreateExercisesTable extends Migration
         Schema::create('exercises', function (Blueprint $table) {
             $table->increments('id');
             $table->string('prompt')->nullable($value = false);
-            $table->string('pre_code');
-            $table->string('start_code');
+            $table->string('pre_code')->nullable($value = true);
+            $table->string('start_code')->nullable($value = true);
             $table->string('test_code')->nullable($value = false);
             $table->timestamps();
         });

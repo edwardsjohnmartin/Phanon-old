@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 use App\Course;
 use App\Module;
+
 use DB;
 
 class CoursesController extends Controller
@@ -47,16 +50,18 @@ class CoursesController extends Controller
             'name' => 'required|unique:courses'
         ]);
 
-        // Create Post
+        // Create Course
         $course = new Course();
         $course->name = $request->input('name');
         $course->user_id = auth()->user()->id;
 
         $course->save();
 
-        foreach($request->input('modules') as $module_id){
-            $module = Module::find(intval($module_id));
-            $course->modules()->save($module);
+        if(count($request->input('modules') > 0)){
+            foreach($request->input('modules') as $module_id){
+                $module = Module::find(intval($module_id));
+                $course->modules()->save($module);
+            }
         }
         
         return redirect('/courses')->with('success', 'Course Created');
@@ -105,7 +110,6 @@ class CoursesController extends Controller
             'name' => 'required|unique:courses'
         ]);
 
-        // Create Post
         $course = Course::find($id);
         $course->name = $request->input('name');
 
