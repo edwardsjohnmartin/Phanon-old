@@ -23,11 +23,11 @@
             </ul>
 
             <ul class="nav navbar-nav">
-                <li><a href ="/sandbox">Sandbox</a></li>
-                <li><a href ="/courses">Courses</a></li>
-                <li><a href ="/modules">Modules</a></li>
-                <li><a href ="/lessons">Lessons</a></li>
-                <li><a href ="/exercises">Exercises</a></li>
+                <li><a href ="{{url('/sandbox')}}">Sandbox</a></li>
+                <li><a href ="{{url('/courses')}}">Courses</a></li>
+                <li><a href ="{{url('/modules')}}">Modules</a></li>
+                <li><a href ="{{url('/lessons')}}">Lessons</a></li>
+                <li><a href ="{{url('/exercises')}}">Exercises</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -43,7 +43,7 @@
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/dashboard">Dashboard</a></li>
+                        <li><a href="{{url('/dashboard')}}">Dashboard</a></li>
                             <li>
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();

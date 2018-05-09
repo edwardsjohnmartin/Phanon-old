@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="/exercises" class="btn btn-default">Go Back</a>
+    <a href="{{url('/exercises')}}" class="btn btn-default">Go Back</a>
     <div>
         <label>Prompt</label>
         <textarea class="form-control rounded-0" readonly>{{$exercise->prompt}}</textarea>
