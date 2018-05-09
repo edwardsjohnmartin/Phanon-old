@@ -16,8 +16,11 @@ Auth::routes();
 Route::get('/', 'PagesController@index');
 Route::get('/index', 'PagesController@index');
 
-Route::get('/dashboard', 'PagesController@dashboard');
+Route::get('/dashboard', 'DashboardController@index');
 
 Route::get('/sandbox', 'PagesController@sandbox');
 
 Route::resource('courses', 'CoursesController');
+Route::resource('modules', 'ModulesController');
+Route::resource('lessons', 'LessonsController');
+Route::resource('exercises', 'ExercisesController');
