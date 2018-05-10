@@ -7,10 +7,6 @@
             {{Form::label('name', 'Name')}}
             {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Name'])}}
         </div>
-        <!-- <div class="form-group">
-            {{Form::label('modules', 'Modules')}}
-            {{Form::select('modules', $modules, null, array('multiple' => 'multiple', 'name' => 'modules[]'))}}
-        </div> -->
 
         @if(count($modules) > 0)
             <div class="form-group">

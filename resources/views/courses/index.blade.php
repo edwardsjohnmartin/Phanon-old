@@ -6,7 +6,7 @@
     @if(count($courses) > 0)
         @foreach($courses as $course)
             <div class="well">
-                <h3><a href="{{url('/courses/$course->id')}}">{{$course->name}}</a></h3>
+                <h3><a href="{{url('/courses/' . $course->id)}}">{{$course->name}}</a></h3>
                 <small>Created on {{$course->created_at}} by {{$course->user->name}}</small>
             </div>
         @endforeach

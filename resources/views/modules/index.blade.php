@@ -6,7 +6,7 @@
     @if(count($modules) > 0)
         @foreach($modules as $module)
             <div class="well">
-                <h3><a href="{{url('/modules/$module->id')}}">{{$module->name}}</a></h3>
+                <h3><a href="{{url('/modules/' . $module->id)}}">{{$module->name}}</a></h3>
                 <small>Created on {{$module->created_at}}</small>
             </div>
         @endforeach

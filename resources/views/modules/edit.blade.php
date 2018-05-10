@@ -17,7 +17,7 @@
             {{Form::date('close_date', new \Carbon\Carbon($module->close_date))}}
             {{Form::time('close_time', date("H:i:s", strtotime($module->close_date)))}}
         </div>
-        {{FORM::hidden('_method', 'PUT')}}
+        {{Form::hidden('_method', 'PUT')}}
         {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
 @endsection

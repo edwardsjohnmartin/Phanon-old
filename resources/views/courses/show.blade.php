@@ -7,7 +7,7 @@
     <hr>
     @if(!Auth::guest())
         @if(Auth::user()->id == $course->user_id)
-            <a href="{{url('/courses/$course->id/edit')}}" class="btn btn-default">Edit</a>
+            <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-default">Edit</a>
 
             {!!Form::open(['action' => ['CoursesController@destroy', $course->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
                 {{Form::hidden('_method', 'DELETE')}}
