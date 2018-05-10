@@ -59,7 +59,7 @@ class ExercisesController extends Controller
 
         $exercise->save();
         
-        return redirect('/exercises')->with('success', 'Exercise Created');
+        return redirect(url('/exercises'))->with('success', 'Exercise Created');
     }
 
     /**
@@ -124,6 +124,6 @@ class ExercisesController extends Controller
         $exercise = Exercise::find($id);
 
         $exercise->delete();
-        return redirect('/exercises')->with('success', 'Exercise Deleted');
+        return redirect(url('/exercises'))->with('success', 'Exercise Deleted');
     }
 }

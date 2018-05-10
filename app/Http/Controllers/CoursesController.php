@@ -57,14 +57,15 @@ class CoursesController extends Controller
 
         $course->save();
 
-        if(count($request->input('modules') > 0)){
-            foreach($request->input('modules') as $module_id){
-                $module = Module::find(intval($module_id));
-                $course->modules()->save($module);
-            }
-        }
+        //TODO: This needs to be able to save relationships between a course and modules
+        // if(count($request->input('modules') > 0)){
+        //     foreach($request->input('modules') as $module_id){
+        //         $module = Module::find(intval($module_id));
+        //         $course->modules()->save($module);
+        //     }
+        // }
         
-        return redirect('/courses')->with('success', 'Course Created');
+        return redirect(url('/courses'))->with('success', 'Course Created');
     }
 
     /**
@@ -91,7 +92,7 @@ class CoursesController extends Controller
 
         // Check for correct user
         if(auth()->user()->id != $course->user_id){
-            return redirect('/courses')->with('error', 'Unauthorized Page');
+            return redirect(url('/courses'))->with('error', 'Unauthorized Page');
         }
 
         return view('courses.edit')->with('course', $course);

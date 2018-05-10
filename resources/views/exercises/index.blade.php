@@ -6,8 +6,7 @@
     @if(count($exercises) > 0)
         @foreach($exercises as $exercise)
             <div class="well">
-                <h3><a href="/exercises/{{$exercise->id}}">{{$exercise->prompt}}</a></h3>
-                <h3><a href="/exercises/{{$exercise->id}}">{{$exercise->prompt}}</a></h3>
+                <h3><a href="{{url('/exercises/' . $exercise->id)}}">{{$exercise->prompt}}</a></h3>
                 <small>Created on {{$exercise->created_at}}</small>
             </div>
         @endforeach
