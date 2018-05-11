@@ -1,0 +1,22 @@
+To deploy Laravel to a shared hosting account
+
+Host: interserver.net
+Web Manager: plesk
+
+Create the database on the host
+Export the entire database structure as an .sql file
+Import it into the database
+
+Use an ftp client (such as FileZilla) to move the files onto the host server
+The structure of the files should be as follows:
+	Inside the folder the website points to, move the contents of your Public folder
+	Make another folder in that same directory named the same as your project (phanon)
+	Move every other folder and file from the project directory into there
+It is much faster if you zip the containing folder before moving it with ftp
+Once onto the host server, go ahead and unzip the folder 
+
+Make sure the database credentials in the .env file are correct for the database on the server
+
+You will need to change the index.php file from the public directory to point at the correct directory
+	Under the "Register the Auto Loader" heading, change the path in the require statement
+	Under the "Turn on the Lights" heading, change the path in the require statement
