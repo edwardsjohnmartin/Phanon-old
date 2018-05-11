@@ -22,6 +22,6 @@ class Lesson extends Model
     }
 
     public function exercises(){
-        return $this->hasMany('App\Exercise')->withTimestamps();
+        return $this->belongsToMany('App\Exercise')->withTimestamps();
     }
 }

@@ -116,6 +116,7 @@ class CoursesController extends Controller
         ]);
 
         $course = Course::find($id);
+        
         $course->name = $request->input('name');
 
         $course->save();

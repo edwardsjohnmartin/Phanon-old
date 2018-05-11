@@ -12,6 +12,31 @@
             {{Form::date('open_date', \Carbon\Carbon::now()->toDateString())}}
             {{Form::time('open_time', \Carbon\Carbon::now()->toTimeString())}}
         </div>
+
+        @if(count($exercises) > 0)
+            <div class="form-group">
+                <label>Select which exercises you want in the lesson</label>
+                <select id="exercises" name="exercises[]" multiple class="form-control">
+                    @foreach($exercises as $exercise)
+                        <option value="{{$exercise->id}}">{{$exercise->prompt}}</option>
+                    @endforeach
+                </select>
+            </div>
+        @else
+            <p>No exercises exist</p>
+        @endif
+
         {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
+
+    <script>
+        $(document).ready(function(){
+            $('#exercises').multiselect({
+                nonSelectedText: 'Select Exercise',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                buttonWidth: '400px'
+            });
+        });
+    </script>
 @endsection

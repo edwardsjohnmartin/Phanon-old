@@ -25,13 +25,13 @@
     {!! Form::close() !!}
 
     <script>
-            $(document).ready(function(){
-                $('#modules').multiselect({
-                    nonSelectedText: 'Select Module',
-                    enableFiltering: true,
-                    enableCaseInsensitiveFiltering: true,
-                    buttonWidth: '400px'
-                });
+        $(document).ready(function(){
+            $('#modules').multiselect({
+                nonSelectedText: 'Select Module',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                buttonWidth: '400px'
             });
-        </script>
+        });
+    </script>
 @endsection

@@ -35,7 +35,8 @@ class LessonsController extends Controller
      */
     public function create()
     {
-        return view('lessons.create');
+        $exercises = Exercise::all();
+        return view('lessons.create')->with('exercises', $exercises);
     }
 
     /**
@@ -48,6 +49,7 @@ class LessonsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:lessons',
+            'exercises' => 'required',
             'open_date' => 'required'
         ]);
 
@@ -58,6 +60,14 @@ class LessonsController extends Controller
 
         $lesson->save();
         
+        if(count($request->input('exercises')) > 0){
+            $exercises = array();
+            foreach($request->input('exercises') as $exercise_id){
+                array_push($exercises, $exercise_id);
+            }
+            $lesson->exercises()->sync($exercises);
+        }      
+
         return redirect(url('/lessons'))->with('success', 'Lesson Created');
     }
 
@@ -70,7 +80,9 @@ class LessonsController extends Controller
     public function show($id)
     {
         $lesson = Lesson::find($id);
-        return view('lessons.show')->with('lesson', $lesson);
+        $exercises = $lesson->exercises;
+
+        return view('lessons.show')->with('lesson', $lesson)->with('exercises', $exercises);
     }
 
     /**
@@ -82,8 +94,10 @@ class LessonsController extends Controller
     public function edit($id)
     {
         $lesson = Lesson::find($id);
+        $exercises = Exercise::all();
+        $lesson_exercises = $lesson->exercises;
 
-        return view('lessons.edit')->with('lesson', $lesson);
+        return view('lessons.edit')->with('lesson', $lesson)->with('exercises', $exercises)->with('lesson_exercises', $lesson_exercises);
     }
 
     /**
@@ -96,7 +110,8 @@ class LessonsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:lessons',
+            'name' => 'required',
+            'exercises' => 'required',
             'open_date' => 'required'
         ]);
 
@@ -106,6 +121,14 @@ class LessonsController extends Controller
         $lesson->open_date = $request->input('open_date');
 
         $lesson->save();
+
+        if(count($request->input('exercises')) > 0){
+            $exercises = array();
+            foreach($request->input('exercises') as $exercise_id){
+                array_push($exercises, $exercise_id);
+            }
+            $lesson->exercises()->sync($exercises);
+        }
 
         return redirect(url('/lessons'))->with('success', 'Lesson Updated');
     }
