@@ -19,7 +19,7 @@
                 <label>Select which exercises you want in the lesson</label>
                 <select id="exercises" name="exercises[]" multiple class="form-control">
                     @foreach($exercises as $exercise)
-                        <option value="{{$exercise->id}}">{{$exercise->prompt}}</option>
+                        <option value="{{$exercise->id}}" @if(in_array($exercise->id, $lesson_exercise_ids)) selected @endif>{{$exercise->prompt}}</option>
                     @endforeach
                 </select>
             </div>

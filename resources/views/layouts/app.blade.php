@@ -32,7 +32,7 @@
     <script src="{{ asset('codemirror/mode/python/python.js')}}"></script>
     <script src="{{ asset('codemirror/addon/edit/closebrackets.js')}}"></script>
     <script src="{{ asset('js/bootstrap-multiselect.js')}}"></script>
-
+    <script src="{{ asset('js/codewindow.js')}}"></script>
 </head>
 <body>
     <div id="app">

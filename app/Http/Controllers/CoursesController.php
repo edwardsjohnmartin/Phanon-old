@@ -94,12 +94,21 @@ class CoursesController extends Controller
         $modules = Module::all();
         $course_modules = $course->modules;
 
+        $course_module_ids = array();
+        foreach($course_modules as $module){
+            array_push($course_module_ids, $module->id);
+        }
+
         // Check for correct user
         if(auth()->user()->id != $course->user_id){
             return redirect(url('/courses'))->with('error', 'Unauthorized Page');
         }
 
-        return view('courses.edit')->with('course', $course)->with('modules', $modules)->with('course_modules', $course_modules);
+        return view('courses.edit')->
+            with('course', $course)->
+            with('modules', $modules)->
+            with('course_modules', $course_modules)->
+            with('course_module_ids', $course_module_ids);
     }
 
     /**

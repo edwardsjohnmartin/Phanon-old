@@ -1,17 +1,34 @@
-var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("code"),{
-    smartIndent: true,
-    lineNumbers: true,
-    cursorBlinkRate: 0,
-    autoCloseBrackets: true,
-    tabSize: 4,
-    indentUnit: 4,
-    matchBrackets: true,
-    autofocus: true
-});
+// var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("code"),{
+//     smartIndent: true,
+//     lineNumbers: true,
+//     cursorBlinkRate: 0,
+//     autoCloseBrackets: true,
+//     tabSize: 4,
+//     indentUnit: 4,
+//     matchBrackets: true,
+//     autofocus: true
+// });
 
-document.getElementById("runButton").onclick = function () {
-    run();
-};
+function makeCodeMirror (editorEl){
+    CodeMirror.fromTextArea(editorEl, {
+        lineNumbers: true,
+        cursorBlinkRate: 0,
+        autoCloseBrackets: true,
+        tabSize: 4,
+        indentUnit: 4,
+        matchBrackets: true 
+    });
+}
+
+function makeClassCodeMirror(sel){
+    return Array.apply(null, document.querySelectorAll(sel));
+}
+
+function makeRunButton(btn_id){
+    document.getElementById(btn_id).onclick = function () {
+        run();
+    };
+}
 
 function outf(text){
     var mypre = document.getElementById("output");
@@ -25,7 +42,14 @@ function builtinRead(x) {
 }
 
 function run(){
-    var codeToRun = myCodeMirror.getValue();
+    //var codeToRun = myCodeMirror.getValue();
+
+    //This will only get the first instance of CodeMirror
+    //Code found at
+    //https://stackoverflow.com/questions/11581516/get-codemirror-instance?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+    var editor = $('.CodeMirror')[0].CodeMirror;
+
+    var codeToRun = editor.getValue();
 
     var outputArea = document.getElementById("output");
     outputArea.innerHTML = "";

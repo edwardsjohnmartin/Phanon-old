@@ -97,7 +97,16 @@ class LessonsController extends Controller
         $exercises = Exercise::all();
         $lesson_exercises = $lesson->exercises;
 
-        return view('lessons.edit')->with('lesson', $lesson)->with('exercises', $exercises)->with('lesson_exercises', $lesson_exercises);
+        $lesson_exercise_ids = array();
+        foreach($lesson_exercises as $exercise){
+            array_push($lesson_exercise_ids, $exercise->id);
+        }
+
+        return view('lessons.edit')->
+            with('lesson', $lesson)->
+            with('exercises', $exercises)->
+            with('lesson_exercises', $lesson_exercises)->
+            with('lesson_exercise_ids', $lesson_exercise_ids);
     }
 
     /**

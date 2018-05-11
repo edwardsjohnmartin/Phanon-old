@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 use App\Module;
+use App\Lesson;
+
 use DB;
 
 class ModulesController extends Controller
@@ -31,7 +34,8 @@ class ModulesController extends Controller
      */
     public function create()
     {
-        return view('modules.create');
+        $lessons = Lesson::all();
+        return view('modules.create')->with('lessons', $lessons);
     }
 
     /**
@@ -43,7 +47,7 @@ class ModulesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
+            'name' => 'required|unique:modules',
             'open_date' => 'required',
             'open_time' => 'required',
             'close_date' => 'required',
@@ -57,6 +61,14 @@ class ModulesController extends Controller
 
         $module->save();
 
+        if(count($request->input('lessons')) > 0){
+            $lessons = array();
+            foreach($request->input('lessons') as $lesson_id){
+                array_push($lessons, $lesson_id);
+            }
+            $module->lessons()->sync($lessons);
+        }
+
         return redirect('/modules')->with('success', 'Module Created');
     }
 
@@ -69,7 +81,9 @@ class ModulesController extends Controller
     public function show($id)
     {
         $module = Module::find($id);
-        return view('modules.show')->with('module', $module);
+        $lessons = $module->lessons;
+
+        return view('modules.show')->with('module', $module)->with('lessons', $lessons);
     }
 
     /**
@@ -81,8 +95,18 @@ class ModulesController extends Controller
     public function edit($id)
     {
         $module = Module::find($id);
+        $lessons = Lesson::all();
+        $module_lessons = $module->lessons;
 
-        return view('modules.edit')->with('module', $module);
+        $module_lesson_ids = array();
+        foreach($module_lessons as $lesson){
+            array_push($module_lesson_ids, $lesson->id);
+        }
+
+        return view('modules.edit')->
+            with('module', $module)->
+            with('lessons', $lessons)->
+            with('module_lesson_ids', $module_lesson_ids);
     }
 
     /**

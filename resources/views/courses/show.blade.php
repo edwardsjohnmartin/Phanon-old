@@ -3,11 +3,18 @@
 @section('content')
     <a href="{{url('/courses')}}" class="btn btn-default">Go Back</a>
     <h1>{{$course->name}}</h1>
-    @foreach($modules as $module)
-        <div>
-            <label>{{$module->name}}</label>
-        </div>
-    @endforeach
+    <div>
+        <label>Modules</label>
+        @if(count($modules) > 0)
+            <ul class="list-group">
+            @foreach($modules as $module)
+                <a href="{{url('/modules/' . $module->id)}}"><li class="list-group-item">{{$module->name}}</li></a>
+            @endforeach
+            </ul>
+        @else
+            <p>This course does not contain any modules</p>
+        @endif
+    </div>
     <small>Created on {{$course->created_at}} by {{$course->user->name}}</small>
     <hr>
     @if(!Auth::guest())

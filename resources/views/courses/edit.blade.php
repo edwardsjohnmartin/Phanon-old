@@ -13,7 +13,7 @@
                 <label>Select which modules you want in the course</label>
                 <select id="modules" name="modules[]" multiple class="form-control">
                     @foreach($modules as $module)
-                        <option value="{{$module->id}}">{{$module->name}}</option>
+                        <option value="{{$module->id}}" @if(in_array($module->id, $course_module_ids)) Selected @endif>{{$module->name}}</option>
                     @endforeach
                 </select>
             </div>

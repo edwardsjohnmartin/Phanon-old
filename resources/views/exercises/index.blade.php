@@ -7,6 +7,7 @@
         @foreach($exercises as $exercise)
             <div class="well">
                 <h3><a href="{{url('/exercises/' . $exercise->id)}}">{{$exercise->prompt}}</a></h3>
+                <p>Contained in {{count($exercise->lessons)}} Lessons</p>
                 <small>Created on {{$exercise->created_at}}</small>
             </div>
         @endforeach

@@ -7,6 +7,8 @@
         @foreach($modules as $module)
             <div class="well">
                 <h3><a href="{{url('/modules/' . $module->id)}}">{{$module->name}}</a></h3>
+                <p>Contains {{count($module->lessons)}} lessons</p>
+                <p>Contained in {{count($module->courses)}} courses</p>
                 <small>Created on {{$module->created_at}}</small>
             </div>
         @endforeach

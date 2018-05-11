@@ -7,8 +7,9 @@
         @foreach($lessons as $lesson)
             <div class="well">
                 <h3><a href="{{url('/lessons/' . $lesson->id)}}">{{$lesson->name}}</a></h3>
-                <p>Contains {{count($lesson->exercises)}} Exercises</p>
-                <p>Created on {{$lesson->created_at}}</p>
+                <p>Contains {{count($lesson->exercises)}} exercises</p>
+                <p>Contained in {{count($lesson->modules)}} modules</p>
+                <small>Created on {{$lesson->created_at}}</small>
             </div>
         @endforeach
         {{$lessons->links()}}

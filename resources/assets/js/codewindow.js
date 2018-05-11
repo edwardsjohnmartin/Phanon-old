@@ -1,18 +1,29 @@
-var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("code"),{
-    lineNumbers: true,
-    cursorBlinkRate: 0,
-    autoCloseBrackets: true,
-    tabSize: 4,
-    indentUnit: 4,
-    matchBrackets: true,
-    autofocus: true,
-    extraKeys: {
-        "Ctrl-M": function(){
-            console.log("shortcut");
-        }
-    }
-  }
-);
+// function editor(id){
+//     CodeMirror.fromTextArea(id, {
+//         lineNumbers: true,
+//         cursorBlinkRate: 0,
+//         autoCloseBrackets: true,
+//         tabSize: 4,
+//         indentUnit: 4,
+//         matchBrackets: true 
+//     });
+// }
+
+// var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("code"),{
+//     lineNumbers: true,
+//     cursorBlinkRate: 0,
+//     autoCloseBrackets: true,
+//     tabSize: 4,
+//     indentUnit: 4,
+//     matchBrackets: true,
+//     autofocus: true,
+//     extraKeys: {
+//         "Ctrl-M": function(){
+//             console.log("shortcut");
+//         }
+//     }
+//   }
+// );
 
 document.getElementById("runButton").onclick = function () {
     run();

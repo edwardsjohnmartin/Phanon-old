@@ -17,6 +17,31 @@
             {{Form::date('close_date', \Carbon\Carbon::now()->toDateString())}}
             {{Form::time('close_time', \Carbon\Carbon::now()->toTimeString())}}
         </div>
+
+        @if(count($lessons) > 0)
+            <div class="form-group">
+                <label>Select which lessons you want in the module</label>
+                <select id="lessons" name="lessons[]" multiple class="form-control">
+                    @foreach($lessons as $lesson)
+                        <option value="{{$lesson->id}}">{{$lesson->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        @else
+            <p>No lessons exist</p>
+        @endif
+
         {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
+
+    <script>
+        $(document).ready(function(){
+            $('#lessons').multiselect({
+                nonSelectedText: 'Select Lesson',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                buttonWidth: '400px'
+            });
+        });
+    </script>
 @endsection
