@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <a href="/courses/create" class="btn btn-primary">Create Course</a>
+                    <a href="{{url('/courses/create')}}" class="btn btn-primary">Create Course</a>
                     <h3>Courses You've Created</h3>
                     @if(count($courses) > 0)
                         <table class="table table-striped">
@@ -24,7 +24,7 @@
                             @foreach($courses as $course)
                                 <tr>
                                     <td>{{$course->name}}</td>
-                                    <td><a href="/courses/{{$course->id}}/edit" class="btn btn-default">Edit</a></td>
+                                    <td><a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-default">Edit</a></td>
                                     <td>{!!Form::open(['action' => ['CoursesController@destroy', $course->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
                                         {{Form::hidden('_method', 'DELETE')}}
                                         {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}

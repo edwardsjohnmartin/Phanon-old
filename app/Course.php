@@ -22,6 +22,6 @@ class Course extends Model
     }
 
     public function modules(){
-        return $this->hasMany('App\Module')->withTimestamps();
+        return $this->belongsToMany('App\Module')->withTimestamps();
     }
 }

@@ -3,6 +3,11 @@
 @section('content')
     <a href="{{url('/courses')}}" class="btn btn-default">Go Back</a>
     <h1>{{$course->name}}</h1>
+    @foreach($modules as $module)
+        <div>
+            <label>{{$module->name}}</label>
+        </div>
+    @endforeach
     <small>Created on {{$course->created_at}} by {{$course->user->name}}</small>
     <hr>
     @if(!Auth::guest())

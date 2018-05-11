@@ -11,9 +11,10 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('codemirror/lib/codemirror.css')}}">
     <link rel="stylesheet" href="{{ asset('codemirror/addon/fold/foldgutter.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-multiselect.css')}}">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('skulpt/skulpt.min.js') }}"></script>
@@ -30,6 +31,8 @@
     <script src="{{ asset('codemirror/addon/search/jump-to-line.js') }}"></script>
     <script src="{{ asset('codemirror/mode/python/python.js')}}"></script>
     <script src="{{ asset('codemirror/addon/edit/closebrackets.js')}}"></script>
+    <script src="{{ asset('js/bootstrap-multiselect.js')}}"></script>
+
 </head>
 <body>
     <div id="app">

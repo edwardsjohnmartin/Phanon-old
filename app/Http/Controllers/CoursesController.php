@@ -57,13 +57,13 @@ class CoursesController extends Controller
 
         $course->save();
 
-        //TODO: This needs to be able to save relationships between a course and modules
-        // if(count($request->input('modules') > 0)){
-        //     foreach($request->input('modules') as $module_id){
-        //         $module = Module::find(intval($module_id));
-        //         $course->modules()->save($module);
-        //     }
-        // }
+        if(count($request->input('modules')) > 0){
+            $modules = array();
+            foreach($request->input('modules') as $module_id){
+                array_push($modules, $module_id);
+            }
+            $course->modules()->sync($modules);
+        }
         
         return redirect(url('/courses'))->with('success', 'Course Created');
     }
@@ -77,7 +77,9 @@ class CoursesController extends Controller
     public function show($id)
     {
         $course = Course::find($id);
-        return view('courses.show')->with('course', $course);
+        $modules = $course->modules;
+
+        return view('courses.show')->with('course', $course)->with('modules', $modules);
     }
 
     /**
@@ -89,13 +91,15 @@ class CoursesController extends Controller
     public function edit($id)
     {
         $course = Course::find($id);
+        $modules = Module::all();
+        $course_modules = $course->modules;
 
         // Check for correct user
         if(auth()->user()->id != $course->user_id){
             return redirect(url('/courses'))->with('error', 'Unauthorized Page');
         }
 
-        return view('courses.edit')->with('course', $course);
+        return view('courses.edit')->with('course', $course)->with('modules', $modules)->with('course_modules', $course_modules);
     }
 
     /**
@@ -108,13 +112,21 @@ class CoursesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:courses'
+            'name' => 'required'
         ]);
 
         $course = Course::find($id);
         $course->name = $request->input('name');
 
         $course->save();
+
+        if(count($request->input('modules')) > 0){
+            $modules = array();
+            foreach($request->input('modules') as $module_id){
+                array_push($modules, $module_id);
+            }
+            $course->modules()->sync($modules);
+        }
 
         return redirect('/courses')->with('success', 'Course Updated');
     }

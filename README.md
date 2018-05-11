@@ -1,51 +1,48 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# <p align="center">Phanon - The Virtuoso Programmer</p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## About Phanon
+<p>Phanon is a web platform to facilitate teaching introductory Computer Science courses. It is programmed in PHP using the <a href="https://laravel.com/">Laravel</a> framework. Currently, only the Python language is supported, but we are looking to expand to allow the use of C# and JavaScript. It uses <a href="https://codemirror.net/">CodeMirror</a> for editing code on the website and <a href="http://www.skulpt.org/">Skulpt</a> for transpiling the Python code to JavaScript.</p>
 
-## About Laravel
+## Setting up the Development Environment
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+### Software Requirements
+<ul>
+<li>Apache Server (XAMPP)</li>
+<li>Text Editor (Visual Studio Code)</li>
+<li>MySQL Database (XAMPP)</li>
+<li>Composer</li>
+</ul>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Install An Apache Server
+<p>The easiest way to set up an Apache server is to use <a href="https://www.apachefriends.org/index.html">XAMMP</a>. The installer is straight forward and all the default values can be used.</p>
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+### Install A Text Editor
+<p>Any text editor can be used but I have found <a href="https://code.visualstudio.com/">Visual Studio Code</a> to be very nice to use.</p>
 
-## Learning Laravel
+### Download the Phanon Repository
+<p>Clone this repository and unzip it. Move it to wherever you want it. Putting it in the htdocs folder in the XAMPP installation folder makes things a little easier. It is usually located at "C:\xampp\htdocs".</p>
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+### Install Composer
+<p>Since Phanon uses the Laravel PHP Framework, <a href="https://getcomposer.org/">Composer</a> needs to be installed.
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+### Install Composer Within the Project Directory
+<p>In order for the website to work, you must install composer in the actual project directory. On Windows, open the Command Prompt. Navigate to where you moved the Phanon repository you downloaded. Type in the command: <pre align="center">composer install</pre></p>
 
-## Laravel Sponsors
+### Create the Database
+<p>In order to create the database, we will use PHPMyAdmin that is packaged with XAMMP. It is assumed that your document root hasn't been changed from the default. Open the XAMPP control panel and start the Apache server and the MySQL connection. In a web browser, navigate to <a href="https://localhost/phpmyadmin">localhost/phpmyadmin</a>. This should take you to the PHPMyAdmin dashboard. In the left column, click the "New" option. Enter a database name and click the "Create" button.</p>
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
+### Initialize the .env File
+<p>In Laravel, there needs to be a .env file in the root of the project directory that defines various things about the project including it's name and database credentials. Included in the Phanon repository is a .env_example file that can be used as a starting point. Copy it and rename the new copy .env. One of the required fields is the APP_KEY field near the top of the file. In order to generate a key, type the following command into the command prompt: <pre align="center">php artisan key:generate</pre>The name of the database you created  will need to be entered on the DB_DATABASE line. If you created a user with a password for your database, enter it on the DB_USERNAME and DB_PASSWORD lines. If you haven't created a user, enter "root" for the DB_USERNAME and leave the DB_PASSWORD blank.</p>
 
-- **[Vehikl](http://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Styde](https://styde.net)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
+### Create the Database Schema
+<p>There are two methods to do this.</p>
 
-## Contributing
+##### Method One (Easiest Method)
+<p>Enter the following command in the command prompt:<pre align="center">php artisan migrate</pre></p>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+##### Method Two
+<p>Open <a href="https://localhost/phpmyadmin">localhost/phpmyadmin</a> in the browser. Across the navbar at the top, select "Import". On the page that opens, click the "Choose File" button. Included in the root directory of the Phanon repository is a _SQL folder. Contained in there are files to recreate the database schema. You can either import the entire schema at once using the "phanon_db.sql" file in the "Entire Dump" folder or you can import specific tables from the "Individual Tables" folder. Once you selected the file(s) you want to import, click the "Go" button at the bottom of the page.</p>
 
-## Security Vulnerabilities
+### Conclusion
+<p>That should be all the setup that needs to happen to start developing from this repo. In your browser, navigating to the public folder of the Phanon directory will take you to the actual webpage. From here, you can create users, various objects, or run some Python code in the Sandbox.</p>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
