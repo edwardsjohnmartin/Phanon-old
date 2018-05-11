@@ -7,10 +7,10 @@
 
 ### Software Requirements
 <ul>
-<li>Apache Server (XAMPP)</li>
-<li>Text Editor (Visual Studio Code)</li>
-<li>MySQL Database (XAMPP)</li>
-<li>Composer</li>
+    <li>Apache Server (XAMPP)</li>
+    <li>Text Editor (Visual Studio Code)</li>
+    <li>MySQL Database (XAMPP)</li>
+    <li>Composer</li>
 </ul>
 
 ### Install An Apache Server
@@ -23,7 +23,7 @@
 <p>Clone this repository and unzip it. Move it to wherever you want it. Putting it in the htdocs folder in the XAMPP installation folder makes things a little easier. It is usually located at "C:\xampp\htdocs".</p>
 
 ### Install Composer
-<p>Since Phanon uses the Laravel PHP Framework, <a href="https://getcomposer.org/">Composer</a> needs to be installed.
+<p>Since Phanon uses the Laravel PHP framework, <a href="https://getcomposer.org/">Composer</a> needs to be installed. Installation is quick and painless and all the default values can be kept.</p>
 
 ### Install Composer Within the Project Directory
 <p>In order for the website to work, you must install composer in the actual project directory. On Windows, open the Command Prompt. Navigate to where you moved the Phanon repository you downloaded. Type in the command: <pre align="center">composer install</pre></p>
@@ -35,7 +35,7 @@
 <p>In Laravel, there needs to be a .env file in the root of the project directory that defines various things about the project including it's name and database credentials. Included in the Phanon repository is a .env_example file that can be used as a starting point. Copy it and rename the new copy .env. One of the required fields is the APP_KEY field near the top of the file. In order to generate a key, type the following command into the command prompt: <pre align="center">php artisan key:generate</pre>The name of the database you created  will need to be entered on the DB_DATABASE line. If you created a user with a password for your database, enter it on the DB_USERNAME and DB_PASSWORD lines. If you haven't created a user, enter "root" for the DB_USERNAME and leave the DB_PASSWORD blank.</p>
 
 ### Create the Database Schema
-<p>There are two methods to do this.</p>
+<p>There are two methods to do this. The first method uses an artisan command to run any migrations that have been created for the project. The second method has you interact with the database directly through PHPMyAdmin.</p>
 
 ##### Method One (Easiest Method)
 <p>Enter the following command in the command prompt:<pre align="center">php artisan migrate</pre></p>
