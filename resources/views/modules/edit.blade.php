@@ -28,7 +28,20 @@
                 </select>
             </div>
         @else
-            <p>No modules exist</p>
+            <p>No lessons exist</p>
+        @endif
+
+        @if(count($projects) > 0)
+            <div class="form-group">
+                <label>Select which projects you want in the module</label>
+                <select id="projects" name="projects[]" multiple class="form-control">
+                    @foreach($projects as $project)
+                        <option value="{{$project->id}}" @if(in_array($project->id, $module_project_ids)) Selected @endif>{{$project->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        @else
+            <p>No projects exist</p>
         @endif
 
         {{Form::hidden('_method', 'PUT')}}
@@ -39,6 +52,15 @@
         $(document).ready(function(){
             $('#lessons').multiselect({
                 nonSelectedText: 'Select Lesson',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                buttonWidth: '400px'
+            });
+        });
+
+        $(document).ready(function(){
+            $('#projects').multiselect({
+                nonSelectedText: 'Select Project',
                 enableFiltering: true,
                 enableCaseInsensitiveFiltering: true,
                 buttonWidth: '400px'

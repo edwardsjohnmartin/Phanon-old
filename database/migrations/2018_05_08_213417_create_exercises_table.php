@@ -15,10 +15,14 @@ class CreateExercisesTable extends Migration
     {
         Schema::create('exercises', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('prompt')->nullable($value = false);
-            $table->text('pre_code')->nullable($value = true);
-            $table->text('start_code')->nullable($value = true);
-            $table->text('test_code')->nullable($value = false);
+            $table->text('prompt');
+            $table->text('pre_code')->nullable();
+            $table->text('start_code')->nullable();
+            $table->text('test_code');
+            
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
         });
     }

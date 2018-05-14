@@ -7,15 +7,15 @@ use App\Http\Controllers\Controller;
 
 use App\User;
 
-class PagesController extends Controller
-{
-    public function index()
-    {
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+class PagesController extends Controller{
+    public function index(){
         return view('pages.index');
     }
 
-    public function sandbox()
-    {
+    public function sandbox(){
         return view('pages.sandbox');
     }
 

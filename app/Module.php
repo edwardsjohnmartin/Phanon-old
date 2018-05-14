@@ -16,10 +16,18 @@ class Module extends Model
     public $timestamps = true;
     
     public function lessons(){
-        return $this->belongsToMany('App\Lesson')->withTimestamps();
+        return $this->hasMany('App\Lesson');
     }
 
-    public function courses(){
-        return $this->belongsToMany('App\Course')->withTimestamps();
+    public function projects(){
+        return $this->hasMany('App\Project');
+    }
+
+    public function course(){
+        return $this->belongsTo('App\Course');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\User');
     }
 }

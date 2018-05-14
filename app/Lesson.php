@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Exercise;
-
 class Lesson extends Model
 {
     // Table Name
@@ -23,5 +21,9 @@ class Lesson extends Model
 
     public function exercises(){
         return $this->belongsToMany('App\Exercise')->withTimestamps();
+    }
+
+    public function user(){
+        return $this->belongsTo('App\User');
     }
 }

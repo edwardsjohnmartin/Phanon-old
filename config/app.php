@@ -162,7 +162,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -177,6 +176,20 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*
+         * Laravel Collective Provider
+         * Creates a convienient method of writing forms
+         * https://laravelcollective.com/docs/master/html
+         */
+        Collective\Html\HtmlServiceProvider::class,
+
+        /*
+         * Spatie 
+         * Handles roles and permissions
+         * https://github.com/spatie/laravel-permission
+         */ 
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ],
 

@@ -1,0 +1,32 @@
+---Database Questions---
+
+Should the names columns of courses, modules, lessons, and projects be unique?
+	Teacher_A wants to name a course Course_A
+	Can Teacher_B also create a course named Course_A?
+
+	Teacher_A wants to name a module Module_A
+	Can Teacher_B also create a module named Module_A?
+
+	Teacher_A wants to name a lesson Lesson_A
+	Can Teacher_B also create a lesson named Lesson_A?
+	
+	Teacher_A wants to name a project Project_A
+	Can Teacher_B also create a project named Project_A?
+
+Can a module be reused by the same user?
+	Teacher_A has 2 courses: Course_A and Course_B
+	Teacher_A creates Module_A and puts it into Course_A
+	Can Module_A also go into Course_B or does Module_A need to be cloned first?
+
+Can a lesson be reused by the same user in the same course?
+	Teacher_A has 2 modules: Module_A and Module_B
+	Teacher_A creates Lesson_A and puts it into Module_A
+	Can Lesson_A also go into Module_B or does Lesson_A need to be cloned first?
+
+Can a lesson be resued by the same user in different courses?
+	Teacher_A has 2 courses: Course_A and Course_B
+	Course_A contains Module_A
+	Course_B contains Module_B
+	Teacher_A creates Lesson_A
+	Can Teacher_A put Lesson_A into Module_A and Module_B or does Lesson_A need to be cloned first?
+

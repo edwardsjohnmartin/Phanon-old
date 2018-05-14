@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Lesson;
-
 class Exercise extends Model
 {
     // Table Name
@@ -19,5 +17,9 @@ class Exercise extends Model
 
     public function lessons(){
         return $this->belongsToMany('App\Lesson');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\User');
     }
 }

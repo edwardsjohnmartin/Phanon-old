@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Module;
-
 class Course extends Model
 {
     // Table Name
@@ -22,6 +20,6 @@ class Course extends Model
     }
 
     public function modules(){
-        return $this->belongsToMany('App\Module')->withTimestamps();
+        return $this->hasMany('App\Module');
     }
 }

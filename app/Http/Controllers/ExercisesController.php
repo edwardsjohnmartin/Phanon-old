@@ -56,7 +56,8 @@ class ExercisesController extends Controller
         $exercise->pre_code = $request->input('pre_code');
         $exercise->start_code = $request->input('start_code');
         $exercise->test_code = $request->input('test_code');
-
+        $exercise->user_id = auth()->user()->id;
+        
         $exercise->save();
         
         return redirect(url('/exercises'))->with('success', 'Exercise Created');
@@ -83,6 +84,11 @@ class ExercisesController extends Controller
     public function edit($id)
     {
         $exercise = Exercise::find($id);
+
+        // Check for correct user
+        if(auth()->user()->id != $exercise->user_id){
+            return redirect(url('/exercises'))->with('error', 'Unauthorized Page');
+        }
 
         return view('exercises.edit')->with('exercise', $exercise);
     }
@@ -122,6 +128,11 @@ class ExercisesController extends Controller
     public function destroy($id)
     {
         $exercise = Exercise::find($id);
+
+        // Check for correct user
+        if(auth()->user()->id != $exercise->user_id){
+            return redirect(url('/exercises'))->with('error', 'Unauthorized Page');
+        }
 
         $exercise->delete();
         return redirect(url('/exercises'))->with('success', 'Exercise Deleted');

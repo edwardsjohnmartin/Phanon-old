@@ -2488,6 +2488,67 @@
         "homepage": "https://github.com/sebastianbergmann/version"
     },
     {
+        "name": "spatie/laravel-permission",
+        "version": "1.16.1",
+        "version_normalized": "1.16.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/spatie/laravel-permission.git",
+            "reference": "839aa8cdbbe041b1cf17f40edd71879d5eb4c02e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/839aa8cdbbe041b1cf17f40edd71879d5eb4c02e",
+            "reference": "839aa8cdbbe041b1cf17f40edd71879d5eb4c02e",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/contracts": "~5.1.0|~5.2.0|~5.3.0|~5.4.0|~5.5.0|~5.6.0",
+            "laravel/framework": "~5.1.11|~5.2.0|~5.3.0|~5.4.0|~5.5.0|~5.6.0",
+            "php": ">=5.6.0"
+        },
+        "require-dev": {
+            "orchestra/testbench": "^3.3.0",
+            "phpunit/phpunit": "^5.7.8|~6.0|^7.0"
+        },
+        "time": "2018-02-07T16:54:07+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Spatie\\Permission\\PermissionServiceProvider"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Spatie\\Permission\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Freek Van der Herten",
+                "email": "freek@spatie.be",
+                "homepage": "https://spatie.be",
+                "role": "Developer"
+            }
+        ],
+        "description": "Permission handling for Laravel 5.1 and up",
+        "homepage": "https://github.com/spatie/laravel-permission",
+        "keywords": [
+            "acl",
+            "laravel",
+            "permission",
+            "security",
+            "spatie"
+        ]
+    },
+    {
         "name": "swiftmailer/swiftmailer",
         "version": "v5.4.9",
         "version_normalized": "5.4.9.0",

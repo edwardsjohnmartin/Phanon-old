@@ -57,6 +57,7 @@ class LessonsController extends Controller
         $lesson = new Lesson();
         $lesson->name = $request->input('name');
         $lesson->open_date = $request->input('open_date');
+        $lesson->user_id = auth()->user()->id;
 
         $lesson->save();
         
@@ -96,6 +97,11 @@ class LessonsController extends Controller
         $lesson = Lesson::find($id);
         $exercises = Exercise::all();
         $lesson_exercises = $lesson->exercises;
+
+        // Check for correct user
+        if(auth()->user()->id != $lesson->user_id){
+            return redirect(url('/lessons'))->with('error', 'Unauthorized Page');
+        }
 
         $lesson_exercise_ids = array();
         foreach($lesson_exercises as $exercise){
@@ -151,6 +157,11 @@ class LessonsController extends Controller
     public function destroy($id)
     {
         $lesson = Lesson::find($id);
+
+        // Check for correct user
+        if(auth()->user()->id != $lesson->user_id){
+            return redirect(url('/lessons'))->with('error', 'Unauthorized Page');
+        }
 
         $lesson->delete();
         return redirect(url('/lessons'))->with('success', 'Lesson Deleted');

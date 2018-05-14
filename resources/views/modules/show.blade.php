@@ -4,6 +4,14 @@
     <a href="{{url('/modules')}}" class="btn btn-default">Go Back</a>
     <h1>{{$module->name}}</h1>
     <div>
+        <label>Course</label>
+        @if(!is_null($module->course))
+            <p>Contained in {{$module->course->name}}</p>
+        @else
+            <p>Not contained in a course</p>
+        @endif
+    </div>
+    <div>
         <label>Open Date</label>
         <p>{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $module->open_date), 'm/d/Y h:i a')}}</p>
     </div>
@@ -23,26 +31,36 @@
             <p>This module does not contain any lessons</p>
         @endif
     </div>
-    <div class="well">
-        @if(count($module->courses) > 0)
-            <p>This module is contained in the following courses</p>
+    <div>
+        <label>Projects</label>
+        @if(count($module->projects) > 0)
             <ul class="list-group">
-            @foreach($module->courses as $course)
-                <a href="{{url('/courses/' . $course->id)}}"><li class="list-group-item">{{$course->name}}</li></a>
+            @foreach($module->projects as $project)
+                <a href="{{url('/projects/' . $project->id)}}"><li class="list-group-item">{{$project->name}}</li></a>
             @endforeach
             </ul>
         @else
-            <p>This module is not contained in any courses</p>
+            <p>This module does not contain any projects</p>
         @endif
     </div>
-    <small>Created on {{$module->created_at}}</small>
+    <div>
+        <small>Author: {{$module->user->name}}</small>
+    </div>
+    <div>
+        <small>Created On: {{$module->created_at}}</small>
+    </div>
+    <div>
+        <small>Last Updated At: {{$module->updated_at}}</small>
+    </div>
     <hr>
     @if(!Auth::guest())
-        <a href="{{url('/modules/' . $module->id . '/edit')}}" class="btn btn-default">Edit</a>
+        @if(Auth::user()->id == $module->user_id)
+            <a href="{{url('/modules/' . $module->id . '/edit')}}" class="btn btn-default">Edit</a>
 
-        {!!Form::open(['action' => ['ModulesController@destroy', $module->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
-            {{Form::hidden('_method', 'DELETE')}}
-            {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-        {!!Form::close() !!}
+            {!!Form::open(['action' => ['ModulesController@destroy', $module->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
+                {{Form::hidden('_method', 'DELETE')}}
+                {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+            {!!Form::close() !!}
+        @endif
     @endif
 @endsection

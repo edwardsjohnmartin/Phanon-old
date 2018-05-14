@@ -28,6 +28,7 @@
                 <li><a href ="{{url('/modules')}}">Modules</a></li>
                 <li><a href ="{{url('/lessons')}}">Lessons</a></li>
                 <li><a href ="{{url('/exercises')}}">Exercises</a></li>
+                <li><a href ="{{url('/projects')}}">Projects</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -43,7 +44,10 @@
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{url('/dashboard')}}">Dashboard</a></li>
+                            @role('Admin')
+                            <li><a href="{{url('/users')}}"><i class="fa fa-btn fa-unlock"></i>Admin</a></li>
+                            @endrole
+                            <li><a href="{{url('/dashboard')}}">Dashboard</a></li>
                             <li>
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();

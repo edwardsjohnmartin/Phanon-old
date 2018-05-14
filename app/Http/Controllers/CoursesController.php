@@ -13,7 +13,8 @@ use DB;
 class CoursesController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        //$this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware(['auth', 'clearance'])->except('index', 'show');
     }
 
     /**
@@ -23,8 +24,9 @@ class CoursesController extends Controller
      */
     public function index()
     {
-        $courses = Course::paginate(5);
-        return view('courses.index')->with('courses', $courses);
+        $courses = Course::paginate(10);
+        return view('courses.index')->
+            with('courses', $courses);
     }
 
     /**
@@ -34,8 +36,15 @@ class CoursesController extends Controller
      */
     public function create()
     {
-        $modules = Module::all();
-        return view('courses.create')->with('modules', $modules);
+        $used_modules = Module::where('user_id', auth()->user()->id)->whereNotNull('course_id')->get();
+        $unused_modules = Module::where('user_id', auth()->user()->id)->whereNull('course_id')->get();
+
+        $other_modules = Module::where('user_id', '!=', auth()->user()->id)->get();
+
+        return view('courses.create')->
+            with('used_modules', $used_modules)->
+            with('unused_modules', $unused_modules)->
+            with('other_modules', $other_modules);
     }
 
     /**
@@ -60,12 +69,13 @@ class CoursesController extends Controller
         if(count($request->input('modules')) > 0){
             $modules = array();
             foreach($request->input('modules') as $module_id){
-                array_push($modules, $module_id);
+                array_push($modules, Module::find($module_id));
             }
-            $course->modules()->sync($modules);
+            $course->modules()->saveMany($modules);
         }
         
-        return redirect(url('/courses'))->with('success', 'Course Created');
+        return redirect(url('/courses'))->
+            with('success', 'Course Created');
     }
 
     /**
@@ -76,10 +86,12 @@ class CoursesController extends Controller
      */
     public function show($id)
     {
-        $course = Course::find($id);
+        $course = Course::findOrFail($id);
         $modules = $course->modules;
 
-        return view('courses.show')->with('course', $course)->with('modules', $modules);
+        return view('courses.show')->
+            with('course', $course)->
+            with('modules', $modules);
     }
 
     /**
@@ -90,12 +102,13 @@ class CoursesController extends Controller
      */
     public function edit($id)
     {
-        $course = Course::find($id);
-        $modules = Module::all();
-        $course_modules = $course->modules;
+        $course = Course::findOrFail($id);
+
+        $used_modules = Module::whereNotNull('course_id')->get();
+        $unused_modules = Module::whereNull('course_id')->get();
 
         $course_module_ids = array();
-        foreach($course_modules as $module){
+        foreach($course->modules as $module){
             array_push($course_module_ids, $module->id);
         }
 
@@ -106,8 +119,8 @@ class CoursesController extends Controller
 
         return view('courses.edit')->
             with('course', $course)->
-            with('modules', $modules)->
-            with('course_modules', $course_modules)->
+            with('used_modules', $used_modules)->
+            with('unused_modules', $unused_modules)->
             with('course_module_ids', $course_module_ids);
     }
 
@@ -124,7 +137,7 @@ class CoursesController extends Controller
             'name' => 'required'
         ]);
 
-        $course = Course::find($id);
+        $course = Course::findOrFail($id);
         
         $course->name = $request->input('name');
 
@@ -149,7 +162,7 @@ class CoursesController extends Controller
      */
     public function destroy($id)
     {
-        $course = Course::find($id);
+        $course = Course::findOrFail($id);
 
         // Check for correct user
         if(auth()->user()->id != $course->user_id){

@@ -15,9 +15,16 @@ class CreateModulesTable extends Migration
     {
         Schema::create('modules', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable($value = false);
-            $table->dateTime('open_date')->nullable($value = false);
-            $table->dateTime('close_date')->nullable($value = false);
+            $table->string('name');
+            $table->dateTime('open_date');
+            $table->dateTime('close_date');
+
+            $table->integer('course_id')->unsigned()->index()->nullable();
+            $table->foreign('course_id')->references('id')->on('courses');
+
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
         });
     }

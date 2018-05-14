@@ -7,13 +7,13 @@ use App\Http\Controllers\Controller;
 
 use App\Module;
 use App\Lesson;
+use App\Project;
 
 use DB;
 
-class ModulesController extends Controller
-{
-    public function __construct(){
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+class ModulesController extends Controller {
+    public function __construct() {
+        $this->middleware(['auth', 'clearance'])->except('index', 'show');
     }
 
     /**
@@ -21,9 +21,8 @@ class ModulesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $modules = Module::paginate(5);
+    public function index() {
+        $modules = Module::paginate(10);
         return view('modules.index')->with('modules', $modules);
     }
 
@@ -35,7 +34,11 @@ class ModulesController extends Controller
     public function create()
     {
         $lessons = Lesson::all();
-        return view('modules.create')->with('lessons', $lessons);
+        $projects = Project::all();
+
+        return view('modules.create')->
+            with('lessons', $lessons)->
+            with('projects', $projects);
     }
 
     /**
@@ -44,8 +47,7 @@ class ModulesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $this->validate($request, [
             'name' => 'required|unique:modules',
             'open_date' => 'required',
@@ -58,18 +60,28 @@ class ModulesController extends Controller
         $module->name = $request->input('name');
         $module->open_date = $request->input('open_date') . ' ' . $request->input('open_time');
         $module->close_date = $request->input('close_date') . ' ' . $request->input('close_time');
+        $module->user_id = auth()->user()->id;
 
         $module->save();
 
-        if(count($request->input('lessons')) > 0){
+        if(count($request->input('lessons')) > 0) {
             $lessons = array();
             foreach($request->input('lessons') as $lesson_id){
-                array_push($lessons, $lesson_id);
+                array_push($lessons, Lesson::find($lesson_id));
             }
-            $module->lessons()->sync($lessons);
+            $module->lessons()->saveMany($lessons);
         }
 
-        return redirect('/modules')->with('success', 'Module Created');
+        if(count($request->input('projects')) > 0) {
+            $projects = array();
+            foreach($request->input('projects') as $project_id){
+                array_push($projects, Project::find($project_id));
+            }
+            $module->projects()->saveMany($projects);
+        }
+
+        return redirect('/modules')->
+            with('success', 'Module Created');
     }
 
     /**
@@ -78,8 +90,7 @@ class ModulesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $module = Module::find($id);
         $lessons = $module->lessons;
 
@@ -92,21 +103,32 @@ class ModulesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $module = Module::find($id);
         $lessons = Lesson::all();
-        $module_lessons = $module->lessons;
+        $projects = Project::all();
+
+        // Check for correct user
+        if(auth()->user()->id != $module->user_id) {
+            return redirect(url('/modules'))->with('error', 'Unauthorized Page');
+        }
 
         $module_lesson_ids = array();
-        foreach($module_lessons as $lesson){
+        foreach($module->lessons as $lesson) {
             array_push($module_lesson_ids, $lesson->id);
+        }
+
+        $module_project_ids = array();
+        foreach($module->projects as $project) {
+            array_push($module_project_ids, $project->id);
         }
 
         return view('modules.edit')->
             with('module', $module)->
             with('lessons', $lessons)->
-            with('module_lesson_ids', $module_lesson_ids);
+            with('projects', $projects)->
+            with('module_lesson_ids', $module_lesson_ids)->
+            with('module_project_ids', $module_project_ids);
     }
 
     /**
@@ -116,8 +138,7 @@ class ModulesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $this->validate($request, [
             'name' => 'required',
             'open_date' => 'required',
@@ -131,7 +152,8 @@ class ModulesController extends Controller
 
         $module->save();
 
-        return redirect('/modules')->with('success', 'Module Updated');
+        return redirect('/modules')->
+            with('success', 'Module Updated');
     }
 
     /**
@@ -140,9 +162,13 @@ class ModulesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $module = Module::find($id);
+
+        // Check for correct user
+        if(auth()->user()->id != $module->user_id) {
+            return redirect(url('/modules'))->with('error', 'Unauthorized Page');
+        }
 
         $module->delete();
         return redirect('/modules')->with('success', 'Module Deleted');

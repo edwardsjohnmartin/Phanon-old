@@ -30,14 +30,24 @@
             <p>This exercise is not contained in any lessons</p>
         @endif
     </div>
-    <small>Created on {{$exercise->created_at}}</small>
+    <div>
+        <small>Author: {{$exercise->user->name}}</small>
+    </div>
+    <div>
+        <small>Created On: {{$exercise->created_at}}</small>
+    </div>
+    <div>
+        <small>Last Updated At: {{$exercise->updated_at}}</small>
+    </div>
     <hr>
     @if(!Auth::guest())
-        <a href="{{url('/exercises/' . $exercise->id . '/edit')}}" class="btn btn-default">Edit</a>
+        @if(Auth::user()->id == $exercise->user_id)
+            <a href="{{url('/exercises/' . $exercise->id . '/edit')}}" class="btn btn-default">Edit</a>
 
-        {!!Form::open(['action' => ['ExercisesController@destroy', $exercise->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
-            {{Form::hidden('_method', 'DELETE')}}
-            {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-        {!!Form::close() !!}
+            {!!Form::open(['action' => ['ExercisesController@destroy', $exercise->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
+                {{Form::hidden('_method', 'DELETE')}}
+                {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+            {!!Form::close() !!}
+        @endif
     @endif
 @endsection
