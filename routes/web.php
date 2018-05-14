@@ -30,3 +30,5 @@ Route::resource('modules', 'ModulesController');
 Route::resource('lessons', 'LessonsController');
 Route::resource('exercises', 'ExercisesController');
 Route::resource('projects', 'ProjectsController');
+
+Route::get('/courses/{id}/fullview', 'CoursesController@fullview');

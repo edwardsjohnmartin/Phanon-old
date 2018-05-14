@@ -15,8 +15,8 @@ class Lesson extends Model
     // Timestamps
     public $timestamps = true;
 
-    public function modules(){
-        return $this->belongsToMany('App\Module')->withTimestamps();
+    public function module(){
+        return $this->belongsTo('App\Module');
     }
 
     public function exercises(){

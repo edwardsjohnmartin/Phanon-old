@@ -66,9 +66,9 @@ class CoursesController extends Controller
 
         $course->save();
 
-        if(count($request->input('modules')) > 0){
+        if(count($request->input('unused_modules')) > 0){
             $modules = array();
-            foreach($request->input('modules') as $module_id){
+            foreach($request->input('unused_modules') as $module_id){
                 array_push($modules, Module::find($module_id));
             }
             $course->modules()->saveMany($modules);
@@ -143,12 +143,12 @@ class CoursesController extends Controller
 
         $course->save();
 
-        if(count($request->input('modules')) > 0){
+        if(count($request->input('unused_modules')) > 0){
             $modules = array();
-            foreach($request->input('modules') as $module_id){
-                array_push($modules, $module_id);
+            foreach($request->input('unused_modules') as $module_id){
+                array_push($modules, Module::find($module_id));
             }
-            $course->modules()->sync($modules);
+            $course->modules()->saveMany($modules);
         }
 
         return redirect('/courses')->with('success', 'Course Updated');
@@ -171,5 +171,12 @@ class CoursesController extends Controller
 
         $course->delete();
         return redirect('/courses')->with('success', 'Course Deleted');
+    }
+
+    public function fullview($id) {
+        $course = Course::find($id);
+        
+        return view('courses.fullview')->
+            with('course', $course);
     }
 }

@@ -46,6 +46,15 @@
         @endforeach
     @endif 
     </div>
+    <div>
+        <small>Author: {{$lesson->user->name}}</small>
+    </div>
+    <div>
+        <small>Created On: {{$lesson->created_at}}</small>
+    </div>
+    <div>
+        <small>Last Updated At: {{$lesson->updated_at}}</small>
+    </div>
     <hr>
     @if(!Auth::guest())
         <a href="{{url('/lessons/' . $lesson->id . '/edit')}}" class="btn btn-default">Edit</a>

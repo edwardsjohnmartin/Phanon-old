@@ -2,6 +2,7 @@
 
 @section('content')
     <a href="{{url('/courses')}}" class="btn btn-default">Go Back</a>
+    <a href="{{url('/courses/' . $course->id . '/fullview')}}" class="btn btn-default">Full View</a>
     <h1>{{$course->name}}</h1>
     <div>
         <label>Modules</label>
@@ -15,7 +16,15 @@
             <p>This course does not contain any modules</p>
         @endif
     </div>
-    <small>Created on {{$course->created_at}} by {{$course->user->name}}</small>
+    <div>
+        <small>Author: {{$course->user->name}}</small>
+    </div>
+    <div>
+        <small>Created On: {{$course->created_at}}</small>
+    </div>
+    <div>
+        <small>Last Updated At: {{$course->updated_at}}</small>
+    </div>
     <hr>
     @if(!Auth::guest())
         @if(Auth::user()->id == $course->user_id)
