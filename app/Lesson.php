@@ -20,7 +20,7 @@ class Lesson extends Model
     }
 
     public function exercises(){
-        return $this->belongsToMany('App\Exercise')->withTimestamps();
+        return $this->hasMany('App\Exercise');
     }
 
     public function user(){

@@ -15,8 +15,8 @@ class Exercise extends Model
     // Timestamps
     public $timestamps = true;
 
-    public function lessons(){
-        return $this->belongsToMany('App\Lesson');
+    public function lesson(){
+        return $this->belongsTo('App\Lesson');
     }
 
     public function user(){
