@@ -56,27 +56,31 @@ class ModulesController extends Controller {
             'close_time' => 'required'
         ]);
 
+        // Get the list of lesson_ids the user wants to include in the course
+        $input_lessons = $request->input('lessons');
+
+        // Get the list of project_ids the user wants to include in the course
+        $input_projects = $request->input('projects');
+
+        // Create module
         $module = new Module();
         $module->name = $request->input('name');
         $module->open_date = $request->input('open_date') . ' ' . $request->input('open_time');
         $module->close_date = $request->input('close_date') . ' ' . $request->input('close_time');
         $module->user_id = auth()->user()->id;
 
+        // Save module to the database
         $module->save();
 
-        if(count($request->input('lessons')) > 0) {
-            $lessons = array();
-            foreach($request->input('lessons') as $lesson_id){
-                array_push($lessons, Lesson::find($lesson_id));
-            }
+        // Attach the lessons to the module
+        if($input_lessons !== null and count(input_lessons) > 0) {
+            $lessons = Lesson::find($input_lessons);
             $module->lessons()->saveMany($lessons);
         }
 
-        if(count($request->input('projects')) > 0) {
-            $projects = array();
-            foreach($request->input('projects') as $project_id){
-                array_push($projects, Project::find($project_id));
-            }
+        // Attach the projects to the module
+        if($input_projects !== null and count(input_projects) > 0) {
+            $projects = Project::find($input_projects);
             $module->projects()->saveMany($projects);
         }
 
@@ -165,12 +169,14 @@ class ModulesController extends Controller {
     public function destroy($id) {
         $module = Module::find($id);
 
-        // Check for correct user
+        // Check that the module belongs to the logged-in user
         if(auth()->user()->id != $module->user_id) {
             return redirect(url('/modules'))->with('error', 'Unauthorized Page');
         }
 
+        // Delete the module from the database
         $module->delete();
+
         return redirect('/modules')->with('success', 'Module Deleted');
     }
 }

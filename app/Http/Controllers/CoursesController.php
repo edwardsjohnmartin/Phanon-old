@@ -10,10 +10,8 @@ use App\Module;
 
 use DB;
 
-class CoursesController extends Controller
-{
+class CoursesController extends Controller {
     public function __construct(){
-        //$this->middleware('auth', ['except' => ['index', 'show']]);
         $this->middleware(['auth', 'clearance'])->except('index', 'show');
     }
 
@@ -22,8 +20,7 @@ class CoursesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         $courses = Course::paginate(10);
         return view('courses.index')->
             with('courses', $courses);
@@ -34,8 +31,7 @@ class CoursesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         $used_modules = Module::where('user_id', auth()->user()->id)->whereNotNull('course_id')->get();
         $unused_modules = Module::where('user_id', auth()->user()->id)->whereNull('course_id')->get();
 
@@ -53,24 +49,25 @@ class CoursesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $this->validate($request, [
             'name' => 'required|unique:courses'
         ]);
 
-        // Create Course
+        // Get the list of module_ids the user wants to include in the course
+        $input_modules = $request->input('unused_modules');
+
+        // Create course
         $course = new Course();
         $course->name = $request->input('name');
         $course->user_id = auth()->user()->id;
 
+        // Save course to the database
         $course->save();
 
-        if(count($request->input('unused_modules')) > 0){
-            $modules = array();
-            foreach($request->input('unused_modules') as $module_id){
-                array_push($modules, Module::find($module_id));
-            }
+        // Attach the modules to the course
+        if($input_modules !== null and count($input_modules) > 0){
+            $modules = Module::find($input_modules);
             $course->modules()->saveMany($modules);
         }
         
@@ -84,8 +81,7 @@ class CoursesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $course = Course::findOrFail($id);
         $modules = $course->modules;
 
@@ -100,8 +96,7 @@ class CoursesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $course = Course::findOrFail($id);
 
         $used_modules = Module::whereNotNull('course_id')->get();
@@ -131,8 +126,7 @@ class CoursesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $this->validate($request, [
             'name' => 'required'
         ]);
@@ -160,20 +154,28 @@ class CoursesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $course = Course::findOrFail($id);
 
-        // Check for correct user
+        // Check that the course belongs to the logged-in user
         if(auth()->user()->id != $course->user_id){
             return redirect('/courses')->with('error', 'Unauthorized Page');
         }
 
+        // Delete the course from the database
         $course->delete();
+
         return redirect('/courses')->with('success', 'Course Deleted');
     }
 
+    /**
+     * Display a course and its entire contents on a single page.
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function fullview($id) {
+        // Retrieve the course to be displayed
         $course = Course::find($id);
         
         return view('courses.fullview')->
