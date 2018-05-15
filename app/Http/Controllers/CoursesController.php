@@ -10,8 +10,10 @@ use App\Module;
 
 use DB;
 
-class CoursesController extends Controller {
-    public function __construct(){
+class CoursesController extends Controller
+{
+    public function __construct()
+    {
         $this->middleware(['auth', 'clearance'])->except('index', 'show');
     }
 
@@ -20,7 +22,8 @@ class CoursesController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index() 
+    {
         $courses = Course::paginate(10);
         return view('courses.index')->
             with('courses', $courses);
@@ -31,7 +34,8 @@ class CoursesController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create() 
+    {
         $used_modules = Module::where('user_id', auth()->user()->id)->whereNotNull('course_id')->get();
         $unused_modules = Module::where('user_id', auth()->user()->id)->whereNull('course_id')->get();
 
@@ -49,7 +53,8 @@ class CoursesController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request) 
+    {
         $this->validate($request, [
             'name' => 'required|unique:courses'
         ]);
@@ -66,7 +71,7 @@ class CoursesController extends Controller {
         $course->save();
 
         // Attach the modules to the course
-        if($input_modules !== null and count($input_modules) > 0){
+        if(!empty($input_modules)) {
             $modules = Module::find($input_modules);
             $course->modules()->saveMany($modules);
         }
@@ -81,7 +86,8 @@ class CoursesController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id) 
+    {
         $course = Course::findOrFail($id);
         $modules = $course->modules;
 
@@ -96,7 +102,8 @@ class CoursesController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id) 
+    {
         $course = Course::findOrFail($id);
 
         $used_modules = Module::whereNotNull('course_id')->get();
@@ -126,7 +133,8 @@ class CoursesController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id) 
+    {
         $this->validate($request, [
             'name' => 'required'
         ]);
@@ -154,7 +162,8 @@ class CoursesController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id) 
+    {
         $course = Course::findOrFail($id);
 
         // Check that the course belongs to the logged-in user
@@ -174,7 +183,8 @@ class CoursesController extends Controller {
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function fullview($id) {
+    public function fullview($id) 
+    {
         // Retrieve the course to be displayed
         $course = Course::find($id);
         

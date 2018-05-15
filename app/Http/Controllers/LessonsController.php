@@ -13,7 +13,8 @@ use DB;
 
 class LessonsController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
     
@@ -24,8 +25,9 @@ class LessonsController extends Controller
      */
     public function index()
     {
-        $lessons = Lesson::paginate(5);
-        return view('lessons.index')->with('lessons', $lessons);
+        $lessons = Lesson::paginate(10);
+        return view('lessons.index')->
+            with('lessons', $lessons);
     }
 
     /**
@@ -53,23 +55,26 @@ class LessonsController extends Controller
             'open_date' => 'required'
         ]);
 
+        // Get the list of exercise_ids the user wants to include in the lesson
+        $input_exercises = $request->input('exercises');
+
         // Create Lesson
         $lesson = new Lesson();
         $lesson->name = $request->input('name');
         $lesson->open_date = $request->input('open_date');
         $lesson->user_id = auth()->user()->id;
 
+        // Save lesson to the database
         $lesson->save();
         
-        if(count($request->input('exercises')) > 0){
-            $exercises = array();
-            foreach($request->input('exercises') as $exercise_id){
-                array_push($exercises, $exercise_id);
-            }
-            $lesson->exercises()->sync($exercises);
+        // Attach the exercises to the lesson
+        if(!empty($input_exercises)){
+            $exercises = Exercise::find($input_exercises);
+            $lesson->exercises()->saveMany($exercises);
         }      
 
-        return redirect(url('/lessons'))->with('success', 'Lesson Created');
+        return redirect(url('/lessons'))->
+            with('success', 'Lesson Created');
     }
 
     /**
@@ -130,22 +135,27 @@ class LessonsController extends Controller
             'open_date' => 'required'
         ]);
 
+        // Get the list of exercise_ids the user wants to include in the lesson
+        $input_exercises = $request->input('exercises');
+
+        // Get the lesson to be updated
         $lesson = Lesson::find($id);
 
+        // Update its fields
         $lesson->name = $request->input('name');
         $lesson->open_date = $request->input('open_date');
 
+        // Save the lesson to the database
         $lesson->save();
 
-        if(count($request->input('exercises')) > 0){
-            $exercises = array();
-            foreach($request->input('exercises') as $exercise_id){
-                array_push($exercises, $exercise_id);
-            }
-            $lesson->exercises()->sync($exercises);
+        // Attach the exercises to the lesson
+        if(!empty($input_exercises)){
+            $exercises = Exercise::find($input_exercises);
+            $lesson->exercises()->saveMany($exercises);
         }
 
-        return redirect(url('/lessons'))->with('success', 'Lesson Updated');
+        return redirect(url('/lessons'))->
+            with('success', 'Lesson Updated');
     }
 
     /**

@@ -6,7 +6,7 @@
     <div>
         <label>Course</label>
         @if(!is_null($module->course))
-            <p>Contained in {{$module->course->name}}</p>
+            <p>{{$module->course->name}}</p>
         @else
             <p>Not contained in a course</p>
         @endif

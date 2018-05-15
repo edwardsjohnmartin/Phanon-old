@@ -3,6 +3,14 @@
 @section('content')
     <a href="{{url('/exercises')}}" class="btn btn-default">Go Back</a>
     <div>
+        <label>Lesson</label>
+        @if(!is_null($exercise->lesson))
+            <p>{{$exercise->lesson->name}}</p>
+        @else
+            <p>Not contained in a lesson</p>
+        @endif
+    </div>
+    <div>
         <label>Prompt</label>
         <label class="form-control rounded-0" readonly>{{$exercise->prompt}}</textarea>
     </div>
@@ -17,18 +25,6 @@
     <div>
         <label>Test Code</label>
         <label class="form-control rounded-0">{{$exercise->test_code}}</textarea>
-    </div>
-    <div class="well">
-        @if(count($exercise->lessons) > 0)
-            <p>This exercise is contained in the following lessons</p>
-            <ul class="list-group">
-            @foreach($exercise->lessons as $lesson)
-                <a href="{{url('/lessons/' . $lesson->id)}}"><li class="list-group-item">{{$lesson->name}}</li></a>
-            @endforeach
-            </ul>
-        @else
-            <p>This exercise is not contained in any lessons</p>
-        @endif
     </div>
     <div>
         <small>Author: {{$exercise->user->name}}</small>

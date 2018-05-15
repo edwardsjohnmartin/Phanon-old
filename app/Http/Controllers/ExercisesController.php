@@ -10,9 +10,10 @@ use App\Lesson;
 
 use DB;
 
-class ExercisesController extends Controller
+class ExercisesController extends Controller 
 {
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
     
@@ -21,7 +22,7 @@ class ExercisesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() 
     {
         $exercises = Exercise::paginate(5);
         return view('exercises.index')->with('exercises', $exercises);
@@ -32,7 +33,7 @@ class ExercisesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create() 
     {
         return view('exercises.create');
     }
@@ -43,7 +44,7 @@ class ExercisesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         $this->validate($request, [
             'prompt' => 'required',
@@ -58,6 +59,7 @@ class ExercisesController extends Controller
         $exercise->test_code = $request->input('test_code');
         $exercise->user_id = auth()->user()->id;
         
+        // Save exercise to the database
         $exercise->save();
         
         return redirect(url('/exercises'))->with('success', 'Exercise Created');
@@ -69,7 +71,7 @@ class ExercisesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id) 
     {
         $exercise = Exercise::find($id);
         return view('exercises.show')->with('exercise', $exercise);
@@ -81,7 +83,7 @@ class ExercisesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id) 
     {
         $exercise = Exercise::find($id);
 
@@ -100,7 +102,7 @@ class ExercisesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id) 
     {
         $this->validate($request, [
             'prompt' => 'required',
@@ -125,7 +127,7 @@ class ExercisesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id) 
     {
         $exercise = Exercise::find($id);
 

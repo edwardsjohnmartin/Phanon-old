@@ -20,8 +20,8 @@ class CreateExercisesTable extends Migration
             $table->text('start_code')->nullable();
             $table->text('test_code');
             
-            $table->integer('module_id')->unsigned()->index()->nullable();
-            $table->foreign('module_id')->references('id')->on('modules');
+            $table->integer('lesson_id')->unsigned()->index()->nullable();
+            $table->foreign('lesson_id')->references('id')->on('lessons');
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');

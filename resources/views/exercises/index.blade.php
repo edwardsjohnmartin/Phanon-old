@@ -7,7 +7,11 @@
         @foreach($exercises as $exercise)
             <div class="well">
                 <h3><a href="{{url('/exercises/' . $exercise->id)}}">{{$exercise->prompt}}</a></h3>
-                <p>Contained in {{count($exercise->lessons)}} Lessons</p>
+                @if(!is_null($exercise->lesson))
+                    <p>Contained in the lesson: <a href="{{url('/lessons/' . $exercise->lesson->id)}}">{{$exercise->lesson->name}}</a></p>
+                @else
+                    <p>Not contained in a lesson</p>
+                @endif
                 <small>Created on {{$exercise->created_at}}</small>
             </div>
         @endforeach

@@ -11,7 +11,8 @@ use App\Project;
 
 use DB;
 
-class ModulesController extends Controller {
+class ModulesController extends Controller 
+{
     public function __construct() {
         $this->middleware(['auth', 'clearance'])->except('index', 'show');
     }
@@ -21,7 +22,8 @@ class ModulesController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index() 
+    {
         $modules = Module::paginate(10);
         return view('modules.index')->with('modules', $modules);
     }
@@ -47,7 +49,8 @@ class ModulesController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request) 
+    {
         $this->validate($request, [
             'name' => 'required|unique:modules',
             'open_date' => 'required',
@@ -73,13 +76,13 @@ class ModulesController extends Controller {
         $module->save();
 
         // Attach the lessons to the module
-        if($input_lessons !== null and count(input_lessons) > 0) {
+        if(!empty($input_lessons)) {
             $lessons = Lesson::find($input_lessons);
             $module->lessons()->saveMany($lessons);
         }
 
         // Attach the projects to the module
-        if($input_projects !== null and count(input_projects) > 0) {
+        if(!empty($input_projects)) {
             $projects = Project::find($input_projects);
             $module->projects()->saveMany($projects);
         }
@@ -94,7 +97,8 @@ class ModulesController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id) 
+    {
         $module = Module::find($id);
         $lessons = $module->lessons;
 
@@ -107,7 +111,8 @@ class ModulesController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id) 
+    {
         $module = Module::find($id);
         $lessons = Lesson::all();
         $projects = Project::all();
@@ -142,19 +147,42 @@ class ModulesController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id) 
+    {
         $this->validate($request, [
             'name' => 'required',
             'open_date' => 'required',
             'close_date' => 'required'
         ]);
 
+        // Get the list of lesson_ids the user wants to include in the course
+        $input_lessons = $request->input('lessons');
+
+        // Get the list of project_ids the user wants to include in the course
+        $input_projects = $request->input('projects');
+
+        // Get the module to be edited
         $module = Module::find($id);
+
+        // Update its fields
         $module->name = $request->input('name');
         $module->open_date = $request->input('open_date');
         $module->close_date = $request->input('close_date');
 
+        // Save updated module to the database
         $module->save();
+
+        // Attach the lessons to the module
+        if(!empty($input_lessons)) {
+            $lessons = Lesson::find($input_lessons);
+            $module->lessons()->saveMany($lessons);
+        }
+
+        // Attach the projects to the module
+        if(!empty($input_projects)) {
+            $projects = Project::find($input_projects);
+            $module->projects()->saveMany($projects);
+        }
 
         return redirect('/modules')->
             with('success', 'Module Updated');
@@ -166,7 +194,8 @@ class ModulesController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id) 
+    {
         $module = Module::find($id);
 
         // Check that the module belongs to the logged-in user

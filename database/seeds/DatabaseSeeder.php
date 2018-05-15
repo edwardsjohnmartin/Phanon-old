@@ -5,6 +5,11 @@ use Illuminate\Database\Seeder;
 use App\Http\Controllers\Controller;
 
 use App\User;
+use App\Exercise;
+use App\Lesson;
+use App\Project;
+use App\Module;
+use App\Course;
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -43,6 +48,91 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user->assignRole($admin_role);
+
+        Exercise::create([
+            'prompt' => 'Test Exercise 1',
+            'test_code' => '#test_code',
+            'user_id' => $user->id,
+        ]);
+
+        Exercise::create([
+            'prompt' => 'Test Exercise 2',
+            'test_code' => '#test_code',
+            'user_id' => $user->id,
+        ]);
+
+        Exercise::create([
+            'prompt' => 'Test Exercise 3',
+            'test_code' => '#test_code',
+            'user_id' => $user->id,
+        ]);
+
+        Exercise::create([
+            'prompt' => 'Test Exercise 4',
+            'test_code' => '#test_code',
+            'user_id' => $user->id,
+        ]);
+
+        Exercise::create([
+            'prompt' => 'Test Exercise 5',
+            'test_code' => '#test_code',
+            'user_id' => $user->id,
+        ]);
+
+        Project::create([
+            'name' => 'Test Project 1',
+            'open_date' => '2018-05-15 02:01:54',
+            'close_date' => '2018-05-15 02:01:54',
+            'prompt' => 'Prompt 1',
+            'user_id' => $user->id,
+        ]);
+
+        Project::create([
+            'name' => 'Test Project 2',
+            'open_date' => '2018-05-15 02:01:54',
+            'close_date' => '2018-05-15 02:01:54',
+            'prompt' => 'Prompt 2',
+            'user_id' => $user->id,
+        ]);
+
+        Project::create([
+            'name' => 'Test Project 3',
+            'open_date' => '2018-05-15 02:01:54',
+            'close_date' => '2018-05-15 02:01:54',
+            'prompt' => 'Prompt 3',
+            'user_id' => $user->id,
+        ]);
+
+        Lesson::create([
+            'name' => 'Test Lesson 1',
+            'open_date' => '2018-05-15 02:01:54',
+            'user_id' => $user->id,
+        ]);
+
+        Lesson::create([
+            'name' => 'Test Lesson 2',
+            'open_date' => '2018-05-15 02:01:54',
+            'user_id' => $user->id,
+        ]);
+
+        Module::create([
+            'name' => 'Test Module 1',
+            'open_date' => '2018-05-15 02:01:54',
+            'close_date' => '2018-05-15 02:01:54',
+            'user_id' => $user->id,
+        ]);
+
+        Module::create([
+            'name' => 'Test Module 2',
+            'open_date' => '2018-05-15 02:01:54',
+            'close_date' => '2018-05-15 02:01:54',
+            'user_id' => $user->id,
+        ]);
+
+        Course::create([
+            'name' => 'Test Course 1',
+            'user_id' => $user->id,
+        ]);
 
         $user = User::create([
             'name' => 'Test Student 1',
