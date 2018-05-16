@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('scripts')
+    @component('scriptbundles/actions')
+@endcomponent
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -28,7 +33,7 @@
                                     <td>
                                         <a href="{{url('/courses/' . $course->id . '/view')}}" class="btn btn-view">View</a>
                                         <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
-                                        <a href="{{url('/courses/' . $course->id . '/delete')}}" onclick="return actionVerify('delete');" class="btn btn-delete">Delete</a>
+                                        <a href="{{url('/courses/' . $course->id . '/delete')}}" onclick="return actionVerify(event,'{{'delete '.$course->name}}');" class="btn btn-delete">Delete</a>
 
 
 

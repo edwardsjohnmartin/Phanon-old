@@ -14,15 +14,14 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('codemirror/lib/codemirror.css')}}">
     <link rel="stylesheet" href="{{ asset('codemirror/addon/fold/foldgutter.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-multiselect.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-multiselect.css')}}" />
+    <link rel="stylesheet" href="{{ asset('css/site.css')}}">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    @yield('scripts')
     <script src="{{ asset('jquery/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ asset('codemirror/addon/edit/closebrackets.js')}}"></script>
+    @yield('scripts')
     <script src="{{ asset('js/bootstrap-multiselect.js')}}"></script>
     <script src="{{ asset('js/codewindow.js')}}"></script>
-    <script src="{{ asset('js/actions.js')}}"></script>
 </head>
 <body>
     <div id="app">

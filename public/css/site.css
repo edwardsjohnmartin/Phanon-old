@@ -1,0 +1,31 @@
+﻿@font-face {
+    font-family: 'themify';
+    src: url('../fonts/themify.eot?-fvbane');
+    src: url('../fonts/themify.eot?#iefix-fvbane') format('embedded-opentype'),
+        url('../fonts/themify.woff?-fvbane') format('woff'),
+        url('../fonts/themify.ttf?-fvbane') format('truetype'),
+        url('../fonts/themify.svg?-fvbane#themify') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+/* From: https://themify.me/themify-icons */
+
+.btn-edit:hover {
+    border-color: #7ab2d1;
+}
+
+.btn-edit:before {
+    font-family: themify;
+    content: "\e61c ";
+}
+
+.btn-view:before {
+    font-family: themify;
+    content: "\e63d ";
+}
+
+.btn-delete:before {
+    font-family: themify;
+    content: "\e605 ";
+}
+

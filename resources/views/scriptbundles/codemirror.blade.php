@@ -8,3 +8,4 @@
 <script src="{{ asset('codemirror/addon/fold/markdown-fold.js') }}"></script>
 <script src="{{ asset('codemirror/addon/search/jump-to-line.js') }}"></script>
 <script src="{{ asset('codemirror/mode/python/python.js')}}"></script>
+<script src="{{ asset('codemirror/addon/edit/closebrackets.js')}}"></script>
