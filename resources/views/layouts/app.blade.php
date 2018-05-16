@@ -17,22 +17,12 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap-multiselect.css')}}">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('skulpt/skulpt.min.js') }}"></script>
-    <script src="{{ asset('skulpt/skulpt-stdlib.js') }}"></script>
+    @yield('scripts')
     <script src="{{ asset('jquery/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ asset('codemirror/lib/codemirror.js') }}"></script>
-    <script src="{{ asset('codemirror/addon/edit/matchbrackets.js') }}"></script>
-    <script src="{{ asset('codemirror/addon/fold/foldcode.js') }}"></script>
-    <script src="{{ asset('codemirror/addon/fold/foldgutter.js') }}"></script>
-    <script src="{{ asset('codemirror/addon/fold/brace-fold.js') }}"></script>
-    <script src="{{ asset('codemirror/addon/fold/comment-fold.js') }}"></script>
-    <script src="{{ asset('codemirror/addon/fold/indent-fold.js') }}"></script>
-    <script src="{{ asset('codemirror/addon/fold/markdown-fold.js') }}"></script>
-    <script src="{{ asset('codemirror/addon/search/jump-to-line.js') }}"></script>
-    <script src="{{ asset('codemirror/mode/python/python.js')}}"></script>
     <script src="{{ asset('codemirror/addon/edit/closebrackets.js')}}"></script>
     <script src="{{ asset('js/bootstrap-multiselect.js')}}"></script>
     <script src="{{ asset('js/codewindow.js')}}"></script>
+    <script src="{{ asset('js/actions.js')}}"></script>
 </head>
 <body>
     <div id="app">

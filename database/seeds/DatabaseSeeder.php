@@ -23,6 +23,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        //TODO: need to create better naming of permissions. 
+        //  These will be hare to maintain.
+        // I recommend object.action as a better structure. 
+        // Not only will it keep consistent with Laravel modeling, 
+        // it will make it easier to remember what to do.
+        // e.g. course.add
+        //      course.edit
+        //      course.delete
+        //      user.add
+        //      user.view
+        //      user.edit
+
         // $this->call(UsersTableSeeder::class);
         Permission::create(['name' => 'Administer roles & permissions']);
         Permission::create(['name' => 'Create course']);

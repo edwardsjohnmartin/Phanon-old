@@ -20,15 +20,23 @@
                         <table class="table table-striped">
                             <tr>
                                 <th>Name</th>
+                                <th>Actions</th>
                             </tr>
                             @foreach($courses as $course)
                                 <tr>
                                     <td>{{$course->name}}</td>
-                                    <td><a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-default">Edit</a></td>
-                                    <td>{!!Form::open(['action' => ['CoursesController@destroy', $course->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
+                                    <td>
+                                        <a href="{{url('/courses/' . $course->id . '/view')}}" class="btn btn-view">View</a>
+                                        <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
+                                        <a href="{{url('/courses/' . $course->id . '/delete')}}" onclick="return actionVerify('delete');" class="btn btn-delete">Delete</a>
+
+
+
+                                    {!!Form::open(['action' => ['CoursesController@destroy', $course->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
                                         {{Form::hidden('_method', 'DELETE')}}
                                         {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-                                    {!!Form::close() !!}<td>
+                                    {!!Form::close() !!}
+<td>
                                 <tr>
                             @endforeach
                     @else

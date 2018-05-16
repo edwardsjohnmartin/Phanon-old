@@ -1,0 +1,10 @@
+<script src="{{ asset('codemirror/lib/codemirror.js') }}"></script>
+<script src="{{ asset('codemirror/addon/edit/matchbrackets.js') }}"></script>
+<script src="{{ asset('codemirror/addon/fold/foldcode.js') }}"></script>
+<script src="{{ asset('codemirror/addon/fold/foldgutter.js') }}"></script>
+<script src="{{ asset('codemirror/addon/fold/brace-fold.js') }}"></script>
+<script src="{{ asset('codemirror/addon/fold/comment-fold.js') }}"></script>
+<script src="{{ asset('codemirror/addon/fold/indent-fold.js') }}"></script>
+<script src="{{ asset('codemirror/addon/fold/markdown-fold.js') }}"></script>
+<script src="{{ asset('codemirror/addon/search/jump-to-line.js') }}"></script>
+<script src="{{ asset('codemirror/mode/python/python.js')}}"></script>

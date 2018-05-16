@@ -33,7 +33,9 @@
 
 ### Install Composer Within the Project Directory
 
-<p>In order for the website to work, you must install composer in the actual project directory. On Windows, open the Command Prompt. Navigate to where you moved the Phanon repository you downloaded. Type in the command: <pre  align="center">composer install</pre></p>
+<p>In order for the website to work, you must install composer in the actual project directory. 
+On Windows, open the Command Prompt. Navigate to where you moved the Phanon repository you downloaded. 
+Type in the command: <pre  align="center">composer install</pre></p>
 
 ### Create the Database
 
@@ -60,6 +62,34 @@
 <p>Laravel allows the database to be initialized with test data using the DatabaseSeeder class. The function that handles what gets created can be found in the file "/database/seeds/DatabaseSeeder.php".</p>
 <p>Currently, the seeder in this project will add permissions for being an admin as well as create/edit/delete permissions for the Course and Module objects. It will add the role "Admin" which has every permission assigned to it. It will add two users, one which will have the "Admin" role and one that will not have any roles or permissions. They will have the email addresses "admin@test.com" and "teststudent1@test.com" respectively. They will both have the password "testerer1" by default.</p>
 <p>To run the seeder, after the migrate command is ran,  enter the following command: <pre align="center">php artisan db:seed</pre></p>
+
+#### Seed Errors
+
+<p>If you get the error:
+<pre>
+    In Permission.php line 73:
+        [Spatie\Permission\Exceptions\PermissionDoesNotExist]
+</pre>
+
+<pre>
+    php artisan cache:forget spatie.permission.cache
+</pre>
+<p>You may have to clear your database and rerun the migrate and seed commands after clearning the cache if you get an already exists error which looks like this:
+<pre>
+In Connection.php line 647:
+
+  SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'Administer
+  roles & permissions' for key 'permissions_name_unique' (SQL: insert
+  into `permissions` (`name`, `updated_at`, `created_at`) values (Administer
+  roles & permissions, 2018-05-16 02:03:18, 2018-05-16 02:03:18))
+
+
+In Connection.php line 449:
+
+  SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 
+    'Administer roles & permissions' for key 'permissions_name_unique'
+</pre>
+</p>
 
 ### Conclusion
 

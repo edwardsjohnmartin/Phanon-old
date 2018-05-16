@@ -747,8 +747,10 @@
     <Compile Include="resources\views\courses\edit.blade.php" />
     <Compile Include="resources\views\courses\index.blade.php" />
     <Compile Include="resources\views\courses\show.blade.php" />
+    <Compile Include="resources\views\scriptbundles\codemirror.blade.php" />
     <Compile Include="resources\views\inc\messages.blade.php" />
     <Compile Include="resources\views\inc\navbar.blade.php" />
+    <Compile Include="resources\views\scriptbundles\sculpt.blade.php" />
     <Compile Include="resources\views\layouts\app.blade.php" />
     <Compile Include="resources\views\modules\create.blade.php" />
     <Compile Include="resources\views\modules\edit.blade.php" />
@@ -1125,6 +1127,7 @@
     <Folder Include="resources\views\inc" />
     <Folder Include="resources\views\layouts" />
     <Folder Include="resources\views\modules" />
+    <Folder Include="resources\views\scriptbundles\" />
     <Folder Include="resources\views\pages" />
     <Folder Include="resources\views" />
     <Folder Include="resources" />
@@ -1144,5 +1147,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".env" />
+    <Content Include="resources\assets\js\actions.js" />
   </ItemGroup>
 </Project>
