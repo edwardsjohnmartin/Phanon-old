@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\database",
+    "\\database\\seeds",
+    "\\vendor"
   ],
+  "SelectedNode": "\\Phanon.sln",
   "PreviewInSolutionExplorer": false
 }
