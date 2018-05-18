@@ -18,35 +18,34 @@
                         {{ session('status') }}
                     </div>
                     @endif
-
-                    <a href="{{url('/courses/create')}}" class="btn btn-primary">Create Course</a>
-                    <h3>Courses You've Created</h3>
+                    @can('Create course')
+                    <a href="{{url('/courses/create')}}" class="btn btn-primary btn-add">Create Course</a>
+                    @endcan
+                    <h3>Your Courses</h3>
                     @if(count($courses) > 0)
                     <table class="table table-striped">
                         <tr>
                             <th>Name</th>
+                            <th>Expires</th>
                             <th>Actions</th>
                         </tr>
                         @foreach($courses as $course)
                         <tr>
                             <td>{{$course->name}}</td>
+                            <td>Date course expires goes here.</td>
                             <td>
                                 <!-- HACK: Setting up structure for buttons -->
                                 <a href="{{url('/courses/' . $course->id . '/view')}}" class="btn btn-view">View</a>
                                 @can('Edit course')
                                 <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
                                 @endcan
-                                        @can('Delete course')
+                                @can('Delete course')
                                 <a href="{{url('/courses/' . $course->id . '/delete')}}"
                                     onclick="return actionVerify(event,'{{'delete '.$course->name}}');" class="btn btn-delete">
                                     Delete
                                 </a>
+
                                 @endcan
-
-
-
-
-
 
 
                                     {!!Form::open(['action' => ['CoursesController@destroy', $course->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
@@ -57,7 +56,7 @@
                                     <tr>
                                         @endforeach
                     @else
-                                        <p>You have not created any courses</p>
+                                        <p>You do not have any courses</p>
                                         @endif
                 </div>
             </div>

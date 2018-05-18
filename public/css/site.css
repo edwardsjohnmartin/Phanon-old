@@ -14,18 +14,24 @@
     border-color: #7ab2d1;
 }
 
+.btn-add:before {
+    font-family: themify;
+    content: "\e61a\0020"; /* plus and space */
+}
+
 .btn-edit:before {
     font-family: themify;
-    content: "\e61c ";
+    content: "\e61c\0020";
 }
 
 .btn-view:before {
     font-family: themify;
-    content: "\e63d ";
+    content: "\e63d\0020";
 }
 
 .btn-delete:before {
     font-family: themify;
-    content: "\e605 ";
+    content: "\e605\0020";
 }
+
 

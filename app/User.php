@@ -20,11 +20,7 @@ class User extends Authenticatable
      */
     protected $hidden = ['password', 'remember_token'];
     public function courses(){
-        //TODO: Really need a better permission set for this.
-        if ($this->hasPermissionTo("Administer roles & permissions")){
-            return $this->hasMany('App\Course');
-        }            else{
-            return $this->hasMany('App\Course');
-        }
+        return $this->hasMany('App\Course');
+
     }
 }
