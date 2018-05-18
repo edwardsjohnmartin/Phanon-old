@@ -2,6 +2,7 @@
 
 @section('content')
 <a href="{{url('/lessons')}}" class="btn btn-default">Go Back</a>
+<a href="{{url('/lessons/' . $lesson->id . '/clone/')}}" class="btn btn-default">Clone</a>
     <h1>{{$lesson->name}}</h1>
     <div>
         <label>Open Date</label>

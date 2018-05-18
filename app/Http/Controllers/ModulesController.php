@@ -208,4 +208,53 @@ class ModulesController extends Controller
 
         return redirect('/modules')->with('success', 'Module Deleted');
     }
+
+     /**
+     * Show the form for deep copying a specific module
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function clone($id)
+    {
+        // Get the module to be copied
+        $module = Module::find($id);
+
+        // Get all lessons and projects that can be added to the module
+        $lessons = Lesson::all();
+        $projects = Project::all();
+
+        // Create an array of just the lesson ids already in the module
+        $module_lesson_ids = array();
+        foreach($module->lessons as $lesson) {
+            array_push($module_lesson_ids, $lesson->id);
+        }
+
+        // Create an array of just the project ids already in the module
+        $module_project_ids = array();
+        foreach($module->projects as $project) {
+            array_push($module_project_ids, $project->id);
+        }
+
+        return view('modules.clone')->
+            with('module', $module)->
+            with('lessons', $lessons)->
+            with('projects', $projects)->
+            with('module_lesson_ids', $module_lesson_ids)->
+            with('module_project_ids', $module_project_ids);
+    }
+
+    /**
+     * Create a deep copy of an module
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create_clone(Request $request)
+    {
+        $this->store($request);
+
+        return redirect('/modules')->
+            with('success', 'Module Cloned');
+    }
 }

@@ -191,4 +191,102 @@ class CoursesController extends Controller
         return view('courses.fullview')->
             with('course', $course);
     }
+
+    /**
+     * Create a deep copy of a specific course and all of its contents
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function clone($id)
+    {
+        // Get the course to be clone
+        $course = Course::find($id);
+
+        // Clone the course
+        $new_course = $course->deep_copy();
+        $new_course->user_id = auth()->user()->id;
+
+        // Save the copy of the course to the database
+        $new_course->save();
+
+        if(!empty($course->modules)){
+            $modules = array();
+
+            foreach($course->modules as $module){
+                // Clone the module
+                $new_module = $module->deep_copy();
+                $new_module->user_id = auth()->user()->id;
+    
+                // Save the copy of the module to the database
+                $new_module->save();
+    
+                if(!empty($module->lessons)){
+                    $lessons = array();
+    
+                    foreach($module->lessons as $lesson){
+                        // Clone the lesson
+                        $new_lesson = $lesson->deep_copy();
+                        $new_lesson->user_id = auth()->user()->id;
+        
+                        // Save the copy of the lesson to the database
+                        $new_lesson->save();
+        
+                        if(!empty($lesson->exercises)){
+                            $exercises = array();
+        
+                            foreach($lesson->exercises as $exercise){
+                                // Clone the exercise
+                                $new_exercise = $exercise->deep_copy();
+                                $new_exercise->user_id = auth()->user()->id;
+            
+                                // Save the copy of the exercise to the database
+                                $new_exercise->save();
+        
+                                // Push the new exercise to the exercises array
+                                array_push($exercises, $new_exercise);
+                            }
+        
+                            // Attach the new exercises to the new lesson
+                            $new_lesson->exercises()->saveMany($exercises);
+    
+                            // Push the new lesson to the lessons array
+                            array_push($lessons, $new_lesson);
+                        }
+                    }
+    
+                    // Attach the new lessons to the module
+                    $new_module->lessons()->saveMany($lessons);
+                }
+    
+                if(!empty($module->projects)){
+                    $projects = array();
+    
+                    foreach($module->projects as $project){
+                        // Clone the project
+                        $new_project = $project->deep_copy();
+                        $new_project->user_id = auth()->user()->id;
+    
+                        // Save the copy of the project to the database
+                        $new_project->save();
+    
+                        // Push the new project to the projects array
+                        array_push($projects, $new_project);
+                    }
+    
+                    // Attach the new projects to the module
+                    $new_module->projects()->saveMany($projects);
+                }
+
+                // Push the new module to the modules array
+                array_push($modules, $new_module);
+            }
+
+            // Attach the new modules to the course
+            $new_course->modules()->saveMany($modules);
+        }
+
+        return redirect('/courses/' . $new_course->id . '/fullview')->
+            with('success', 'Course Cloned');
+    }
 }

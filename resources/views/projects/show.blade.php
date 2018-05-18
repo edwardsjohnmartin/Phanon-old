@@ -2,6 +2,7 @@
 
 @section('content')
     <a href="{{url('/projects')}}" class="btn btn-default">Go Back</a>
+    <a href="{{url('/projects/' . $project->id . '/clone/')}}" class="btn btn-default">Clone</a>
     <h1>{{$project->name}}</h1>
     <div>
         <label>Module</label>

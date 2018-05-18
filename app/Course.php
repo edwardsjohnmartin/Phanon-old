@@ -15,11 +15,21 @@ class Course extends Model
     // Timestamps
     public $timestamps = true;
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\User');
     }
 
-    public function modules(){
+    public function modules()
+    {
         return $this->hasMany('App\Module');
+    }
+
+    public function deep_copy()
+    {
+        $new_course = new Course();
+        $new_course->name = $this->name;
+
+        return $new_course;
     }
 }

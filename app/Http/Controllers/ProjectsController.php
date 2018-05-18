@@ -149,4 +149,32 @@ class ProjectsController extends Controller{
         $project->delete();
         return redirect('/projects')->with('success', 'Project Deleted');
     }
+
+     /**
+     * Show the form for deep copying a specific project
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function clone($id)
+    {
+        $project = Project::find($id);
+
+        return view('projects.clone')->
+            with('project', $project);
+    }
+
+    /**
+     * Create a deep copy of an project
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create_clone(Request $request)
+    {
+        $this->store($request);
+
+        return redirect('/projects')->
+            with('success', 'Project Cloned');
+    }
 }

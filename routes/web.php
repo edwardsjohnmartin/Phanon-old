@@ -32,3 +32,16 @@ Route::resource('exercises', 'ExercisesController');
 Route::resource('projects', 'ProjectsController');
 
 Route::get('/courses/{id}/fullview', 'CoursesController@fullview');
+Route::get('/courses/{id}/clone', 'CoursesController@clone');
+
+Route::get('/modules/{id}/clone', 'ModulesController@clone');
+Route::post('/modules', 'ModulesController@create_clone');
+
+Route::get('/lessons/{id}/clone', 'LessonsController@clone');
+Route::post('/lessons', 'LessonsController@create_clone');
+
+Route::get('/exercises/{id}/clone', 'ExercisesController@clone');
+Route::post('/exercises', 'ExercisesController@create_clone');
+
+Route::get('/projects/{id}/clone', 'ProjectsController@clone');
+Route::post('/projects', 'ProjectsController@create_clone');

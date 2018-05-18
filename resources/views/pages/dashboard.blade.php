@@ -35,7 +35,7 @@
                             <td>Date course expires goes here.</td>
                             <td>
                                 <!-- HACK: Setting up structure for buttons -->
-                                <a href="{{url('/courses/' . $course->id . '/view')}}" class="btn btn-view">View</a>
+                                <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>
                                 @can('Edit course')
                                 <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
                                 @endcan

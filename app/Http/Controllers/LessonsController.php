@@ -176,4 +176,40 @@ class LessonsController extends Controller
         $lesson->delete();
         return redirect(url('/lessons'))->with('success', 'Lesson Deleted');
     }
+
+     /**
+     * Show the form for deep copying a specific lesson
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function clone($id)
+    {
+        $lesson = Lesson::find($id);
+        $exercises = Exercise::all();
+
+        $lesson_exercise_ids = array();
+        foreach($lesson->exercises as $exercise){
+            array_push($lesson_exercise_ids, $exercise->id);
+        }
+
+        return view('lessons.clone')->
+            with('lesson', $lesson)->
+            with('exercises', $exercises)->
+            with('lesson_exercise_ids', $lesson_exercise_ids);;
+    }
+
+    /**
+     * Create a deep copy of an lesson
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create_clone(Request $request)
+    {
+        $this->store($request);
+
+        return redirect('/lessons')->
+            with('success', 'Lesson Cloned');
+    }
 }

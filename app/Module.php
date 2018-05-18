@@ -15,19 +15,33 @@ class Module extends Model
     // Timestamps
     public $timestamps = true;
     
-    public function lessons(){
+    public function lessons()
+    {
         return $this->hasMany('App\Lesson');
     }
 
-    public function projects(){
+    public function projects()
+    {
         return $this->hasMany('App\Project');
     }
 
-    public function course(){
+    public function course()
+    {
         return $this->belongsTo('App\Course');
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\User');
+    }
+
+    public function deep_copy()
+    {
+        $new_module = new Module();
+        $new_module->name = $this->name;
+        $new_module->open_date = $this->open_date;
+        $new_module->close_date = $this->close_date;
+
+        return $new_module;    
     }
 }

@@ -24,7 +24,7 @@ class ExercisesController extends Controller
      */
     public function index() 
     {
-        $exercises = Exercise::paginate(5);
+        $exercises = Exercise::paginate(10);
         return view('exercises.index')->with('exercises', $exercises);
     }
 
@@ -138,5 +138,33 @@ class ExercisesController extends Controller
 
         $exercise->delete();
         return redirect(url('/exercises'))->with('success', 'Exercise Deleted');
+    }
+
+    /**
+     * Show the form for deep copying a specific exercise
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function clone($id)
+    {
+        $exercise = Exercise::find($id);
+
+        return view('exercises.clone')->
+            with('exercise', $exercise);
+    }
+
+    /**
+     * Create a deep copy of an exercise
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create_clone(Request $request)
+    {
+        $this->store($request);
+
+        return redirect('/exercises')->
+            with('success', 'Exercise Cloned');
     }
 }

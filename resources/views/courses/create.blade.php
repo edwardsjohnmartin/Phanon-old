@@ -35,13 +35,13 @@
                                 <th>Course</th>
                                 <th>Clone</th>
                             </tr>
-                            <tr>
                             @foreach($used_modules as $used_module)
+                            <tr>
                                 <td>{{$used_module->name}}</td>
                                 <td>{{$used_module->course->name}}</td>
                                 <td><a href="" class="btn btn-default">Clone Module</a></td>
-                            @endforeach
                             </tr>
+                            @endforeach
                         </table>
                     </div>
                  @endif
