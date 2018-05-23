@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +24,7 @@ class Exercise extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function deep_copy()
+    public function deepCopy()
     {
         $new_exercise = new Exercise();
         $new_exercise->prompt = $this->prompt;

@@ -4,7 +4,7 @@
     <h1>Clone Module</h1>
     <label>Original Author</label>
     <p>{{$module->user->name}}</p>
-    {!! Form::open(['action' => ['ModulesController@create_clone'], 'method' => 'POST']) !!}
+    {!! Form::open(['action' => ['ModulesController@createClone'], 'method' => 'POST']) !!}
         <div class="form-group">
             {{Form::label('name', 'Name')}}
             {{Form::text('name', $module->name, ['class' => 'form-control', 'placeholder' => 'Name'])}}

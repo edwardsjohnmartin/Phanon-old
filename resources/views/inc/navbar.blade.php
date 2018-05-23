@@ -11,7 +11,7 @@
             </button>
 
             <!-- Branding Image -->
-            <a class="navbar-brand" href="{{ url('/index') }}">
+            <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Phanon') }}
             </a>
         </div>

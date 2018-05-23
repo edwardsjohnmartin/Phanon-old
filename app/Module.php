@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +34,7 @@ class Module extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function deep_copy()
+    public function deepCopy()
     {
         $new_module = new Module();
         $new_module->name = $this->name;

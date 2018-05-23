@@ -1,16 +1,14 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use App\Project;
-
 use DB;
 
 class ProjectsController extends Controller{
-    public function __construct(){
+    public function __construct()
+    {
         //$this->middleware('auth', ['except' => ['index', 'show']]);
         $this->middleware(['auth', 'clearance'])->except('index', 'show');
     }
@@ -20,7 +18,8 @@ class ProjectsController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index()
+    {
         $projects = Project::paginate(10);
         return view('projects.index')->
             with('projects', $projects);
@@ -31,7 +30,8 @@ class ProjectsController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(){
+    public function create()
+    {
         return view('projects.create');
     }
 
@@ -41,7 +41,8 @@ class ProjectsController extends Controller{
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $this->validate($request, [
             'name' => 'required|unique:projects',
             'open_date' => 'required',
@@ -156,7 +157,7 @@ class ProjectsController extends Controller{
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function clone($id)
+    public function copy($id)
     {
         $project = Project::find($id);
 
@@ -170,7 +171,7 @@ class ProjectsController extends Controller{
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create_clone(Request $request)
+    public function createClone(Request $request)
     {
         $this->store($request);
 

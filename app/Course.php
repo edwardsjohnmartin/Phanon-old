@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -25,10 +24,12 @@ class Course extends Model
         return $this->hasMany('App\Module');
     }
 
-    public function deep_copy()
+    public function deepCopy()
     {
         $new_course = new Course();
         $new_course->name = $this->name;
+        $new_course->open_date = $this->open_date;
+        $new_course->close_date = $this->close_date;
 
         return $new_course;
     }

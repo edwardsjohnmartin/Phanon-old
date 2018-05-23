@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use App\Course;
 use App\Module;
-
 use DB;
 
 class CoursesController extends Controller
@@ -198,13 +195,13 @@ class CoursesController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function clone($id)
+    public function copy($id)
     {
         // Get the course to be clone
         $course = Course::find($id);
 
         // Clone the course
-        $new_course = $course->deep_copy();
+        $new_course = $course->deepCopy();
         $new_course->user_id = auth()->user()->id;
 
         // Save the copy of the course to the database
@@ -215,7 +212,7 @@ class CoursesController extends Controller
 
             foreach($course->modules as $module){
                 // Clone the module
-                $new_module = $module->deep_copy();
+                $new_module = $module->deepCopy();
                 $new_module->user_id = auth()->user()->id;
     
                 // Save the copy of the module to the database
@@ -226,7 +223,7 @@ class CoursesController extends Controller
     
                     foreach($module->lessons as $lesson){
                         // Clone the lesson
-                        $new_lesson = $lesson->deep_copy();
+                        $new_lesson = $lesson->deepCopy();
                         $new_lesson->user_id = auth()->user()->id;
         
                         // Save the copy of the lesson to the database
@@ -237,7 +234,7 @@ class CoursesController extends Controller
         
                             foreach($lesson->exercises as $exercise){
                                 // Clone the exercise
-                                $new_exercise = $exercise->deep_copy();
+                                $new_exercise = $exercise->deepCopy();
                                 $new_exercise->user_id = auth()->user()->id;
             
                                 // Save the copy of the exercise to the database
@@ -264,7 +261,7 @@ class CoursesController extends Controller
     
                     foreach($module->projects as $project){
                         // Clone the project
-                        $new_project = $project->deep_copy();
+                        $new_project = $project->deepCopy();
                         $new_project->user_id = auth()->user()->id;
     
                         // Save the copy of the project to the database

@@ -1,14 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use App\Module;
 use App\Lesson;
 use App\Project;
-
 use DB;
 
 class ModulesController extends Controller 
@@ -215,7 +212,7 @@ class ModulesController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function clone($id)
+    public function copy($id)
     {
         // Get the module to be copied
         $module = Module::find($id);
@@ -250,7 +247,7 @@ class ModulesController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create_clone(Request $request)
+    public function createClone(Request $request)
     {
         $this->store($request);
 

@@ -2,7 +2,7 @@
 
 @section('scripts')
     @component('scriptbundles/actions')
-@endcomponent
+    @endcomponent
 @endsection
 
 @section('content')

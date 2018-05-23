@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use App\Exercise;
 use App\Lesson;
-
 use DB;
 
 class ExercisesController extends Controller 
@@ -146,7 +143,7 @@ class ExercisesController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function clone($id)
+    public function copy($id)
     {
         $exercise = Exercise::find($id);
 
@@ -160,7 +157,7 @@ class ExercisesController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create_clone(Request $request)
+    public function createClone(Request $request)
     {
         $this->store($request);
 

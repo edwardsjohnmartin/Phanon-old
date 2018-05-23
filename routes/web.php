@@ -13,13 +13,9 @@
 
 Auth::routes();
 
-Route::get('/', 'PagesController@index');
-
-//TODO: Possible get rid of the index route and change all instances of it to just be '/'
-//      I don't know what the advantages/disadvantages of it would be but it would be one less route on this page
-Route::get('/index', 'PagesController@index');
-Route::get('/dashboard', 'PagesController@dashboard');
-Route::get('/sandbox', 'PagesController@sandbox');
+Route::get('/', 'PagesController@index')->name('index');
+Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
+Route::get('/sandbox', 'PagesController@sandbox')->name('sandbox');
 
 Route::resource('users', 'UsersController');
 Route::resource('roles', 'RolesController');
@@ -31,17 +27,17 @@ Route::resource('lessons', 'LessonsController');
 Route::resource('exercises', 'ExercisesController');
 Route::resource('projects', 'ProjectsController');
 
-Route::get('/courses/{id}/fullview', 'CoursesController@fullview');
-Route::get('/courses/{id}/clone', 'CoursesController@clone');
+Route::get('/courses/{id}/fullview', 'CoursesController@fullview')->name('courses.fullview');
+Route::get('/courses/{id}/clone', 'CoursesController@copy')->name('courses.clone');
 
-Route::get('/modules/{id}/clone', 'ModulesController@clone');
-Route::post('/modules', 'ModulesController@create_clone');
+Route::get('/modules/{id}/clone', 'ModulesController@copy')->name('modules.clone');
+//Route::post('/modules', 'ModulesController@createClone');
 
-Route::get('/lessons/{id}/clone', 'LessonsController@clone');
-Route::post('/lessons', 'LessonsController@create_clone');
+Route::get('/lessons/{id}/clone', 'LessonsController@copy')->name('lessons.clone');
+//Route::post('/lessons', 'LessonsController@createClone');
 
-Route::get('/exercises/{id}/clone', 'ExercisesController@clone');
-Route::post('/exercises', 'ExercisesController@create_clone');
+Route::get('/exercises/{id}/clone', 'ExercisesController@copy')->name('exercises.clone');
+//Route::post('/exercises', 'ExercisesController@createClone');
 
-Route::get('/projects/{id}/clone', 'ProjectsController@clone');
-Route::post('/projects', 'ProjectsController@create_clone');
+Route::get('/projects/{id}/clone', 'ProjectsController@copy')->name('projects.clone');
+//Route::post('/projects', 'ProjectsController@createClone');
