@@ -1,0 +1,51 @@
+---------
+-Courses-
+---------
+
+Adding users to courses
+
+-The owner cannot be added as a teacher, teaching assistant, or student.
+-A user cannot be in more than one role.
+
+Accessibility
+
+-A course cannot be accessed until its open_date has passed.
+-A course will no longer be accessible to students of that course once the close_date has passed.
+
+---------
+-Modules-
+---------
+
+Ordering of modules within a course
+
+-A module will have a previous attribute that points to a module that comes before it. 
+-The previous attribute can be null, or point to a module.
+-All modules must be in order of their open_date.
+-Modules close_date is irrelevant to ordering.
+-Before a module can be added/edited, the open_dates must be checked that the open_dates are compatible.
+
+------------------
+-Lessons/Projects-
+------------------
+
+Ordering of lessons/projects within a module
+
+-Lessons and projects are at the same level within a module.
+-Lessons and projects both a previous attribute that points to a lesson that comes before it.
+-The previous attribute can be null, or point to a lesson.
+-If only projects exist with a module, they will become available by their open_date.
+-All lessons must be in order of their open_date.
+-Before a lesson can be added/edited, the open_dates must be checked that the open_dates are compatible.
+-A project will not be available to the user until the previous lesson has been completed.
+-Project completion should never be checked.
+
+-----------
+-Exercises-
+-----------
+
+Ordering of exercises within a lesson
+
+-Exercises will have a previous attribute that points to an exercise that comes before it.
+-An exercise cannot be contained in more than one lesson.
+-An exercise cannot be accessed until its previous exercise has been completed.
+-Exercises cannot be accessed if the containing lesson's open_date hasn't passed.
