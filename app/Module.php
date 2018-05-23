@@ -24,9 +24,9 @@ class Module extends Model
         return $this->hasMany('App\Project');
     }
 
-    public function course()
+    public function concept()
     {
-        return $this->belongsTo('App\Course');
+        return $this->belongsTo('App\Concept');
     }
 
     public function user()

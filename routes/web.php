@@ -22,6 +22,7 @@ Route::resource('roles', 'RolesController');
 Route::resource('permissions', 'PermissionsController');
 
 Route::resource('courses', 'CoursesController');
+Route::resource('concepts', 'ConceptsController');
 Route::resource('modules', 'ModulesController');
 Route::resource('lessons', 'LessonsController');
 Route::resource('exercises', 'ExercisesController');

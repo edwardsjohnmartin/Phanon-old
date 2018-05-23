@@ -19,9 +19,9 @@ class Course extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function modules()
+    public function concepts()
     {
-        return $this->hasMany('App\Module');
+        return $this->hasMany('App\Concept');
     }
 
     public function deepCopy()

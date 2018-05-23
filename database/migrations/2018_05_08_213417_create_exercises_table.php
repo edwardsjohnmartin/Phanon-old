@@ -23,11 +23,11 @@ class CreateExercisesTable extends Migration
             $table->integer('lesson_id')->unsigned()->index()->nullable();
             $table->foreign('lesson_id')->references('id')->on('lessons');
 
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
-
             $table->integer('previous_exercise_id')->unsigned()->index()->nullable();
             $table->foreign('previous_exercise_id')->references('id')->on('exercises');
+
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();
         });

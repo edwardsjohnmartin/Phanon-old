@@ -24,6 +24,9 @@ class CreateProjectsTable extends Migration
 
             $table->integer('module_id')->unsigned()->index()->nullable();
             $table->foreign('module_id')->references('id')->on('modules');
+
+            $table->integer('previous_lesson_id')->unsigned()->index()->nullable();
+            $table->foreign('previous_lesson_id')->references('id')->on('lessons');
             
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');

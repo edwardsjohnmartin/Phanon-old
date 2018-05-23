@@ -17,10 +17,12 @@ class CreateModulesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->dateTime('open_date');
-            $table->dateTime('close_date');
 
-            $table->integer('course_id')->unsigned()->index()->nullable();
-            $table->foreign('course_id')->references('id')->on('courses');
+            $table->integer('concept_id')->unsigned()->index()->nullable();
+            $table->foreign('concept_id')->references('id')->on('concepts');
+
+            $table->integer('previous_module_id')->unsigned()->index()->nullable();
+            $table->foreign('previous_module_id')->references('id')->on('modules');
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');

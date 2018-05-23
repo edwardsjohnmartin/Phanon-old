@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLessonsTable extends Migration
+class CreateConceptsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateLessonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('lessons', function (Blueprint $table) {
+        Schema::create('concepts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
 
-            $table->integer('module_id')->unsigned()->index()->nullable();
-            $table->foreign('module_id')->references('id')->on('modules');
+            $table->integer('course_id')->unsigned()->index()->nullable();
+            $table->foreign('course_id')->references('id')->on('courses');
 
-            $table->integer('previous_lesson_id')->unsigned()->index()->nullable();
-            $table->foreign('previous_lesson_id')->references('id')->on('lessons');
+            $table->integer('previous_concept_id')->unsigned()->index()->nullable();
+            $table->foreign('previous_concept_id')->references('id')->on('concepts');
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
@@ -37,6 +37,6 @@ class CreateLessonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lessons');
+        Schema::dropIfExists('concepts');
     }
 }

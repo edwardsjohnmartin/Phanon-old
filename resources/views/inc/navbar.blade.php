@@ -25,6 +25,7 @@
             <ul class="nav navbar-nav">
                 <li><a href ="{{url('/sandbox')}}">Sandbox</a></li>
                 <li><a href ="{{url('/courses')}}">Courses</a></li>
+                <li><a href ="{{url('/concepts')}}">Concepts</a></li>
                 <li><a href ="{{url('/modules')}}">Modules</a></li>
                 <li><a href ="{{url('/lessons')}}">Lessons</a></li>
                 <li><a href ="{{url('/exercises')}}">Exercises</a></li>

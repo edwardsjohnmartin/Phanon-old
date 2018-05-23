@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Concept' => $baseDir . '/app/Concept.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Course' => $baseDir . '/app/Course.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
@@ -23,6 +24,7 @@ return array(
     'App\\Http\\Controllers\\PermissionsController' => $baseDir . '/app/Http/Controllers/PermissionsController.php',
     'App\\Http\\Controllers\\ProjectsController' => $baseDir . '/app/Http/Controllers/ProjectsController.php',
     'App\\Http\\Controllers\\RolesController' => $baseDir . '/app/Http/Controllers/RolesController.php',
+    'App\\Http\\Controllers\\TestController' => $baseDir . '/app/Http/Controllers/TestController.php',
     'App\\Http\\Controllers\\UsersController' => $baseDir . '/app/Http/Controllers/UsersController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\AdminMiddleware' => $baseDir . '/app/Http/Middleware/AdminMiddleware.php',
@@ -53,8 +55,8 @@ return array(
     'Collective\\Html\\HtmlBuilder' => $vendorDir . '/laravelcollective/html/src/HtmlBuilder.php',
     'Collective\\Html\\HtmlFacade' => $vendorDir . '/laravelcollective/html/src/HtmlFacade.php',
     'Collective\\Html\\HtmlServiceProvider' => $vendorDir . '/laravelcollective/html/src/HtmlServiceProvider.php',
+    'CreateConceptsTable' => $baseDir . '/database/migrations/2018_05_23_214523_create_concepts_table.php',
     'CreateCoursesTable' => $baseDir . '/database/migrations/2018_05_07_164606_create_courses_table.php',
-    'CreateExerciseLessonTable' => $baseDir . '/database/migrations/2018_05_09_195703_create_exercise_lesson_table.php',
     'CreateExercisesTable' => $baseDir . '/database/migrations/2018_05_08_213417_create_exercises_table.php',
     'CreateLessonsTable' => $baseDir . '/database/migrations/2018_05_08_213356_create_lessons_table.php',
     'CreateModulesTable' => $baseDir . '/database/migrations/2018_05_08_213339_create_modules_table.php',
