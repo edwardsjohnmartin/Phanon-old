@@ -22,7 +22,8 @@ class ExercisesController extends Controller
     public function index() 
     {
         $exercises = Exercise::paginate(10);
-        return view('exercises.index')->with('exercises', $exercises);
+        return view('exercises.index')->
+            with('exercises', $exercises);
     }
 
     /**
@@ -59,7 +60,8 @@ class ExercisesController extends Controller
         // Save exercise to the database
         $exercise->save();
         
-        return redirect(url('/exercises'))->with('success', 'Exercise Created');
+        return redirect(url('/exercises'))->
+            with('success', 'Exercise Created');
     }
 
     /**
@@ -71,7 +73,8 @@ class ExercisesController extends Controller
     public function show($id) 
     {
         $exercise = Exercise::find($id);
-        return view('exercises.show')->with('exercise', $exercise);
+        return view('exercises.show')->
+            with('exercise', $exercise);
     }
 
     /**
@@ -86,10 +89,12 @@ class ExercisesController extends Controller
 
         // Check for correct user
         if(auth()->user()->id != $exercise->user_id){
-            return redirect(url('/exercises'))->with('error', 'Unauthorized Page');
+            return redirect(url('/exercises'))->
+                with('error', 'Unauthorized Page');
         }
 
-        return view('exercises.edit')->with('exercise', $exercise);
+        return view('exercises.edit')->
+            with('exercise', $exercise);
     }
 
     /**
@@ -115,7 +120,8 @@ class ExercisesController extends Controller
 
         $exercise->save();
 
-        return redirect('/exercises')->with('success', 'Exercise Updated');
+        return redirect('/exercises')->
+            with('success', 'Exercise Updated');
     }
 
     /**
@@ -130,11 +136,13 @@ class ExercisesController extends Controller
 
         // Check for correct user
         if(auth()->user()->id != $exercise->user_id){
-            return redirect(url('/exercises'))->with('error', 'Unauthorized Page');
+            return redirect(url('/exercises'))->
+                with('error', 'Unauthorized Page');
         }
 
         $exercise->delete();
-        return redirect(url('/exercises'))->with('success', 'Exercise Deleted');
+        return redirect(url('/exercises'))->
+            with('success', 'Exercise Deleted');
     }
 
     /**

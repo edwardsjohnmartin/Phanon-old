@@ -23,6 +23,7 @@ class LessonsController extends Controller
     public function index()
     {
         $lessons = Lesson::paginate(10);
+
         return view('lessons.index')->
             with('lessons', $lessons);
     }
@@ -35,7 +36,8 @@ class LessonsController extends Controller
     public function create()
     {
         $exercises = Exercise::all();
-        return view('lessons.create')->with('exercises', $exercises);
+        return view('lessons.create')->
+            with('exercises', $exercises);
     }
 
     /**
@@ -55,7 +57,7 @@ class LessonsController extends Controller
         // Get the list of exercise_ids the user wants to include in the lesson
         $input_exercises = $request->input('exercises');
 
-        // Get the order of exercises within the lesson as an array
+        // Get the order of exercises within the lesson as an int array
         $exercise_order = $request->input('orderedExercises');
 
         // Create Lesson
@@ -122,6 +124,7 @@ class LessonsController extends Controller
                 with('error', 'Unauthorized Page');
         }
 
+        // Create an array that contains the ids of the exercises within the lesson
         $lesson_exercise_ids = array();
         foreach($lesson_exercises as $exercise){
             array_push($lesson_exercise_ids, $exercise->id);

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Course;
-use App\Module;
+use App\Concept;
 use DB;
 
 class CoursesController extends Controller
@@ -22,6 +22,7 @@ class CoursesController extends Controller
     public function index() 
     {
         $courses = Course::paginate(10);
+
         return view('courses.index')->
             with('courses', $courses);
     }
@@ -33,15 +34,10 @@ class CoursesController extends Controller
      */
     public function create() 
     {
-        $used_modules = Module::where('user_id', auth()->user()->id)->whereNotNull('course_id')->get();
-        $unused_modules = Module::where('user_id', auth()->user()->id)->whereNull('course_id')->get();
-
-        $other_modules = Module::where('user_id', '!=', auth()->user()->id)->get();
+        $concepts = Concept::all();
 
         return view('courses.create')->
-            with('used_modules', $used_modules)->
-            with('unused_modules', $unused_modules)->
-            with('other_modules', $other_modules);
+            with('concepts', $concepts);
     }
 
     /**
@@ -53,24 +49,53 @@ class CoursesController extends Controller
     public function store(Request $request) 
     {
         $this->validate($request, [
-            'name' => 'required|unique:courses'
+            'name' => 'required|unique:courses',
+            'concepts' => 'required',
+            'open_date' => 'required',
+            'open_time' => 'required',
+            'close_date' => 'required',
+            'close_time' => 'required',            
         ]);
 
-        // Get the list of module_ids the user wants to include in the course
-        $input_modules = $request->input('unused_modules');
+        // Get the list of concept_ids the user wants to include in the course
+        $concept_ids = $request->input('concepts');
+
+        // Get the order of concepts within the course as an int array
+        $concept_order = $request->input('concept_order');
 
         // Create course
         $course = new Course();
         $course->name = $request->input('name');
+        $course->open_date = $request->input('open_date') . ' ' . $request->input('open_time');
+        $course->close_date = $request->input('close_date') . ' ' . $request->input('close_time');
         $course->user_id = auth()->user()->id;
 
         // Save course to the database
         $course->save();
 
-        // Attach the modules to the course
-        if(!empty($input_modules)) {
-            $modules = Module::find($input_modules);
-            $course->modules()->saveMany($modules);
+        // Attach the concepts to the course
+        if(!empty($concept_ids)) {
+            $concepts = Concept::find($concept_ids);
+
+            // Remove the concept from the course it is currently in
+            foreach($concepts as $concept){
+                if($concept->course_id != $course->id){
+                    Course::find($concept->course_id)->removeConcept($concept->id);
+                }
+            }
+
+            $course->unorderedConcepts()->saveMany($concepts);
+
+            // Write the previous_concept_id field for every concept in the course
+            for($i = 0; $i < count($concept_order); $i++){
+                $concept = Concept::find($concept_order[$i]);
+                if($i == 0){
+                    $concept->previous_concept_id = null;
+                } else {
+                    $concept->previous_concept_id = $concept_order[$i-1];
+                }
+                $concept->save();
+            }
         }
         
         return redirect(url('/courses'))->
@@ -85,12 +110,10 @@ class CoursesController extends Controller
      */
     public function show($id) 
     {
-        $course = Course::findOrFail($id);
-        $modules = $course->modules;
+        $course = Course::find($id);
 
         return view('courses.show')->
-            with('course', $course)->
-            with('modules', $modules);
+            with('course', $course);
     }
 
     /**
@@ -101,26 +124,25 @@ class CoursesController extends Controller
      */
     public function edit($id) 
     {
-        $course = Course::findOrFail($id);
-
-        $used_modules = Module::whereNotNull('course_id')->get();
-        $unused_modules = Module::whereNull('course_id')->get();
-
-        $course_module_ids = array();
-        foreach($course->modules as $module){
-            array_push($course_module_ids, $module->id);
-        }
+        $course = Course::find($id);
+        $concepts = Concept::all();
 
         // Check for correct user
         if(auth()->user()->id != $course->user_id){
-            return redirect(url('/courses'))->with('error', 'Unauthorized Page');
+            return redirect(url('/courses'))->
+                with('error', 'Unauthorized Page');
+        }
+
+        // Create an array that contains the ids of the concepts within the course
+        $concept_ids = array();
+        foreach($course->concepts() as $concept) {
+            array_push($concept_ids, $concept->id);
         }
 
         return view('courses.edit')->
             with('course', $course)->
-            with('used_modules', $used_modules)->
-            with('unused_modules', $unused_modules)->
-            with('course_module_ids', $course_module_ids);
+            with('concepts', $concepts)->
+            with('concept_ids', $concept_ids);
     }
 
     /**
@@ -133,24 +155,65 @@ class CoursesController extends Controller
     public function update(Request $request, $id) 
     {
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
+            'concepts' => 'required',
+            'open_date' => 'required',
+            'open_time' => 'required',
+            'close_date' => 'required',
+            'close_time' => 'required',
         ]);
 
-        $course = Course::findOrFail($id);
-        
-        $course->name = $request->input('name');
+        // Get the list of concept_ids the user wants to include in the course
+        $concept_ids = $request->input('concepts');
 
+        // Get the order of concepts within the course as an int array
+        $concept_order = $request->input('concept_order');
+
+        // Get the course to be updated
+        $course = Course::find($id);
+        
+        // Update its fields
+        $course->name = $request->input('name');
+        $course->open_date = $request->input('open_date') . ' ' . $request->input('open_time');
+        $course->close_date = $request->input('close_date') . ' ' . $request->input('close_time');
+
+        // Save the course to the database
         $course->save();
 
-        if(count($request->input('unused_modules')) > 0){
-            $modules = array();
-            foreach($request->input('unused_modules') as $module_id){
-                array_push($modules, Module::find($module_id));
-            }
-            $course->modules()->saveMany($modules);
+        // Set the course_id and previous_concept_id field of all the old concepts within the course to null
+        foreach($course->concepts() as $concept){
+            $concept->course_id = null;
+            $concept->previous_concept_id = null;
+            $concept->save();
         }
 
-        return redirect('/courses')->with('success', 'Course Updated');
+        // Attach the concepts to the course
+        if(!empty($concept_ids)) {
+            $concepts = Concept::find($concept_ids);
+
+            // Remove the concept from the course it is currently in
+            foreach($concepts as $concept){
+                if($concept->course_id != $course->id){
+                    Course::find($concept->course_id)->removeConcept($concept->id);
+                }
+            }
+            
+            $course->unorderedConcepts()->saveMany($concepts);
+
+            // Write the previous_concept_id field for every concept in the course
+            for($i = 0; $i < count($concept_order); $i++){
+                $concept = Concept::find($concept_order[$i]);
+                if($i == 0){
+                    $concept->previous_concept_id = null;
+                } else {
+                    $concept->previous_concept_id = $concept_order[$i-1];
+                }
+                $concept->save();
+            }
+        }
+
+        return redirect('/courses')->
+            with('success', 'Course Updated');
     }
 
     /**
@@ -161,17 +224,19 @@ class CoursesController extends Controller
      */
     public function destroy($id) 
     {
-        $course = Course::findOrFail($id);
+        $course = Course::find($id);
 
         // Check that the course belongs to the logged-in user
         if(auth()->user()->id != $course->user_id){
-            return redirect('/courses')->with('error', 'Unauthorized Page');
+            return redirect('/courses')->
+                with('error', 'Unauthorized Page');
         }
 
         // Delete the course from the database
         $course->delete();
 
-        return redirect('/courses')->with('success', 'Course Deleted');
+        return redirect('/courses')->
+            with('success', 'Course Deleted');
     }
 
     /**

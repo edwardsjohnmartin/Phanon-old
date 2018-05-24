@@ -1,55 +1,48 @@
 @extends('layouts.app')
 
+@section('scripts')
+    @component('scriptbundles/create-edit-form')
+    @endcomponent
+@endsection
+
 @section('content')
     <h1>Edit Course</h1>
-    {!! Form::open(['action' => ['CoursesController@update', $course->id], 'method' => 'POST']) !!}
+    {!! Form::open(['id' => 'editCourse', 'action' => ['CoursesController@update', $course->id], 'method' => 'POST']) !!}
         <div class="form-group">
             {{Form::label('name', 'Name')}}
             {{Form::text('name', $course->name, ['class' => 'form-control', 'placeholder' => 'Name'])}}
         </div>
+        <div class="form-group">
+            {{Form::label('open_date', 'Open Date')}}
+            {{Form::date('open_date', new \Carbon\Carbon($course->open_date))}}
+            {{Form::time('open_time', date("H:i:s", strtotime($course->open_date)))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('close_date', 'Close Date')}}
+            {{Form::date('close_date', new \Carbon\Carbon($course->close_date))}}
+            {{Form::time('close_time', date("H:i:s", strtotime($course->close_date)))}}
+        </div>
 
-        @if(count($course->modules) > 0)
-            <div>
-                <label>Modules in the course</label>
-                <ul class="list-group">
-                @foreach($course->modules as $module)
-                    <li class="list-group-item">{{$module->name}}</li>
-                @endforeach
-                </ul>
-            </div>
-        @endif
-
-        @if(count($unused_modules) > 0)
+        @if(count($concepts) > 0)
             <div class="form-group">
-                <label>Select which modules you want to add to the course</label>
-                <select id="unused_modules" name="unused_modules[]" multiple class="form-control">
-                    @foreach($unused_modules as $unused_module)
-                        <option value="{{$unused_module->id}}" @if(in_array($unused_module->id, $course_module_ids)) @endif>{{$unused_module->name}}</option>
+                <label>Select which concepts you want in the course</label>
+                <select id="concepts" name="concepts[]" multiple class="form-control" onchange="updateList('sortableConcepts', 'concepts')">
+                    @foreach($concepts as $concept)
+                        <option value="{{$concept->id}}" @if(in_array($concept->id, $concept_ids)) selected @endif>{{$concept->name}}</option>
                     @endforeach
                 </select>
             </div>
-        @else
-            <p>No modules exist</p>
-        @endif
 
-        @if(count($used_modules) > 0)
-            <div class="form-group">
-                <label>Modules used in other courses</label>
-                <table class="table">
-                    <tr>
-                        <th>Module</th>
-                        <th>Course</th>
-                        <th>Clone</th>
-                    </tr>
-                    <tr>
-                    @foreach($used_modules as $used_module)
-                        <td>{{$used_module->name}}</td>
-                        <td>{{$used_module->course->name}}</td>
-                        <td><a href="" class="btn btn-default">Clone Module</a></td>
+            <div id="conceptDiv">
+                <label>Drag and drop the concepts to change the ordering they will appear in the course</label>
+                <ol id="sortableConcepts">
+                    @foreach($course->concepts() as $concept)
+                        <li id="{{$concept->id}}">{{$concept->name}}</li>
                     @endforeach
-                    </tr>
-                </table>
+                </ol>
             </div>
+        @else
+            <p>No concepts exist</p>
         @endif
 
         {{FORM::hidden('_method', 'PUT')}}
@@ -58,12 +51,24 @@
 
     <script>
         $(document).ready(function(){
-            $('#unused_modules').multiselect({
-                nonSelectedText: 'Select Module',
+            $('#concepts').multiselect({
+                nonSelectedText: 'Select Concept',
                 enableFiltering: true,
                 enableCaseInsensitiveFiltering: true,
                 buttonWidth: '400px'
             });
         });
+    </script>
+
+    <script>
+        // Use jquery to make the table sortable by dragging and dropping
+        $("#sortableConcepts").sortable({
+            axis: "y",
+            containment: "#conceptDiv",
+            scroll: false
+        });
+        $("#sortableConcepts").disableSelection();
+
+        addInputsToForm("editCourse", "sortableConcepts", "concept_order");
     </script>
 @endsection

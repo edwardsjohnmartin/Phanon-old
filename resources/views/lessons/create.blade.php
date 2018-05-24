@@ -24,7 +24,7 @@
             </div>
 
             <div id="exerciseDiv">
-                <label>Drag and drop the exercises to change the ordering of the exercises which exercises</label>
+                <label>Drag and drop the exercises to change the ordering they will appear in the lesson</label>
                 <ol id="sortableExercises">
                 </ol>
             </div>
