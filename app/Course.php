@@ -29,9 +29,11 @@ class Course extends Model
      */
     public function removeConcept($id)
     {
+        $concepts = $this->concepts();
+
         // Case 1: concept was the first concept in the course and other concepts are in the course
             // Find the next concept and change its previous_concept_id to be null
-        if(count($this->concepts()) > 1 and $id == $this->concepts()[0]->id){
+        if(count($concepts) > 1 and $id == $concepts[0]->id){
             $next_concept = $this->nextConcept($id);
             $next_concept->previous_concept_id = null;
             $next_concept->save();
@@ -41,8 +43,9 @@ class Course extends Model
 
         // Case 2: concept was not the first or last concept in the course
             // Change the next concept's previous_concept_id to be the concept that came before the concept to be removed
-        if(count($this->concepts()) > 1){
-            if($id != $this->concepts()[0]->id and $id != end($this->concepts())->id){
+        if(count($concepts) > 1){;
+            $last_concept = end($concepts);
+            if($id != $concepts[0]->id and $id != $last_concept->id){
                 $concept = Concept::find($id);
                 $next_concept = $this->nextConcept($id);
                 $next_concept->previous_concept_id = $concept->previous_concept_id;

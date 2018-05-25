@@ -48,7 +48,7 @@
     <script>
         $(document).ready(function(){
             $('#concepts').multiselect({
-                nonSelectedText: 'Select Concept',
+                nonSelectedText: 'Select Concepts',
                 enableFiltering: true,
                 enableCaseInsensitiveFiltering: true,
                 buttonWidth: '400px'

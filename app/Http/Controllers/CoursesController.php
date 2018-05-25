@@ -50,7 +50,6 @@ class CoursesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:courses',
-            'concepts' => 'required',
             'open_date' => 'required',
             'open_time' => 'required',
             'close_date' => 'required',
@@ -77,13 +76,14 @@ class CoursesController extends Controller
         if(!empty($concept_ids)) {
             $concepts = Concept::find($concept_ids);
 
-            // Remove the concept from the course it is currently in
+            // Remove the concepts to go into the course from any courses they are currently in
             foreach($concepts as $concept){
-                if($concept->course_id != $course->id){
-                    Course::find($concept->course_id)->removeConcept($concept->id);
+                if(!empty($concept->course)){
+                    $concept->course->removeConcept($concept->id);
                 }
             }
 
+            // Attach the concepts to the course
             $course->unorderedConcepts()->saveMany($concepts);
 
             // Write the previous_concept_id field for every concept in the course
@@ -128,7 +128,7 @@ class CoursesController extends Controller
         $concepts = Concept::all();
 
         // Check for correct user
-        if(auth()->user()->id != $course->user_id){
+        if($course->user_id != auth()->user()->id){
             return redirect(url('/courses'))->
                 with('error', 'Unauthorized Page');
         }
@@ -156,7 +156,6 @@ class CoursesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'concepts' => 'required',
             'open_date' => 'required',
             'open_time' => 'required',
             'close_date' => 'required',
@@ -193,8 +192,8 @@ class CoursesController extends Controller
 
             // Remove the concept from the course it is currently in
             foreach($concepts as $concept){
-                if($concept->course_id != $course->id){
-                    Course::find($concept->course_id)->removeConcept($concept->id);
+                if(!empty($concept->course)){
+                    $concept->course->removeConcept($concept->id);
                 }
             }
             
