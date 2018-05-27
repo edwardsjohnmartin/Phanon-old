@@ -651,5 +651,234 @@ class DatabaseSeeder extends Seeder
             'module_id' => $module6->id,
 			'user_id' => $user->id,
         ]);
-	}
+
+        $concept3 = Concept::create([
+            'name' => 'Test Concept 3',
+            'course_id' => $course->id,
+            'previous_concept_id' => $concept2->id,
+            'user_id' => $user->id,
+        ]);
+
+        $module7 = Module::create([
+			'name' => 'Test Module 7',
+            'open_date' => '2018-05-15 02:01:54',
+            'concept_id' => $concept3->id,
+			'user_id' => $user->id,
+        ]);
+
+        $lesson7 = Lesson::create([
+			'name' => 'Test Lesson 7',
+            'module_id' => $module7->id,
+			'user_id' => $user->id,
+        ]);
+
+        $exercise22 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 22',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson7->id,
+			'user_id' => $user->id,
+		]);
+
+        $lesson8 = Lesson::create([
+			'name' => 'Test Lesson 8',
+            'module_id' => $module7->id,
+            'previous_lesson_id' => $lesson7->id,
+			'user_id' => $user->id,
+        ]);
+
+        $exercise23 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 23',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson8->id,
+			'user_id' => $user->id,
+        ]);
+        
+        $project9 = Project::create([
+			'name' => 'Test Project 9',
+			'open_date' => '2018-05-15 02:01:54',
+            'close_date' => '2018-05-15 02:01:54',
+            'prompt' => 'Prompt 9',
+			'pre_code' => '#this is project pre code',
+			'start_code' => '#this is project start code',
+            'module_id' => $module7->id,
+            'previous_lesson_id' => $lesson8->id,
+			'user_id' => $user->id,
+        ]);
+
+        $module8 = Module::create([
+			'name' => 'Test Module 8',
+            'open_date' => '2018-05-15 02:01:54',
+            'concept_id' => $concept3->id,
+            'previous_module_id' => $module7->id,
+			'user_id' => $user->id,
+        ]);
+
+        $project10 = Project::create([
+			'name' => 'Test Project 10',
+			'open_date' => '2018-05-15 02:01:54',
+            'close_date' => '2018-05-15 02:01:54',
+            'prompt' => 'Prompt 10',
+			'pre_code' => '#this is project pre code',
+			'start_code' => '#this is project start code',
+            'module_id' => $module8->id,
+			'user_id' => $user->id,
+        ]);
+
+        $lesson9 = Lesson::create([
+			'name' => 'Test Lesson 9',
+            'module_id' => $module8->id,
+			'user_id' => $user->id,
+        ]);
+
+        $exercise24 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 24',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson9->id,
+			'user_id' => $user->id,
+        ]);
+        
+        $project11 = Project::create([
+			'name' => 'Test Project 11',
+			'open_date' => '2018-05-20 02:01:54',
+            'close_date' => '2018-05-21 02:01:54',
+            'prompt' => 'Prompt 11',
+			'pre_code' => '#this is project pre code',
+			'start_code' => '#this is project start code',
+            'module_id' => $module8->id,
+            'previous_lesson_id' => $lesson9->id,
+			'user_id' => $user->id,
+        ]);
+
+        $module9 = Module::create([
+			'name' => 'Test Module 9',
+            'open_date' => '2018-05-15 02:01:54',
+            'concept_id' => $concept3->id,
+            'previous_module_id' => $module8->id,
+			'user_id' => $user->id,
+        ]);
+
+        $lesson10 = Lesson::create([
+			'name' => 'Test Lesson 10',
+            'module_id' => $module9->id,
+			'user_id' => $user->id,
+        ]);
+
+        $exercise25 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 25',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson10->id,
+			'user_id' => $user->id,
+        ]);
+
+        $lesson11 = Lesson::create([
+			'name' => 'Test Lesson 11',
+            'module_id' => $module9->id,
+            'previous_lesson_id' => $lesson10->id,
+			'user_id' => $user->id,
+        ]);
+
+        $exercise26 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 26',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson11->id,
+			'user_id' => $user->id,
+        ]);
+        
+        $module10 = Module::create([
+			'name' => 'Test Module 10',
+            'open_date' => '2018-05-15 02:01:54',
+            'concept_id' => $concept3->id,
+            'previous_module_id' => $module9->id,
+			'user_id' => $user->id,
+        ]);
+
+        $project12 = Project::create([
+			'name' => 'Test Project 12',
+			'open_date' => '2018-05-26 02:01:54',
+            'close_date' => '2018-05-28 02:01:54',
+            'prompt' => 'Prompt 12',
+			'pre_code' => '#this is project pre code',
+			'start_code' => '#this is project start code',
+            'module_id' => $module10->id,
+			'user_id' => $user->id,
+        ]);
+
+        $project13 = Project::create([
+			'name' => 'Test Project 13',
+			'open_date' => '2018-05-27 02:01:54',
+            'close_date' => '2018-05-29 02:01:54',
+            'prompt' => 'Prompt 13',
+			'pre_code' => '#this is project pre code',
+			'start_code' => '#this is project start code',
+            'module_id' => $module10->id,
+			'user_id' => $user->id,
+        ]);
+        
+        $module11 = Module::create([
+			'name' => 'Test Module 11',
+            'open_date' => '2018-05-15 02:01:54',
+            'concept_id' => $concept3->id,
+            'previous_module_id' => $module10->id,
+			'user_id' => $user->id,
+        ]);
+
+        $project14 = Project::create([
+			'name' => 'Test Project 14',
+			'open_date' => '2018-05-26 02:01:54',
+            'close_date' => '2018-05-28 02:01:54',
+            'prompt' => 'Prompt 14',
+			'pre_code' => '#this is project pre code',
+			'start_code' => '#this is project start code',
+            'module_id' => $module11->id,
+			'user_id' => $user->id,
+        ]);
+
+        $project15 = Project::create([
+			'name' => 'Test Project 15',
+			'open_date' => '2018-05-27 02:01:54',
+            'close_date' => '2018-05-29 02:01:54',
+            'prompt' => 'Prompt 15',
+			'pre_code' => '#this is project pre code',
+			'start_code' => '#this is project start code',
+            'module_id' => $module11->id,
+			'user_id' => $user->id,
+        ]);
+
+        $lesson12 = Lesson::create([
+			'name' => 'Test Lesson 12',
+            'module_id' => $module11->id,
+			'user_id' => $user->id,
+        ]);
+
+        $exercise27 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 27',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson12->id,
+			'user_id' => $user->id,
+        ]);
+
+        $project16 = Project::create([
+			'name' => 'Test Project 16',
+			'open_date' => '2018-06-27 02:01:54',
+            'close_date' => '2018-06-29 02:01:54',
+            'prompt' => 'Prompt 16',
+			'pre_code' => '#this is project pre code',
+			'start_code' => '#this is project start code',
+            'module_id' => $module11->id,
+            'previous_lesson_id' => $lesson12->id,
+			'user_id' => $user->id,
+        ]);
+    }
 }

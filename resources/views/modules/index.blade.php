@@ -12,8 +12,8 @@
                 @else
                     <p>Not contained in a course</p>
                 @endif
-                <p>Contains {{count($module->lessons)}} lessons</p>
-                <p>Contains {{count($module->projects)}} projects</p>
+                <p>Contains {{count($module->unorderedLessons)}} lessons</p>
+                <p>Contains {{count($module->unorderedProjects)}} projects</p>
                 <small>Created on {{$module->created_at}} by {{$module->user->name}}</small>
             </div>
         @endforeach

@@ -5,10 +5,6 @@
 <a href="{{url('/lessons/' . $lesson->id . '/clone/')}}" class="btn btn-default">Clone</a>
     <h1>{{$lesson->name}}</h1>
     <div>
-        <label>Open Date</label>
-        <p>{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $lesson->open_date), 'm/d/Y h:i a')}}</p>
-    </div>
-    <div>
         <label>Exercises</label>
         @if(count($exercises) > 0)
         @foreach($exercises as $exercise)

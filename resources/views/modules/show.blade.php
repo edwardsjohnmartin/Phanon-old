@@ -5,11 +5,11 @@
     <a href="{{url('/modules/' . $module->id . '/clone/')}}" class="btn btn-default">Clone</a>
     <h1>{{$module->name}}</h1>
     <div>
-        <label>Course</label>
-        @if(!is_null($module->course))
-            <p>{{$module->course->name}}</p>
+        <label>Concept</label>
+        @if(!is_null($module->concept))
+            <p>{{$module->concept->name}}</p>
         @else
-            <p>Not contained in a course</p>
+            <p>Not contained in a concept</p>
         @endif
     </div>
     <div>
@@ -17,31 +17,19 @@
         <p>{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $module->open_date), 'm/d/Y h:i a')}}</p>
     </div>
     <div>
-        <label>Close Date</label>
-        <p>{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $module->close_date), 'm/d/Y h:i a')}}</p>
-    </div>
-    <div>
-        <label>Lessons</label>
-        @if(count($lessons) > 0)
+        <label>Contents</label>
+        @if(count($lessonsAndProjects) > 0)
             <ul class="list-group">
-            @foreach($lessons as $lesson)
-                <a href="{{url('/lessons/' . $lesson->id)}}"><li class="list-group-item">{{$lesson->name}}</li></a>
+            @foreach($lessonsAndProjects as $item)
+                @if(is_a($item, 'App\Lesson'))
+                    <a href="{{url('/lessons/' . $item->id)}}"><li class="list-group-item">{{$item->name}}</li></a>
+                @else
+                    <a href="{{url('/projects/' . $item->id)}}"><li class="list-group-item">{{$item->name}}</li></a>
+                @endif
             @endforeach
             </ul>
         @else
-            <p>This module does not contain any lessons</p>
-        @endif
-    </div>
-    <div>
-        <label>Projects</label>
-        @if(count($module->projects) > 0)
-            <ul class="list-group">
-            @foreach($module->projects as $project)
-                <a href="{{url('/projects/' . $project->id)}}"><li class="list-group-item">{{$project->name}}</li></a>
-            @endforeach
-            </ul>
-        @else
-            <p>This module does not contain any projects</p>
+            <p>This module does not contain any contents</p>
         @endif
     </div>
     <div>

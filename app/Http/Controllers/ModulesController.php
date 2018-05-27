@@ -22,7 +22,8 @@ class ModulesController extends Controller
     public function index() 
     {
         $modules = Module::paginate(10);
-        return view('modules.index')->with('modules', $modules);
+        return view('modules.index')->
+            with('modules', $modules);
     }
 
     /**
@@ -97,9 +98,11 @@ class ModulesController extends Controller
     public function show($id) 
     {
         $module = Module::find($id);
-        $lessons = $module->lessons;
+        $lessonsAndProjects = $module->lessonsAndProjects();
 
-        return view('modules.show')->with('module', $module)->with('lessons', $lessons);
+        return view('modules.show')->
+            with('module', $module)->
+            with('lessonsAndProjects', $lessonsAndProjects);
     }
 
     /**
