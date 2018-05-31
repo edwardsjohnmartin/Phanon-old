@@ -36,14 +36,21 @@
                             <td>
                                 <!-- HACK: Setting up structure for buttons -->
                                 <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>
+                                <a href="{{url('/flow/' . $course->id)}}" class="btn btn-view">See Flow</a>
                                 @can('Edit course')
                                 <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
                                 @endcan
                                 @can('Delete course')
                                 <a href="{{url('/courses/' . $course->id . '/delete')}}"
-                                    onclick="return actionVerify(event,'{{'delete '.$course->name}}');" class="btn btn-delete">
+                                   onclick="return actionVerify(event,'{{'delete '.$course->name}}');" class="btn btn-delete">
                                     Delete
                                 </a>
+
+
+
+
+
+
 
                                 @endcan
 
@@ -52,12 +59,17 @@
                                         {{Form::hidden('_method', 'DELETE')}}
                                         {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
                                     {!!Form::close() !!}
-                                <td>
-                                    <tr>
-                                        @endforeach
+                            </td>
+                        </tr>
+                        @endforeach
                     @else
-                                        <p>You do not have any courses</p>
-                                        @endif
+                        <tr>
+                            <td colspan="3">
+                                You do not have any courses
+                            </td>
+                        </tr>
+                        @endif
+                    </table>
                 </div>
             </div>
         </div>

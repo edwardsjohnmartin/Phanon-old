@@ -17,7 +17,7 @@
         @if(count($course->concepts()) > 0)
             <ul class="list-group">
             @foreach($course->concepts() as $concept)
-                <a href="{{url('/concepts/' . $concept->id)}}"><li class="list-group-item">{{$concept->name}}</li></a>
+                <li class="list-group-item"><a href="{{url('/concepts/' . $concept->id)}}">{{$concept->name}}</a></li>
             @endforeach
             </ul>
         @else

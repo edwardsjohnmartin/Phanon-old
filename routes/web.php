@@ -15,6 +15,7 @@ Auth::routes();
 
 Route::get('/', 'PagesController@index')->name('index');
 Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
+Route::get('/flow/{id}', 'PagesController@flow')->name('flow'); // course flow page.
 Route::get('/sandbox', 'PagesController@sandbox')->name('sandbox');
 
 Route::resource('users', 'UsersController');
@@ -29,6 +30,11 @@ Route::resource('exercises', 'ExercisesController');
 Route::resource('projects', 'ProjectsController');
 
 Route::get('/courses/{id}/fullview', 'CoursesController@fullview')->name('courses.fullview');
+
+
+
+
+// cloning routes. 
 Route::get('/courses/{id}/clone', 'CoursesController@copy')->name('courses.clone');
 
 Route::get('/modules/{id}/clone', 'ModulesController@copy')->name('modules.clone');
