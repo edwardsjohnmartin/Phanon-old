@@ -11,6 +11,8 @@ class ExercisesController extends Controller
 {
     public function __construct()
     {
+        // Use the 'auth' middleware to make sure a user is logged in
+        // Don't check if a user is logged in for the functions in the 'except' array
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
     
@@ -22,6 +24,7 @@ class ExercisesController extends Controller
     public function index() 
     {
         $exercises = Exercise::paginate(10);
+
         return view('exercises.index')->
             with('exercises', $exercises);
     }
@@ -73,6 +76,7 @@ class ExercisesController extends Controller
     public function show($id) 
     {
         $exercise = Exercise::find($id);
+
         return view('exercises.show')->
             with('exercise', $exercise);
     }
@@ -111,13 +115,16 @@ class ExercisesController extends Controller
             'test_code' => 'required'
         ]);
 
+        // Get the exercise to be updated
         $exercise = Exercise::find($id);
 
+        // Update its fields
         $exercise->prompt = $request->input('prompt');
         $exercise->pre_code = $request->input('pre_code');
         $exercise->start_code = $request->input('start_code');
         $exercise->test_code = $request->input('test_code');
 
+        // Save the exercise to the database
         $exercise->save();
 
         return redirect('/exercises')->

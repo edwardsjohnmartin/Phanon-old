@@ -14,11 +14,19 @@ class Project extends Model
     // Timestamps
     public $timestamps = true;
 
+    /**
+     * Relationship function
+     * Returns the module this project belongs to
+     */
     public function module()
     {
         return $this->belongsTo('App\Module');
     }
 
+    /**
+     * Relationship function
+     * Returns the user this project belongs to
+     */
     public function user()
     {
         return $this->belongsTo('App\User');

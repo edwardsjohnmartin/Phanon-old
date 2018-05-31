@@ -14,16 +14,28 @@ class Concept extends Model
     // Timestamps
     public $timestamps = true;
 
+    /**
+     * Relationship function
+     * Returns the course this concept belongs to
+     */
     public function course()
     {
         return $this->belongsTo('App\Course');
     }
 
+    /**
+     * Relationship function
+     * Returns an array of modules contained in this concept
+     */
     public function unorderedModules()
     {
         return $this->hasMany('App\Module');
     }
 
+    /**
+     * Relationship function
+     * Returns the user this concept belongs to
+     */
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -78,32 +90,13 @@ class Concept extends Model
     /**
      * Remove a module from the concept and fix any inconsistencies in the ordering it may cause
      */
-    public function removeModule($id)
+    public function removeModule($module)
     {
-        $modules = $this->modules();
+        $next_module = $this->nextModule($module->id);
 
-        // If the module to be removed is the only module in the concept, ordering won't need to be fixed
-        if(count($modules) > 1){
-            // Case 1: module was the first module in the concept
-                // Find the next module and change its previous_module_id to be null   
-            if($id == $modules[0]->id){
-                $next_module = $this->nextModule($id);
-                $next_module->previous_module_id = null;
-                $next_module->save();
-
-                return;
-            } 
-
-            // Case 2: module was not the first or last module in the concept
-                // Change the next module's previous_module_id to be the module that came before the module to be removed
-            if($id != $modules[0]->id and $id != end($modules)->id){
-                $module = Module::find($id);
-                $next_module = $this->nextModule($id);
-                $next_module->previous_module_id = $module->previous_module_id;
-                $next_module->save();
-            
-                return;
-            }
+        if(!is_null($next_module)){
+            $next_module->previous_module_id = $module->previous_module_id;
+            $next_module->save();
         }
     }
 }

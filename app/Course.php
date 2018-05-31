@@ -14,46 +14,22 @@ class Course extends Model
     // Timestamps
     public $timestamps = true;
 
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
-
+    /**
+     * Relationship function
+     * Returns an array of concepts contained in this course
+     */
     public function unorderedConcepts()
     {
         return $concepts = $this->hasMany('App\Concept');
     }
 
     /**
-     * Remove a concept from the course and fix any inconsistencies in the ordering it may cause
+     * Relationship function
+     * Returns the user this course belongs to
      */
-    public function removeConcept($id)
+    public function user()
     {
-        $concepts = $this->concepts();
-
-        // Case 1: concept was the first concept in the course and other concepts are in the course
-            // Find the next concept and change its previous_concept_id to be null
-        if(count($concepts) > 1 and $id == $concepts[0]->id){
-            $next_concept = $this->nextConcept($id);
-            $next_concept->previous_concept_id = null;
-            $next_concept->save();
-
-            return;
-        } 
-
-        // Case 2: concept was not the first or last concept in the course
-            // Change the next concept's previous_concept_id to be the concept that came before the concept to be removed
-        if(count($concepts) > 1){;
-            $last_concept = end($concepts);
-            if($id != $concepts[0]->id and $id != $last_concept->id){
-                $concept = Concept::find($id);
-                $next_concept = $this->nextConcept($id);
-                $next_concept->previous_concept_id = $concept->previous_concept_id;
-                $next_concept->save();
-
-                return;
-            }
-        }
+        return $this->belongsTo('App\User');
     }
 
     /**
@@ -61,11 +37,15 @@ class Course extends Model
      */
     public function concepts()
     {
+        // Get the concepts that are in this course
+        $concepts = $this->unorderedConcepts;
+
+        // Create the array that will store the concepts in the correct order
         $ordered_concepts = array();
 
-        if(count($this->unorderedConcepts) > 0){
+        if(count($concepts) > 0){
+            // Get the first concept (its previous_concept_id is null) and put it into the array
             $concept = $this->unorderedConcepts()->whereNull('previous_concept_id')->get()[0];
-
             array_push($ordered_concepts, $concept);
 
             $done = false;
@@ -95,6 +75,19 @@ class Course extends Model
             return $next_concept[0];
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Remove the concept from this course and retains the ordered of the remaining concepts
+     */
+    public function removeConcept($concept)
+    {
+        $next_concept = $this->nextConcept($concept->id);
+
+        if(!is_null($next_concept)){
+            $next_concept->previous_concept_id = $concept->previous_concept_id;
+            $next_concept->save();
         }
     }
 

@@ -12,7 +12,7 @@
                 @else
                     <p>Not contained in a module</p>
                 @endif
-                <p>Contains {{count($lesson->exercises)}} exercises</p>
+                <p>Contains {{count($lesson->exercises())}} exercises</p>
                 <small>Created on {{$lesson->created_at}} by {{$lesson->user->name}}</small>
             </div>
         @endforeach

@@ -9,6 +9,13 @@ use DB;
 
 class ConceptsController extends Controller
 {
+    public function __construct()
+    {
+        // Use the 'auth' middleware to make sure a user is logged in
+        // Don't check if a user is logged in for the functions in the 'except' array
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,12 +54,6 @@ class ConceptsController extends Controller
             'name' => 'required|unique:concepts',          
         ]);
 
-        // Get the list of module_ids the user wants to include in the concept
-        $module_ids = $request->input('modules');
-
-        // Get the order of modules within the course as an int array
-        $module_order = $request->input('module_order');
-
         // Create concept
         $concept = new Concept();
         $concept->name = $request->input('name');
@@ -61,27 +62,31 @@ class ConceptsController extends Controller
         // Save concept to the database
         $concept->save();
 
-        // Attach the modules to the concept
-        if(!empty($module_ids)) {
-            $modules = Module::find($module_ids);
+        // Get the order of modules within the course as an array
+        $module_order = $request->input('module_order');
 
-            // Remove the modules to go into the concept from any concepts they are currently in
-            foreach($modules as $module){
-                if($module->concept->id != $concept->id){
-                    $module->concept->removeModule($module->id);
-                    $module->concept_id = $concept->id;
-                    $module->save();
-                }
-            }
+        // Variable used to keep track of the last module added to the lesson
+        $previous_module_id = null;
 
-            // Write the previous_module_id field for every module in the course
-            for($i = 0; $i < count($module_order); $i++){
-                $module = Module::find($module_order[$i]);
-                if($i == 0){
-                    $module->previous_module_id = null;
-                } else {
-                    $module->previous_module_id = $module_order[$i-1];
+        if(!empty($module_order)){
+            // Attach the modules to the lesson
+            foreach($module_order as $id){
+                // Get the module
+                $module = Module::find($id);
+
+                // Remove the modules to go into the concept from any concepts they are currently in
+                if($module->concept != null){
+                    $module->concept->removeModule($module);
                 }
+
+                // Add the module to this concept and set its previous_module_id field
+                $module->concept_id = $concept->id;
+                $module->previous_module_id = $previous_module_id;
+
+                // Update the previous_module_id variable
+                $previous_module_id = $module->id;
+
+                // Save the module to the database
                 $module->save();
             }
         }
@@ -114,6 +119,7 @@ class ConceptsController extends Controller
     {
         $concept = Concept::find($id);
         $modules = Module::all();
+        $concept_modules = $concept->modules();
 
         // Check for correct user
         if($concept->user_id != auth()->user()->id){
@@ -146,12 +152,6 @@ class ConceptsController extends Controller
             'name' => 'required',          
         ]);
 
-        // Get the list of module_ids the user wants to include in the concept
-        $module_ids = $request->input('modules');
-
-        // Get the order of modules within the course as an int array
-        $module_order = $request->input('module_order');
-
         // Get the concept to be updated
         $concept = Concept::find($id);
 
@@ -161,34 +161,38 @@ class ConceptsController extends Controller
         // Save the concept to the database
         $concept->save();
 
-        // Set the concept_id and previous_module_id field of all the old modules within the course to null
+        // Remove the concept_id and previous_module_id field from all modules that were in this concept
         foreach($concept->modules() as $module){
             $module->concept_id = null;
             $module->previous_module_id = null;
             $module->save();
         }
 
-        // Attach the modules to the concept
-        if(!empty($module_ids)) {
-            $modules = Module::find($module_ids);
+        // Get the order of modules within the course as an int array
+        $module_order = $request->input('module_order');
 
-            // Remove the module from the concept it is currently in
-            foreach($modules as $module){
-                if(!empty($module->concept)){
-                    $module->concept->removeModule($module->id);
-                }
-            }
-            
-            $concept->unorderedModules()->saveMany($modules);
+        // Variable used to keep track of the last module added to the lesson
+        $previous_module_id = null;
 
-            // Write the previous_module_id field for every module in the concept
-            for($i = 0; $i < count($module_order); $i++){
-                $module = Module::find($module_order[$i]);
-                if($i == 0){
-                    $module->previous_module_id = null;
-                } else {
-                    $module->previous_module_id = $module_order[$i-1];
+        if(!empty($module_order)){
+            // Attach the modules to the lesson
+            foreach($module_order as $id){
+                // Get the module
+                $module = Module::find($id);
+
+                // Remove the modules to go into the concept from any concepts they are currently in
+                if($module->concept != null and $module->concept->id != $concept->id){
+                    $module->concept->removeModule($module);
                 }
+
+                // Add the module to this concept and set its previous_module_id field
+                $module->concept_id = $concept->id;
+                $module->previous_module_id = $previous_module_id;
+
+                // Update the previous_module_id variable
+                $previous_module_id = $module->id;
+
+                // Save the module to the database
                 $module->save();
             }
         }

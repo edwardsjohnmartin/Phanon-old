@@ -11,7 +11,9 @@ class CoursesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'clearance'])->except('index', 'show');
+        // Use the 'auth' middleware to make sure a user is logged in
+        // Use the 'clearance' middleware to check if a user has permission to access each function
+        $this->middleware(['auth', 'clearance']);
     }
 
     /**
@@ -56,12 +58,6 @@ class CoursesController extends Controller
             'close_time' => 'required',            
         ]);
 
-        // Get the list of concept_ids the user wants to include in the course
-        $concept_ids = $request->input('concepts');
-
-        // Get the order of concepts within the course as an int array
-        $concept_order = $request->input('concept_order');
-
         // Create course
         $course = new Course();
         $course->name = $request->input('name');
@@ -72,28 +68,31 @@ class CoursesController extends Controller
         // Save course to the database
         $course->save();
 
-        // Attach the concepts to the course
-        if(!empty($concept_ids)) {
-            $concepts = Concept::find($concept_ids);
+        // Get the order of concepts within the course as an int array
+        $concept_order = $request->input('concept_order');
 
-            // Remove the concepts to go into the course from any courses they are currently in
-            foreach($concepts as $concept){
-                if(!empty($concept->course)){
-                    $concept->course->removeConcept($concept->id);
-                }
-            }
+        // Variable used to keep track of the last concept added to the course
+        $previous_concept_id = null;
 
+        if(!empty($concept_order)){
             // Attach the concepts to the course
-            $course->unorderedConcepts()->saveMany($concepts);
+            foreach($concept_order as $id){
+                // Get the concept
+                $concept = Concept::find($id);
 
-            // Write the previous_concept_id field for every concept in the course
-            for($i = 0; $i < count($concept_order); $i++){
-                $concept = Concept::find($concept_order[$i]);
-                if($i == 0){
-                    $concept->previous_concept_id = null;
-                } else {
-                    $concept->previous_concept_id = $concept_order[$i-1];
+                // Remove the concepts to go into the course from any courses they are currently in
+                if($concept->course != null){
+                    $concept->course->removeConcept($concept);
                 }
+
+                // Add the concept to this course and set its previous_concept_id field
+                $concept->course_id = $course->id;
+                $concept->previous_concept_id = $previous_concept_id;
+
+                // Update the previous_concept_id variable
+                $previous_concept_id = $concept->id;
+
+                // Save the concept to the database
                 $concept->save();
             }
         }
@@ -126,6 +125,7 @@ class CoursesController extends Controller
     {
         $course = Course::find($id);
         $concepts = Concept::all();
+        $course_concepts = $course->concepts();
 
         // Check for correct user
         if($course->user_id != auth()->user()->id){
@@ -135,13 +135,14 @@ class CoursesController extends Controller
 
         // Create an array that contains the ids of the concepts within the course
         $concept_ids = array();
-        foreach($course->concepts() as $concept) {
+        foreach($course_concepts as $concept) {
             array_push($concept_ids, $concept->id);
         }
 
         return view('courses.edit')->
             with('course', $course)->
             with('concepts', $concepts)->
+            with('course_concepts', $course_concepts)->
             with('concept_ids', $concept_ids);
     }
 
@@ -162,12 +163,6 @@ class CoursesController extends Controller
             'close_time' => 'required',
         ]);
 
-        // Get the list of concept_ids the user wants to include in the course
-        $concept_ids = $request->input('concepts');
-
-        // Get the order of concepts within the course as an int array
-        $concept_order = $request->input('concept_order');
-
         // Get the course to be updated
         $course = Course::find($id);
         
@@ -179,34 +174,38 @@ class CoursesController extends Controller
         // Save the course to the database
         $course->save();
 
-        // Set the course_id and previous_concept_id field of all the old concepts within the course to null
+        // Remove the course_id and previous_concept_id from all concepts that were in this course
         foreach($course->concepts() as $concept){
             $concept->course_id = null;
             $concept->previous_concept_id = null;
             $concept->save();
         }
 
-        // Attach the concepts to the course
-        if(!empty($concept_ids)) {
-            $concepts = Concept::find($concept_ids);
+        // Get the order of concepts within the course as an array
+        $concept_order = $request->input('concept_order');        
 
-            // Remove the concept from the course it is currently in
-            foreach($concepts as $concept){
-                if(!empty($concept->course)){
-                    $concept->course->removeConcept($concept->id);
-                }
-            }
-            
-            $course->unorderedConcepts()->saveMany($concepts);
+        // Variable used to keep track of the last concept added to the course
+        $previous_concept_id = null;
 
-            // Write the previous_concept_id field for every concept in the course
-            for($i = 0; $i < count($concept_order); $i++){
-                $concept = Concept::find($concept_order[$i]);
-                if($i == 0){
-                    $concept->previous_concept_id = null;
-                } else {
-                    $concept->previous_concept_id = $concept_order[$i-1];
+        if(!empty($concept_order)){
+            // Attach the concepts to the course
+            foreach($concept_order as $id){
+                // Get the concept
+                $concept = Concept::find($id);
+
+                // Remove the concepts to go into the course from any courses they are currently in
+                if($concept->course != null and $concept->course->id != $course->id){
+                    $concept->course->removeConcept($concept);
                 }
+
+                // Add the concept to this course and set its previous_concept_id field
+                $concept->course_id = $course->id;
+                $concept->previous_concept_id = $previous_concept_id;
+
+                // Update the previous_concept_id variable
+                $previous_concept_id = $concept->id;
+
+                // Save the concept to the database
                 $concept->save();
             }
         }

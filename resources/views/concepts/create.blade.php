@@ -25,8 +25,7 @@
 
             <div id="moduleDiv">
                 <label>Drag and drop the modules to change the ordering they will appear in the concept</label>
-                <ol id="sortableModules">
-                </ol>
+                <ol id="sortableModules"></ol>
             </div>
         @else
             <p>No modules exist</p>
