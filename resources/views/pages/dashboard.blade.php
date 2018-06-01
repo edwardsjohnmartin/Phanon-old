@@ -18,7 +18,7 @@
                         {{ session('status') }}
                     </div>
                     @endif
-                    @can('Create course')
+                    @can('course.create')
                     <a href="{{url('/courses/create')}}" class="btn btn-primary btn-add">Create Course</a>
                     @endcan
                     <h3>Your Courses</h3>
@@ -37,10 +37,10 @@
                                 <!-- HACK: Setting up structure for buttons -->
                                 <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>
                                 <a href="{{url('/flow/' . $course->id)}}" class="btn btn-view">See Flow</a>
-                                @can('Edit course')
+                                @can('course.edit')
                                 <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
                                 @endcan
-                                @can('Delete course')
+                                @can('course.delete')
                                 <a href="{{url('/courses/' . $course->id . '/delete')}}"
                                    onclick="return actionVerify(event,'{{'delete '.$course->name}}');" class="btn btn-delete">
                                     Delete

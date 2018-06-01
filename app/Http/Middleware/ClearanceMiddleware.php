@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\Permissions;
 
 class ClearanceMiddleware {
     /**
@@ -14,12 +15,12 @@ class ClearanceMiddleware {
      * @return mixed
      */
     public function handle($request, Closure $next) {        
-        if (Auth::user()->hasPermissionTo('Administer roles & permissions')) {
+        if (Auth::user()->hasPermissionTo(Permissions::ADMIN)) {
             return $next($request);
         }
 
         if ($request->is('courses/create')) {
-            if (!Auth::user()->hasPermissionTo('Create course')) {
+            if (!Auth::user()->hasPermissionTo(Permissions::COURSE_CREATE)) {
                 abort('401');
             } 
             else {
@@ -28,7 +29,7 @@ class ClearanceMiddleware {
         }
 
         if ($request->is('courses/*/edit')) {
-            if (!Auth::user()->hasPermissionTo('Edit course')) {
+            if (!Auth::user()->hasPermissionTo(Permissions::COURSE_EDIT)) {
                 abort('401');
             } 
             else {
@@ -37,7 +38,7 @@ class ClearanceMiddleware {
         }
 
         if ($request->is('courses/*') && $request->isMethod('Delete')) {
-            if (!Auth::user()->hasPermissionTo('Delete course')) {
+            if (!Auth::user()->hasPermissionTo(Permissions::COURSE_DELETE)) {
                 abort('401');
             } 
             else{
@@ -46,7 +47,7 @@ class ClearanceMiddleware {
         }
 
         if ($request->is('modules/create')) {
-            if (!Auth::user()->hasPermissionTo('Create module')) {
+            if (!Auth::user()->hasPermissionTo(Permissions::MODULE_CREATE)) {
                 abort('401');
             } 
             else {
@@ -55,7 +56,7 @@ class ClearanceMiddleware {
         }
 
         if ($request->is('modules/*/edit')) {
-            if (!Auth::user()->hasPermissionTo('Edit module')) {
+            if (!Auth::user()->hasPermissionTo(Permissions::MODULE_EDIT)) {
                 abort('401');
             } 
             else {
@@ -64,7 +65,7 @@ class ClearanceMiddleware {
         }
 
         if ($request->is('modules/*') && $request->isMethod('Delete')) {
-            if (!Auth::user()->hasPermissionTo('Delete module')) {
+            if (!Auth::user()->hasPermissionTo(Permissions::MODULE_DELETE)) {
                 abort('401');
             } 
             else{

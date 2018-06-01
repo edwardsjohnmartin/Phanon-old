@@ -13,8 +13,8 @@ class LessonsController extends Controller
     public function __construct()
     {
         // Use the 'auth' middleware to make sure a user is logged in
-        // Don't check if a user is logged in for the functions in the 'except' array
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        // Use the 'clearance' middleware to check if a user has permission to access each function
+        $this->middleware(['auth', 'clearance']);
     }
     
     /**
