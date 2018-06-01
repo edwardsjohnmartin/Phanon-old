@@ -1,37 +1,170 @@
 ﻿@font-face {
     font-family: 'themify';
     src: url('../fonts/themify.eot?-fvbane');
-    src: url('../fonts/themify.eot?#iefix-fvbane') format('embedded-opentype'),
-        url('../fonts/themify.woff?-fvbane') format('woff'),
-        url('../fonts/themify.ttf?-fvbane') format('truetype'),
-        url('../fonts/themify.svg?-fvbane#themify') format('svg');
+    src: url('../fonts/themify.eot?#iefix-fvbane') format('embedded-opentype'), url('../fonts/themify.woff?-fvbane') format('woff'), url('../fonts/themify.ttf?-fvbane') format('truetype'), url('../fonts/themify.svg?-fvbane#themify') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 /* From: https://themify.me/themify-icons */
 
-.btn-edit:hover {
+.actions:before {
+    font-family: themify;
+    content: "\e60F\0020";
+}
+
+.btn-edit:hover, .edit:hover {
     border-color: #7ab2d1;
 }
 
-.btn-add:before {
+.btn-add:before, .add:before {
     font-family: themify;
     content: "\e61a\0020"; /* plus and space */
 }
 
-.btn-edit:before {
+.btn-edit:before, .edit:before {
     font-family: themify;
     content: "\e61c\0020";
 }
 
-.btn-view:before {
+.btn-view:before, .view:before {
     font-family: themify;
     content: "\e63d\0020";
 }
 
-.btn-delete:before {
+.btn-delete:before, .delete:before {
     font-family: themify;
     content: "\e605\0020";
 }
 
+.btn-clone:before, .clone:before {
+    font-family: themify;
+    content: "\e6a3\0020";
+}
 
+.lesson:before {
+    font-family: themify;
+    content: "\e617\0020";
+}
+
+.project:before {
+    font-family: themify;
+    content: "\e618\0020";
+}
+
+
+.module * {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.module {
+    border-radius: 2em;
+    border: solid 1px #FFF;
+    padding: 1em;
+    margin: .5em;
+    position: relative;
+    background-color: #FFF;
+    box-shadow: #AAA 5px 5px 10px;
+}
+
+.expired {
+    background-color: #AAA;
+    box-shadow: #AAA 5px 5px 10px;
+}
+
+    .module h1 {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .module .details, .module .actions {
+        position: absolute;
+        right: 2em;
+        width: 25%;
+    }
+
+    .module .details {
+        background-color: #FFF;
+        bottom: 0;
+    }
+
+    .module .actions {
+        top: 0;
+        width: 2em;
+        overflow: hidden;
+        height: 2em;
+        transition: width ease-in-out 1s, height ease-in-out 1s;
+        text-align:center;
+    }
+        .module .actions a {
+            display: block;
+        }
+        .module .actions a:hover {
+            text-decoration: none;
+            background-color: #AAA;
+            color: #FFF;
+        }
+    .module .actions:hover {
+        width: 6em;
+        height: 7em;
+        border: solid 1px #AAA;
+        z-index: 999;
+        background-color: #FFF;
+    }
+        
+            .lessons, .projects {
+    margin: 1em .3em 1.2em .2em;
+}
+
+.lesson, .project {
+    display: inline-block;
+}
+.lesson a, .project a {
+    color: #FFF;
+    height: 100%;
+}
+.lesson li, .project li {
+    
+}
+
+    .lesson, .project {
+        border: solid 1px #333;
+        background-color: #888;
+        border: 1px solid #000;
+        padding: .5em;
+        color: #FFF;
+        border-radius: .5em;
+        transition: background-color ease .5s;
+    }
+
+        .lesson a:hover, .project a:hover {
+            text-decoration: none;
+        }
+
+        .lesson:hover {
+            background-color: #800;
+        }
+
+.itemCount {
+    background-color: #FEE;
+    color: #AAA;
+    border: 2px solid #300;
+    border-radius: .8em;
+    padding: .2em .4em;
+}
+
+
+.project:hover {
+    background-color: #008;
+}
+
+.lesson {
+    border-color: #300;
+    background-color: #D00;
+}
+
+.project {
+    border-color: #003;
+    background-color: #00D;
+}

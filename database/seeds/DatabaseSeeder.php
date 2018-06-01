@@ -342,10 +342,188 @@ class DatabaseSeeder extends Seeder
 			'user_id' => $user->id,
         ]);
 
+        $lesson30 = Lesson::create([
+			'name' => 'Test Lesson 1-3',
+            'module_id' => $module1->id,
+            'previous_lesson_id' => $lesson2->id,
+			'user_id' => $user->id,
+		]);
+
+		$exercise31 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 3-1',
+			'pre_code' => '#this is the code the user will have access to',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => '#test_code',
+            'lesson_id' => $lesson30->id,
+			'user_id' => $user->id,
+		]);
+
+		$exercise32 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 3-2',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson30->id,
+            'previous_exercise_id' => $exercise31->id,
+			'user_id' => $user->id,
+        ]);
+        $exercise33 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 3-3',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson30->id,
+            'previous_exercise_id' => $exercise32->id,
+			'user_id' => $user->id,
+        ]);
+        $exercise34 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 3-4',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson30->id,
+            'previous_exercise_id' => $exercise33->id,
+			'user_id' => $user->id,
+        ]);
+        $exercise35 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 3-5',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson30->id,
+            'previous_exercise_id' => $exercise34->id,
+			'user_id' => $user->id,
+        ]);
+
+
+        $lesson40 = Lesson::create([
+			'name' => 'Test Lesson 1-4',
+            'module_id' => $module1->id,
+            'previous_lesson_id' => $lesson30->id,
+			'user_id' => $user->id,
+		]);
+
+		$exercise41 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 4-1',
+			'pre_code' => '#this is the code the user will have access to',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => '#test_code',
+            'lesson_id' => $lesson40->id,
+			'user_id' => $user->id,
+		]);
+
+		$exercise42 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 4-2',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson40->id,
+            'previous_exercise_id' => $exercise41->id,
+			'user_id' => $user->id,
+        ]);
+        $exercise43 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 4-3',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson40->id,
+            'previous_exercise_id' => $exercise42->id,
+			'user_id' => $user->id,
+        ]);
+        $exercise44 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 4-4',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson40->id,
+            'previous_exercise_id' => $exercise43->id,
+			'user_id' => $user->id,
+        ]);
+        $exercise45 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 4-5',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson40->id,
+            'previous_exercise_id' => $exercise44->id,
+			'user_id' => $user->id,
+        ]);
+
+        $lesson50 = Lesson::create([
+			'name' => 'Test Lesson 1-5',
+            'module_id' => $module1->id,
+            'previous_lesson_id' => $lesson40->id,
+			'user_id' => $user->id,
+		]);
+
+		$exercise51 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 5-1',
+			'pre_code' => '#this is the code the user will have access to',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => '#test_code',
+            'lesson_id' => $lesson50->id,
+			'user_id' => $user->id,
+		]);
+
+		$exercise52 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 5-2',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson50->id,
+            'previous_exercise_id' => $exercise51->id,
+			'user_id' => $user->id,
+        ]);
+        $exercise53 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 5-3',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson50->id,
+            'previous_exercise_id' => $exercise52->id,
+			'user_id' => $user->id,
+        ]);
+        $exercise54 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 5-4',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson50->id,
+            'previous_exercise_id' => $exercise53->id,
+			'user_id' => $user->id,
+        ]);
+        $exercise55 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 5-5',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson50->id,
+            'previous_exercise_id' => $exercise54->id,
+			'user_id' => $user->id,
+        ]);
+        $exercise56 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 5-6',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson50->id,
+            'previous_exercise_id' => $exercise55->id,
+			'user_id' => $user->id,
+        ]);
+        $exercise57 = Exercise::create([
+			'prompt' => 'This is the prompt of Exercise 5-7',
+			'pre_code' => 'def myFunc():\n    print("hello world")',
+			'start_code' => '#this is the code the user will start with',
+            'test_code' => 'test_out("hello world")',
+            'lesson_id' => $lesson50->id,
+            'previous_exercise_id' => $exercise56->id,
+			'user_id' => $user->id,
+        ]);
+
 		$project1 = Project::create([
 			'name' => 'Test Project 1',
-			'open_date' => '2018-05-15 02:01:54',
-            'close_date' => '2018-05-15 02:01:54',
+			'open_date' => '2018-05-17 02:01:54',
+            'close_date' => '2018-05-19 02:01:54',
             'prompt' => 'Prompt 1',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -353,10 +531,10 @@ class DatabaseSeeder extends Seeder
             'previous_lesson_id' => $lesson2->id,
 			'user_id' => $user->id,
         ]);
-        
+
         $module2 = Module::create([
 			'name' => 'Test Module 2',
-            'open_date' => '2018-05-17 02:01:54',
+            'open_date' => '2018-05-21 02:01:54',
             'concept_id' => $concept1->id,
             'previous_module_id' => $module1->id,
 			'user_id' => $user->id,
@@ -364,8 +542,8 @@ class DatabaseSeeder extends Seeder
         
         $project2 = Project::create([
 			'name' => 'Test Project 2',
-			'open_date' => '2018-05-15 02:01:54',
-            'close_date' => '2018-05-15 02:01:54',
+			'open_date' => '2018-05-21 02:01:54',
+            'close_date' => '2018-05-26 02:01:54',
             'prompt' => 'Prompt 2',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -375,7 +553,7 @@ class DatabaseSeeder extends Seeder
 
         $module3 = Module::create([
 			'name' => 'Test Module 3',
-            'open_date' => '2018-05-17 02:01:54',
+            'open_date' => '2018-05-27 02:01:54',
             'concept_id' => $concept1->id,
             'previous_module_id' => $module2->id,
 			'user_id' => $user->id,
@@ -418,8 +596,8 @@ class DatabaseSeeder extends Seeder
 
         $project3 = Project::create([
 			'name' => 'Test Project 3',
-			'open_date' => '2018-05-15 02:01:54',
-            'close_date' => '2018-05-15 02:01:54',
+			'open_date' => '2018-06-01 02:01:54',
+            'close_date' => '2018-06-07 02:01:54',
             'prompt' => 'Prompt 3',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -430,8 +608,8 @@ class DatabaseSeeder extends Seeder
 
         $project4 = Project::create([
 			'name' => 'Test Project 4',
-			'open_date' => '2018-05-15 02:01:54',
-            'close_date' => '2018-05-15 02:01:54',
+			'open_date' => '2018-06-05 02:01:54',
+            'close_date' => '2018-06-07 02:01:54',
             'prompt' => 'Prompt 4',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -449,15 +627,15 @@ class DatabaseSeeder extends Seeder
 
         $module4 = Module::create([
 			'name' => 'Test Module 4',
-            'open_date' => '2018-05-15 02:01:54',
+            'open_date' => '2018-06-11 02:01:54',
             'concept_id' => $concept2->id,
 			'user_id' => $user->id,
         ]);
 
         $project5 = Project::create([
 			'name' => 'Test Project 5',
-			'open_date' => '2018-05-15 02:01:54',
-            'close_date' => '2018-05-15 02:01:54',
+			'open_date' => '2018-06-15 02:01:54',
+            'close_date' => '2018-06-16 02:01:54',
             'prompt' => 'Prompt 5',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -548,8 +726,8 @@ class DatabaseSeeder extends Seeder
 
         $project6 = Project::create([
 			'name' => 'Test Project 6',
-			'open_date' => '2018-05-15 02:01:54',
-            'close_date' => '2018-05-15 02:01:54',
+			'open_date' => '2018-06-16 02:01:54',
+            'close_date' => '2018-06-17 02:01:54',
             'prompt' => 'Prompt 6',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -560,7 +738,7 @@ class DatabaseSeeder extends Seeder
         
         $module5 = Module::create([
 			'name' => 'Test Module 5',
-            'open_date' => '2018-05-15 02:01:54',
+            'open_date' => '2018-06-19 02:01:54',
             'concept_id' => $concept2->id,
             'previous_module_id' => $module4->id,
 			'user_id' => $user->id,
@@ -623,8 +801,8 @@ class DatabaseSeeder extends Seeder
 
         $project7 = Project::create([
 			'name' => 'Test Project 7',
-			'open_date' => '2018-05-15 02:01:54',
-            'close_date' => '2018-05-15 02:01:54',
+			'open_date' => '2018-06-23 02:01:54',
+            'close_date' => '2018-06-25 02:01:54',
             'prompt' => 'Prompt 7',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -635,7 +813,7 @@ class DatabaseSeeder extends Seeder
         
         $module6 = Module::create([
 			'name' => 'Test Module 6',
-            'open_date' => '2018-05-15 02:01:54',
+            'open_date' => '2018-06-26 02:01:54',
             'concept_id' => $concept2->id,
             'previous_module_id' => $module5->id,
 			'user_id' => $user->id,
@@ -643,8 +821,8 @@ class DatabaseSeeder extends Seeder
         
         $project8 = Project::create([
 			'name' => 'Test Project 8',
-			'open_date' => '2018-05-15 02:01:54',
-            'close_date' => '2018-05-15 02:01:54',
+			'open_date' => '2018-06-30 02:01:54',
+            'close_date' => '2018-07-01 02:01:54',
             'prompt' => 'Prompt 8',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -661,7 +839,7 @@ class DatabaseSeeder extends Seeder
 
         $module7 = Module::create([
 			'name' => 'Test Module 7',
-            'open_date' => '2018-05-15 02:01:54',
+            'open_date' => '2018-07-03 02:01:54',
             'concept_id' => $concept3->id,
 			'user_id' => $user->id,
         ]);
@@ -699,8 +877,8 @@ class DatabaseSeeder extends Seeder
         
         $project9 = Project::create([
 			'name' => 'Test Project 9',
-			'open_date' => '2018-05-15 02:01:54',
-            'close_date' => '2018-05-15 02:01:54',
+			'open_date' => '2018-07-06 02:01:54',
+            'close_date' => '2018-07-08 02:01:54',
             'prompt' => 'Prompt 9',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -711,7 +889,7 @@ class DatabaseSeeder extends Seeder
 
         $module8 = Module::create([
 			'name' => 'Test Module 8',
-            'open_date' => '2018-05-15 02:01:54',
+            'open_date' => '2018-07-11 02:01:54',
             'concept_id' => $concept3->id,
             'previous_module_id' => $module7->id,
 			'user_id' => $user->id,
@@ -719,8 +897,8 @@ class DatabaseSeeder extends Seeder
 
         $project10 = Project::create([
 			'name' => 'Test Project 10',
-			'open_date' => '2018-05-15 02:01:54',
-            'close_date' => '2018-05-15 02:01:54',
+			'open_date' => '2018-07-15 02:01:54',
+            'close_date' => '2018-07-17 02:01:54',
             'prompt' => 'Prompt 10',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -745,8 +923,8 @@ class DatabaseSeeder extends Seeder
         
         $project11 = Project::create([
 			'name' => 'Test Project 11',
-			'open_date' => '2018-05-20 02:01:54',
-            'close_date' => '2018-05-21 02:01:54',
+			'open_date' => '2018-07-20 02:01:54',
+            'close_date' => '2018-07-26 02:01:54',
             'prompt' => 'Prompt 11',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -757,7 +935,7 @@ class DatabaseSeeder extends Seeder
 
         $module9 = Module::create([
 			'name' => 'Test Module 9',
-            'open_date' => '2018-05-15 02:01:54',
+            'open_date' => '2018-07-28 02:01:54',
             'concept_id' => $concept3->id,
             'previous_module_id' => $module8->id,
 			'user_id' => $user->id,
@@ -796,7 +974,7 @@ class DatabaseSeeder extends Seeder
         
         $module10 = Module::create([
 			'name' => 'Test Module 10',
-            'open_date' => '2018-05-15 02:01:54',
+            'open_date' => '2018-08-01 02:01:54',
             'concept_id' => $concept3->id,
             'previous_module_id' => $module9->id,
 			'user_id' => $user->id,
@@ -804,8 +982,8 @@ class DatabaseSeeder extends Seeder
 
         $project12 = Project::create([
 			'name' => 'Test Project 12',
-			'open_date' => '2018-05-26 02:01:54',
-            'close_date' => '2018-05-28 02:01:54',
+			'open_date' => '2018-08-04 02:01:54',
+            'close_date' => '2018-08-05 02:01:54',
             'prompt' => 'Prompt 12',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -815,8 +993,8 @@ class DatabaseSeeder extends Seeder
 
         $project13 = Project::create([
 			'name' => 'Test Project 13',
-			'open_date' => '2018-05-27 02:01:54',
-            'close_date' => '2018-05-29 02:01:54',
+			'open_date' => '2018-08-05 02:01:54',
+            'close_date' => '2018-08-06 02:01:54',
             'prompt' => 'Prompt 13',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -826,7 +1004,7 @@ class DatabaseSeeder extends Seeder
         
         $module11 = Module::create([
 			'name' => 'Test Module 11',
-            'open_date' => '2018-05-15 02:01:54',
+            'open_date' => '2018-08-08 02:01:54',
             'concept_id' => $concept3->id,
             'previous_module_id' => $module10->id,
 			'user_id' => $user->id,
@@ -834,8 +1012,8 @@ class DatabaseSeeder extends Seeder
 
         $project14 = Project::create([
 			'name' => 'Test Project 14',
-			'open_date' => '2018-05-26 02:01:54',
-            'close_date' => '2018-05-28 02:01:54',
+			'open_date' => '2018-08-10 02:01:54',
+            'close_date' => '2018-08-12 02:01:54',
             'prompt' => 'Prompt 14',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -845,8 +1023,8 @@ class DatabaseSeeder extends Seeder
 
         $project15 = Project::create([
 			'name' => 'Test Project 15',
-			'open_date' => '2018-05-27 02:01:54',
-            'close_date' => '2018-05-29 02:01:54',
+			'open_date' => '2018-08-13 02:01:54',
+            'close_date' => '2018-08-14 02:01:54',
             'prompt' => 'Prompt 15',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
@@ -871,8 +1049,8 @@ class DatabaseSeeder extends Seeder
 
         $project16 = Project::create([
 			'name' => 'Test Project 16',
-			'open_date' => '2018-06-27 02:01:54',
-            'close_date' => '2018-06-29 02:01:54',
+			'open_date' => '2018-08-15 02:01:54',
+            'close_date' => '2018-08-16 02:01:54',
             'prompt' => 'Prompt 16',
 			'pre_code' => '#this is project pre code',
 			'start_code' => '#this is project start code',
