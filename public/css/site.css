@@ -36,7 +36,7 @@
     content: "\e605\0020";
 }
 
-.btn-clone:before, .clone:before {
+.btn-copy:before, .copy:before {  /* change to copy*/
     font-family: themify;
     content: "\e6a3\0020";
 }

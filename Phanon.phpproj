@@ -19,7 +19,11 @@
   <ItemGroup>
     <Compile Include=".vs\slnx.sqlite" />
     <Compile Include=".vs\VSWorkspaceState.json" />
+    <Compile Include="app\Concept.php" />
     <Compile Include="app\Console\Kernel.php" />
+    <Compile Include="app\Enums\Enum.php" />
+    <Compile Include="app\Enums\Permissions.php" />
+    <Compile Include="app\Enums\Roles.php" />
     <Compile Include="app\Exceptions\Handler.php" />
     <Compile Include="app\Http\Controllers\Auth\ForgotPasswordController.php" />
     <Compile Include="app\Http\Controllers\Auth\LoginController.php" />
@@ -73,6 +77,7 @@
     <Compile Include="database\migrations\2014_10_12_000000_create_users_table.php" />
     <Compile Include="database\migrations\2014_10_12_100000_create_password_resets_table.php" />
     <Compile Include="database\migrations\2018_05_07_164606_create_courses_table.php" />
+    <Compile Include="database\migrations\2018_05_07_164607_create_concepts_table.php" />
     <Compile Include="database\migrations\2018_05_08_213339_create_modules_table.php" />
     <Compile Include="database\migrations\2018_05_08_213356_create_lessons_table.php" />
     <Compile Include="database\migrations\2018_05_08_213417_create_exercises_table.php" />
@@ -750,12 +755,18 @@
     <Compile Include="resources\views\auth\passwords\reset.blade.php" />
     <Compile Include="resources\views\auth\login.blade.php" />
     <Compile Include="resources\views\auth\register.blade.php" />
+    <Compile Include="resources\views\concepts\create.blade.php" />
+    <Compile Include="resources\views\concepts\edit.blade.php" />
+    <Compile Include="resources\views\concepts\index.blade.php" />
+    <Compile Include="resources\views\concepts\show.blade.php" />
     <Compile Include="resources\views\courses\create.blade.php" />
     <Compile Include="resources\views\courses\edit.blade.php" />
+    <Compile Include="resources\views\courses\fullview.blade.php" />
     <Compile Include="resources\views\courses\index.blade.php" />
     <Compile Include="resources\views\courses\flow.blade.php" />
     <Compile Include="resources\views\courses\show.blade.php" />
     <Compile Include="resources\views\errors\401.blade.php" />
+    <Compile Include="resources\views\exercises\clone.blade.php" />
     <Compile Include="resources\views\exercises\create.blade.php" />
     <Compile Include="resources\views\exercises\edit.blade.php" />
     <Compile Include="resources\views\exercises\index.blade.php" />
@@ -831,6 +842,7 @@
     <Folder Include=".vs\phanon" />
     <Folder Include=".vs" />
     <Folder Include="app\Console" />
+    <Folder Include="app\Enums\" />
     <Folder Include="app\Exceptions" />
     <Folder Include="app\Http\Controllers\Auth" />
     <Folder Include="app\Http\Controllers" />
@@ -1170,6 +1182,7 @@
     <Folder Include="resources\lang" />
     <Folder Include="resources\views\auth\passwords" />
     <Folder Include="resources\views\auth" />
+    <Folder Include="resources\views\concepts\" />
     <Folder Include="resources\views\courses" />
     <Folder Include="resources\views\errors\" />
     <Folder Include="resources\views\exercises\" />
@@ -1205,6 +1218,7 @@
   <ItemGroup>
     <Content Include=".env" />
     <Content Include="public\css\bootstrap-multiselect.css" />
+    <Content Include="public\css\jquery-ui.min.css" />
     <Content Include="public\css\site.css" />
     <Content Include="public\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.eot" />
     <Content Include="public\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.svg" />
@@ -1217,11 +1231,15 @@
     <Content Include="public\fonts\themify.woff" />
     <Content Include="public\images\genericons-neue.svg" />
     <Content Include="public\js\bootstrap-multiselect.js" />
+    <Content Include="public\js\create-edit-form.js" />
+    <Content Include="public\js\jquery-ui.min.js" />
     <Content Include="resources\assets\css\bootstrap-multiselect.css" />
+    <Content Include="resources\assets\css\jquery-ui.min.css" />
     <Content Include="resources\assets\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.ttf" />
     <Content Include="resources\assets\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.woff" />
     <Content Include="resources\assets\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.woff2" />
     <Content Include="public\js\actions.js" />
     <Content Include="resources\assets\js\bootstrap-multiselect.js" />
+    <Content Include="resources\assets\js\jquery-ui.min.js" />
   </ItemGroup>
 </Project>

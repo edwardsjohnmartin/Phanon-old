@@ -7,7 +7,7 @@ $isPast = $startdate < $now;
     <h1>{{$module->name}}</h1>
     <aside class="actions">
         <a class="edit" href="{{url('/modules/' . $module->id . '/edit')}}">Edit</a>
-        <a class="clone" href="{{url('/modules/' . $module->id . '/clone')}}">Clone</a>
+        <a class="copy" href="{{url('/modules/' . $module->id . '/copy')}}">copy</a>
         <a class="delete" href="{{url('/modules/' . $module->id . '/destroy')}}">Delete</a>
     </aside>
     <div class="dates">
@@ -17,14 +17,14 @@ $isPast = $startdate < $now;
     </div>
     <ul class="lessons">
         @foreach($module->lessons() as $less)
-        @component('lessons.flow',['lesson' => $less])
-        @endcomponent
+            @component('lessons.flow',['lesson' => $less])
+            @endcomponent
         @endforeach
     </ul>
     <ul class="projects">
         @foreach($module->projects() as $proj)
-        @component('projects.flow',['project' => $proj])
-        @endcomponent
+            @component('projects.flow',['project' => $proj])
+            @endcomponent
         @endforeach
     </ul>
     <div class="details">

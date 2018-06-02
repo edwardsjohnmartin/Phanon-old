@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <a class="btn btn-default" href="{{url('/courses/' . $course->id . '/clone')}}">Clone</a>
+    <a class="btn btn-default" href="{{url('/courses/' . $course->id . '/copy')}}">copy</a>
 
     <h2>{{$course->name}}</h2>
     @foreach($course->modules as $module)
