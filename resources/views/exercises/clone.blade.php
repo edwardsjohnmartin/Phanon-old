@@ -4,7 +4,7 @@
     <h1>Clone Exercise</h1>
     <label>Original Author</label>
     <p>{{$exercise->user->name}}</p>
-    {!! Form::open(['action' => ['ExercisesController@create_clone'], 'method' => 'POST']) !!}
+    {!! Form::open(['action' => ['ExercisesController@createClone'], 'method' => 'POST']) !!}
         <div class="form-group">
             {{Form::label('prompt', 'Prompt')}}
             {{Form::textarea('prompt', $exercise->prompt, ['class' => 'form-control'])}}

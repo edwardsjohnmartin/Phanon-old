@@ -1,21 +1,20 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use App\Lesson;
 use App\Exercise;
 use App\Module;
-
 use DB;
 
 class LessonsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        // Use the 'auth' middleware to make sure a user is logged in
+        // Use the 'clearance' middleware to check if a user has permission to access each function
+        $this->middleware(['auth', 'clearance']);
     }
     
     /**
@@ -26,6 +25,7 @@ class LessonsController extends Controller
     public function index()
     {
         $lessons = Lesson::paginate(10);
+
         return view('lessons.index')->
             with('lessons', $lessons);
     }
@@ -38,7 +38,9 @@ class LessonsController extends Controller
     public function create()
     {
         $exercises = Exercise::all();
-        return view('lessons.create')->with('exercises', $exercises);
+
+        return view('lessons.create')->
+            with('exercises', $exercises);
     }
 
     /**
@@ -51,27 +53,45 @@ class LessonsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:lessons',
-            'exercises' => 'required',
-            'open_date' => 'required'
+            'exercises' => 'required'
         ]);
-
-        // Get the list of exercise_ids the user wants to include in the lesson
-        $input_exercises = $request->input('exercises');
 
         // Create Lesson
         $lesson = new Lesson();
         $lesson->name = $request->input('name');
-        $lesson->open_date = $request->input('open_date');
         $lesson->user_id = auth()->user()->id;
 
         // Save lesson to the database
         $lesson->save();
+
+        // Get the order of exercises within the lesson as an array
+        $exercise_order = $request->input('exercise_order');
         
-        // Attach the exercises to the lesson
-        if(!empty($input_exercises)){
-            $exercises = Exercise::find($input_exercises);
-            $lesson->exercises()->saveMany($exercises);
-        }      
+        // Variable used to keep track of the last exercise added to the lesson
+        $previous_exercise_id = null;
+
+        if(!empty($exercise_order)){
+            // Attach the exercises to the lesson
+            foreach($exercise_order as $id){
+                // Get the exercise
+                $exercise = Exercise::find($id);
+
+                // Remove the exercises to go into the lesson from any lessons they are currently in
+                if($exercise->lesson != null){
+                    $exercise->lesson->removeExercise($exercise);
+                }
+
+                // Add the exercise to this lesson and set its previous_exercise_id field
+                $exercise->lesson_id = $lesson->id;
+                $exercise->previous_exercise_id = $previous_exercise_id;
+
+                // Update the previous_exercise_id variable
+                $previous_exercise_id = $exercise->id;
+
+                // Save the exercise to the database
+                $exercise->save();
+            }
+        }
 
         return redirect(url('/lessons'))->
             with('success', 'Lesson Created');
@@ -86,9 +106,11 @@ class LessonsController extends Controller
     public function show($id)
     {
         $lesson = Lesson::find($id);
-        $exercises = $lesson->exercises;
+        $exercises = $lesson->exercises();
 
-        return view('lessons.show')->with('lesson', $lesson)->with('exercises', $exercises);
+        return view('lessons.show')->
+            with('lesson', $lesson)->
+            with('exercises', $exercises);
     }
 
     /**
@@ -101,13 +123,15 @@ class LessonsController extends Controller
     {
         $lesson = Lesson::find($id);
         $exercises = Exercise::all();
-        $lesson_exercises = $lesson->exercises;
+        $lesson_exercises = $lesson->exercises();
 
         // Check for correct user
         if(auth()->user()->id != $lesson->user_id){
-            return redirect(url('/lessons'))->with('error', 'Unauthorized Page');
+            return redirect(url('/lessons'))->
+                with('error', 'Unauthorized Page');
         }
 
+        // Create an array that contains the ids of the exercises within the lesson
         $lesson_exercise_ids = array();
         foreach($lesson_exercises as $exercise){
             array_push($lesson_exercise_ids, $exercise->id);
@@ -131,27 +155,52 @@ class LessonsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'exercises' => 'required',
-            'open_date' => 'required'
+            'exercises' => 'required'
         ]);
-
-        // Get the list of exercise_ids the user wants to include in the lesson
-        $input_exercises = $request->input('exercises');
 
         // Get the lesson to be updated
         $lesson = Lesson::find($id);
 
         // Update its fields
         $lesson->name = $request->input('name');
-        $lesson->open_date = $request->input('open_date');
 
         // Save the lesson to the database
         $lesson->save();
 
-        // Attach the exercises to the lesson
-        if(!empty($input_exercises)){
-            $exercises = Exercise::find($input_exercises);
-            $lesson->exercises()->saveMany($exercises);
+        // Remove the lesson_id and previous_exercise_id field from all exercises that were in this lesson
+        foreach($lesson->exercises() as $exercise){
+            $exercise->lesson_id = null;
+            $exercise->previous_exercise_id = null;
+            $exercise->save();
+        }
+
+        // Get the order of exercises within the lesson as an array
+        $exercise_order = $request->input('exercise_order');
+
+        // Variable used to keep track of the last exercise added to the lesson
+        $previous_exercise_id = null;
+
+        if(!empty($exercise_order)){
+            // Attach the exercises to the lesson
+            foreach($exercise_order as $id){
+                // Get the exercise
+                $exercise = Exercise::find($id);
+
+                // Remove the exercises to go into the lesson from any lessons they are currently in
+                if($exercise->lesson != null and $exercise->lesson->id != $lesson->id){
+                    $exercise->lesson->removeExercise($exercise);
+                }
+
+                // Add the exercise to this lesson and set its previous_exercise_id field
+                $exercise->lesson_id = $lesson->id;
+                $exercise->previous_exercise_id = $previous_exercise_id;
+
+                // Update the previous_exercise_id variable
+                $previous_exercise_id = $exercise->id;
+
+                // Save the exercise to the database
+                $exercise->save();
+            }
         }
 
         return redirect(url('/lessons'))->
@@ -170,26 +219,28 @@ class LessonsController extends Controller
 
         // Check for correct user
         if(auth()->user()->id != $lesson->user_id){
-            return redirect(url('/lessons'))->with('error', 'Unauthorized Page');
+            return redirect(url('/lessons'))->
+                with('error', 'Unauthorized Page');
         }
 
         $lesson->delete();
-        return redirect(url('/lessons'))->with('success', 'Lesson Deleted');
+        return redirect(url('/lessons'))->
+            with('success', 'Lesson Deleted');
     }
 
      /**
-     * Show the form for deep copying a specific lesson
+     * Show the form for deep copying a specific lesson.
      * 
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function clone($id)
+    public function copy($id)
     {
         $lesson = Lesson::find($id);
         $exercises = Exercise::all();
 
         $lesson_exercise_ids = array();
-        foreach($lesson->exercises as $exercise){
+        foreach($lesson->exercises() as $exercise){
             array_push($lesson_exercise_ids, $exercise->id);
         }
 
@@ -200,7 +251,7 @@ class LessonsController extends Controller
     }
 
     /**
-     * Create a deep copy of an lesson
+     * Create a deep copy of an lesson.
      * 
      * @param Request $request
      * @return \Illuminate\Http\Response

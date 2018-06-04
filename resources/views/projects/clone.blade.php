@@ -4,7 +4,7 @@
     <h1>Edit Project</h1>
     <label>Original Author</label>
     <p>{{$project->user->name}}</p>
-    {!! Form::open(['action' => ['ProjectsController@create_clone'], 'method' => 'POST']) !!}
+    {!! Form::open(['action' => ['ProjectsController@createClone'], 'method' => 'POST']) !!}
         <div class="form-group">
             {{Form::label('name', 'Name')}}
             {{Form::text('name', $project->name, ['class' => 'form-control', 'placeholder' => 'Name'])}}

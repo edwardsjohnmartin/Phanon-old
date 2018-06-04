@@ -7,13 +7,13 @@
         @foreach($modules as $module)
             <div class="well">
                 <h3><a href="{{url('/modules/' . $module->id)}}">{{$module->name}}</a></h3>
-                @if(!is_null($module->course))
-                    <p>Contained in the course: <a href="{{url('/courses/' . $module->course->id)}}">{{$module->course->name}}</a></p>
+                @if(!is_null($module->concept))
+                    <p>Contained in the concept: <a href="{{url('/concepts/' . $module->concept->id)}}">{{$module->concept->name}}</a></p>
                 @else
-                    <p>Not contained in a course</p>
+                    <p>Not contained in a concept</p>
                 @endif
-                <p>Contains {{count($module->lessons)}} lessons</p>
-                <p>Contains {{count($module->projects)}} projects</p>
+                <p>Contains {{count($module->unorderedLessons)}} lessons</p>
+                <p>Contains {{count($module->unorderedProjects)}} projects</p>
                 <small>Created on {{$module->created_at}} by {{$module->user->name}}</small>
             </div>
         @endforeach

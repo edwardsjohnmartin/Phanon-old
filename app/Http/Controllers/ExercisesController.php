@@ -1,20 +1,19 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use App\Exercise;
 use App\Lesson;
-
 use DB;
 
 class ExercisesController extends Controller 
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        // Use the 'auth' middleware to make sure a user is logged in
+        // Use the 'clearance' middleware to check if a user has permission to access each function
+        $this->middleware(['auth', 'clearance']);
     }
     
     /**
@@ -25,7 +24,9 @@ class ExercisesController extends Controller
     public function index() 
     {
         $exercises = Exercise::paginate(10);
-        return view('exercises.index')->with('exercises', $exercises);
+
+        return view('exercises.index')->
+            with('exercises', $exercises);
     }
 
     /**
@@ -62,7 +63,8 @@ class ExercisesController extends Controller
         // Save exercise to the database
         $exercise->save();
         
-        return redirect(url('/exercises'))->with('success', 'Exercise Created');
+        return redirect(url('/exercises'))->
+            with('success', 'Exercise Created');
     }
 
     /**
@@ -74,7 +76,9 @@ class ExercisesController extends Controller
     public function show($id) 
     {
         $exercise = Exercise::find($id);
-        return view('exercises.show')->with('exercise', $exercise);
+
+        return view('exercises.show')->
+            with('exercise', $exercise);
     }
 
     /**
@@ -89,10 +93,12 @@ class ExercisesController extends Controller
 
         // Check for correct user
         if(auth()->user()->id != $exercise->user_id){
-            return redirect(url('/exercises'))->with('error', 'Unauthorized Page');
+            return redirect(url('/exercises'))->
+                with('error', 'Unauthorized Page');
         }
 
-        return view('exercises.edit')->with('exercise', $exercise);
+        return view('exercises.edit')->
+            with('exercise', $exercise);
     }
 
     /**
@@ -109,16 +115,20 @@ class ExercisesController extends Controller
             'test_code' => 'required'
         ]);
 
+        // Get the exercise to be updated
         $exercise = Exercise::find($id);
 
+        // Update its fields
         $exercise->prompt = $request->input('prompt');
         $exercise->pre_code = $request->input('pre_code');
         $exercise->start_code = $request->input('start_code');
         $exercise->test_code = $request->input('test_code');
 
+        // Save the exercise to the database
         $exercise->save();
 
-        return redirect('/exercises')->with('success', 'Exercise Updated');
+        return redirect('/exercises')->
+            with('success', 'Exercise Updated');
     }
 
     /**
@@ -133,11 +143,13 @@ class ExercisesController extends Controller
 
         // Check for correct user
         if(auth()->user()->id != $exercise->user_id){
-            return redirect(url('/exercises'))->with('error', 'Unauthorized Page');
+            return redirect(url('/exercises'))->
+                with('error', 'Unauthorized Page');
         }
 
         $exercise->delete();
-        return redirect(url('/exercises'))->with('success', 'Exercise Deleted');
+        return redirect(url('/exercises'))->
+            with('success', 'Exercise Deleted');
     }
 
     /**
@@ -146,7 +158,7 @@ class ExercisesController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function clone($id)
+    public function copy($id)
     {
         $exercise = Exercise::find($id);
 
@@ -160,7 +172,7 @@ class ExercisesController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create_clone(Request $request)
+    public function createClone(Request $request)
     {
         $this->store($request);
 

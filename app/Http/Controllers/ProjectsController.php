@@ -1,18 +1,18 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use App\Project;
-
 use DB;
 
-class ProjectsController extends Controller{
-    public function __construct(){
-        //$this->middleware('auth', ['except' => ['index', 'show']]);
-        $this->middleware(['auth', 'clearance'])->except('index', 'show');
+class ProjectsController extends Controller
+{
+    public function __construct()
+    {
+        // Use the 'auth' middleware to make sure a user is logged in
+        // Use the 'clearance' middleware to check if a user has permission to access each function
+        $this->middleware(['auth', 'clearance']);
     }
 
     /**
@@ -20,8 +20,10 @@ class ProjectsController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index()
+    {
         $projects = Project::paginate(10);
+
         return view('projects.index')->
             with('projects', $projects);
     }
@@ -31,7 +33,8 @@ class ProjectsController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(){
+    public function create()
+    {
         return view('projects.create');
     }
 
@@ -41,7 +44,8 @@ class ProjectsController extends Controller{
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $this->validate($request, [
             'name' => 'required|unique:projects',
             'open_date' => 'required',
@@ -51,6 +55,7 @@ class ProjectsController extends Controller{
             'prompt' => 'required',
         ]);
 
+        // Create Project
         $project = new Project();
         $project->name = $request->input('name');
         $project->open_date = $request->input('open_date') . ' ' . $request->input('open_time');
@@ -60,6 +65,7 @@ class ProjectsController extends Controller{
         $project->start_code = $request->input('start_code');
         $project->user_id = auth()->user()->id;
 
+        // Save project to the database
         $project->save();
         
         return redirect(url('/projects'))->
@@ -74,7 +80,7 @@ class ProjectsController extends Controller{
      */
     public function show($id)
     {
-        $project = Project::findOrFail($id);
+        $project = Project::find($id);
 
         return view('projects.show')->
             with('project', $project);
@@ -109,7 +115,7 @@ class ProjectsController extends Controller{
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:projects, name,' . $id,
+            'name' => 'required',
             'open_date' => 'required',
             'open_time' => 'required',
             'close_date' => 'required',
@@ -117,7 +123,10 @@ class ProjectsController extends Controller{
             'prompt' => 'required',
         ]);
 
+        // Get the project to be updated
         $project = Project::find($id);
+        
+        // Update its fields
         $project->name = $request->input('name');
         $project->open_date = $request->input('open_date') . ' ' . $request->input('open_time');
         $project->close_date = $request->input('close_date') . ' ' . $request->input('close_time');
@@ -125,6 +134,7 @@ class ProjectsController extends Controller{
         $project->pre_code = $request->input('pre_code');
         $project->start_code = $request->input('start_code');
 
+        // Save the project to the database
         $project->save();
         
         return redirect(url('/projects'))->
@@ -156,7 +166,7 @@ class ProjectsController extends Controller{
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function clone($id)
+    public function copy($id)
     {
         $project = Project::find($id);
 
@@ -170,7 +180,7 @@ class ProjectsController extends Controller{
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create_clone(Request $request)
+    public function createClone(Request $request)
     {
         $this->store($request);
 

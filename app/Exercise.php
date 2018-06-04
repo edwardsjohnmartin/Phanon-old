@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,17 +14,24 @@ class Exercise extends Model
     // Timestamps
     public $timestamps = true;
 
+    /**
+     * Relationship function
+     * Returns the lesson this exercise belongs to
+     */
     public function lesson()
     {
         return $this->belongsTo('App\Lesson');
     }
 
+    /**
+     * Returns the user this exercise belongs to
+     */
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
-    public function deep_copy()
+    public function deepCopy()
     {
         $new_exercise = new Exercise();
         $new_exercise->prompt = $this->prompt;

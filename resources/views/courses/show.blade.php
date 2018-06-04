@@ -5,15 +5,23 @@
     <a href="{{url('/courses/' . $course->id . '/fullview')}}" class="btn btn-default">Full View</a>
     <h1>{{$course->name}}</h1>
     <div>
-        <label>Modules</label>
-        @if(count($modules) > 0)
+        <label>Open Date</label>
+        <p>{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $course->open_date), 'm/d/Y h:i a')}}</p>
+    </div>
+    <div>
+        <label>Close Date</label>
+        <p>{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $course->close_date), 'm/d/Y h:i a')}}</p>
+    </div>
+    <div>
+        <label>Concepts</label>
+        @if(count($course->concepts()) > 0)
             <ul class="list-group">
-            @foreach($modules as $module)
-                <a href="{{url('/modules/' . $module->id)}}"><li class="list-group-item">{{$module->name}}</li></a>
+            @foreach($course->concepts() as $concept)
+                <li class="list-group-item"><a href="{{url('/concepts/' . $concept->id)}}">{{$concept->name}}</a></li>
             @endforeach
             </ul>
         @else
-            <p>This course does not contain any modules</p>
+            <p>This course does not contain any concepts</p>
         @endif
     </div>
     <div>

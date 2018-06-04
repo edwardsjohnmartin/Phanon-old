@@ -289,6 +289,7 @@ class ComposerStaticInit9282e3a70c8f89461a161b14282d036f
     );
 
     public static $classMap = array (
+        'App\\Concept' => __DIR__ . '/../..' . '/app/Concept.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Course' => __DIR__ . '/../..' . '/app/Course.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -306,6 +307,7 @@ class ComposerStaticInit9282e3a70c8f89461a161b14282d036f
         'App\\Http\\Controllers\\PermissionsController' => __DIR__ . '/../..' . '/app/Http/Controllers/PermissionsController.php',
         'App\\Http\\Controllers\\ProjectsController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProjectsController.php',
         'App\\Http\\Controllers\\RolesController' => __DIR__ . '/../..' . '/app/Http/Controllers/RolesController.php',
+        'App\\Http\\Controllers\\TestController' => __DIR__ . '/../..' . '/app/Http/Controllers/TestController.php',
         'App\\Http\\Controllers\\UsersController' => __DIR__ . '/../..' . '/app/Http/Controllers/UsersController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\AdminMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminMiddleware.php',
@@ -336,8 +338,8 @@ class ComposerStaticInit9282e3a70c8f89461a161b14282d036f
         'Collective\\Html\\HtmlBuilder' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlBuilder.php',
         'Collective\\Html\\HtmlFacade' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlFacade.php',
         'Collective\\Html\\HtmlServiceProvider' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlServiceProvider.php',
+        'CreateConceptsTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_23_214523_create_concepts_table.php',
         'CreateCoursesTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_07_164606_create_courses_table.php',
-        'CreateExerciseLessonTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_09_195703_create_exercise_lesson_table.php',
         'CreateExercisesTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_08_213417_create_exercises_table.php',
         'CreateLessonsTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_08_213356_create_lessons_table.php',
         'CreateModulesTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_08_213339_create_modules_table.php',
