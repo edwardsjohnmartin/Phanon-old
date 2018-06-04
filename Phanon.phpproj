@@ -39,6 +39,7 @@
     <Compile Include="app\Http\Controllers\ProjectsController.php" />
     <Compile Include="app\Http\Controllers\RolesController.php" />
     <Compile Include="app\Http\Controllers\TestController.php" />
+    <Compile Include="app\Http\Controllers\CodeAreaController.php" />
     <Compile Include="app\Http\Controllers\UsersController.php" />
     <Compile Include="app\Http\Middleware\AdminMiddleware.php" />
     <Compile Include="app\Http\Middleware\ClearanceMiddleware.php" />
@@ -755,6 +756,7 @@
     <Compile Include="resources\views\auth\passwords\reset.blade.php" />
     <Compile Include="resources\views\auth\login.blade.php" />
     <Compile Include="resources\views\auth\register.blade.php" />
+    <Compile Include="resources\views\codearea\sandbox.blade.php" />
     <Compile Include="resources\views\concepts\create.blade.php" />
     <Compile Include="resources\views\concepts\edit.blade.php" />
     <Compile Include="resources\views\concepts\index.blade.php" />
@@ -1190,6 +1192,7 @@
     <Folder Include="resources\views\layouts" />
     <Folder Include="resources\views\lessons\" />
     <Folder Include="resources\views\modules" />
+    <Folder Include="resources\views\codearea\" />
     <Folder Include="resources\views\permissions\" />
     <Folder Include="resources\views\projects\" />
     <Folder Include="resources\views\roles\" />
