@@ -4,7 +4,18 @@ $now = DateTime::createFromFormat('Y-m-d G:i:s',date('Y-m-d G:i:s'));
 $isPast = $startdate < $now;
 ?>
 <article class="module{{$isPast  ? ' expired' : '' }}">
-    <h1>{{$module->name}}</h1>
+    <h1>
+        @if($isPast)
+        <a href="{{url('/code/review/' . $module->id)}}">
+             {{$module->name}}
+        </a>
+        @else
+        <a href="{{url('/code/current/' . $module->id)}}">
+
+             {{$module->name}}
+        </a>
+        @endif
+    </h1>
     <aside class="actions">
         <a class="edit" href="{{url('/modules/' . $module->id . '/edit')}}">Edit</a>
         <a class="copy" href="{{url('/modules/' . $module->id . '/copy')}}">copy</a>
@@ -27,9 +38,5 @@ $isPast = $startdate < $now;
             @endcomponent
         @endforeach
     </ul>
-    <div class="details">
-        <span class="author">Author: {{$module->user->name}}</span>
-        <span class="added">Created On: {{$module->created_at}}</span>
-        <span class="modified">Last Updated At: {{$module->updated_at}}</span>
-    </div>
+    
 </article>

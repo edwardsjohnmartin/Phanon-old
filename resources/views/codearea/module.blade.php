@@ -2,7 +2,7 @@
 
 @section('content')
 <div id="exercisePanel">
-   @component("codearea/exerciseDash", ["exercises" => $lesson->exercises()])
+   @component("codearea/exerciseDash", ["lessons" => $module->lessons()])
     @endcomponent
 </div>
 <div id="codeIde">

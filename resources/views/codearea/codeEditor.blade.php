@@ -1,14 +1,21 @@
-<h1 class="text-center">Sandbox New</h1>
+@section('scripts')
+@component("scriptbundles/sculpt")
+@endcomponent
+@component("scriptbundles/codemirror")
+@endcomponent
+@endsection
 
 <div>
-    <button type="button" class="btn btn-default" id="runButton">Run</button>
-    <textarea id="code" class="code"></textarea>
+    <div id="ideControls">
+        <button type="button" class="btn btn-default run" id="runButton">Run</button>
+    </div>
+    <textarea id="codeWindow" class="code"></textarea>
     <div id="mycanvas"></div>
     <pre id="output"></pre>
 </div>
 
 <script type="text/javascript">
-    makeClassCodeMirror(".code").forEach(function (editorEl) {
+    makeClassCodeMirror("#codeWindow").forEach(function (editorEl) {
         CodeMirror.fromTextArea(editorEl, {
             lineNumbers: true,
             cursorBlinkRate: 0,
