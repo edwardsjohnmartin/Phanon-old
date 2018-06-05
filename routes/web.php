@@ -16,19 +16,19 @@ Auth::routes();
 Route::get('/', 'PagesController@index')->name('index');
 Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
 Route::get('/flow/{id}', 'PagesController@flow')->name('flow'); // course flow page.
-Route::get('/sandbox', 'PagesController@sandbox')->name('sandbox');
+Route::get('/sandbox', 'CodeController@sandbox')->name('sandbox');
+Route::get('/code/current/{id}', 'CodeController@current')->name('current');
 
-Route::resource('code', 'CodeAreaController');
 Route::resource('users', 'UsersController');
 Route::resource('roles', 'RolesController');
 Route::resource('permissions', 'PermissionsController');
-
 Route::resource('courses', 'CoursesController');
 Route::resource('concepts', 'ConceptsController');
 Route::resource('modules', 'ModulesController');
 Route::resource('lessons', 'LessonsController');
 Route::resource('exercises', 'ExercisesController');
 Route::resource('projects', 'ProjectsController');
+Route::resource('code', 'CodeController');
 
 Route::get('/courses/{id}/fullview', 'CoursesController@fullview')->name('courses.fullview');
 

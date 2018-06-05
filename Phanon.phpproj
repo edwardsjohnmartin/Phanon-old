@@ -39,7 +39,7 @@
     <Compile Include="app\Http\Controllers\ProjectsController.php" />
     <Compile Include="app\Http\Controllers\RolesController.php" />
     <Compile Include="app\Http\Controllers\TestController.php" />
-    <Compile Include="app\Http\Controllers\CodeAreaController.php" />
+    <Compile Include="app\Http\Controllers\CodeController.php" />
     <Compile Include="app\Http\Controllers\UsersController.php" />
     <Compile Include="app\Http\Middleware\AdminMiddleware.php" />
     <Compile Include="app\Http\Middleware\ClearanceMiddleware.php" />
@@ -756,6 +756,9 @@
     <Compile Include="resources\views\auth\passwords\reset.blade.php" />
     <Compile Include="resources\views\auth\login.blade.php" />
     <Compile Include="resources\views\auth\register.blade.php" />
+    <Compile Include="resources\views\codearea\codeEditor.blade.php" />
+    <Compile Include="resources\views\codearea\exercises.blade.php" />
+    <Compile Include="resources\views\codearea\exerciseDash.blade.php" />
     <Compile Include="resources\views\codearea\sandbox.blade.php" />
     <Compile Include="resources\views\concepts\create.blade.php" />
     <Compile Include="resources\views\concepts\edit.blade.php" />
@@ -1244,5 +1247,6 @@
     <Content Include="public\js\actions.js" />
     <Content Include="resources\assets\js\bootstrap-multiselect.js" />
     <Content Include="resources\assets\js\jquery-ui.min.js" />
+    <Content Include="resources\views\codearea\index.blade.php" />
   </ItemGroup>
 </Project>

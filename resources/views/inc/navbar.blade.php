@@ -1,5 +1,6 @@
+
 <nav class="navbar navbar-inverse">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
 
             <!-- Collapsed Hamburger -->
@@ -11,8 +12,9 @@
             </button>
 
             <!-- Branding Image -->
-            <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Phanon') }}
+            <a class="navbar-brand" href="<?php echo e(url('/')); ?>">
+                <?php echo e(config('app.name', 'Phanon')); ?>
+
             </a>
         </div>
 
@@ -20,49 +22,67 @@
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
                 &nbsp;
-            </ul>
-
+            </ul><?php
+                 use Illuminate\Support\Facades\Route;
+                 //$path = Route::getFacadeRoute()->current()->uri();
+                 $path = Route::currentRouteName();
+                 print_r($path);
+                 $paths = [
+                 "sandbox" => "SandBox",
+                 "courses" =>"Courses",
+                 "concepts" =>"Concepts",
+                 "modules" =>"Modules",
+                 "lessons" =>"Lessons",
+                 "exercises" =>"Exercises",
+                 "projects" =>"Projects"
+                 ];
+                 $selectedPage = "";
+                 $currController = explode('.',$path)[0];
+                 ?>
             <ul class="nav navbar-nav">
-                <li><a href ="{{url('/sandbox')}}">Sandbox</a></li>
-                <li><a href ="{{url('/courses')}}">Courses</a></li>
-                <li><a href ="{{url('/concepts')}}">Concepts</a></li>
-                <li><a href ="{{url('/modules')}}">Modules</a></li>
-                <li><a href ="{{url('/lessons')}}">Lessons</a></li>
-                <li><a href ="{{url('/exercises')}}">Exercises</a></li>
-                <li><a href ="{{url('/projects')}}">Projects</a></li>
+                <?php
+                foreach($paths as $pth => $name){
+                    $selectedPage = $currController == $pth ? "class='active'": "";
+                    echo "<li $selectedPage><a href='".e(url("/$pth"))."'>$name</a></li>";
+                }
+                ?>
             </ul>
-
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
-                <!-- Authentication Links -->
-                @if (Auth::guest())
-                    <li><a href="{{ route('login') }}">Login</a></li>
-                    <li><a href="{{ route('register') }}">Register</a></li>
-                @else
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{ Auth::user()->name }} <span class="caret"></span>
-                        </a>
-
-                        <ul class="dropdown-menu" role="menu">
-                            @role('Admin')
-                            <li><a href="{{url('/users')}}"><i class="fa fa-btn fa-unlock"></i>Admin</a></li>
-                            @endrole
-                            <li><a href="{{url('/dashboard')}}">Dashboard</a></li>
-                            <li>
-                                <a href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
+                <!-- Authentication Links --><?php if(Auth::guest()): ?>
+                <li>
+                    <a href="<?php echo e(route('login')); ?>">Login</a>
+                </li>
+                <li>
+                    <a href="<?php echo e(route('register')); ?>">Register</a>
+                </li><?php else: ?>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <?php echo e(Auth::user()->name); ?>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <?php if(auth()->check() && auth()->user()->hasRole('Admin')): ?>
+                        <li>
+                            <a href="<?php echo e(url('/users')); ?>">
+                                <i class="fa fa-btn fa-unlock"></i>Admin
+                            </a>
+                        </li><?php endif; ?>
+                        <li>
+                            <a href="<?php echo e(url('/dashboard')); ?>">Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo e(route('logout')); ?>"
+                                onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+                            <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                                <?php echo e(csrf_field()); ?>
+                            </form>
+                        </li>
+                    </ul>
+                </li><?php endif; ?>
             </ul>
         </div>
     </div>
