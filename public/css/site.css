@@ -190,7 +190,6 @@
 }
 
 #codeIde {
-    
     margin-left: 21%;
     height: 100%;
 }
@@ -228,12 +227,22 @@
         font-size: 2em;
         display: inline-block;
         border: 2px solid #888;
+        position:relative;
     }
 
         #exerciseList .exercise:hover {
             width: 2.2em;
             height: 2.2em;
+            font-size: 2.2em;
             margin: 0;
             border: 2px solid #333;
             cursor: pointer;
         }
+
+.lessonCode {
+    color: #DDD;
+    font-size: .5em;
+    position: absolute;
+    bottom: 0;
+    right: .5em;
+}

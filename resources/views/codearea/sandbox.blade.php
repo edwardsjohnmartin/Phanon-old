@@ -8,6 +8,7 @@
 @endsection
 
 @section('content')
-<h2>New Sander</h2>
-
+<h2>New Sandbox</h2>
+    @component("codearea/codeEditor")
+    @endcomponent
 @endsection
