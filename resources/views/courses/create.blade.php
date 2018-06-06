@@ -33,13 +33,42 @@
                 </select>
             </div>
 
-            <div id="conceptDiv">
+            <div class="form-group" id="conceptDiv">
                 <label>Drag and drop the concepts to change the ordering they will appear in the course</label>
                 <ol id="sortableConcepts">
                 </ol>
             </div>
         @else
             <p>No concepts exist</p>
+        @endif
+
+        @if(!empty($users))
+            <div class="form-group">
+                <label>Students</label>
+                <select id="students" name="students[]" multiple class="form-control">
+                    @foreach($users as $user)
+                        <option value="{{$user->id}}">{{$user->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Teaching Assistants</label>
+                <select id="tas" name="tas[]" multiple class="form-control">
+                    @foreach($users as $user)
+                        <option value="{{$user->id}}">{{$user->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Teachers</label>
+                <select id="teachers" name="teachers[]" multiple class="form-control">
+                    @foreach($users as $user)
+                        <option value="{{$user->id}}">{{$user->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        @else
+            <p>No students exist to put into the course</p>
         @endif
 
         {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
@@ -49,6 +78,33 @@
         $(document).ready(function(){
             $('#concepts').multiselect({
                 nonSelectedText: 'Select Concepts',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                buttonWidth: '400px'
+            });
+        });
+
+        $(document).ready(function(){
+            $('#students').multiselect({
+                nonSelectedText: 'Select Students',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                buttonWidth: '400px'
+            });
+        });
+
+        $(document).ready(function(){
+            $('#tas').multiselect({
+                nonSelectedText: 'Select Teaching Assistants',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                buttonWidth: '400px'
+            });
+        });
+
+        $(document).ready(function(){
+            $('#teachers').multiselect({
+                nonSelectedText: 'Select Teachers',
                 enableFiltering: true,
                 enableCaseInsensitiveFiltering: true,
                 buttonWidth: '400px'

@@ -27,7 +27,7 @@ Route::resource('lessons', 'LessonsController');
 Route::resource('exercises', 'ExercisesController');
 Route::resource('projects', 'ProjectsController');
 Route::resource('code', 'CodeController');
-Route::get('/courses/{id}/fullview', 'CoursesController@fullview')->name('courses.fullview');
+
 // cloning routes.
 Route::get('/courses/{id}/clone', 'CoursesController@copy')->name('courses.clone');
 Route::get('/modules/{id}/clone', 'ModulesController@copy')->name('modules.clone');

@@ -38,27 +38,19 @@
                                 <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>
                                 <a href="{{url('/flow/' . $course->id)}}" class="btn btn-view">See Flow</a>
                                 @can('course.edit')
-                                <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
+                                    <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
                                 @endcan
                                 @can('course.delete')
                                 <a href="{{url('/courses/' . $course->id . '/delete')}}"
-                                   onclick="return actionVerify(event,'{{'delete '.$course->name}}');" class="btn btn-delete">
+                                    onclick="return actionVerify(event,'{{'delete '.$course->name}}');"
+                                    class="btn btn-delete">
                                     Delete
                                 </a>
-
-
-
-
-
-
-
                                 @endcan
-
-
-                                    {!!Form::open(['action' => ['CoursesController@destroy', $course->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
-                                        {{Form::hidden('_method', 'DELETE')}}
-                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-                                    {!!Form::close() !!}
+                                {!!Form::open(['action' => ['CoursesController@destroy', $course->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
+                                    {{Form::hidden('_method', 'DELETE')}}
+                                    {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                {!!Form::close() !!}
                             </td>
                         </tr>
                         @endforeach

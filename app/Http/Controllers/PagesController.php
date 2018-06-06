@@ -51,6 +51,13 @@ class PagesController extends Controller
             $coursesToShow = $user->courses;
         }
 
+        //DEMO: Show how to get various courses for a user
+        // This will return all courses the user has a role in
+        $inCourses = $user->inCourses;
+        $teacherCourses = $user->teachingCourses; // Teacher role
+        $taCourses = $user->assistingCourses; // Teaching Assistant role
+        $studentCourses = $user->takingCourses; // Student role
+
         return view('pages.dashboard')->
             with('courses', $coursesToShow);
     }

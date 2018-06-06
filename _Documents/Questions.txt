@@ -1,0 +1,29 @@
+---Questions---
+
+----------
+-6-5-2018-
+----------
+
+Should the names columns of courses, modules, lessons, and projects be unique?
+	Teacher_A wants to name a course Course_A
+	Can Teacher_B also create a course named Course_A?
+
+	Teacher_A wants to name a module Module_A
+	Can Teacher_B also create a module named Module_A?
+
+	Teacher_A wants to name a lesson Lesson_A
+	Can Teacher_B also create a lesson named Lesson_A?
+	
+	Teacher_A wants to name a project Project_A
+	Can Teacher_B also create a project named Project_A?
+
+Can I delete all the commented out object creations in the DBSeeder or should they be fixed?
+
+
+
+
+
+
+
+
+

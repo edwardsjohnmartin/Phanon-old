@@ -9,6 +9,7 @@ use App\User;
 use App\Enums\Permissions;
 use App\Enums\Roles;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -152,6 +153,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'ta1@test.com',
             'password' => bcrypt('testerer1'),
         ]);
+        $ta1User->assignRole($student_role);
         $ta1User->assignRole($teaching_assistant_role);
 
         $ta2User = User::create([
@@ -159,15 +161,40 @@ class DatabaseSeeder extends Seeder
             'email' => 'ta2@test.com',
             'password' => bcrypt('testerer1'),
         ]);
+        $ta2User->assignRole($student_role);
         $ta2User->assignRole($teaching_assistant_role);
 
         // Create student user
-        $sUser = User::create([
+        $s1User = User::create([
             'name' => 'Test Student 1',
             'email' => 'teststudent1@test.com',
             'password' => bcrypt('testerer1'),
         ]);
-        $sUser->assignRole($student_role);
+        $s1User->assignRole($student_role);
+
+        // Create student user
+        $s2User = User::create([
+            'name' => 'Test Student 2',
+            'email' => 'teststudent2@test.com',
+            'password' => bcrypt('testerer1'),
+        ]);
+        $s2User->assignRole($student_role);
+
+        // Create student user
+        $s3User = User::create([
+            'name' => 'Test Student 3',
+            'email' => 'teststudent3@test.com',
+            'password' => bcrypt('testerer1'),
+        ]);
+        $s3User->assignRole($student_role);
+
+        // Create an obersver user
+        $o1User = User::create([
+            'name' => 'Observer 1',
+            'email' => 'oberver1@test.com',
+            'password' => bcrypt('testerer1'),
+        ]);
+        $o1User->assignRole($observer_role);
 
         //TODO: Update these objects to use the new structure (ie. concepts in courses, modules in concepts, etc...)
         // // create admin's exercises and courses.
@@ -1142,6 +1169,30 @@ class DatabaseSeeder extends Seeder
             'module_id' => $module11->id,
             'previous_lesson_id' => $lesson12->id,
             'user_id' => $user->id,
+        ]);
+
+        // Get Teacher role id
+        $teacher_role_id = DB::table('roles')->where('name', Roles::TEACHER)->first()->id;
+        // Get Teaching Assistant role id
+        $assist_role_id = DB::table('roles')->where('name', Roles::TEACHING_ASSISTANT)->first()->id;
+        // Get Student role id
+        $student_role_id = DB::table('roles')->where('name', Roles::STUDENT)->first()->id;
+
+        // Add the owner of the course as a teacher in the course
+        $course->users()->attach([
+            $course->user->id => ['role_id' => $teacher_role_id]
+        ]);
+
+        // Add users to the course as teaching assistants
+        $course->users()->attach([
+            DB::table('users')->where('name', 'Teaching Assistant 1')->first()->id => ['role_id' => $assist_role_id]
+        ]);
+
+        // Add users to the course as students
+        $course->users()->attach([
+            DB::table('users')->where('name', 'Test Student 1')->first()->id => ['role_id' => $student_role_id],
+            DB::table('users')->where('name', 'Test Student 2')->first()->id => ['role_id' => $student_role_id],
+            DB::table('users')->where('name', 'Test Student 3')->first()->id => ['role_id' => $student_role_id]
         ]);
     }
 }

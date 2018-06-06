@@ -2,6 +2,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role;
+use App\Enums\Roles;
+use Illuminate\Support\Facades\DB;
 
 class Course extends Model
 {
@@ -30,6 +33,42 @@ class Course extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    /**
+     * Relationship function
+     * Returns an array of users in this course
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    /**
+     * Relationship function
+     * Returns an array of student users in the course
+     */
+    public function students()
+    {
+        return $this->belongsToMany(User::class)->wherePivot('role_id', DB::table('roles')->where('name', Roles::STUDENT)->first()->id);
+    }
+
+    /**
+     * Relationship function
+     * Returns an array of teacher assistants users in the course
+     */
+    public function assistants()
+    {
+        return $this->belongsToMany(User::class)->wherePivot('role_id', DB::table('roles')->where('name', Roles::TEACHING_ASSISTANT)->first()->id);
+    }
+
+    /**
+     * Relationship function
+     * Returns an array of teacher users in the course
+     */
+    public function teachers()
+    {
+        return $this->belongsToMany(User::class)->wherePivot('role_id', DB::table('roles')->where('name', Roles::TEACHER)->first()->id);
     }
 
     /**
@@ -91,6 +130,30 @@ class Course extends Model
         }
     }
 
+    /**
+     * Function that adds users to the course with the specified role_id
+     * Takes in an array of user_ids and a single role_id
+     */
+    public function addUsersAsRole($user_ids, $role_id)
+    {
+        // Make sure the role with passed-in id exists and that the array of user ids isnt empty
+        if(Role::where('id', '=', $role_id)->exists() and !empty($user_ids)){
+            // Create array to hold each user to add to the course
+            $users = array();
+
+            // Add each user to $users along with the role they will have in the course
+            foreach($user_ids as $user_id){
+                $users = array_add($users, $user_id, ['role_id' => $role_id]);
+            }
+
+            // Save the users to the course in the database
+            $this->users()->attach($users);
+        }
+    }
+
+    /**
+     * 
+     */
     public function deepCopy()
     {
         $new_course = new Course();

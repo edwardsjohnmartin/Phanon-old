@@ -5,7 +5,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Course;
 use App\Concept;
+use App\User;
+use App\Enums\Roles;
 use DB;
+use Spatie\Permission\Models\Role;
 
 class CoursesController extends Controller
 {
@@ -38,8 +41,12 @@ class CoursesController extends Controller
     {
         $concepts = Concept::all();
 
+        // Get all users on the website
+        $users = User::all();
+
         return view('courses.create')->
-            with('concepts', $concepts);
+            with('concepts', $concepts)->
+            with('users', $users);
     }
 
     /**
@@ -67,6 +74,23 @@ class CoursesController extends Controller
 
         // Save course to the database
         $course->save();
+        
+        //TODO: Make sure any user is only in one of the students, tas, and teachers arrays
+        
+        // Add students to the course
+        if(count($request->input('students')) > 0){
+            $course->addUsersAsRole($request->input('students'), Role::where('name', Roles::STUDENT)->first()->id);
+        }
+
+        // Add teaching assistants to the course
+        if(count($request->input('tas')) > 0){
+            $course->addUsersAsRole($request->input('tas'), Role::where('name', Roles::TEACHING_ASSISTANT)->first()->id);
+        }
+
+        // Add teachers to the course
+        if(count($request->input('teachers')) > 0){
+            $course->addUsersAsRole($request->input('teachers'), Role::where('name', Roles::TEACHER)->first()->id);
+        }
 
         // Get the order of concepts within the course as an int array
         $concept_order = $request->input('concept_order');
@@ -235,21 +259,6 @@ class CoursesController extends Controller
 
         return redirect('/courses')->
             with('success', 'Course Deleted');
-    }
-
-    /**
-     * Display a course and its entire contents on a single page.
-     * 
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function fullview($id) 
-    {
-        // Retrieve the course to be displayed
-        $course = Course::find($id);
-        
-        return view('courses.fullview')->
-            with('course', $course);
     }
 
     /**
