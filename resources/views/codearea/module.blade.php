@@ -2,11 +2,11 @@
 
 @section('content')
 <div id="exercisePanel">
-   @component("codearea/exerciseDash", ["lessons" => $module->lessons()])
+    @component("codearea/exerciseDash", ["lessons" => $module->lessons()])
     @endcomponent
 </div>
 <div id="codeIde">
-    @component("codearea/codeEditor")
+    @component("codearea/codeEditorWithTests",['exercise'=>$exercise])
     @endcomponent
 </div>
 @endsection

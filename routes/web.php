@@ -8,15 +8,15 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
- */
+*/
 Auth::routes();
 Route::get('/', 'PagesController@index')->name('index');
 Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
 Route::get('/flow/{id}', 'PagesController@flow')->name('flow'); // course flow page.
 Route::get('/sandbox', 'CodeController@sandbox')->name('sandbox');
 Route::get('/code/current/{id}', 'CodeController@current')->name('current');
+Route::get('/code/current/{id}/{eid}', 'CodeController@current')->name('current');
 Route::get('/code/review/{id}', 'CodeController@review')->name('review');
-
 Route::resource('users', 'UsersController');
 Route::resource('roles', 'RolesController');
 Route::resource('permissions', 'PermissionsController');
@@ -27,7 +27,6 @@ Route::resource('lessons', 'LessonsController');
 Route::resource('exercises', 'ExercisesController');
 Route::resource('projects', 'ProjectsController');
 Route::resource('code', 'CodeController');
-
 // cloning routes.
 Route::get('/courses/{id}/clone', 'CoursesController@copy')->name('courses.clone');
 Route::get('/modules/{id}/clone', 'ModulesController@copy')->name('modules.clone');

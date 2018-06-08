@@ -15,7 +15,7 @@
     @endcomponent
 </div>
 <div id="codeIde">
-    @component("codearea/codeEditor")
+    @component("codearea/codeEditorWithTests")
     @endcomponent
 </div>
 @endsection

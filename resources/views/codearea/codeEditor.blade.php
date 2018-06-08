@@ -1,3 +1,8 @@
+@php
+             if(!isset($startingcode)){
+                 $startingcode = "Enter Code Here";
+             }
+@endphp
 @section('scripts')
 @parent {{-- use to make sure that any scripts on parent pages are also included. --}}
 @component("scriptbundles/sculpt")
@@ -8,9 +13,12 @@
 
 <div>
     <div id="ideControls">
-        <button type="button" class="btn btn-default run" id="runButton">Run</button>
+        <button type="button" class="btn btn-default run" id="btnRunCode">Run</button>
     </div>
-    <textarea id="codeWindow" class="code"></textarea>
+    <div id="error_output_area">
+        <label id="error_output">Python Error Messages Will Go Here</label>
+    </div>
+    <textarea id="codeWindow" class="code">{{$startingcode}}</textarea>
     <div id="mycanvas"></div>
     <pre id="output"></pre>
 </div>
@@ -26,5 +34,5 @@
             matchBrackets: true
         });
     });
-    makeRunButton('runButton');
+    makeRunButton('btnRunCode');
 </script>

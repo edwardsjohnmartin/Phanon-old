@@ -55,8 +55,9 @@
     });
 </script>
 @php
+{{-- test code for python needs this --}}
     echo '<script type="text/x-python" id="test_code_to_run">';
-    require('python/methods.py');
+        require('python/methods.py'); 
     echo '</script>';
 @endphp
 @endsection

@@ -760,6 +760,7 @@
     <Compile Include="resources\views\codearea\review.blade.php" />
     <Compile Include="resources\views\codearea\module.blade.php" />
     <Compile Include="resources\views\codearea\exerciseDash.blade.php" />
+    <Compile Include="resources\views\codearea\codeEditorWithTests.blade.php" />
     <Compile Include="resources\views\codearea\sandbox.blade.php" />
     <Compile Include="resources\views\concepts\create.blade.php" />
     <Compile Include="resources\views\concepts\edit.blade.php" />

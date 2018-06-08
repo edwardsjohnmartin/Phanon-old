@@ -8,13 +8,13 @@ class Module extends Model
 {
     // Table Name
     public $table = 'modules';
-    
+
     // Primary Key
     public $primaryKey = 'id';
 
     // Timestamps
     public $timestamps = true;
-    
+
     /**
      * Relationship function
      * Returns the concept this module belongs to
@@ -139,6 +139,29 @@ class Module extends Model
         }
     }
 
+        /**
+     * Returns the current exercise not done in this module
+     */
+    public function currentExercise($userID)
+    {
+        $exerToDo = null;
+        //HACK: for now just return the first ID, but will need to get 
+        // the current exercise.
+
+        // force to date
+        //if(!is_a($dateToCheck,'DateTime')){
+        //    $dateToCheck = DateTime::createFromFormat('Y-m-d G:i:s',$dateToCheck);
+        //}
+        //foreach($this->lessons() as $lesson){
+        //    foreach($lesson->exercises() as $exer){
+        //        if ($exer->getOpenDate())
+        //    }
+        //}
+
+        $exerToDo = Exercise::find(1);
+        return $exerToDo;
+    }
+
     /**
      * Removes the lesson from this modules and retains the ordering of the remaining lessons and projects
      */
@@ -169,8 +192,8 @@ class Module extends Model
                 if($item->id == $lesson->id){
                     $found_this_lesson = true;
                 }
-            }   
-        }    
+            }
+        }
     }
 
     public function deepCopy()
@@ -179,7 +202,7 @@ class Module extends Model
         $new_module->name = $this->name;
         $new_module->open_date = $this->open_date;
 
-        return $new_module;    
+        return $new_module;
     }
 
     /**

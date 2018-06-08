@@ -20,13 +20,11 @@
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
-            <ul class="nav navbar-nav">
-                &nbsp;
-            </ul><?php
+            <ul class="nav navbar-nav">@php
                  use Illuminate\Support\Facades\Route;
                  //$path = Route::getFacadeRoute()->current()->uri();
                  $path = Route::currentRouteName();
-                 print_r($path);
+                 //print_r($path);
                  $paths = [
                  "sandbox" => "SandBox",
                  "courses" =>"Courses",
@@ -38,14 +36,14 @@
                  ];
                  $selectedPage = "";
                  $currController = explode('.',$path)[0];
-                 ?>
+                 @endphp
             <ul class="nav navbar-nav">
-                <?php
+                @php
                 foreach($paths as $pth => $name){
                     $selectedPage = $currController == $pth ? "class='active'": "";
                     echo "<li $selectedPage><a href='".e(url("/$pth"))."'>$name</a></li>";
                 }
-                ?>
+                @endphp
             </ul>
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
