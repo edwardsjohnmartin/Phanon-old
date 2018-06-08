@@ -75,41 +75,10 @@
     {!! Form::close() !!}
 
     <script>
-        $(document).ready(function(){
-            $('#concepts').multiselect({
-                nonSelectedText: 'Select Concepts',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '400px'
-            });
-        });
-
-        $(document).ready(function(){
-            $('#students').multiselect({
-                nonSelectedText: 'Select Students',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '400px'
-            });
-        });
-
-        $(document).ready(function(){
-            $('#tas').multiselect({
-                nonSelectedText: 'Select Teaching Assistants',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '400px'
-            });
-        });
-
-        $(document).ready(function(){
-            $('#teachers').multiselect({
-                nonSelectedText: 'Select Teachers',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '400px'
-            });
-        });
+        makeMultiSelect('concepts', 'Select Concepts');
+        makeMultiSelect('students', 'Select Students');
+        makeMultiSelect('tas', 'Select Teaching Assistants');
+        makeMultiSelect('teachers', 'Select Teachers');
     </script>
 
     <script>

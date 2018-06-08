@@ -64,26 +64,9 @@
     {!! Form::close() !!}
 
     <script>
-        $(document).ready(function(){
-            $('#lessons').multiselect({
-                nonSelectedText: 'Select Lesson',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '400px'
-            });
-        });
-
-        $(document).ready(function(){
-            $('#projects').multiselect({
-                nonSelectedText: 'Select Project',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '400px'
-            });
-        });
-    </script>
-
-    <script>
+        makeMultiSelect('lessons', 'Select Lessons');
+        makeMultiSelect('projects', 'Select Projects');
+        
         // Add any selected items from the multiselect to the ordered list
         function updateList(olName, lessonSelectName, projectSelectName)
         {

@@ -148,7 +148,7 @@ class Course extends Model
             }
 
             // Save the users to the course in the database
-            $this->users()->attach($users);
+            $this->users()->syncWithoutDetaching($users);
         }
     }
 

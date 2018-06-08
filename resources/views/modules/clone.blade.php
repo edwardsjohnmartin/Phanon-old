@@ -49,22 +49,8 @@
     {!! Form::close() !!}
 
     <script>
-        $(document).ready(function(){
-            $('#lessons').multiselect({
-                nonSelectedText: 'Select Lesson',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '400px'
-            });
-        });
+        makeMultiSelect('lessons', 'Select Lessons');
 
-        $(document).ready(function(){
-            $('#projects').multiselect({
-                nonSelectedText: 'Select Project',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '400px'
-            });
-        });
+        makeMultiSelect('projects', 'Select Projects');
     </script>
 @endsection

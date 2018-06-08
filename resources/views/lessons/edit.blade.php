@@ -40,17 +40,8 @@
     {!! Form::close() !!}
     
     <script>
-        $(document).ready(function(){
-            $('#exercises').multiselect({
-                nonSelectedText: 'Select Exercise',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '400px'
-            });
-        });
-    </script>
+        makeMultiSelect('exercises', 'Select Exercises');
 
-    <script>
         // Use jquery to make the table sortable by dragging and dropping
         $("#sortableExercises").sortable({
             axis: "y",

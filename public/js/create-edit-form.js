@@ -47,3 +47,18 @@ function addInputsToForm(formName, listName, varName){
         }
     });
 }
+
+// Enables the use of JQuery-UI's multiselect on a given select element
+// The default text in the multiselect must also be supplied
+function makeMultiSelect(sel, defaultText){
+    sel = '#' + sel;
+
+    $(document).ready(function(){
+        $(sel).multiselect({
+            nonSelectedText: defaultText,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            buttonWidth: '400px'
+        });
+    });
+}

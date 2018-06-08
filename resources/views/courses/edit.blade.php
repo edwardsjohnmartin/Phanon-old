@@ -45,22 +45,60 @@
             <p>No concepts exist</p>
         @endif
 
+        @if(!empty($users))
+            <div class="form-group">
+                <label>Students</label>
+                <select id="students" name="students[]" multiple class="form-control">
+                    @foreach($users as $user)
+                        <option value="{{$user->id}}" 
+                            @if(array_key_exists($user->id, $course->students()->get()->keyBy('id')->toArray())) 
+                                selected 
+                            @endif
+                            >{{$user->name}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Teaching Assistants</label>
+                <select id="tas" name="tas[]" multiple class="form-control">
+                    @foreach($users as $user)
+                        <option value="{{$user->id}}" 
+                            @if(array_key_exists($user->id, $course->assistants()->get()->keyBy('id')->toArray())) 
+                                selected 
+                            @endif
+                            >{{$user->name}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Teachers</label>
+                <select id="teachers" name="teachers[]" multiple class="form-control">
+                    @foreach($users as $user)
+                        <option value="{{$user->id}}" 
+                            @if(array_key_exists($user->id, $course->teachers()->get()->keyBy('id')->toArray())) 
+                                selected 
+                            @endif
+                            >{{$user->name}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        @else
+            <p>No students exist to put into the course</p>
+        @endif
+
         {{FORM::hidden('_method', 'PUT')}}
         {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
 
     <script>
-        $(document).ready(function(){
-            $('#concepts').multiselect({
-                nonSelectedText: 'Select Concept',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '400px'
-            });
-        });
-    </script>
+        makeMultiSelect('concepts', 'Select Concepts');
+        makeMultiSelect('students', 'Select Students');
+        makeMultiSelect('tas', 'Select Teaching Assistants');
+        makeMultiSelect('teachers', 'Select Teachers');
 
-    <script>
         // Use jquery to make the table sortable by dragging and dropping
         $("#sortableConcepts").sortable({
             axis: "y",

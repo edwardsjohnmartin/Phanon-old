@@ -35,17 +35,8 @@
     {!! Form::close() !!}
 
     <script>
-        $(document).ready(function(){
-            $('#modules').multiselect({
-                nonSelectedText: 'Select Modules',
-                enableFiltering: true,
-                enableCaseInsensitiveFiltering: true,
-                buttonWidth: '400px'
-            });
-        });
-    </script>
+        makeMultiSelect('modules', 'Select Modules');
 
-    <script>
         // Use jquery to make the table sortable by dragging and dropping
         $("#sortableModules").sortable({
             axis: "y",
