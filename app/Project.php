@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
 
 class Project extends Model
 {
@@ -43,5 +44,23 @@ class Project extends Model
         $new_project->start_code = $this->start_code;
 
         return $new_project;
+    }
+
+    /**
+     * Returns the projects open date formatted with the passed-in format string.
+     * If no format string is provided, it will use the default format.
+     */
+    public function getOpenDate($format = 'm/d/Y h:i a')
+    {
+        return date_format(DateTime::createFromFormat('Y-m-d G:i:s', $this->open_date), $format);
+    }
+
+    /**
+     * Returns the projects close date formatted with the passed-in format string.
+     * If no format string is provided, it will use the default format.
+     */
+    public function getCloseDate($format = 'm/d/Y h:i a')
+    {
+        return date_format(DateTime::createFromFormat('Y-m-d G:i:s', $this->close_date), $format);
     }
 }

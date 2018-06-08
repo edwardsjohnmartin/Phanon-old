@@ -14,11 +14,11 @@
     </div>
     <div>
         <label>Open Date</label>
-        <p>{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $project->open_date), 'm/d/Y h:i a')}}</p>
+        <p>{{$project->getOpenDate()}}</p>
     </div>
     <div>
         <label>Close Date</label>
-        <p>{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $project->close_date), 'm/d/Y h:i a')}}</p>
+        <p>{{$project->getOpenDate()}}</p>
     </div>
     <div>
         <label>Prompt</label>

@@ -14,7 +14,7 @@
     </div>
     <div>
         <label>Open Date</label>
-        <p>{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $module->open_date), 'm/d/Y h:i a')}}</p>
+        <p>{{$module->getOpenDate()}}</p>
     </div>
     <div>
         <label>Contents</label>

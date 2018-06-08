@@ -1,14 +1,3 @@
-// var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("code"),{
-//     smartIndent: true,
-//     lineNumbers: true,
-//     cursorBlinkRate: 0,
-//     autoCloseBrackets: true,
-//     tabSize: 4,
-//     indentUnit: 4,
-//     matchBrackets: true,
-//     autofocus: true
-// });
-
 function makeCodeMirror (editorEl){
     CodeMirror.fromTextArea(editorEl, {
         lineNumbers: true,
@@ -30,9 +19,17 @@ function makeRunButton(btn_id){
     };
 }
 
+// Must copy the prompt string for some reason
+function inf(prompt) {
+	return window.prompt(String(prompt));
+}
+
 function outf(text){
-    var mypre = document.getElementById("output");
-    mypre.innerHTML = mypre.innerHTML + text;
+    if (text && typeof text !== "undefined") {
+		text = text.replace("<", "&lt;").replace(">", "&gt;");
+		var mypre = document.getElementById("output");
+		mypre.innerHTML = mypre.innerHTML + text;
+	}
 }
 
 function builtinRead(x) {
@@ -42,32 +39,75 @@ function builtinRead(x) {
 }
 
 function run(){
-    //var codeToRun = myCodeMirror.getValue();
-
     //This will only get the first instance of CodeMirror
     //Code found at
     //https://stackoverflow.com/questions/11581516/get-codemirror-instance?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
     var editor = $('.CodeMirror')[0].CodeMirror;
+    var pre_code_editor = $('.CodeMirror')[1].CodeMirror;
+    var test_code_editor = $('.CodeMirror')[2].CodeMirror;
 
-    var codeToRun = editor.getValue();
+    // Create a string variable that has the code entered in the editor with the test_code appended to the end of it
+    var codeToRun = pre_code_editor.getValue() + "\n" +
+        editor.getValue() + "\n" + 
+        document.getElementById("test_code_to_run").innerText + "\n" + 
+        test_code_editor.getValue();
 
     var outputArea = document.getElementById("output");
     outputArea.innerHTML = "";
 
     Sk.pre = "output";
     Sk.configure({
-        output: outf, read: builtinRead
+        output: outf, 
+        read: builtinRead,
+        inputfun: inf,
+        inputfunTakesPrompt: true
     });
 
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
+
     var myPromise = Sk.misceval.asyncToPromise(function () {
        return Sk.importMainWithBody("<stdin>", false, codeToRun, true);
     });
 
+    // This runs when there were no errors in the code
     myPromise.then(function(mod) {
-        console.log('success');
+        clearError();
+
+        var run_method = mod.tp$getattr('__TEST');
+        var ret = Sk.misceval.callsim(run_method, Sk.builtin.str(editor.getValue()), Sk.builtin.str(outputArea.innerText));
+
+        if(ret.v.length > 0){
+            //print errors
+			for(var i = 0, l = ret.v.length; i < l; i++){
+				document.getElementById("test_output").innerText += ret.v[i].v + "\n";
+			}
+        }
     },
-        function(err) {
-        console.log(err.toString());
+
+    // This runs when there were errors in the code
+    function(err) {
+        var line_num = Number(err.toString().split("on line", 2)[1]);
+        if (err.args !== undefined) {
+			if (err.args.v[0].v === "EOF in multi-line string") {
+                document.getElementById("test_output").innerHTML = "ERROR: It looks like you have an open multi-line comment.";
+			}
+			else {
+                document.getElementById("test_output").innerHTML = err.toString();
+			}
+		}
+		else {
+			document.getElementById("test_output").innerHTML = err.toString();
+		}
     });
+}
+
+// Takes in an error message as a string and prints it to the "error_output" element
+function printError(err_msg){
+    document.getElementById("error_output").innerHTML = err_msg;
+}
+
+// Clears any text inside the "error_output" element
+function clearError(){
+    document.getElementById("error_output").innerHTML = "";
+    document.getElementById("test_output").innerHTML = "";
 }

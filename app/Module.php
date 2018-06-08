@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
 
 class Module extends Model
 {
@@ -179,5 +180,14 @@ class Module extends Model
         $new_module->open_date = $this->open_date;
 
         return $new_module;    
+    }
+
+    /**
+     * Returns the modules open date formatted with the passed-in format string.
+     * If no format string is provided, it will use the default format.
+     */
+    public function getOpenDate($format = 'm/d/Y h:i a')
+    {
+        return date_format(DateTime::createFromFormat('Y-m-d G:i:s', $this->open_date), $format);
     }
 }

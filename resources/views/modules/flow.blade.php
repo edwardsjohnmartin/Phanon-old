@@ -1,6 +1,6 @@
 <?php
-$startdate = DateTime::createFromFormat('Y-m-d G:i:s', $module->open_date);
-$now = DateTime::createFromFormat('Y-m-d G:i:s',date('Y-m-d G:i:s'));
+$startdate = $module->getOpenDate();
+$now = date('Y-m-d G:i:s');
 $isPast = $startdate < $now;
 ?>
 <article class="module{{$isPast  ? ' expired' : '' }}">
@@ -24,7 +24,7 @@ $isPast = $startdate < $now;
     <div class="dates">
         <!--TODO: these dates should come preformatted-->
         <!--Not sure why we are parsing them then reformatting them again.-->
-        <span class="start">{{date_format($startdate, 'm/d/Y')}}</span>
+        <span class="start">{{$module->getOpenDate('m/d/Y')}}</span>
     </div>
     <ul class="lessons">
         @foreach($module->lessons() as $less)

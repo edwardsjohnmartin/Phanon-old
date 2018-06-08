@@ -14,9 +14,9 @@
             <aside class="dates">
                 <!--TODO: these dates should come preformatted-->
                 <!--Not sure why we are parsing them then reformatting them again.-->
-                <span class="start">{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $course->open_date), 'm/d/Y')}}</span>
+                <span class="start">{{$course->getOpenDate('m/d/Y')}}</span>
                 <span> - </span>
-                <span class="end">{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $course->close_date), 'm/d/Y')}}</span>
+                <span class="end">{{$course->getCloseDate('m/d/Y')}}</span>
             </aside>
             <aside class="actions">
                 <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>

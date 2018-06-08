@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
 use App\Enums\Roles;
 use Illuminate\Support\Facades\DB;
+use DateTime;
 
 class Course extends Model
 {
@@ -162,5 +163,23 @@ class Course extends Model
         $new_course->close_date = $this->close_date;
 
         return $new_course;
+    }
+
+    /**
+     * Returns the courses open date formatted with the passed-in format string.
+     * If no format string is provided, it will use the default format.
+     */
+    public function getOpenDate($format = 'm/d/Y h:i a')
+    {
+        return date_format(DateTime::createFromFormat('Y-m-d G:i:s', $this->open_date), $format);
+    }
+
+    /**
+     * Returns the courses close date formatted with the passed-in format string.
+     * If no format string is provided, it will use the default format.
+     */
+    public function getCloseDate($format = 'm/d/Y h:i a')
+    {
+        return date_format(DateTime::createFromFormat('Y-m-d G:i:s', $this->close_date), $format);
     }
 }

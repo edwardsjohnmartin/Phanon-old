@@ -5,11 +5,11 @@
     <h1>{{$course->name}}</h1>
     <div>
         <label>Open Date</label>
-        <p>{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $course->open_date), 'm/d/Y h:i a')}}</p>
+        <p>{{$course->getOpenDate()}}</p>
     </div>
     <div>
         <label>Close Date</label>
-        <p>{{date_format(DateTime::createFromFormat('Y-m-d G:i:s', $course->close_date), 'm/d/Y h:i a')}}</p>
+        <p>{{$course->getCloseDate()}}</p>
     </div>
     <div>
         <label>Concepts</label>
