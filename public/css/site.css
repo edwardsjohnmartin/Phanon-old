@@ -227,7 +227,7 @@
         font-size: 2em;
         display: inline-block;
         border: 2px solid #888;
-        position:relative;
+        position: relative;
     }
 
         #exerciseList .exercise:hover {
@@ -246,3 +246,45 @@
     bottom: 0;
     right: .5em;
 }
+
+.hidable {
+    border: 1px solid #AAA;
+    display: none;
+}
+
+/*Start code IDE*/
+#codeIde {
+    border: 1px solid #F0F;
+}
+
+    #codeIde #ideControls {
+        border: 1px solid #FF0;
+    }
+
+    #codeIde #ideControls {
+        border: 1px solid #0FF;
+    }
+
+
+    #codeIde #ideCodeWindow {
+        border: 1px solid #0F0;
+        width: 50%;
+        float:left;
+    }
+
+    #codeIde #ideGraphics {
+        border: 1px solid #00F;
+        width: 50%;
+        float:right
+    }
+
+    #codeIde #ideTextOutput {
+        border: 1px solid #80F;
+        width: 50%;
+        float:right
+    }
+    #codeIde #ideErrors {
+        border: 1px solid #F00;
+        clear:both;
+    }
+/*End code IDE*/

@@ -803,6 +803,8 @@
     <Compile Include="resources\views\inc\messages.blade.php" />
     <Compile Include="resources\views\inc\navbar.blade.php" />
     <Compile Include="resources\views\scriptbundles\actions.blade.php" />
+    <Compile Include="resources\views\scriptbundles\python-tests.blade.php" />
+    <Compile Include="resources\views\scriptbundles\create-edit-form.blade.php" />
     <Compile Include="resources\views\scriptbundles\sculpt.blade.php" />
     <Compile Include="resources\views\layouts\app.blade.php" />
     <Compile Include="resources\views\modules\create.blade.php" />
@@ -1022,6 +1024,7 @@
     <Folder Include="public\jquery" />
     <Folder Include="public\js" />
     <Folder Include="public\images\" />
+    <Folder Include="public\python\" />
     <Folder Include="public\skulpt" />
     <Folder Include="public" />
     <Folder Include="resources\assets\codemirror\addon\comment" />
@@ -1241,6 +1244,7 @@
     <Content Include="public\js\bootstrap-multiselect.js" />
     <Content Include="public\js\create-edit-form.js" />
     <Content Include="public\js\jquery-ui.min.js" />
+    <Content Include="public\python\methods.py" />
     <Content Include="resources\assets\css\bootstrap-multiselect.css" />
     <Content Include="resources\assets\css\jquery-ui.min.css" />
     <Content Include="resources\assets\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.ttf" />

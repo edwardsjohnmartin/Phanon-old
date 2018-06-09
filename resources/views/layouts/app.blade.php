@@ -21,9 +21,9 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('jquery/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-    @yield('scripts')
     <script src="{{ asset('js/bootstrap-multiselect.js')}}"></script>
     <script src="{{ asset('js/codewindow.js')}}"></script>
+    @yield('scripts')
 </head>
 <body>
     <div id="app">
@@ -33,5 +33,6 @@
             @yield('content')
         </div>
     </div>
+    @yield('scripts-end')
 </body>
 </html>

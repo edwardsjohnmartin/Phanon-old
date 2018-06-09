@@ -38,12 +38,12 @@ class CodeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function current($id)
+    public function current($id,$eid)
     {
         $myModule = Module::find($id);
 
-        if(isset($_GET['eid'])){
-            $exerciseId = $_GET['eid'];
+        if(isset($eid)){
+            $exerciseId = $eid;
         }else{
             $exerciseId = $myModule->currentExercise(1);
         }

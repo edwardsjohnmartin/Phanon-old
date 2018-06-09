@@ -401,7 +401,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise2 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 2',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' => "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson1->id,
@@ -447,7 +447,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise6 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 6',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson2->id,
@@ -473,7 +473,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise32 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 3-2',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson30->id,
@@ -482,7 +482,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $exercise33 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 3-3',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson30->id,
@@ -491,7 +491,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $exercise34 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 3-4',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson30->id,
@@ -500,7 +500,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $exercise35 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 3-5',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson30->id,
@@ -526,7 +526,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise42 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 4-2',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson40->id,
@@ -535,7 +535,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $exercise43 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 4-3',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson40->id,
@@ -544,7 +544,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $exercise44 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 4-4',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson40->id,
@@ -553,7 +553,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $exercise45 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 4-5',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson40->id,
@@ -579,7 +579,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise52 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 5-2',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson50->id,
@@ -588,7 +588,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $exercise53 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 5-3',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson50->id,
@@ -597,7 +597,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $exercise54 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 5-4',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson50->id,
@@ -606,7 +606,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $exercise55 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 5-5',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson50->id,
@@ -615,7 +615,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $exercise56 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 5-6',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson50->id,
@@ -624,7 +624,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $exercise57 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 5-7',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson50->id,
@@ -688,7 +688,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise8 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 8',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson3->id,
@@ -763,7 +763,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise10 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 10',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson4->id,
@@ -772,7 +772,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise11 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 11',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson4->id,
@@ -782,7 +782,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise12 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 12',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson4->id,
@@ -792,7 +792,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise13 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 13',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson4->id,
@@ -802,7 +802,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise14 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 14',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson4->id,
@@ -819,7 +819,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise15 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 15',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson5->id,
@@ -828,7 +828,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise16 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 16',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson5->id,
@@ -864,7 +864,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise17 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 17',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson6->id,
@@ -873,7 +873,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise18 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 18',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson6->id,
@@ -883,7 +883,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise19 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 19',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson6->id,
@@ -893,7 +893,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise20 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 20',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson6->id,
@@ -903,7 +903,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise21 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 21',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson6->id,
@@ -964,7 +964,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise22 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 22',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson7->id,
@@ -980,7 +980,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise23 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 23',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson8->id,
@@ -1026,7 +1026,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise24 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 24',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson9->id,
@@ -1061,7 +1061,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise25 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 25',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson10->id,
@@ -1077,7 +1077,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise26 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 26',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson11->id,
@@ -1152,7 +1152,7 @@ class DatabaseSeeder extends Seeder
 
         $exercise27 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 27',
-            'pre_code' => 'def myFunc():\n    print("hello world")',
+            'pre_code' =>  "def myFunc():\r\n\tprint('hello world')",
             'start_code' => '#this is the code the user will start with',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson12->id,
