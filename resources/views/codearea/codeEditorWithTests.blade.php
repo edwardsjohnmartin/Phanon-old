@@ -1,9 +1,13 @@
 @php
     use App\Exercise;
+    use App\Lesson;
+    use App\Module;
              if(!isset($exercise)){
                  // create a new exercise so the page does not blow up.
                  // HACK: probably need to redirect instead. It will make more sense.
                  $exercise = new Exercise();
+                 $exercise->lesson = new Lesson();
+                 $exercise->lesson->module = $module;
              }else{
                  //why do I have to treat the exercise like a collection?
                  //$exercise = $exercise[0];

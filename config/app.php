@@ -66,6 +66,39 @@ return [
 
     'timezone' => 'UTC',
 
+     /*
+    |--------------------------------------------------------------------------
+    | Application DateFormat
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default dateformat for your application
+    |
+    */
+
+    'dateformat' => 'Y-m-d G:i:s',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application DateFormat Short
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default dateformat for your application
+    |
+    */
+
+    'dateformat_short' => 'm/d/Y',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application DateFormat Long
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default dateformat for your application
+    |
+    */
+
+    'dateformat_long' => 'm/d/Y G:i:s',
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

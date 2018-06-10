@@ -158,7 +158,7 @@ class Module extends Model
         //    }
         //}
 
-        $exerToDo = Exercise::find(1);
+        $exerToDo = $this->lessons[0]->exercises[0];
         return $exerToDo;
     }
 
@@ -209,8 +209,17 @@ class Module extends Model
      * Returns the modules open date formatted with the passed-in format string.
      * If no format string is provided, it will use the default format.
      */
+    public function OpenDate()
+    {
+        return DateTime::createFromFormat(config("app.dateformat"), $this->open_date);
+    }
+
+    /**
+     * Returns the modules open date formatted with the passed-in format string.
+     * If no format string is provided, it will use the default format.
+     */
     public function getOpenDate($format = 'm/d/Y h:i a')
     {
-        return date_format(DateTime::createFromFormat('Y-m-d G:i:s', $this->open_date), $format);
+        return date_format(DateTime::createFromFormat(config("app.dateformat"), $this->open_date), $format);
     }
 }

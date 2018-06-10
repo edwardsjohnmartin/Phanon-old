@@ -14,9 +14,9 @@ Route::get('/', 'PagesController@index')->name('index');
 Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
 Route::get('/flow/{id}', 'PagesController@flow')->name('flow'); // course flow page.
 Route::get('/sandbox', 'CodeController@sandbox')->name('sandbox');
-Route::get('/code/current/{id}', 'CodeController@current')->name('current');
-Route::get('/code/current/{id}/{eid}', 'CodeController@current')->name('current');
-Route::get('/code/review/{id}', 'CodeController@review')->name('review');
+Route::get('/code/current/', 'CodeController@current')->name('current');
+Route::get('/code/{id}/{eid}', 'CodeController@work')->name('work');
+Route::get('/code/review/{id}/{eid}', 'CodeController@review')->name('review');
 Route::resource('users', 'UsersController');
 Route::resource('roles', 'RolesController');
 Route::resource('permissions', 'PermissionsController');

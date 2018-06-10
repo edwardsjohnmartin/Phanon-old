@@ -34,11 +34,12 @@ class CodeController extends Controller
         return view('codearea.sandbox');
     }
     /**
-     * Displays a test page to test python code.
+     * Figure out which is the current module and exercise the user is on
+     *   then direct them to the correct coding page.
      *
      * @return \Illuminate\Http\Response
      */
-    public function current($id,$eid)
+    public function current()
     {
         $myModule = Module::find($id);
 
@@ -52,9 +53,43 @@ class CodeController extends Controller
         return view('codearea.module',['module' => $myModule,
                                         'exercise'=>$exercise]);
     }
-    public function review($id)
+    /**
+     * Displays a test page to test python code.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function work($id,$eid)
     {
         $myModule = Module::find($id);
-        return view('codearea.review',['module' => $myModule]);
+
+        if(isset($eid)){
+            $exerciseId = $eid;
+        }else{
+            $exerciseId = $myModule->currentExercise(1);
+        }
+
+        $exercise = Exercise::find($exerciseId);
+        return view('codearea.module',['module' => $myModule,
+                                        'exercise'=>$exercise]);
+    }
+    //public function review($id)
+    //{
+    //    $myModule = Module::find($id);
+    //    return view('codearea.review',['module' => $myModule,"exercise"=>$myModule->lessons[0]->exercises[0]]);
+    //}
+
+    public function review($id,$eid)
+    {
+        $myModule = Module::find($id);
+
+        if(isset($eid)){
+            $exerciseId = $eid;
+        }else{
+            $exerciseId = $myModule->currentExercise(1);
+        }
+
+        $exercise = Exercise::find($exerciseId);
+        return view('codearea.review',['module' => $myModule
+                                        ,"exercise"=>$exercise]);
     }
 }

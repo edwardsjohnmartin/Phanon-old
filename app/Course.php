@@ -7,6 +7,7 @@ use App\Enums\Roles;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 
+
 class Course extends Model
 {
     // Table Name
@@ -171,7 +172,8 @@ class Course extends Model
      */
     public function getOpenDate($format = 'm/d/Y h:i a')
     {
-        return date_format(DateTime::createFromFormat('Y-m-d G:i:s', $this->open_date), $format);
+        return date_format(DateTime::createFromFormat(config("app.dateformat"),
+            $this->open_date), $format);
     }
 
     /**
@@ -180,6 +182,7 @@ class Course extends Model
      */
     public function getCloseDate($format = 'm/d/Y h:i a')
     {
-        return date_format(DateTime::createFromFormat('Y-m-d G:i:s', $this->close_date), $format);
+        return date_format(DateTime::createFromFormat(config("app.dateformat"),
+            $this->close_date), $format);
     }
 }

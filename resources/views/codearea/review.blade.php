@@ -11,11 +11,11 @@
             <option value="{{$lesson->id}}">{{$lesson->name}}</option>
         @endforeach
     </select>
-   @component("codearea/exerciseDash", ["lessons" => $lessons])
+   @component("codearea/exerciseDash", ["lessons" => $lessons,"isReview"=>true])
     @endcomponent
 </div>
 <div id="codeIde">
-    @component("codearea/codeEditorWithTests")
+    @component("codearea/codeEditorWithTests",["module"=>$module,"exercise"=>$exercise])
     @endcomponent
 </div>
 @endsection

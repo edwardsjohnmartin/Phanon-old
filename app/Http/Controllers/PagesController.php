@@ -68,7 +68,7 @@ class PagesController extends Controller
     public function flow($id)
     {
         $course = Course::find($id);
-        return view('pages.flow')->
+        return view('flow.index')->
             with('course', $course);
         //return view('pages.flow');
     }
