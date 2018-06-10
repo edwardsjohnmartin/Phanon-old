@@ -255,36 +255,58 @@
 /*Start code IDE*/
 #codeIde {
     border: 1px solid #F0F;
+    height: 100%;
 }
 
-    #codeIde #ideControls {
-        border: 1px solid #FF0;
-    }
+#idePrompt {
+    border: 1px solid #FF0;
+}
 
-    #codeIde #ideControls {
-        border: 1px solid #0FF;
-    }
+#ideControls {
+    border: 1px solid #FF0;
+}
+
+#ideControls {
+    border: 1px solid #666;
+}
+
+#idePreCode {
+    border: 1px solid #0FF;
+}
+
+#ideMainEditor {
+    border: 1px solid #0AA;
+}
+
+#ideCodeWindow {
+    border: 1px solid #0F0;
+    width: 50%;
+    float: left;
+}
+
+#ideGraphics {
+    border: 1px solid #00F;
+    width: 50%;
+    float: right
+}
+
+#ideTextOutput {
+    border: 1px solid #80F;
+    clear: both;
+}
+
+#ideTestCode {
+    border: 1px solid #0FF;
+}
+
+#ideTestOutput {
+    border: 1px solid #0FF;
+}
 
 
-    #codeIde #ideCodeWindow {
-        border: 1px solid #0F0;
-        width: 50%;
-        float:left;
-    }
 
-    #codeIde #ideGraphics {
-        border: 1px solid #00F;
-        width: 50%;
-        float:right
-    }
-
-    #codeIde #ideTextOutput {
-        border: 1px solid #80F;
-        width: 50%;
-        float:right
-    }
-    #codeIde #ideErrors {
-        border: 1px solid #F00;
-        clear:both;
-    }
+#ideErrors {
+    border: 1px solid #F00;
+    clear: both;
+}
 /*End code IDE*/

@@ -1024,7 +1024,7 @@
     <Folder Include="public\jquery" />
     <Folder Include="public\js" />
     <Folder Include="public\images\" />
-    <Folder Include="public\python\" />
+    <Folder Include="public\tests\" />
     <Folder Include="public\skulpt" />
     <Folder Include="public" />
     <Folder Include="resources\assets\codemirror\addon\comment" />
@@ -1244,7 +1244,7 @@
     <Content Include="public\js\bootstrap-multiselect.js" />
     <Content Include="public\js\create-edit-form.js" />
     <Content Include="public\js\jquery-ui.min.js" />
-    <Content Include="public\python\methods.py" />
+    <Content Include="public\tests\python.py" />
     <Content Include="resources\assets\css\bootstrap-multiselect.css" />
     <Content Include="resources\assets\css\jquery-ui.min.css" />
     <Content Include="resources\assets\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.ttf" />

@@ -1,2 +1,8 @@
 {{-- This must have the id given, or else the scripts will not run    --}}
-<script type="text/x-python" id="test_code_to_run"  src="{{ asset('python/methods.py')}}"> </script>
+<script type="text/x-python" id="pythonTestCode" >
+    {{-- src="{{ asset('tests/python.py')}}" --}}
+    @php
+    include("tests/python.py") // file must be included to work
+    @endphp
+</script>
+

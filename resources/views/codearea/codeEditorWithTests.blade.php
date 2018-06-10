@@ -21,8 +21,8 @@
 @parent
 <!--These are not needed, they are only for making the pre and test codes look nice-->
 <script>
-    makeClassCodeMirror("#pre_code").forEach(function (editorEl) {
-        CodeMirror.fromTextArea(editorEl, {
+    //makeClassCodeMirror("#pre_code").forEach(function (editorEl) {
+        CodeMirror.fromTextArea(document.getElementById("pre_code"), {
             lineNumbers: true,
             cursorBlinkRate: 0,
             autoCloseBrackets: true,
@@ -31,10 +31,10 @@
             matchBrackets: true,
             
         });
-    });
+    //});
 
-    makeClassCodeMirror("#test_code").forEach(function (editorEl) {
-        CodeMirror.fromTextArea(editorEl, {
+    //makeClassCodeMirror("#test_code").forEach(function (editorEl) {
+        CodeMirror.fromTextArea(document.getElementById("test_code"), {
             lineNumbers: true,
             cursorBlinkRate: 0,
             autoCloseBrackets: true,
@@ -42,14 +42,14 @@
             indentUnit: 4,
             matchBrackets: true
         });
-    });
+    //});
 </script>
 @endsection
 
-<div id="codePrompt">{{$exercise->prompt}}</div>
+<div id="idePrompt">{{$exercise->prompt}}</div>
 
 
-<div id="idePreCode" class="hidable">
+<div id="idePreCode">
     <label>Pre Code</label>
     <textarea id="pre_code" class="code">{{$exercise->pre_code}}</textarea>
 </div>
@@ -58,7 +58,7 @@
 @endcomponent
 
 
-<div id="ideTestCode" class="hidable">
+<div id="ideTestCode">
     <label>Test Code</label>
     <textarea id="test_code" class="code">{{$exercise->test_code}}</textarea>
 </div>

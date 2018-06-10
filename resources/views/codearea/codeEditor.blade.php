@@ -18,19 +18,22 @@
 <div id="ideErrors">
     <label id="error_output">Python Error Messages Will Go Here</label>
 </div>
-<div id="ideCodeWindow">
-    <textarea id="codeWindow" class="code">{{$startingcode}}</textarea>
-</div>
-<div id="ideGraphics">
-    <div id="mycanvas"></div>
-</div>
-<div id="ideTextOutput">
-    <pre id="output"></pre>
+<div id="ideMainEditor">
+    <div id="ideCodeWindow">
+        <textarea id="codeWindow" class="code">{{$startingcode}}</textarea>
+    </div>
+    <div id="ideGraphics">
+        <div id="mycanvas"></div>
+    </div>
+    <div id="ideTextOutput">
+        <pre id="output"></pre>
+    </div>
 </div>
 
 <script type="text/javascript">
-    makeClassCodeMirror("#codeWindow").forEach(function (editorEl) {
-        CodeMirror.fromTextArea(editorEl, {
+    // this is more efficient to remove the foreach loop.
+    //makeClassCodeMirror("#codeWindow").forEach(function (editorEl) {
+        CodeMirror.fromTextArea(document.getElementById("codeWindow"), {
             lineNumbers: true,
             cursorBlinkRate: 0,
             autoCloseBrackets: true,
@@ -38,6 +41,6 @@
             indentUnit: 4,
             matchBrackets: true
         });
-    });
+    //});
     makeRunButton('btnRunCode');
 </script>

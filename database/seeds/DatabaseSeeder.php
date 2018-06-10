@@ -402,7 +402,7 @@ class DatabaseSeeder extends Seeder
         $exercise2 = Exercise::create([
             'prompt' => 'This is the prompt of Exercise 2',
             'pre_code' => "def myFunc():\r\n\tprint('hello world')",
-            'start_code' => '#this is the code the user will start with',
+            'start_code' => '#this is the code the user will start with\r\nprint("hello world")',
             'test_code' => 'test_out("hello world")',
             'lesson_id' => $lesson1->id,
             'previous_exercise_id' => $exercise1->id,
