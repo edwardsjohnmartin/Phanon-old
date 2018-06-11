@@ -14,6 +14,9 @@ class Lesson extends Model
     // Timestamps
     public $timestamps = true;
 
+    // tempExercises
+    public $tempExercises = [];
+
     /**
      * Relationship function
      * Returns the module this lesson belongs to

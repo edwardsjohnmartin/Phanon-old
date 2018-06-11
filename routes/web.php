@@ -27,6 +27,7 @@ Route::resource('lessons', 'LessonsController');
 Route::resource('exercises', 'ExercisesController');
 Route::resource('projects', 'ProjectsController');
 Route::resource('code', 'CodeController');
+Route::resource('import', 'ImportController');
 // cloning routes.
 Route::get('/courses/{id}/clone', 'CoursesController@copy')->name('courses.clone');
 Route::get('/modules/{id}/clone', 'ModulesController@copy')->name('modules.clone');
@@ -37,3 +38,4 @@ Route::get('/exercises/{id}/clone', 'ExercisesController@copy')->name('exercises
 //Route::post('/exercises', 'ExercisesController@createClone');
 Route::get('/projects/{id}/clone', 'ProjectsController@copy')->name('projects.clone');
 //Route::post('/projects', 'ProjectsController@createClone');
+Route::post('import/upload','ImportController@upload');

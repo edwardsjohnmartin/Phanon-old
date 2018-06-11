@@ -38,6 +38,7 @@
     <Compile Include="app\Http\Controllers\PermissionsController.php" />
     <Compile Include="app\Http\Controllers\ProjectsController.php" />
     <Compile Include="app\Http\Controllers\RolesController.php" />
+    <Compile Include="app\Http\Controllers\ImportController.php" />
     <Compile Include="app\Http\Controllers\TestController.php" />
     <Compile Include="app\Http\Controllers\CodeController.php" />
     <Compile Include="app\Http\Controllers\UsersController.php" />
@@ -48,6 +49,7 @@
     <Compile Include="app\Http\Middleware\TrimStrings.php" />
     <Compile Include="app\Http\Middleware\VerifyCsrfToken.php" />
     <Compile Include="app\Http\Kernel.php" />
+    <Compile Include="app\Importer.php" />
     <Compile Include="app\Project.php" />
     <Compile Include="app\Providers\AppServiceProvider.php" />
     <Compile Include="app\Providers\AuthServiceProvider.php" />
@@ -778,6 +780,8 @@
     <Compile Include="resources\views\exercises\edit.blade.php" />
     <Compile Include="resources\views\exercises\index.blade.php" />
     <Compile Include="resources\views\exercises\show.blade.php" />
+    <Compile Include="resources\views\import\reader.blade.php" />
+    <Compile Include="resources\views\import\index.blade.php" />
     <Compile Include="resources\views\lessons\clone.blade.php" />
     <Compile Include="resources\views\lessons\create.blade.php" />
     <Compile Include="resources\views\lessons\edit.blade.php" />
@@ -1024,6 +1028,7 @@
     <Folder Include="public\jquery" />
     <Folder Include="public\js" />
     <Folder Include="public\images\" />
+    <Folder Include="public\uploads\" />
     <Folder Include="public\tests\" />
     <Folder Include="public\skulpt" />
     <Folder Include="public" />
@@ -1202,6 +1207,7 @@
     <Folder Include="resources\views\modules" />
     <Folder Include="resources\views\codearea\" />
     <Folder Include="resources\views\flow\" />
+    <Folder Include="resources\views\import\" />
     <Folder Include="resources\views\permissions\" />
     <Folder Include="resources\views\projects\" />
     <Folder Include="resources\views\roles\" />
@@ -1246,6 +1252,7 @@
     <Content Include="public\js\create-edit-form.js" />
     <Content Include="public\js\jquery-ui.min.js" />
     <Content Include="public\tests\python.py" />
+    <Content Include="public\uploads\.gitignore" />
     <Content Include="resources\assets\css\bootstrap-multiselect.css" />
     <Content Include="resources\assets\css\jquery-ui.min.css" />
     <Content Include="resources\assets\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.ttf" />

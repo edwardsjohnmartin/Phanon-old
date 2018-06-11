@@ -88,6 +88,17 @@ return [
 
     'dateformat_short' => 'm/d/Y',
 
+        /*
+    |--------------------------------------------------------------------------
+    | Application Uploads folder
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default dateformat for your application
+    |
+     */
+
+    'upload_folder' => 'uploads/',
+
     /*
     |--------------------------------------------------------------------------
     | Application DateFormat Long
@@ -218,10 +229,10 @@ return [
         Collective\Html\HtmlServiceProvider::class,
 
         /*
-         * Spatie 
+         * Spatie
          * Handles roles and permissions
          * https://github.com/spatie/laravel-permission
-         */ 
+         */
         Spatie\Permission\PermissionServiceProvider::class,
 
     ],

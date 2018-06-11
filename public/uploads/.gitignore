@@ -1,0 +1,4 @@
+# this folder is for uploaded files to the server 
+# so no need to save this content for testing.
+*
+!.gitignore
