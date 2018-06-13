@@ -14,6 +14,9 @@ class Concept extends Model
     // Timestamps
     public $timestamps = true;
 
+    // tempModules
+    public $tempModules = [];
+
     /**
      * Relationship function
      * Returns the course this concept belongs to

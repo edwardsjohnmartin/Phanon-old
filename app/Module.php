@@ -15,6 +15,9 @@ class Module extends Model
     // Timestamps
     public $timestamps = true;
 
+    // tempLessons
+    public $tempLessons = [];
+
     /**
      * Relationship function
      * Returns the concept this module belongs to

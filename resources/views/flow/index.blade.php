@@ -35,7 +35,7 @@
 
             @foreach($course->concepts() as $concept)
             <article>
-                <h3>{{$concept->id}}</h3>
+                <h3>{{$concept->name}}</h3>
                 @foreach($concept->modules() as $module)
                 @component('flow.module',['module' => $module])
                 @endcomponent

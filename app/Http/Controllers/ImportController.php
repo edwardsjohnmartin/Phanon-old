@@ -44,7 +44,7 @@ class ImportController extends Controller{
                 $fileString.=$line;
             }
 
-            $lessonsToShow = Importer::get_lessons($fileString);
+            $conceptsToShow = Importer::get_concepts($fileString);
 
             // if storing in Temp
             // https://stackoverflow.com/questions/45619248/laravel-5-4-fopen-filename-cannot-be-empty
@@ -53,7 +53,7 @@ class ImportController extends Controller{
 
 
         }
-        return view("import.reader", ['lessons' => $lessonsToShow]);
+        return view("import.reader", ['concepts' => $conceptsToShow]);
     }
 }
 ?>
