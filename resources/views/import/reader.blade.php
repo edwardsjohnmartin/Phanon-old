@@ -103,6 +103,11 @@ foreach($concepts as $concept){
                 // project
                 $project = $component;
 
+                $projectStartDate = new DateTime(date_format($modStartDate,"Y-m-d"));
+                $projectStartDate->add(new DateInterval("P4D"));
+                $projectEndDate = new DateTime(date_format($projectStartDate,"Y-m-d"));
+                $projectEndDate->add(new DateInterval("P2D"));
+
                 $prompt = str_replace("\r",'\r',str_replace("\n",'\n',$project->prompt));
                 $pre_code = str_replace("\r",'\r',str_replace("\n",'\n',$project->pre_code));
                 $start_code = str_replace("\r",'\r',str_replace("\n",'\n',$project->start_code));
@@ -110,8 +115,8 @@ foreach($concepts as $concept){
 
                 $outputText .='$project'.$projectID.' = Project::create(['.
                                 "'name' => '$project->name',$eOL".
-                                "'open_date' => '".$modStartDate->format(config("app.dateformat"))."',$eOL".
-                                "'close_date' => '".$modStartDate->format(config("app.dateformat"))."',$eOL".
+                                "'open_date' => '".$projectStartDate->format(config("app.dateformat"))."',$eOL".
+                                "'close_date' => '".$projectEndDate->format(config("app.dateformat"))."',$eOL".
                                 "'prompt' => '$prompt',$eOL".
                                 "'pre_code' => '$pre_code',$eOL".
                                 "'start_code' => '$start_code',$eOL".

@@ -9,7 +9,8 @@ $isPast = $startdate < $now;
         <a href="{{ $isPast 
             ? url('/code/review/'.$module->id.'/'.$module->id)
             : url('/code/'.$module->id.'/'.$module->id)}}">
-        {{$module->name}}</a>
+            {{$module->name}}
+        </a>
     </h1>
     <aside class="actions">
         <a class="edit" href="{{url('/modules/' . $module->id . '/edit')}}">Edit</a>
@@ -21,6 +22,7 @@ $isPast = $startdate < $now;
         <!--Not sure why we are parsing them then reformatting them again.-->
         <span class="start">{{date_format($module->OpenDate(),config("app.dateformat_short"))}}</span>
     </div>
+    {{--
     <ul class="lessons">
         @foreach($module->lessons() as $less)
             @component('flow.lesson',['lesson' => $less])
@@ -31,6 +33,18 @@ $isPast = $startdate < $now;
         @foreach($module->projects() as $proj)
             @component('flow.project',['project' => $proj])
             @endcomponent
+        @endforeach
+    </ul>--}}
+
+    <ul class="components">
+        @foreach($module->lessonsAndProjects() as $comp)
+        @if(get_class($comp) == "App\Lesson")
+            @component('flow.lesson',['lesson' => $comp])
+            @endcomponent
+        @else
+        @component('flow.project',['project' => $comp])
+            @endcomponent
+        @endif
         @endforeach
     </ul>
 
