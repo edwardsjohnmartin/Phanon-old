@@ -15,8 +15,8 @@ class Module extends Model
     // Timestamps
     public $timestamps = true;
 
-    // tempLessons
-    public $tempLessons = [];
+    // tempComponents
+    public $tempComponents = [];
 
     /**
      * Relationship function

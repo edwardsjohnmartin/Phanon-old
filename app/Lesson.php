@@ -16,8 +16,7 @@ class Lesson extends Model
 
     // tempExercises
     public $tempExercises = [];
-    // tempProjects
-    public $tempProjects = [];
+    
 
     /**
      * Relationship function

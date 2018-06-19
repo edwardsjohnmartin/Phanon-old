@@ -21,6 +21,7 @@ class CreateProjectsTable extends Migration
             $table->text('prompt');
             $table->text('pre_code')->nullable();
             $table->text('start_code')->nullable();
+            $table->text('solution')->nullable();
 
             $table->integer('module_id')->unsigned()->index()->nullable();
             $table->foreign('module_id')->references('id')->on('modules');
