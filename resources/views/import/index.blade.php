@@ -9,3 +9,7 @@
 {{ Form::submit("Upload") }}
 {{ Form::close() }}
 @endsection
+
+@php
+//phpinfo();
+@endphp

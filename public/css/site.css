@@ -299,19 +299,89 @@
     border: 1px solid #0FF;
 }
 
+#ideMessages * {
+    margin: 0;
+    padding: 0;
+}
+
+#ideMessages{
+    position: relative;
+    height: 0px;
+}
+#ideMessages > div{
+    position: absolute;
+    width: 100%;
+    top:0;
+    left: 0;
+    z-index: 999;
+}
+
 #ideTestOutput, #ideErrors {
-    min-height: 80px;
+    height: 80px;
     background-color: #AAA;
+    /*animation: hideWindow 2s ease-out 2s forwards;*/
+    height: 0;
+    transition: height 2s ease-in-out;
+    animation-iteration-count: 1;
+    overflow: hidden;
+    border-radius: .3em;
+    position: relative;
+    width: 90%;
+}
+
+@keyframes hideWindow{
+    0%{
+        height: 100px;
+    }
+    100%{
+        height: 0px;
+    }
 }
 
 #ideTestOutput {
-    border: 1px solid #0FF;
+    border: 1px solid #080;
+    background-color: #EFE;
 }
-
-
 
 #ideErrors {
-    border: 1px solid #F00;
-    clear: both;
+    border: 1px solid #800;
+    background-color: #FEE;
 }
+
+#ideMessages .messageControls {
+    position: absolute;
+    top: .3em;
+    right: .6em;
+}
+
+#ideMessages .messageControls a{
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid transparent;
+    background-color: rgba(70, 70, 70, 0.33);
+    padding: .3em .5em;
+    border-radius: .3em;
+}
+
+    #ideMessages .messageControls a:hover {
+        border-color: #333;
+    }
+
+#ideMessages > div .showMessage {
+    height: 100px;
+    overflow: auto;
+    padding: .3em;
+    box-shadow: #333 2px 2px 5px 2px;
+}
+
+#ideMessages > div .collapseMessage {
+    height: 2em;
+    width: 50px;
+    overflow: hidden;
+    position: absolute;
+    left: auto;
+    right: 0;
+}
+
 /*End code IDE*/

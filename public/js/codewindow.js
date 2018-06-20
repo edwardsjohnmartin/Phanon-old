@@ -121,7 +121,8 @@ function printError(err_msg) {
 // Clears any text inside the "error_output" element
 function clearErrors() {
     document.getElementById("error_output").innerHTML = "";
-    document.getElementById("test_output").innerHTML = "";
+    var testOut = document.getElementById("test_output");
+    if (typeof(testOut) != "undefined" && testOut != null) testOut.innerHTML = "";
 }
 
 // object to mimic CodeMirror for value

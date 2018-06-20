@@ -15,7 +15,7 @@
              // make sure whether or not we want the editor is set
              // this will make sure that we only show what we need to.
              if(!isset($isEditor)){
-                 $isEditor = true;
+                 $isEditor = false;
              }
 @endphp
 
@@ -72,7 +72,11 @@
 
 @component("codearea/codeEditor",['startingcode' => $exercise->start_code])
 <div id="ideTestOutput">
-    <label id="test_output"></label>
+    <label id="test_output">Test Results go here.</label>
+    <div class="messageControls">
+        <a href="#" class="minimizer">_</a>
+        <a href="#" class="closer">X</a>
+    </div>
 </div>
 @endcomponent
 

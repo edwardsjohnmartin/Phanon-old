@@ -14,6 +14,8 @@ class Importer{
      * @return Concept[]
      */
     public static function get_concepts($file_string){
+        ini_set("pcre.jit", "0");
+        ini_set("pcre.jit_backtrack_limit", "10000000");
         $concepts = [];
         $conceptList = Importer::getStrings($file_string,"Concept");
         foreach($conceptList as $conceptName => $moduleString){
@@ -301,7 +303,6 @@ class Importer{
     }
 
     public static function fill_project($project, $projectString){
-
         $content_regex = '((.|\s)*?)';
         $project_regex = '<d>'.$content_regex.'<\/d>\s*'. // find description/prompt
             '<s>'.$content_regex.'<\/s>\s*'. // find pre_code
