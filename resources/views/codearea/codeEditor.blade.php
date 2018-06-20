@@ -18,6 +18,7 @@
 <div id="ideErrors">
     <label id="error_output">Python Error Messages Will Go Here</label>
 </div>
+{{$slot}}
 <div id="ideMainEditor">
     <div id="ideCodeWindow">
         <textarea id="codeWindow" class="code">{{$startingcode}}</textarea>

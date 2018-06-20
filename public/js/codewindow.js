@@ -44,14 +44,12 @@ function run() {
     // to be in a set order, this will not always be true.
     //Code found at
     //https://stackoverflow.com/questions/11581516/get-codemirror-instance?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-    var editor = $('#ideCodeWindow').find('.CodeMirror')[0].CodeMirror;
+    var editor = getEditor('#ideCodeWindow',"");
     // check to see if we have pre and test code 
     // Sandbox will not have these.
-    var pre_code_editor = $('#idePreCode').find('.CodeMirror');
-    pre_code_editor = pre_code_editor.length > 0 ? pre_code_editor[0].CodeMirror : false;
-    var test_code_editor = $('#ideTestCode').find('.CodeMirror');
-    test_code_editor = test_code_editor.length > 0 ? test_code_editor[0].CodeMirror : false;
-
+    var pre_code_editor = getEditor('#idePreCode', "#pre_code");
+    var test_code_editor = getEditor('#ideTestCode', '#test_code');
+    
     // Create a string variable that has the code entered in the editor with the test_code
     // appended to the end of it
     var codeToRun = ""
@@ -83,14 +81,15 @@ function run() {
 
     // This runs when there were no errors in the code
     myPromise.then(function (mod) {
-        clearError();
+        clearErrors();
 
         var run_method = mod.tp$getattr('__TEST');
         var ret = Sk.misceval.callsim(run_method, Sk.builtin.str(editor.getValue()), Sk.builtin.str(outputArea.innerText));
 
         if (ret.v.length > 0) {
-            //print errors
+            //print errors ( test errors?)
             for (var i = 0, l = ret.v.length; i < l; i++) {
+                console.log(ret.v[i]);
                 document.getElementById("test_output").innerText += ret.v[i].v + "\n";
             }
         }
@@ -98,17 +97,18 @@ function run() {
 
         // This runs when there were errors in the code
         function (err) {
+            clearErrors();
             var line_num = Number(err.toString().split("on line", 2)[1]);
             if (err.args !== undefined) {
                 if (err.args.v[0].v === "EOF in multi-line string") {
-                    document.getElementById("test_output").innerHTML = "ERROR: It looks like you have an open multi-line comment.";
+                    document.getElementById("error_output").innerHTML += "ERROR: It looks like you have an open multi-line comment." + "\n";
                 }
                 else {
-                    document.getElementById("test_output").innerHTML = err.toString();
+                    document.getElementById("error_output").innerHTML += err.toString() + "\n";
                 }
             }
             else {
-                document.getElementById("test_output").innerHTML = err.toString();
+                document.getElementById("error_output").innerHTML += err.toString() + "\n";
             }
         });
 }
@@ -119,7 +119,33 @@ function printError(err_msg) {
 }
 
 // Clears any text inside the "error_output" element
-function clearError() {
+function clearErrors() {
     document.getElementById("error_output").innerHTML = "";
     document.getElementById("test_output").innerHTML = "";
+}
+
+// object to mimic CodeMirror for value
+var valueGetterPrototype = { value: "", getValue: function () { return this.value; } };
+/**
+ * Get editor that contains text for each component.
+ * @param {any} ideCodeName ID of html element that contains CodeMirror window.
+ * @param {any} hiddenCodeName ID of html hidden element that contains code if CodeMirror window does not exist.
+ */
+function getEditor(ideCodeName, hiddenCodeName) {
+    var editor = $(ideCodeName).find('.CodeMirror');
+    // check if code mirror window exists
+    editor = editor.length > 0 ? editor[0].CodeMirror : false;
+    // if not, check for hidden field.
+    if (!editor) {
+        editor = $(hiddenCodeName);
+        if (editor.length > 0) {
+            // create an object to mimic code mirror window.
+            var content = editor.val();
+            editor = Object.create(valueGetterPrototype);
+            editor.value = content;
+        } else {
+            editor = false;
+        }
+    }
+    return editor;
 }

@@ -299,6 +299,11 @@
     border: 1px solid #0FF;
 }
 
+#ideTestOutput, #ideErrors {
+    min-height: 80px;
+    background-color: #AAA;
+}
+
 #ideTestOutput {
     border: 1px solid #0FF;
 }
