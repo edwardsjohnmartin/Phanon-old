@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @can('modules.create')
     <a href="{{url('/modules/create')}}" class="btn btn-primary">Create Module</a>
+    @endcan
     <h1>Modules</h1>
     @if(count($modules) > 0)
         @foreach($modules as $module)

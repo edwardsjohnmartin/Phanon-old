@@ -43,10 +43,12 @@ class CoursesController extends Controller
 
         // Get all users on the website
         $users = User::all();
+        $roles = Role::where('name', "!=", Roles::ADMIN)->get(['id', 'name'])->toArray();
 
         return view('courses.create')->
             with('concepts', $concepts)->
-            with('users', $users);
+            with('users', $users)->
+            with('roles', $roles);
     }
 
     /**
@@ -75,21 +77,14 @@ class CoursesController extends Controller
         // Save course to the database
         $course->save();
         
+        // Add users to course as specified role
         //TODO: Make sure any user is only in one of the students, tas, and teachers arrays
-        
-        // Add students to the course
-        if(count($request->input('students')) > 0){
-            $course->addUsersAsRole($request->input('students'), Role::where('name', Roles::STUDENT)->first()->id);
-        }
-
-        // Add teaching assistants to the course
-        if(count($request->input('tas')) > 0){
-            $course->addUsersAsRole($request->input('tas'), Role::where('name', Roles::TEACHING_ASSISTANT)->first()->id);
-        }
-
-        // Add teachers to the course
-        if(count($request->input('teachers')) > 0){
-            $course->addUsersAsRole($request->input('teachers'), Role::where('name', Roles::TEACHER)->first()->id);
+        $usersToAdd = $request->input('usersToAdd');
+        if(count($usersToAdd) > 0){
+            foreach($usersToAdd as $entry){
+                $data = explode(",", $entry);
+                $course->addUserAsRole($data[0], $data[1]);
+            }
         }
 
         // Get the order of concepts within the course as an int array
@@ -153,6 +148,7 @@ class CoursesController extends Controller
 
         // Get all users on the website
         $users = User::all();
+        $roles = Role::where('name', "!=", Roles::ADMIN)->get(['id', 'name'])->toArray();
 
         // Check for correct user
         if($course->user_id != auth()->user()->id){
@@ -171,7 +167,8 @@ class CoursesController extends Controller
             with('concepts', $concepts)->
             with('course_concepts', $course_concepts)->
             with('concept_ids', $concept_ids)->
-            with('users', $users);
+            with('users', $users)->
+            with('roles', $roles);
     }
 
     /**
@@ -202,21 +199,14 @@ class CoursesController extends Controller
         // Save the course to the database
         $course->save();
 
+        // Add users to course as specified role
         //TODO: Make sure any user is only in one of the students, tas, and teachers arrays
-        
-        // Add students to the course
-        if(count($request->input('students')) > 0){
-            $course->addUsersAsRole($request->input('students'), Role::where('name', Roles::STUDENT)->first()->id);
-        }
-
-        // Add teaching assistants to the course
-        if(count($request->input('tas')) > 0){
-            $course->addUsersAsRole($request->input('tas'), Role::where('name', Roles::TEACHING_ASSISTANT)->first()->id);
-        }
-
-        // Add teachers to the course
-        if(count($request->input('teachers')) > 0){
-            $course->addUsersAsRole($request->input('teachers'), Role::where('name', Roles::TEACHER)->first()->id);
+        $usersToAdd = $request->input('usersToAdd');
+        if(count($usersToAdd) > 0){
+            foreach($usersToAdd as $entry){
+                $data = explode(",", $entry);
+                $course->addUserAsRole($data[0], $data[1]);
+            }
         }
 
         // Remove the course_id and previous_concept_id from all concepts that were in this course
@@ -255,7 +245,7 @@ class CoursesController extends Controller
             }
         }
 
-        return redirect('/courses')->
+        return redirect('/courses/' . $course->id)->
             with('success', 'Course Updated');
     }
 

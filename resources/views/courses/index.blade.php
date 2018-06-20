@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @can('course.create')
     <a href="{{url('/courses/create')}}" class="btn btn-primary">Create Course</a>
+    @endcan
     <h1>Courses</h1>
     @if(count($courses) > 0)
         @foreach($courses as $course)

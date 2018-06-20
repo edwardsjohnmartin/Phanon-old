@@ -67,33 +67,6 @@ class Course extends Model
     }
 
     /**
-     * Relationship function
-     * Returns an array of student users in the course
-     */
-    public function students()
-    {
-        return $this->belongsToMany(User::class)->wherePivot('role_id', DB::table('roles')->where('name', Roles::STUDENT)->first()->id);
-    }
-
-    /**
-     * Relationship function
-     * Returns an array of teacher assistants users in the course
-     */
-    public function assistants()
-    {
-        return $this->belongsToMany(User::class)->wherePivot('role_id', DB::table('roles')->where('name', Roles::TEACHING_ASSISTANT)->first()->id);
-    }
-
-    /**
-     * Relationship function
-     * Returns an array of teacher users in the course
-     */
-    public function teachers()
-    {
-        return $this->belongsToMany(User::class)->wherePivot('role_id', DB::table('roles')->where('name', Roles::TEACHER)->first()->id);
-    }
-
-    /**
      * Returns an array of the concepts within the course in their correct order
      */
     public function concepts()
@@ -149,6 +122,17 @@ class Course extends Model
         if(!is_null($next_concept)){
             $next_concept->previous_concept_id = $concept->previous_concept_id;
             $next_concept->save();
+        }
+    }
+
+    /**
+     * Adds the specified user to the course as the specified role
+     */
+    public function addUserAsRole($user_id, $role_id)
+    {
+        if(Role::where('id', '=', $role_id)->exists() and User::where('id', '=', $user_id)->exists()){
+            $arr = array($user_id => array('course_id' => $this->id, 'role_id' => $role_id));
+            $this->users()->syncWithoutDetaching($arr);
         }
     }
 

@@ -2,7 +2,6 @@
 
 @section('content')
     <a href="{{url('/exercises')}}" class="btn btn-default">Go Back</a>
-    <a href="{{url('/exercises/' . $exercise->id . '/clone/')}}" class="btn btn-default">Clone</a>
     <div>
         <label>Lesson</label>
         @if(!is_null($exercise->lesson))

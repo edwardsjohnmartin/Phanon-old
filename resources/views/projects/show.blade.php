@@ -2,7 +2,6 @@
 
 @section('content')
     <a href="{{url('/projects')}}" class="btn btn-default">Go Back</a>
-    <a href="{{url('/projects/' . $project->id . '/clone/')}}" class="btn btn-default">Clone</a>
     <h1>{{$project->name}}</h1>
     <div>
         <label>Module</label>
@@ -22,15 +21,15 @@
     </div>
     <div>
         <label>Prompt</label>
-        <label class="form-control rounded-0" readonly>{{$project->prompt}}</textarea>
+        <p>{!! $project->prompt !!}</p>
     </div>
     <div>
         <label>Pre-Code</label>
-        <label class="form-control rounded-0" readonly>{{$project->pre_code}}</textarea>
+        <p>{{$project->pre_code}}</p>
     </div>
     <div>
         <label>Start Code</label>
-        <label class="form-control rounded-0" readonly>{{$project->start_code}}</textarea>
+        <p>{{$project->start_code}}</p>
     </div>
     <div>
         <small>Author: {{$project->user->name}}</small>

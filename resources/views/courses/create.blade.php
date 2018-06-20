@@ -25,7 +25,7 @@
 
         @if(count($concepts) > 0)
             <div class="form-group">
-                <label>Select which concepts you want in the course</label>
+                <label>Select which concepts to add to the course</label>
                 <select id="concepts" name="concepts[]" multiple class="form-control" onchange="updateList('sortableConcepts', 'concepts')">
                     @foreach($concepts as $concept)
                         <option value="{{$concept->id}}">{{$concept->name}}</option>
@@ -35,8 +35,7 @@
 
             <div class="form-group" id="conceptDiv">
                 <label>Drag and drop the concepts to change the ordering they will appear in the course</label>
-                <ol id="sortableConcepts">
-                </ol>
+                <ol id="sortableConcepts"></ol>
             </div>
         @else
             <p>No concepts exist</p>
@@ -44,28 +43,25 @@
 
         @if(!empty($users))
             <div class="form-group">
-                <label>Students</label>
-                <select id="students" name="students[]" multiple class="form-control">
+                <label>Select which users to add to the course</label>
+                <select id="users" name="users[]" multiple class="form-control" onchange="updateTable('roleSelection', 'users')">
                     @foreach($users as $user)
                         <option value="{{$user->id}}">{{$user->name}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="form-group">
-                <label>Teaching Assistants</label>
-                <select id="tas" name="tas[]" multiple class="form-control">
-                    @foreach($users as $user)
-                        <option value="{{$user->id}}">{{$user->name}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Teachers</label>
-                <select id="teachers" name="teachers[]" multiple class="form-control">
-                    @foreach($users as $user)
-                        <option value="{{$user->id}}">{{$user->name}}</option>
-                    @endforeach
-                </select>
+                <label>Choose which role the user will participate as</label>
+                <table class="table" id="roleSelection">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         @else
             <p>No students exist to put into the course</p>
@@ -76,12 +72,11 @@
 
     <script>
         makeMultiSelect('concepts', 'Select Concepts');
-        makeMultiSelect('students', 'Select Students');
-        makeMultiSelect('tas', 'Select Teaching Assistants');
-        makeMultiSelect('teachers', 'Select Teachers');
-    </script>
+        makeMultiSelect('users', 'Select Users');
 
-    <script>
+        // TODO: This shouldn't be here but it is required to make the role dropdown work.
+        var rolesArray = @php echo json_encode($roles); @endphp;
+        
         // Use jquery to make the table sortable by dragging and dropping
         $("#sortableConcepts").sortable({
             axis: "y",
@@ -91,5 +86,6 @@
         $("#sortableConcepts").disableSelection();
 
         addInputsToForm("createCourse", "sortableConcepts", "concept_order");
+        addUserRoleInputToForm("createCourse");
     </script>
 @endsection

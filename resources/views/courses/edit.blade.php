@@ -47,11 +47,11 @@
 
         @if(!empty($users))
             <div class="form-group">
-                <label>Students</label>
-                <select id="students" name="students[]" multiple class="form-control">
+                <label>Select which users to add to the course</label>
+                <select id="users" name="users[]" multiple class="form-control" onchange="updateTable('roleSelection', 'users')">
                     @foreach($users as $user)
-                        <option value="{{$user->id}}" 
-                            @if(array_key_exists($user->id, $course->students()->get()->keyBy('id')->toArray())) 
+                        <option value="{{$user->id}}"
+                            @if(array_key_exists($user->id, $course->users()->get()->keyBy('id')->toArray())) 
                                 selected 
                             @endif
                             >{{$user->name}}
@@ -60,30 +60,17 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Teaching Assistants</label>
-                <select id="tas" name="tas[]" multiple class="form-control">
-                    @foreach($users as $user)
-                        <option value="{{$user->id}}" 
-                            @if(array_key_exists($user->id, $course->assistants()->get()->keyBy('id')->toArray())) 
-                                selected 
-                            @endif
-                            >{{$user->name}}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Teachers</label>
-                <select id="teachers" name="teachers[]" multiple class="form-control">
-                    @foreach($users as $user)
-                        <option value="{{$user->id}}" 
-                            @if(array_key_exists($user->id, $course->teachers()->get()->keyBy('id')->toArray())) 
-                                selected 
-                            @endif
-                            >{{$user->name}}
-                        </option>
-                    @endforeach
-                </select>
+                <label>Choose which role the user will participate as</label>
+                <table class="table" id="roleSelection">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         @else
             <p>No students exist to put into the course</p>
@@ -95,9 +82,12 @@
 
     <script>
         makeMultiSelect('concepts', 'Select Concepts');
-        makeMultiSelect('students', 'Select Students');
-        makeMultiSelect('tas', 'Select Teaching Assistants');
-        makeMultiSelect('teachers', 'Select Teachers');
+        makeMultiSelect('users', 'Select Users');
+
+        // TODO: This shouldn't be here but it is required to make the role dropdown work.
+        var rolesArray = @php echo json_encode($roles); @endphp;
+
+        updateTable('roleSelection', 'users');
 
         // Use jquery to make the table sortable by dragging and dropping
         $("#sortableConcepts").sortable({
@@ -108,5 +98,6 @@
         $("#sortableConcepts").disableSelection();
 
         addInputsToForm("editCourse", "sortableConcepts", "concept_order");
+        addUserRoleInputToForm("editCourse");
     </script>
 @endsection
