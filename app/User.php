@@ -8,6 +8,15 @@ use App\Enums\Roles;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @property int $id user's name 
+ * @property string $name user's name 
+ * @property string $email user's name 
+ * @property string $pasword user's name 
+ * @property \datetime $created_at when this object was added to the database
+ * @property \datetime $updated_at when this object was last changed in the database
+ */
+
 class User extends Authenticatable
 {
     use Notifiable;

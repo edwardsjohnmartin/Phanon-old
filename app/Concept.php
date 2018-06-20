@@ -2,7 +2,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+ /** Property Identification for Intellisense help.
+ * @property int $id Unique Database Identifier
+ * @property string $name identifying name of the Concept
+ * @property int $course_id Course ID of the course this Concept is part of.
+ * @property int $previous_concept_id Previous Concept that needs to be done before this Concept can be attempted.
+ * @property int $user_id user that ...
+ * @property \datetime $created_at when this object was added to the database
+ * @property \datetime $updated_at when this object was last changed in the database
+ */
 class Concept extends Model
 {
     // Table Name

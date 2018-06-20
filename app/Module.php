@@ -4,6 +4,15 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
 
+/** Property Identification for Intellisense help.
+ * @property int $id Unique Database Identifier
+ * @property string $name identifying name of the Module
+ * @property int $concept_id Concept ID of the concept this module is part of.
+ * @property int $previous_module_id Previous Module that needs to be done 
+ * @property int $user_id user that ... 
+ * @property \datetime $created_at when this object was added to the database
+ * @property \datetime $updated_at when this object was last changed in the database
+ */
 class Module extends Model
 {
     // Table Name

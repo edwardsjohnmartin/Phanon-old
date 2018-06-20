@@ -3,6 +3,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/** Property Identification for Intellisense help.
+ * @property int $id Unique Database Identifier
+ * @property string $prompt Instuctions given to user for this Project
+ * @property string $pre_code Code that will be ran in the compiler directly before the user's submitted code.
+ * @property string $start_code Code that will be provided to the user to modify for their solution.
+ * @property string $test_code Code that is run immediately following the users 
+ *                              submitted code containing functions to test and validate the user's submission
+ * @property int $lesson_id Lesson ID of the module this Exercise is part of.
+ * @property int $previous_exercise_id Previous Exercise that needs to be done before this Exercise can be attempted.
+ * @property int $user_id user that ...
+ * @property \datetime $created_at when this object was added to the database
+ * @property \datetime $updated_at when this object was last changed in the database
+ */
 class Exercise extends Model
 {
     // Table Name

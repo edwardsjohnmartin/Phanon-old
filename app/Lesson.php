@@ -3,6 +3,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/** Property Identification for Intellisense help.
+ * @property int $id Unique Database Identifier
+ * @property string $name identifying name of the Lesson
+ * @property int $module_id Module ID of the module this lesson is part of.
+ * @property int $previous_lesson_id Previous Lesson that needs to be done before this lesson can be attempted.
+ * @property int $user_id user that ...
+ * @property \datetime $created_at when this object was added to the database
+ * @property \datetime $updated_at when this object was last changed in the database
+ */
 class Lesson extends Model
 {
     // Table Name

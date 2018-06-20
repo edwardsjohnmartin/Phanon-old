@@ -4,6 +4,21 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
 
+/** Property Identification for Intellisense help.
+ * @property int $id Unique Database Identifier
+ * @property string $name identifying name of the Project
+ * @property \datetime $open_date when this Project becomes available to the users
+ * @property \datetime $close_date when this Project is no longer available to a user.
+ * @property string $prompt Instuctions given to user for this Project
+ * @property string $pre_code Code that will be ran in the compiler directly before the user's submitted code.
+ * @property string $start_code Code that will be provided to the user to modify for their solution.
+ * @property string $solution Code that is the solution to the project.
+ * @property int $module_id Module ID of the module this project is part of.
+ * @property int $previous_lesson_id Previous Lesson that needs to be done before this project can be attempted.
+ * @property int $user_id user that ...
+ * @property \datetime $created_at when this object was added to the database
+ * @property \datetime $updated_at when this object was last changed in the database
+ */
 class Project extends Model
 {
     // Table Name

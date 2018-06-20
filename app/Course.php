@@ -7,7 +7,16 @@ use App\Enums\Roles;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 
-
+ /** Property Identification for Intellisense help.
+ * @property int $id Unique Database Identifier
+ * @property string $name identifying name of the Course
+ * @property \datetime $open_date when this Course becomes available to the users
+ * @property \datetime $close_date when this Course is no longer available to a user.
+ * @property int $user_id user that ...
+ * @property \datetime $created_at when this object was added to the database
+ * @property \datetime $updated_at when this object was last changed in the database
+ */
+ 
 class Course extends Model
 {
     // Table Name
