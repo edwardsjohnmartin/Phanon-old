@@ -42,7 +42,18 @@ class User extends Authenticatable
      */
     public function inCourses()
     {
-        return $this->belongsToMany(Course::class);
+        return $this->belongsToMany(Course::class)->withPivot('role_id');
+    }
+
+    /**
+     * Returns an array of all courses this user is participating in with the specified role
+     */
+    public function getCoursesByRole($role_id)
+    {
+        // Validate the role being requested exists
+        if(Role::where('id', '=', $role_id)->exists()){
+            return $this->inCourses()->wherePivot('role_id', $role_id)->get();
+        }
     }
 
     /**

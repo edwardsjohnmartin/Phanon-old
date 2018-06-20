@@ -4,7 +4,10 @@
     @component('scriptbundles/actions')
     @endcomponent
 @endsection
-
+@php
+    //HACK: This should not be here but I don't know how else to get access to the class
+    use Spatie\Permission\Models\Role;
+@endphp
 @section('content')
 <div class="container">
     <div class="row">
@@ -26,13 +29,19 @@
                     <table class="table table-striped">
                         <tr>
                             <th>Name</th>
+                            <th>Role</th>
                             <th>Expires</th>
                             <th>Actions</th>
                         </tr>
                         @foreach($courses as $course)
                         <tr>
                             <td>{{$course->name}}</td>
-                            <td>Date course expires goes here.</td>
+                            @if($course->pivot)
+                                <td>{{Role::find($course->pivot->role_id)->name}}</td>
+                            @else
+                                <td>Role goes here</td>
+                            @endif
+                            <td>{{$course->getCloseDate(config('app.dateformat_short'))}}</td>
                             <td>
                                 <!-- HACK: Setting up structure for buttons -->
                                 <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>
@@ -46,11 +55,11 @@
                                     class="btn btn-delete">
                                     Delete
                                 </a>
-                                @endcan
                                 {!!Form::open(['action' => ['CoursesController@destroy', $course->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
                                     {{Form::hidden('_method', 'DELETE')}}
                                     {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
                                 {!!Form::close() !!}
+                                @endcan
                             </td>
                         </tr>
                         @endforeach

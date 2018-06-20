@@ -43,7 +43,18 @@ class Course extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('role_id');
+    }
+
+    /**
+     * Returns an array of all users in the course with the specified role
+     */
+    public function getUsersByRole($role_id)
+    {
+        // Validate the role being requested exists
+        if(Role::where('id', '=', $role_id)->exists()){
+            return $this->users()->wherePivot('role_id', $role_id)->get();
+        }
     }
 
     /**

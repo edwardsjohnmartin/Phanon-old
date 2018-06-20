@@ -24,35 +24,30 @@
         @endif
     </div>
     <div>
-        <label>Teachers</label>
-        @if(count($course->teachers) > 0)
-            <ul class="list-group">
-            @foreach($course->teachers as $teacher)
-                <li class="list-group-item">{{$teacher->name}}</li>
-            @endforeach
-            </ul>
+        @php
+        //HACK: This should not be here but I don't know how else to get access to the class
+        use Spatie\Permission\Models\Role;
+        @endphp
+        <label>Course Participants</label>
+        @if(count($course->users) > 0)
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach($course->users as $user)
+                    <tr>
+                        <td>{{$user->name}}</td>
+                        <td>{{Role::find($user->pivot->role_id)->name}}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         @else
-            <p>There are no teachers in this course</p>
-        @endif
-        <label>Teaching Assistants</label>
-        @if(count($course->assistants) > 0)
-            <ul class="list-group">
-            @foreach($course->assistants as $assistant)
-                <li class="list-group-item">{{$assistant->name}}</li>
-            @endforeach
-            </ul>
-        @else
-            <p>There are no teaching assistants in this course</p>
-        @endif
-        <label>Students</label>
-        @if(count($course->students) > 0)
-            <ul class="list-group">
-            @foreach($course->students as $student)
-                <li class="list-group-item">{{$student->name}}</li>
-            @endforeach
-            </ul>
-        @else
-            <p>There are no students in this course</p>
+            <p>This course does not contain any participants</p>
         @endif
     </div>
     <div>

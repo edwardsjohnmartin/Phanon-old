@@ -17,10 +17,11 @@ Should the names columns of courses, modules, lessons, and projects be unique?
 	Teacher_A wants to name a project Project_A
 	Can Teacher_B also create a project named Project_A?
 
-Can I delete all the commented out object creations in the DBSeeder or should they be fixed?
+----------
+-6-19-2018-
+----------
 
-
-
+Should projects have a solution saved?
 
 
 
