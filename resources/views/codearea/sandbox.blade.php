@@ -15,6 +15,7 @@
 @endsection
 
 @section('content')
+<div id="codeIde">
 <h2>New Sandbox</h2>
 <label for="ddlExamples">Examples</label>
 <select id="ddlExamples" onchange="fillCodeEditor(this)">
@@ -44,5 +45,5 @@ for ndx in range(30):
 </select>
 @component("codearea/codeEditor",["startingcode"=>""])
 @endcomponent
-
+</div>
 @endsection

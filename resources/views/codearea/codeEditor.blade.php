@@ -14,9 +14,9 @@
 
 <div id="ideControls">
     <button type="button" class="btn btn-default run" id="btnRunCode">Run</button>
-    <button type="button" class="btn btn-default run" id="btnTestMessages">Show Messages</button>
+    <!--<button type="button" class="btn btn-default run" id="btnTestMessages">Show Messages</button>
     <button type="button" class="btn btn-default run" id="btnTestPythonMessages">Show Compiler Messages</button>
-    <button type="button" class="btn btn-default run" id="btnTestTestMessages">Show Test Messages</button>
+    <button type="button" class="btn btn-default run" id="btnTestTestMessages">Show Test Messages</button>-->
 </div>
 <div id="ideMessages">
     <div>
@@ -34,17 +34,23 @@
     <div id="ideCodeWindow">
         <textarea id="codeWindow" class="code">{{$startingcode}}</textarea>
     </div>
-    <div id="ideGraphics">
-        <div id="mycanvas"></div>
-    </div>
-    <div id="ideTextOutput">
-        <pre id="output"></pre>
+    <div id="ideOutputWindows">
+        <div id="ideGraphics">
+            <h3>Graphics</h3>
+            <div id="mycanvas"></div>
+        </div>
+        <div id="ideTextOutput">
+            <h3>Text Out</h3>
+            <pre id="output"></pre>
+        </div>
     </div>
 </div>
 
 <script type="text/javascript">
     // this is more efficient to remove the foreach loop.
     //makeClassCodeMirror("#codeWindow").forEach(function (editorEl) {
+
+
     CodeMirror.fromTextArea(document.getElementById("codeWindow"), {
         lineNumbers: true,
         cursorBlinkRate: 0,
@@ -52,7 +58,10 @@
         tabSize: 4,
         indentUnit: 4,
         matchBrackets: true
+
     });
+
+
     //});
     makeRunButton('btnRunCode');
 
@@ -60,19 +69,19 @@
         $(this).parent().parent().removeClass("collapseMessage").removeClass("showMessage");
     });
 
-        $("#ideMessages .minimizer").click(function () {
+    $("#ideMessages .minimizer").click(function () {
         $(this).parent().parent().toggleClass("collapseMessage");
     });
 
-    $("#btnTestMessages").click(function () {
-        $("#ideTestOutput").addClass("showMessage");
-        $("#ideErrors").addClass("showMessage");
-    });
-    $("#btnTestPythonMessages").click(function () {
-        $("#ideErrors").addClass("showMessage");
-    });
-    $("#btnTestTestMessages").click(function () {
-        $("#ideTestOutput").addClass("showMessage");
-    });
+    //$("#btnTestMessages").click(function () {
+    //    $("#ideTestOutput").addClass("showMessage");
+    //    $("#ideErrors").addClass("showMessage");
+    //});
+    //$("#btnTestPythonMessages").click(function () {
+    //    $("#ideErrors").addClass("showMessage");
+    //});
+    //$("#btnTestTestMessages").click(function () {
+    //    $("#ideTestOutput").addClass("showMessage");
+    //});
 
 </script>

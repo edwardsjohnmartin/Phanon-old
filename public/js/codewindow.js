@@ -86,11 +86,14 @@ function run() {
         var run_method = mod.tp$getattr('__TEST');
         var ret = Sk.misceval.callsim(run_method, Sk.builtin.str(editor.getValue()), Sk.builtin.str(outputArea.innerText));
 
+
         if (ret.v.length > 0) {
             //print errors ( test errors?)
             for (var i = 0, l = ret.v.length; i < l; i++) {
-                console.log(ret.v[i]);
-                document.getElementById("test_output").innerText += ret.v[i].v + "\n";
+                //console.log(ret.v[i]);
+                var outDiv = document.getElementById("test_output");
+                outDiv.innerText += ret.v[i].v + "\n";
+                outDiv.parentNode.classList.add("showMessage");
             }
         }
     },
@@ -98,18 +101,20 @@ function run() {
         // This runs when there were errors in the code
         function (err) {
             clearErrors();
+            var outDiv = document.getElementById("error_output");
             var line_num = Number(err.toString().split("on line", 2)[1]);
             if (err.args !== undefined) {
                 if (err.args.v[0].v === "EOF in multi-line string") {
-                    document.getElementById("error_output").innerHTML += "ERROR: It looks like you have an open multi-line comment." + "\n";
+                    outDiv.innerHTML += "ERROR: It looks like you have an open multi-line comment." + "\n";
                 }
                 else {
-                    document.getElementById("error_output").innerHTML += err.toString() + "\n";
+                    outDiv.innerHTML += err.toString() + "\n";
                 }
             }
             else {
-                document.getElementById("error_output").innerHTML += err.toString() + "\n";
+                outDiv.innerHTML += err.toString() + "\n";
             }
+                outDiv.parentNode.classList.add("showMessage");
         });
 }
 

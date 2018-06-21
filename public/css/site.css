@@ -182,7 +182,8 @@
 #exercisePanel {
     width: 20%;
     position: absolute;
-    height: 100%;
+    height: 95%;
+    overflow: auto;
     top: 3.5em;
     left: 0;
     background-color: #FFF;
@@ -253,50 +254,81 @@
 }
 
 /*Start code IDE*/
-#codeIde {
-    border: 1px solid #F0F;
+html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow textarea{
     height: 100%;
 }
 
+.CodeMirror{
+    height: 100%;
+}
+
+#codeIde {
+    height: 95%;
+}
+/*set sizes*/
+#codeIde h3{ height: 2%; }
+#codeIde #idePrompt{ height: 5%; }
+#codeIde #ideControls{ height: 40px; }
+#codeIde #ideMainEditor{ height: 80%; }
+
 #idePrompt {
-    border: 1px solid #FF0;
+    overflow: auto;
 }
 
 #ideControls {
-    border: 1px solid #FF0;
-}
 
-#ideControls {
-    border: 1px solid #666;
 }
 
 #idePreCode {
-    border: 1px solid #0FF;
+
 }
 
 #ideMainEditor {
-    border: 1px solid #0AA;
+
 }
 
 #ideCodeWindow {
-    border: 1px solid #0F0;
+
     width: 50%;
     float: left;
 }
 
+#ideOutputWindows {
+    width: 50%;
+    float: right;
+    height: 100%;
+}
+
+#ideOutputWindows > div {
+    position: relative;
+}
+
+#ideOutputWindows h3{
+    font-size: 1.2em;
+    margin: 0;
+    padding: 0;
+    position:absolute;
+    top: 0;
+    right: 1.2em;
+}
+
 #ideGraphics {
     border: 1px solid #00F;
-    width: 50%;
-    float: right
+    
 }
 
 #ideTextOutput {
-    border: 1px solid #80F;
-    clear: both;
+    height: 100%;
+}
+
+#ideTextOutput #output{
+    height: 100%;
+    overflow:auto;
+    
 }
 
 #ideTestCode {
-    border: 1px solid #0FF;
+    
 }
 
 #ideMessages * {
@@ -307,6 +339,7 @@
 #ideMessages{
     position: relative;
     height: 0px;
+    
 }
 #ideMessages > div{
     position: absolute;
@@ -320,31 +353,38 @@
     height: 80px;
     background-color: #AAA;
     /*animation: hideWindow 2s ease-out 2s forwards;*/
-    height: 0;
+    height: 0px;
     transition: height 2s ease-in-out;
     animation-iteration-count: 1;
     overflow: hidden;
     border-radius: .3em;
     position: relative;
+    margin-left:10%;
     width: 90%;
 }
 
 @keyframes hideWindow{
-    0%{
+    0% {
         height: 100px;
+        border-width: 1px;
     }
-    100%{
+    95% {
+        height: 5px;
+        border-width: 1px;
+    }
+    100% {
         height: 0px;
+        border-width: 0px;
     }
 }
 
 #ideTestOutput {
-    border: 1px solid #080;
+    border: 0px solid #080;
     background-color: #EFE;
 }
 
 #ideErrors {
-    border: 1px solid #800;
+    border: 0px solid #800;
     background-color: #FEE;
 }
 
@@ -374,14 +414,25 @@
     padding: .3em;
     box-shadow: #333 2px 2px 5px 2px;
 }
+#ideMessages > div .showMessage > div {
+
+}
 
 #ideMessages > div .collapseMessage {
     height: 2em;
-    width: 50px;
+    width: 10em;
     overflow: hidden;
-    position: absolute;
-    left: auto;
+    position: relative;
+    top: -2em;
     right: 0;
+    float:right;
+    font-size: .8em;
+}
+#ideMessages .collapseMessage .messageControls {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 999;
 }
 
 /*End code IDE*/
