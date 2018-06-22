@@ -15,8 +15,10 @@ Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
 Route::get('/flow/{id}', 'PagesController@flow')->name('flow'); // course flow page.
 Route::get('/sandbox', 'CodeController@sandbox')->name('sandbox');
 Route::get('/code/current/', 'CodeController@current')->name('current');
-Route::get('/code/{id}/{eid}', 'CodeController@work')->name('work');
+Route::get('/code/{id}/{eid}', 'CodeController@exercise')->name('exercise');
 Route::get('/code/review/{id}/{eid}', 'CodeController@review')->name('review');
+Route::get('/solve/{id}', 'CodeController@project')->name('project');
+
 Route::resource('users', 'UsersController');
 Route::resource('roles', 'RolesController');
 Route::resource('permissions', 'PermissionsController');

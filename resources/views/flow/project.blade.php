@@ -1,3 +1,3 @@
 <li class="project">
-    <a href="{{url('/projects/' . $project->id)}}">{{$project->name}}</a>
+    <a href="{{url('/solve/' . $project->id)}}">{{$project->name}}</a>
 </li>

@@ -1,3 +1,19 @@
+@php
+             use Illuminate\Support\Facades\Route;
+             //$path = Route::getFacadeRoute()->current()->uri();
+             $path = Route::currentRouteName();
+             //print_r($path);
+             $paths = [
+             "sandbox" => "SandBox",
+             "courses" =>"Courses",
+             "concepts" =>"Concepts",
+             "modules" =>"Modules",
+             "lessons" =>"Lessons",
+             "exercises" =>"Exercises",
+             "projects" =>"Projects"
+             ];
+             $currController = explode('.',$path)[0];
+@endphp
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -12,38 +28,25 @@
             </button>
 
             <!-- Branding Image -->
-            <a class="navbar-brand" href="<?php echo e(url('/')); ?>">
-                <?php echo e(config('app.name', 'Phanon')); ?>
+            <a class="navbar-brand" href="{{e(url('/'))}}">
+                {{e(config('app.name', 'Phanon'))}}
 
             </a>
         </div>
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
-            <ul class="nav navbar-nav">@php
-                 use Illuminate\Support\Facades\Route;
-                 //$path = Route::getFacadeRoute()->current()->uri();
-                 $path = Route::currentRouteName();
-                 //print_r($path);
-                 $paths = [
-                 "sandbox" => "SandBox",
-                 "courses" =>"Courses",
-                 "concepts" =>"Concepts",
-                 "modules" =>"Modules",
-                 "lessons" =>"Lessons",
-                 "exercises" =>"Exercises",
-                 "projects" =>"Projects"
-                 ];
-                 $selectedPage = "";
-                 $currController = explode('.',$path)[0];
-                 @endphp
             <ul class="nav navbar-nav">
                 @php
-                foreach($paths as $pth => $name){
-                    $selectedPage = $currController == $pth ? "class='active'": "";
-                    echo "<li $selectedPage><a href='".e(url("/$pth"))."'>$name</a></li>";
-                }
-                @endphp
+             $selectedPage = "";
+             foreach($paths as $pth => $name){
+                 $selectedPage = $currController == $pth ? "class='active'": "";
+                 echo "
+                <li $selectedPage>
+                    <a href='".e(url("/$pth"))."'>$name</a>
+                </li>";
+             }
+             @endphp
             </ul>
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">

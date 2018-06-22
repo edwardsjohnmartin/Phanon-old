@@ -11,6 +11,9 @@
     @component("scriptbundles/codemirror")
     @endcomponent
 @endsection
+@section("bodyTag")
+activeIDE
+@endsection
 
 <div id="ideControls">
     <button type="button" class="btn btn-default run" id="btnRunCode">Run</button>

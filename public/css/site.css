@@ -1,4 +1,4 @@
-﻿@font-face {
+@font-face {
     font-family: 'themify';
     src: url('../fonts/themify.eot?-fvbane');
     src: url('../fonts/themify.eot?#iefix-fvbane') format('embedded-opentype'), url('../fonts/themify.woff?-fvbane') format('woff'), url('../fonts/themify.ttf?-fvbane') format('truetype'), url('../fonts/themify.svg?-fvbane#themify') format('svg');
@@ -6,6 +6,13 @@
     font-style: normal;
 }
 /* From: https://themify.me/themify-icons */
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover {
+    background-color: #080;
+}
+.navbar-inverse .navbar-nav > li > a:focus, .navbar-inverse .navbar-nav > li > a:hover {
+    background-color: #060;
+}
 
 .actions:before {
     font-family: themify;
@@ -195,6 +202,10 @@
     height: 100%;
 }
 
+    #codeIde.fullIDE {
+        margin-left: 0;
+    }
+
 #codeWindow {
     width: 100%;
     height: 50%;
@@ -254,41 +265,64 @@
 }
 
 /*Start code IDE*/
-html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow textarea{
+html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow textarea {
     height: 100%;
 }
 
-.CodeMirror{
+    body.activeIDE .navbar {
+        min-height: 0;
+        height: 6px;
+        overflow: hidden;
+        transition: min-height ease 2s;
+    }
+
+        body.activeIDE .navbar:hover {
+            min-height: 50px;
+        }
+
+      
+.CodeMirror {
     height: 100%;
 }
 
 #codeIde {
     height: 95%;
 }
-/*set sizes*/
-#codeIde h3{ height: 2%; }
-#codeIde #idePrompt{ height: 5%; }
-#codeIde #ideControls{ height: 40px; }
-#codeIde #ideMainEditor{ height: 80%; }
+    /*set sizes*/
+    #codeIde h3 {
+        height: 2%;
+    }
+
+    #codeIde #idePrompt {
+        height: 5%;
+    }
+
+    #codeIde.projectIDE #idePrompt {
+        height: 20%;
+    }
+
+    #codeIde #ideControls {
+        height: 40px;
+    }
+
+    #codeIde #ideMainEditor {
+        height: 80%;
+    }
 
 #idePrompt {
     overflow: auto;
 }
 
 #ideControls {
-
 }
 
 #idePreCode {
-
 }
 
 #ideMainEditor {
-
 }
 
 #ideCodeWindow {
-
     width: 50%;
     float: left;
 }
@@ -299,36 +333,33 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     height: 100%;
 }
 
-#ideOutputWindows > div {
-    position: relative;
-}
+    #ideOutputWindows > div {
+        position: relative;
+    }
 
-#ideOutputWindows h3{
-    font-size: 1.2em;
-    margin: 0;
-    padding: 0;
-    position:absolute;
-    top: 0;
-    right: 1.2em;
-}
+    #ideOutputWindows h3 {
+        font-size: 1.2em;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        right: 1.2em;
+    }
 
 #ideGraphics {
     border: 1px solid #00F;
-    
 }
 
 #ideTextOutput {
     height: 100%;
 }
 
-#ideTextOutput #output{
-    height: 100%;
-    overflow:auto;
-    
-}
+    #ideTextOutput #output {
+        height: 100%;
+        overflow: auto;
+    }
 
 #ideTestCode {
-    
 }
 
 #ideMessages * {
@@ -336,18 +367,18 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     padding: 0;
 }
 
-#ideMessages{
+#ideMessages {
     position: relative;
     height: 0px;
-    
 }
-#ideMessages > div{
-    position: absolute;
-    width: 100%;
-    top:0;
-    left: 0;
-    z-index: 999;
-}
+
+    #ideMessages > div {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 999;
+    }
 
 #ideTestOutput, #ideErrors {
     height: 80px;
@@ -359,19 +390,21 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     overflow: hidden;
     border-radius: .3em;
     position: relative;
-    margin-left:10%;
+    margin-left: 10%;
     width: 90%;
 }
 
-@keyframes hideWindow{
+@keyframes hideWindow {
     0% {
         height: 100px;
         border-width: 1px;
     }
+
     95% {
         height: 5px;
         border-width: 1px;
     }
+
     100% {
         height: 0px;
         border-width: 0px;
@@ -394,19 +427,19 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     right: .6em;
 }
 
-#ideMessages .messageControls a{
-    color: #333;
-    font-weight: bold;
-    text-decoration: none;
-    border: 1px solid transparent;
-    background-color: rgba(70, 70, 70, 0.33);
-    padding: .3em .5em;
-    border-radius: .3em;
-}
-
-    #ideMessages .messageControls a:hover {
-        border-color: #333;
+    #ideMessages .messageControls a {
+        color: #333;
+        font-weight: bold;
+        text-decoration: none;
+        border: 1px solid transparent;
+        background-color: rgba(70, 70, 70, 0.33);
+        padding: .3em .5em;
+        border-radius: .3em;
     }
+
+        #ideMessages .messageControls a:hover {
+            border-color: #333;
+        }
 
 #ideMessages > div .showMessage {
     height: 100px;
@@ -414,9 +447,9 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     padding: .3em;
     box-shadow: #333 2px 2px 5px 2px;
 }
-#ideMessages > div .showMessage > div {
 
-}
+    #ideMessages > div .showMessage > div {
+    }
 
 #ideMessages > div .collapseMessage {
     height: 2em;
@@ -425,9 +458,10 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     position: relative;
     top: -2em;
     right: 0;
-    float:right;
+    float: right;
     font-size: .8em;
 }
+
 #ideMessages .collapseMessage .messageControls {
     position: absolute;
     top: 0;

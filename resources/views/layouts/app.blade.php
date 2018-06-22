@@ -25,7 +25,7 @@
     <script src="{{ asset('js/codewindow.js')}}"></script>
     @yield('scripts')
 </head>
-<body>
+<body class="@yield("bodyTag")">
     <div id="app">
         @include('inc.navbar')
         <div class="container-fluid">

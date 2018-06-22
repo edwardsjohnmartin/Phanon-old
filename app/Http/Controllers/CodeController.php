@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Permission;
 use App\Lesson;
 use App\Module;
 use App\Exercise;
+use App\Project;
 class CodeController extends Controller
 {
     public function __construct(){
@@ -58,7 +59,7 @@ class CodeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function work($id,$eid)
+    public function exercise($id,$eid)
     {
         $myModule = Module::find($id);
 
@@ -72,6 +73,14 @@ class CodeController extends Controller
         return view('codearea.module',['module' => $myModule,
                                         'exercise'=>$exercise]);
     }
+
+    public function project($id)
+    {
+        $myProject = Project::find($id);
+        
+        return view('codearea.project',['project' => $myProject]);
+    }
+
     //public function review($id)
     //{
     //    $myModule = Module::find($id);

@@ -759,6 +759,8 @@
     <Compile Include="resources\views\auth\login.blade.php" />
     <Compile Include="resources\views\auth\register.blade.php" />
     <Compile Include="resources\views\codearea\codeEditor.blade.php" />
+    <Compile Include="resources\views\codearea\codeEditorWithPreCode.blade.php" />
+    <Compile Include="resources\views\codearea\project.blade.php" />
     <Compile Include="resources\views\codearea\review.blade.php" />
     <Compile Include="resources\views\codearea\module.blade.php" />
     <Compile Include="resources\views\codearea\exerciseDash.blade.php" />
