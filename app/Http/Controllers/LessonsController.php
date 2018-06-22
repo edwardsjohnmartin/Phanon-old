@@ -59,7 +59,7 @@ class LessonsController extends Controller
         // Create Lesson
         $lesson = new Lesson();
         $lesson->name = $request->input('name');
-        $lesson->user_id = auth()->user()->id;
+        $lesson->owner_id = auth()->user()->id;
 
         // Save lesson to the database
         $lesson->save();
@@ -126,7 +126,7 @@ class LessonsController extends Controller
         $lesson_exercises = $lesson->exercises();
 
         // Check for correct user
-        if(auth()->user()->id != $lesson->user_id){
+        if(auth()->user()->id != $lesson->owner_id){
             return redirect(url('/lessons'))->
                 with('error', 'Unauthorized Page');
         }
@@ -218,7 +218,7 @@ class LessonsController extends Controller
         $lesson = Lesson::find($id);
 
         // Check for correct user
-        if(auth()->user()->id != $lesson->user_id){
+        if(auth()->user()->id != $lesson->owner_id){
             return redirect(url('/lessons'))->
                 with('error', 'Unauthorized Page');
         }

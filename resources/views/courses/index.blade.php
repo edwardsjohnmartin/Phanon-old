@@ -10,7 +10,7 @@
             <div class="well">
                 <h3><a href="{{url('/courses/' . $course->id)}}">{{$course->name}}</a></h3>
                 <p>Contains {{count($course->concepts())}} concepts</p>
-                <small>Created on {{$course->created_at}} by {{$course->user->name}}</small>
+                <small>Created on {{$course->created_at}} by {{$course->owner->name}}</small>
             </div>
         @endforeach
         {{$courses->links()}}

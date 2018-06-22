@@ -49,7 +49,7 @@ class User extends Authenticatable
      * Relationship function
      * Returns an array of courses this user is in
      */
-    public function inCourses()
+    public function enrolledCourses()
     {
         return $this->belongsToMany(Course::class)->withPivot('role_id');
     }
@@ -61,34 +61,7 @@ class User extends Authenticatable
     {
         // Validate the role being requested exists
         if(Role::where('id', '=', $role_id)->exists()){
-            return $this->inCourses()->wherePivot('role_id', $role_id)->get();
+            return $this->enrolledCourses()->wherePivot('role_id', $role_id)->get();
         }
-    }
-
-    /**
-     * Relationship function
-     * Returns an array of courses this user is a student in
-     */
-    public function takingCourses()
-    {
-        return $this->belongsToMany(Course::class)->wherePivot('role_id', DB::table('roles')->where('name', Roles::STUDENT)->first()->id);
-    }
-
-    /**
-     * Relationship function
-     * Returns an array of courses this user is a teaching assistant in
-     */
-    public function assistingCourses()
-    {
-        return $this->belongsToMany(Course::class)->wherePivot('role_id', DB::table('roles')->where('name', Roles::TEACHING_ASSISTANT)->first()->id);
-    }
-
-    /**
-     * Relationship function
-     * Returns an array of courses this user is a teacher in
-     */
-    public function teachingCourses()
-    {
-        return $this->belongsToMany(Course::class)->wherePivot('role_id', DB::table('roles')->where('name', Roles::TEACHER)->first()->id);
     }
 }

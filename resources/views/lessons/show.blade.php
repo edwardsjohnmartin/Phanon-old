@@ -43,7 +43,7 @@
         @endif 
     </div>
     <div>
-        <small>Author: {{$lesson->user->name}}</small>
+        <small>Author: {{$lesson->owner->name}}</small>
     </div>
     <div>
         <small>Created On: {{$lesson->created_at}}</small>
@@ -53,7 +53,7 @@
     </div>
     <hr>
     @if(!Auth::guest())
-        @if(Auth::user()->id == $lesson->user_id)
+        @if(Auth::user()->id == $lesson->owner_id)
             <a href="{{url('/lessons/' . $lesson->id . '/edit')}}" class="btn btn-default">Edit</a>
 
             {!!Form::open(['action' => ['LessonsController@destroy', $lesson->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}

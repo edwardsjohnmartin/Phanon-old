@@ -6,12 +6,13 @@ use DateTime;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
- * @property string $name identifying name of the Module
- * @property int $concept_id Concept ID of the concept this module is part of.
- * @property int $previous_module_id Previous Module that needs to be done 
- * @property int $user_id user that ... 
- * @property \datetime $created_at when this object was added to the database
- * @property \datetime $updated_at when this object was last changed in the database
+ * @property string $name Identifying name of the Module.
+ * @property int $concept_id The id of the Concept this Module is part of.
+ * @property int $previous_module_id The id of the Module within the same Concept that needs to be done before this Module can be attempted.
+ * @property int $owner_id The id of the user that created this Module.
+ * @property int $updated_by The id of the user to last update this Module.
+ * @property \datetime $created_at The date the Module was created.
+ * @property \datetime $updated_at The date the Module was last updated.
  */
 class Module extends Model
 {
@@ -58,7 +59,7 @@ class Module extends Model
      * Relationship function
      * Returns the user this module belongs to
      */
-    public function user()
+    public function owner()
     {
         return $this->belongsTo('App\User');
     }

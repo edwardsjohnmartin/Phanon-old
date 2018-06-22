@@ -16,7 +16,7 @@
                 @endif
                 <p>Contains {{count($module->unorderedLessons)}} lessons</p>
                 <p>Contains {{count($module->unorderedProjects)}} projects</p>
-                <small>Created on {{$module->created_at}} by {{$module->user->name}}</small>
+                <small>Created on {{$module->created_at}} by {{$module->owner->name}}</small>
             </div>
         @endforeach
         {{$modules->links()}}

@@ -23,10 +23,13 @@ class CreateLessonsTable extends Migration
             $table->integer('previous_lesson_id')->unsigned()->index()->nullable();
             $table->foreign('previous_lesson_id')->references('id')->on('lessons');
 
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('owner_id')->unsigned();
+            $table->foreign('owner_id')->references('id')->on('users');
 
             $table->timestamps();
+
+            $table->integer('updated_by')->unsigned()->nullable();
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 

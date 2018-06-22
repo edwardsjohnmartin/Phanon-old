@@ -32,7 +32,7 @@
         @endif
     </div>
     <div>
-        <small>Author: {{$module->user->name}}</small>
+        <small>Author: {{$module->owner->name}}</small>
     </div>
     <div>
         <small>Created On: {{$module->created_at}}</small>
@@ -42,7 +42,7 @@
     </div>
     <hr>
     @if(!Auth::guest())
-        @if(Auth::user()->id == $module->user_id)
+        @if(Auth::user()->id == $module->owner_id)
             <a href="{{url('/modules/' . $module->id . '/edit')}}" class="btn btn-default">Edit</a>
 
             {!!Form::open(['action' => ['ModulesController@destroy', $module->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}

@@ -31,7 +31,7 @@
     @endif
 </div>
 <div>
-    <small>Author: {{$course->user->name}}</small>
+    <small>Author: {{$course->owner->name}}</small>
 </div>
 <div>
     <small>Created On: {{$course->created_at}}</small>
@@ -41,7 +41,7 @@
 </div>
 <hr />
 @if(!Auth::guest())
-@if(Auth::user()->id == $course->user_id)
+@if(Auth::user()->id == $course->owner_id)
 <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-default">Edit</a>
 
 

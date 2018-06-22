@@ -5,12 +5,13 @@ use Illuminate\Database\Eloquent\Model;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
- * @property string $name identifying name of the Lesson
- * @property int $module_id Module ID of the module this lesson is part of.
- * @property int $previous_lesson_id Previous Lesson that needs to be done before this lesson can be attempted.
- * @property int $user_id user that ...
- * @property \datetime $created_at when this object was added to the database
- * @property \datetime $updated_at when this object was last changed in the database
+ * @property string $name Identifying name of the Lesson.
+ * @property int $module_id The id of the Module this Lesson is part of.
+ * @property int $previous_lesson_id The id of the Lesson within the same Module that needs to be done before this Lesson can be attempted.
+ * @property int $owner_id The id of the user that created this Lesson.
+ * @property int $updated_by The id of the user to last update this Lesson.
+ * @property \datetime $created_at The date the Lesson was created.
+ * @property \datetime $updated_at The date the Lesson was last updated.
  */
 class Lesson extends Model
 {
@@ -49,7 +50,7 @@ class Lesson extends Model
      * Relationship function
      * Returns the user this lesson belongs to
      */
-    public function user()
+    public function owner()
     {
         return $this->belongsTo('App\User');
     }

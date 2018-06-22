@@ -63,7 +63,7 @@ class ModulesController extends Controller
         $module = new Module();
         $module->name = $request->input('name');
         $module->open_date = $request->input('open_date') . ' ' . $request->input('open_time');
-        $module->user_id = auth()->user()->id;
+        $module->owner_id = auth()->user()->id;
 
         // Save module to the database
         $module->save();
@@ -149,7 +149,7 @@ class ModulesController extends Controller
         $projects = Project::all();
 
         // Check for correct user
-        if(auth()->user()->id != $module->user_id) {
+        if(auth()->user()->id != $module->owner_id) {
             return redirect(url('/modules'))->
                 with('error', 'Unauthorized Page');
         }
@@ -268,7 +268,7 @@ class ModulesController extends Controller
         $module = Module::find($id);
 
         // Check that the module belongs to the logged-in user
-        if(auth()->user()->id != $module->user_id) {
+        if(auth()->user()->id != $module->owner_id) {
             return redirect(url('/modules'))->with('error', 'Unauthorized Page');
         }
 

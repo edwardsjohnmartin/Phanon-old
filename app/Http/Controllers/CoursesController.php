@@ -72,7 +72,7 @@ class CoursesController extends Controller
         $course->name = $request->input('name');
         $course->open_date = $request->input('open_date') . ' ' . $request->input('open_time');
         $course->close_date = $request->input('close_date') . ' ' . $request->input('close_time');
-        $course->user_id = auth()->user()->id;
+        $course->owner_id = auth()->user()->id;
 
         // Save course to the database
         $course->save();
@@ -151,7 +151,7 @@ class CoursesController extends Controller
         $roles = Role::where('name', "!=", Roles::ADMIN)->get(['id', 'name'])->toArray();
 
         // Check for correct user
-        if($course->user_id != auth()->user()->id){
+        if($course->owner_id != auth()->user()->id){
             return redirect(url('/courses'))->
                 with('error', 'Unauthorized Page');
         }
@@ -260,7 +260,7 @@ class CoursesController extends Controller
         $course = Course::find($id);
 
         // Check that the course belongs to the logged-in user
-        if(auth()->user()->id != $course->user_id){
+        if(auth()->user()->id != $course->owner_id){
             return redirect('/courses')->
                 with('error', 'Unauthorized Page');
         }
@@ -285,7 +285,7 @@ class CoursesController extends Controller
 
         // Clone the course
         $new_course = $course->deepCopy();
-        $new_course->user_id = auth()->user()->id;
+        $new_course->owner_id = auth()->user()->id;
 
         // Save the copy of the course to the database
         $new_course->save();
@@ -296,7 +296,7 @@ class CoursesController extends Controller
             foreach($course->modules as $module){
                 // Clone the module
                 $new_module = $module->deepCopy();
-                $new_module->user_id = auth()->user()->id;
+                $new_module->owner_id = auth()->user()->id;
     
                 // Save the copy of the module to the database
                 $new_module->save();
@@ -307,7 +307,7 @@ class CoursesController extends Controller
                     foreach($module->lessons as $lesson){
                         // Clone the lesson
                         $new_lesson = $lesson->deepCopy();
-                        $new_lesson->user_id = auth()->user()->id;
+                        $new_lesson->owner_id = auth()->user()->id;
         
                         // Save the copy of the lesson to the database
                         $new_lesson->save();
@@ -318,7 +318,7 @@ class CoursesController extends Controller
                             foreach($lesson->exercises as $exercise){
                                 // Clone the exercise
                                 $new_exercise = $exercise->deepCopy();
-                                $new_exercise->user_id = auth()->user()->id;
+                                $new_exercise->owner_id = auth()->user()->id;
             
                                 // Save the copy of the exercise to the database
                                 $new_exercise->save();
@@ -345,7 +345,7 @@ class CoursesController extends Controller
                     foreach($module->projects as $project){
                         // Clone the project
                         $new_project = $project->deepCopy();
-                        $new_project->user_id = auth()->user()->id;
+                        $new_project->owner_id = auth()->user()->id;
     
                         // Save the copy of the project to the database
                         $new_project->save();

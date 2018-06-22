@@ -6,18 +6,20 @@ use DateTime;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
- * @property string $name identifying name of the Project
- * @property \datetime $open_date when this Project becomes available to the users
- * @property \datetime $close_date when this Project is no longer available to a user.
- * @property string $prompt Instuctions given to user for this Project
+ * @property string $name Identifying name of the Project.
+ * @property \datetime $open_date The date this Project becomes available.
+ * @property \datetime $close_date The date this Project is no longer available.
+ * @property string $prompt Instructions given to the user for this Project.
  * @property string $pre_code Code that will be ran in the compiler directly before the user's submitted code.
- * @property string $start_code Code that will be provided to the user to modify for their solution.
- * @property string $solution Code that is the solution to the project.
- * @property int $module_id Module ID of the module this project is part of.
- * @property int $previous_lesson_id Previous Lesson that needs to be done before this project can be attempted.
- * @property int $user_id user that ...
- * @property \datetime $created_at when this object was added to the database
- * @property \datetime $updated_at when this object was last changed in the database
+ *                             The user will be able to use this code in their submission if they desire.
+ * @property string $start_code Initial code given to the user to start the Project with.
+ * @property string $solution Code defined by the creator of this Project that solves it.
+ * @property int $module_id The id of the Module this Project is part of.
+ * @property int $previous_lesson_id The id of the lesson within the same Module that needs to be done before this Project can be attempted.
+ * @property int $owner_id The id of the user that created this Project.
+ * @property int $updated_by The id of the user to last update this Project.
+ * @property \datetime $created_at The date the Project was created.
+ * @property \datetime $updated_at The date the Project was last updated.
  */
 class Project extends Model
 {
@@ -43,7 +45,7 @@ class Project extends Model
      * Relationship function
      * Returns the user this project belongs to
      */
-    public function user()
+    public function owner()
     {
         return $this->belongsTo('App\User');
     }

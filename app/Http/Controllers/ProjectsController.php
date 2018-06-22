@@ -63,7 +63,7 @@ class ProjectsController extends Controller
         $project->prompt = $request->input('prompt');
         $project->pre_code = $request->input('pre_code');
         $project->start_code = $request->input('start_code');
-        $project->user_id = auth()->user()->id;
+        $project->owner_id = auth()->user()->id;
 
         // Save project to the database
         $project->save();
@@ -97,7 +97,7 @@ class ProjectsController extends Controller
         $project = Project::find($id);
 
         // Check for correct user
-        if(auth()->user()->id != $project->user_id){
+        if(auth()->user()->id != $project->owner_id){
             return redirect(url('/projects'))->with('error', 'Unauthorized Page');
         }
 
@@ -152,7 +152,7 @@ class ProjectsController extends Controller
         $project = Project::find($id);
 
         // Check for correct user
-        if(auth()->user()->id != $project->user_id){
+        if(auth()->user()->id != $project->owner_id){
             return redirect(url('/projects'))->with('error', 'Unauthorized Page');
         }
 

@@ -27,7 +27,7 @@
         <label class="form-control rounded-0">{{$exercise->test_code}}</textarea>
     </div>
     <div>
-        <small>Author: {{$exercise->user->name}}</small>
+        <small>Author: {{$exercise->owner->name}}</small>
     </div>
     <div>
         <small>Created On: {{$exercise->created_at}}</small>
@@ -37,7 +37,7 @@
     </div>
     <hr>
     @if(!Auth::guest())
-        @if(Auth::user()->id == $exercise->user_id)
+        @if(Auth::user()->id == $exercise->owner_id)
             <a href="{{url('/exercises/' . $exercise->id . '/edit')}}" class="btn btn-default">Edit</a>
 
             {!!Form::open(['action' => ['ExercisesController@destroy', $exercise->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}

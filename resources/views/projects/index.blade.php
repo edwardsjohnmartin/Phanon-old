@@ -14,7 +14,7 @@
                 @else
                     <p>Not contained in a module</p>
                 @endif
-                <small>Created on {{$project->created_at}} by {{$project->user->name}}</small>
+                <small>Created on {{$project->created_at}} by {{$project->owner->name}}</small>
             </div>
         @endforeach
         {{$projects->links()}}

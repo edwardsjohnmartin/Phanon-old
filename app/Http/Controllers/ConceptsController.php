@@ -57,7 +57,7 @@ class ConceptsController extends Controller
         // Create concept
         $concept = new Concept();
         $concept->name = $request->input('name');
-        $concept->user_id = auth()->user()->id;
+        $concept->owner_id = auth()->user()->id;
 
         // Save concept to the database
         $concept->save();
@@ -122,7 +122,7 @@ class ConceptsController extends Controller
         $concept_modules = $concept->modules();
 
         // Check for correct user
-        if($concept->user_id != auth()->user()->id){
+        if($concept->owner_id != auth()->user()->id){
             return redirect(url('/concepts'))->
                 with('error', 'Unauthorized Page');
         }
@@ -212,7 +212,7 @@ class ConceptsController extends Controller
         $concept = Concept::find($id);
 
         // Check that the concept belongs to the logged-in user
-        if($concept->user_id != auth()->user()->id){
+        if($concept->owner_id != auth()->user()->id){
             return redirect('/concepts')->
                 with('error', 'Unauthorized Page');
         }

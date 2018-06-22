@@ -51,7 +51,7 @@ foreach($concepts as $concept){
         "'course_id' => \$course->id,".$eOL;
     if ($conceptID > 1)
         $outputText .= "'previous_concept_id' => ".'$concept'.($conceptID-1).'->id,'.$eOL;
-    $outputText .= "'user_id' => \$user->id]);$eOL$eOL"."\r\n";
+    $outputText .= "'owner_id' => \$user->id]);$eOL$eOL"."\r\n";
 
     $moduleCount = 0;
     foreach($concept->tempModules as $module){
@@ -64,7 +64,7 @@ foreach($concepts as $concept){
             "'open_date' => '".$modStartDate->format(config("app.dateformat"))."',$eOL";
         if ($moduleCount > 1)
             $outputText .= "'previous_module_id' => ".'$module'.($moduleID-1).'->id,'.$eOL;
-        $outputText .= "'user_id' => \$user->id]);$eOL$eOL"."\r\n";
+        $outputText .= "'owner_id' => \$user->id]);$eOL$eOL"."\r\n";
 
         $lessonCount = 0;
         foreach($module->tempComponents as $component){
@@ -77,7 +77,7 @@ foreach($concepts as $concept){
                     "'module_id' =>  \$module$moduleID"."->id,$eOL";
                 if ($lessonCount > 1)
                     $outputText .= "'previous_lesson_id' => ".'$lesson'.($lessonID-1).'->id,'.$eOL;
-                $outputText .= "'user_id' => \$user->id]);$eOL$eOL"."\r\n";
+                $outputText .= "'owner_id' => \$user->id]);$eOL$eOL"."\r\n";
 
                 $exerciseCount = 0;
                 foreach($lesson->tempExercises as $exercise){
@@ -105,7 +105,7 @@ foreach($concepts as $concept){
                                 "'lesson_id' => \$lesson$lessonID"."->id,$eOL";
                     if ($exerciseCount > 1)
                         $outputText .= "'previous_exercise_id' => ".'$exercise'.($exerciseID-1).'->id,'.$eOL;
-                    $outputText .= "'user_id' => ".'$user->id'."]);$eOL$eOL"."\r\n";
+                    $outputText .= "'owner_id' => ".'$user->id'."]);$eOL$eOL"."\r\n";
                     $exerciseID++;
                 }
                 $lessonID++;
@@ -143,7 +143,7 @@ foreach($concepts as $concept){
                                 "'solution' => '$solution',$eOL".
                                 "'module_id' => \$module$moduleID"."->id,$eOL".
                                 "'previous_lesson_id' => \$lesson".($lessonID-1).'->id,'.$eOL.
-                                "'user_id' => ".'$user->id'."]);$eOL$eOL"."\r\n";
+                                "'owner_id' => ".'$user->id'."]);$eOL$eOL"."\r\n";
                 $projectID++;
             }
         }

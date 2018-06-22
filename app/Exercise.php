@@ -5,16 +5,19 @@ use Illuminate\Database\Eloquent\Model;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
- * @property string $prompt Instuctions given to user for this Project
+ * @property string $prompt Instructions given to the user for this Exercise.
  * @property string $pre_code Code that will be ran in the compiler directly before the user's submitted code.
- * @property string $start_code Code that will be provided to the user to modify for their solution.
- * @property string $test_code Code that is run immediately following the users 
- *                              submitted code containing functions to test and validate the user's submission
- * @property int $lesson_id Lesson ID of the module this Exercise is part of.
- * @property int $previous_exercise_id Previous Exercise that needs to be done before this Exercise can be attempted.
- * @property int $user_id user that ...
- * @property \datetime $created_at when this object was added to the database
- * @property \datetime $updated_at when this object was last changed in the database
+ *                             The user will be able to use this code in their submission if they desire.
+ * @property string $start_code Initial code given to the user to start the Exercise with.
+ * @property string $test_code Code that is run immediately following the user's submitted code. 
+ *                             It is used to validate the user's answer against to check for correctness.
+ * @property string $solution Code defined by the creator of this Exercise that solves it.
+ * @property int $lesson_id The id of the Lesson this Exercise is part of.
+ * @property int $previous_exercise_id The id of the Exercise within the same Lesson that needs to be done before this Exercise can be attempted.
+ * @property int $owner_id The id of the user that created this Exercise.
+ * @property int $updated_by The id of the user to last update this Exercise.
+ * @property \datetime $created_at The date the Exercise was created.
+ * @property \datetime $updated_at The date the Exercise was last updated.
  */
 class Exercise extends Model
 {
@@ -39,7 +42,7 @@ class Exercise extends Model
     /**
      * Returns the user this exercise belongs to
      */
-    public function user()
+    public function owner()
     {
         return $this->belongsTo('App\User');
     }

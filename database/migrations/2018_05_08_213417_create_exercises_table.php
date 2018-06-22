@@ -19,6 +19,7 @@ class CreateExercisesTable extends Migration
             $table->text('pre_code')->nullable();
             $table->text('start_code')->nullable();
             $table->text('test_code');
+            $table->text('solution')->nullable();
             
             $table->integer('lesson_id')->unsigned()->index()->nullable();
             $table->foreign('lesson_id')->references('id')->on('lessons');
@@ -26,10 +27,13 @@ class CreateExercisesTable extends Migration
             $table->integer('previous_exercise_id')->unsigned()->index()->nullable();
             $table->foreign('previous_exercise_id')->references('id')->on('exercises');
 
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('owner_id')->unsigned();
+            $table->foreign('owner_id')->references('id')->on('users');
 
             $table->timestamps();
+
+            $table->integer('updated_by')->unsigned()->nullable();
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 

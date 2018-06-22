@@ -17,7 +17,7 @@
         @endforeach
     @endforeach
     <div>
-        <small>Author: {{$course->user->name}}</small>
+        <small>Author: {{$course->owner->name}}</small>
     </div>
     <div>
         <small>Created On: {{$course->created_at}}</small>

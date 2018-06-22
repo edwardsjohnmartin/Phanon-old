@@ -4,12 +4,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
  /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
- * @property string $name identifying name of the Concept
- * @property int $course_id Course ID of the course this Concept is part of.
- * @property int $previous_concept_id Previous Concept that needs to be done before this Concept can be attempted.
- * @property int $user_id user that ...
- * @property \datetime $created_at when this object was added to the database
- * @property \datetime $updated_at when this object was last changed in the database
+ * @property string $name Identifying name of the Concept.
+ * @property int $course_id The id of the Course this Concept is part of.
+ * @property int $previous_concept_id The id of the Concept within the same Course that needs to be done before this Concept can be attempted.
+ * @property int $owner_id The id of the user that created this Concept.
+ * @property int $updated_by The id of the user to last update this Concept.
+ * @property \datetime $created_at The date the Concept was created.
+ * @property \datetime $updated_at The date the Concept was last updated.
  */
 class Concept extends Model
 {
@@ -47,7 +48,7 @@ class Concept extends Model
      * Relationship function
      * Returns the user this concept belongs to
      */
-    public function user()
+    public function owner()
     {
         return $this->belongsTo('App\User');
     }

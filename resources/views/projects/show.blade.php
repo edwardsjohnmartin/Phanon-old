@@ -32,7 +32,7 @@
         <p>{{$project->start_code}}</p>
     </div>
     <div>
-        <small>Author: {{$project->user->name}}</small>
+        <small>Author: {{$project->owner->name}}</small>
     </div>
     <div>
         <small>Created On: {{$project->created_at}}</small>
@@ -42,7 +42,7 @@
     </div>
     <hr>
     @if(!Auth::guest())
-        @if(Auth::user()->id == $project->user_id)
+        @if(Auth::user()->id == $project->owner_id)
             <a href="{{url('/projects/' . $project->id . '/edit')}}" class="btn btn-default">Edit</a>
 
             {!!Form::open(['action' => ['ProjectsController@destroy', $project->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}

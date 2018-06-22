@@ -15,7 +15,7 @@
                     <p>This concept is not in a course</p>
                 @endif
                 <p>Contains {{count($concept->modules())}} modules</p>
-                <small>Created on {{$concept->created_at}} by {{$concept->user->name}}</small>
+                <small>Created on {{$concept->created_at}} by {{$concept->owner->name}}</small>
             </div>
         @endforeach
         {{$concepts->links()}}

@@ -24,7 +24,7 @@
         @endif
     </div>
     <div>
-        <small>Author: {{$concept->user->name}}</small>
+        <small>Author: {{$concept->owner->name}}</small>
     </div>
     <div>
         <small>Created On: {{$concept->created_at}}</small>
@@ -34,7 +34,7 @@
     </div>
     <hr>
     @if(!Auth::guest())
-        @if(Auth::user()->id == $concept->user_id)
+        @if(Auth::user()->id == $concept->owner_id)
             <a href="{{url('/concepts/' . $concept->id . '/edit')}}" class="btn btn-default">Edit</a>
 
             {!!Form::open(['action' => ['ConceptsController@destroy', $concept->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}

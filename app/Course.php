@@ -9,12 +9,13 @@ use DateTime;
 
  /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
- * @property string $name identifying name of the Course
- * @property \datetime $open_date when this Course becomes available to the users
- * @property \datetime $close_date when this Course is no longer available to a user.
- * @property int $user_id user that ...
- * @property \datetime $created_at when this object was added to the database
- * @property \datetime $updated_at when this object was last changed in the database
+ * @property string $name Identifying name of the Course.
+ * @property \datetime $open_date The date this Course becomes available.
+ * @property \datetime $close_date The date this Course is no longer available.
+ * @property int $owner_id The id of the user that created this Course.
+ * @property int $updated_by The id of the user to last update this Course.
+ * @property \datetime $created_at The date the Course was created.
+ * @property \datetime $updated_at The date the Course was last updated.
  */
  
 class Course extends Model
@@ -41,7 +42,7 @@ class Course extends Model
      * Relationship function
      * Returns the user this course belongs to
      */
-    public function user()
+    public function owner()
     {
         return $this->belongsTo('App\User');
     }

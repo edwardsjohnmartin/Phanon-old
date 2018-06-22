@@ -3,7 +3,7 @@
 @section('content')
     <h1>Edit Project</h1>
     <label>Original Author</label>
-    <p>{{$project->user->name}}</p>
+    <p>{{$project->owner->name}}</p>
     {!! Form::open(['action' => ['ProjectsController@createClone'], 'method' => 'POST']) !!}
         <div class="form-group">
             {{Form::label('name', 'Name')}}

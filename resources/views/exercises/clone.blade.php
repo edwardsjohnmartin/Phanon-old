@@ -3,7 +3,7 @@
 @section('content')
     <h1>Clone Exercise</h1>
     <label>Original Author</label>
-    <p>{{$exercise->user->name}}</p>
+    <p>{{$exercise->owner->name}}</p>
     {!! Form::open(['action' => ['ExercisesController@createClone'], 'method' => 'POST']) !!}
         <div class="form-group">
             {{Form::label('prompt', 'Prompt')}}
