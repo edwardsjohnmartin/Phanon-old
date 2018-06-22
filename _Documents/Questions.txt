@@ -1,30 +1,12 @@
 ---Questions---
 
 ----------
--6-5-2018-
+-6-21-2018-
 ----------
 
-Should the names columns of courses, modules, lessons, and projects be unique?
-	Teacher_A wants to name a course Course_A
-	Can Teacher_B also create a course named Course_A?
+Should test_out check if the argument passed into is just contained in the students output?
+Or should it check if the argument and the students output are the same?
 
-	Teacher_A wants to name a module Module_A
-	Can Teacher_B also create a module named Module_A?
-
-	Teacher_A wants to name a lesson Lesson_A
-	Can Teacher_B also create a lesson named Lesson_A?
+How detailed should the correct and incorrect messages from tests be?
+For instance, if an output was missed, should what was supposed to be in the output be in the error message?
 	
-	Teacher_A wants to name a project Project_A
-	Can Teacher_B also create a project named Project_A?
-
-----------
--6-19-2018-
-----------
-
-Should projects have a solution saved?
-
-
-
-
-
-

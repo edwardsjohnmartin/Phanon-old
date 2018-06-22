@@ -5,8 +5,8 @@
 #these are the global variables that will be evaluated in the test function.
 __returns = []
 __in_strings = []
-__out_string = [None] #this was overwriting teacher's value, so I changed it to use an array. Don't know why this works.
-
+#__out_string = [None] #this was overwriting teacher's value, so I changed it to use an array. Don't know why this works.
+__out_string = []
 
 def split_type(arg):
     a = str(type(arg))
@@ -77,6 +77,8 @@ def __UNIVERSAL_VALIDATOR(desired_var_name, desired_type_str, desired_return, *a
                         return "{0} does not contain the correct values.".format(desired_var_name)
                 else:
                     return "{0} should contain {1} items.".format(desired_var_name, len(args))
+            else:
+                return True
         else:
             return "{0} should be of type {1}.".format(desired_var_name, desired_type_str)
     else:
@@ -107,8 +109,9 @@ def test_val(var_name, var_val):
 
 def test_type(var_name, var_type):
     __ret = __VALIDATE_VAR(var_name, var_type)
-    if __ret != None:
-        __returns.append(__ret)
+    #if __ret != None:
+    #    __returns.append(__ret)
+    __returns.append(__ret)
     #__returns.append(__VALIDATE_VAR(var_name, var_type))
 
 def test_func(func_name, desired_return, *params):
@@ -118,7 +121,8 @@ def test_in(string):
     __in_strings.append(string)
 
 def test_out(string):
-    __out_string[0] = string + "\n"
+    #__out_string[0] = string + "\n"
+    __out_string.append(string + "\n")
 
 def test_equal(a, b):
     if a <> b:
@@ -130,31 +134,49 @@ def test_equal(a, b):
 #finally, this is the test function that will be called from the editor.js file
 # --------------------------------------------------------------------
 def __TEST(student_input, student_output):
-    problems = []
+    results = []
     
-    for thing in __returns:
-        if thing != True:
-            problems.append(thing)
+    #for thing in __returns:
+    #    if thing != True:
+    #        problems.append(thing)
+    
+    for x in __returns:
+        if x != True:
+            results.append([False, x])
+        else:
+            results.append([True, "The test is correct."])
+        
 
-    missing_strings = ""
+    #missing_strings = ""
+    #for x in __in_strings:
+    #    if x not in student_input:
+    #        missing_strings += str(x) + ", "
+    #if missing_strings != "":
+    #    problems.append("You must include the following string(s) in your code: " + missing_strings)
+    
     for x in __in_strings:
         if x not in student_input:
-            missing_strings += str(x) + ", "
-    if missing_strings != "":
-        problems.append("You must include the following string(s) in your code: " + missing_strings)
+            results.append([False, "The input is incorrect."])
+        else:
+            results.append([True, "The input is correct"])
     
     #if all(x in student_input for x in __in_strings) == False:
         #problems.append("You must include the following string(s) in your code: {0}.".format(str(__in_strings)))
         #problems.append("The code is incorrect.")
         #problems.append("test_in incorrect.")
 
-    if __out_string[0] != None:
-        if student_output != __out_string[0]:
-            #problems.append("The output is incorrect.")
-            problems.append("test_out incorrect.")
-            #problems.append(__out_string[0])
+    #if __out_string[0] != None:
+    #    if student_output != __out_string[0]:
+    #        problems.append([False, "The output was incorrect"])
+    #    else:
+    #        problems.append([True, "The output was correct"])
+    for y in __out_string:
+        if y != student_output:
+            results.append([False, "The output is incorrect"])
+        else:
+            results.append([True, "The output is correct"])
 
-    return problems
+    return results
 
 def __TEST_EXAM(student_input, student_output):
     error_messages = []
@@ -172,3 +194,4 @@ def __TEST_EXAM(student_input, student_output):
             error_messages.append("Incorrect")
 
     return error_messages
+    
