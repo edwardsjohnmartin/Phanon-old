@@ -20,7 +20,7 @@
     @foreach($lessons as $lesson)
         @foreach($lesson->exercises() as $exercise)
     <?php $exerciseCounter++ ?>
-    <li class="exercise mini" data-lesson-id="{{$lesson->id}}">
+    <li class="exercise mini @if($module_completion[$lesson->id][$exercise->id] == 1) completed @endif" data-lesson-id="{{$lesson->id}}">
         <a href="{{url($path ,['id' => $lesson->module_id,
                              'eid'=>$exercise->id])}}" onclick="showExcercise({{$exercise->id}})">
                 {{$exerciseCounter}}

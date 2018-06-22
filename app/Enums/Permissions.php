@@ -32,6 +32,7 @@ class Permissions extends Enum
     const EXERCISE_CREATE = 'exercise.create';
     const EXERCISE_EDIT = 'exercise.edit';
     const EXERCISE_DELETE = 'exercise.delete';
+    const EXERCISE_AUTOCOMPLETE = "exercise.autocomplete";
 
     const PROJECT_VIEW = 'project.view';
     const PROJECT_CREATE = 'project.create';

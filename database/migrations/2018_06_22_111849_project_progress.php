@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UsersProjectCompletion extends Migration
+class ProjectProgress extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class UsersProjectCompletion extends Migration
      */
     public function up()
     {
-        Schema::create('users_project_completion', function (Blueprint $table) {
+        Schema::create('project_progress', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('user_id')->unsigned()->index();
@@ -23,7 +23,7 @@ class UsersProjectCompletion extends Migration
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
 
             $table->text('contents')->nullable();
-            $table->timestamps();
+            $table->dateTime('last_run_date')->nullable();
         });
     }
 
@@ -34,6 +34,6 @@ class UsersProjectCompletion extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_project_completion');
+        Schema::dropIfExists('project_progress');
     }
 }

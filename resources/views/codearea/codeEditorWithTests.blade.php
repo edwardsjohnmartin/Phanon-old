@@ -54,6 +54,21 @@
     <input type="hidden" id="test_code" value='{{$exercise->test_code}}' />
 @endif
 
+@can("exercise.autocomplete")
+    {!! Form::open(['id' => 'exerciseComplete', 'action' => ['ExerciseProgressController@complete', $exercise->id], 'method' => 'PUT']) !!}
+        <div class="form-group">
+            <label>Select which student you want to complete the exercise for</label>
+            <select id="user" name="user" class="form-control">
+                @foreach($users as $user)
+                    <option value="{{$user->id}}">{{$user->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        
+        {{Form::submit('Complete Exercise', ['class' => 'btn btn-primary'])}}
+    {!! Form::close() !!}
+@endcan
+
 @section('scripts-end')
     @parent
     <!--These are not needed, they are only for making the pre and test codes look nice-->

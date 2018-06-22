@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UsersExerciseCompletion extends Migration
+class ExerciseProgress extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class UsersExerciseCompletion extends Migration
      */
     public function up()
     {
-        Schema::create('users_exercise_completion', function (Blueprint $table) {
+        Schema::create('exercise_progress', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('user_id')->unsigned()->index();
@@ -22,10 +22,13 @@ class UsersExerciseCompletion extends Migration
             $table->integer('exercise_id')->unsigned()->index();
             $table->foreign('exercise_id')->references('id')->on('exercises')->onDelete('cascade');
 
-            $table->text('last_attempt')->nullable();
-            $table->text('last_correct_attempt')->nullable();
-            $table->dateTime('updated_at');
-            $table->dateTime('completed_at');
+            $table->text('last_contents')->nullable();
+            $table->dateTime('last_run_date')->nullable();
+
+            $table->text('last_correct_contents')->nullable();
+            $table->dateTime('last_correct_run_date')->nullable();
+
+            $table->dateTime('completion_date');
         });
     }
 
@@ -36,6 +39,6 @@ class UsersExerciseCompletion extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_exercise_completion');
+        Schema::dropIfExists('exercise_progress');
     }
 }

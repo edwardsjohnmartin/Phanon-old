@@ -242,6 +242,19 @@
         position: relative;
     }
 
+    #exerciseList .exercise.completed {
+        background-color: #080;
+    }
+    #exerciseList .exercise.completed a{
+        color: #000;
+    }
+    #exerciseList .exercise.current {
+        background-color: #00F;
+    }
+    #exerciseList .exercise.current a{
+        color: #000;
+    }
+
         #exerciseList .exercise:hover {
             width: 2.2em;
             height: 2.2em;

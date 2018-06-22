@@ -48,7 +48,7 @@ class PagesController extends Controller
         if ($user->hasPermissionTo(Permissions::ADMIN)){
             $coursesToShow = Course::paginate(10);
         } else{
-            $coursesToShow = $user->courses;
+            $coursesToShow = $user->courses()->get();
         }
 
         //DEMO: This will return all courses the user has a role in
