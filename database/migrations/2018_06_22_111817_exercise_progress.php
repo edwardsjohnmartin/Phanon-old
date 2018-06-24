@@ -28,7 +28,7 @@ class ExerciseProgress extends Migration
             $table->text('last_correct_contents')->nullable();
             $table->dateTime('last_correct_run_date')->nullable();
 
-            $table->dateTime('completion_date');
+            $table->dateTime('completion_date')->nullable();
         });
     }
 

@@ -43,3 +43,5 @@ Route::get('/projects/{id}/clone', 'ProjectsController@copy')->name('projects.cl
 Route::post('import/upload','ImportController@upload');
 
 Route::put('exerciseprogress/complete/{exercise_id}', ['as' => 'exerciseprogress.complete', 'uses' => 'ExerciseProgressController@complete']);
+
+Route::get('save', 'ExerciseProgressController@save')->name('save');

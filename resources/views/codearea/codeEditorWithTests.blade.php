@@ -69,6 +69,24 @@
     {!! Form::close() !!}
 @endcan
 
+<script type="text/javascript">
+    function save(completed){
+        var editor = getEditor('#ideCodeWindow',"");
+        var contents = editor.getValue();
+        var exercise_id = {{$exercise->id}};        
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '{{url("/save")}}',
+            data: { contents: contents, exercise_id: exercise_id, completed: completed},
+            success: function( ret ) {
+                console.log(ret);
+            }
+        });
+    }
+</script>
+
 @section('scripts-end')
     @parent
     <!--These are not needed, they are only for making the pre and test codes look nice-->

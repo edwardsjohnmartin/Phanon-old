@@ -99,6 +99,16 @@ function run() {
         //console.log(testMessages);
 
         printTestMessages(testMessages);
+
+        var completed = true;
+        for(var i = 0; i < testMessages.length; i++){
+            if(!testMessages[i].passed){
+                completed = false;
+                break;
+            }
+        }
+
+        save(completed);
     },
         // This will print any Python errors that were in the code that was ran
         function (err) {
