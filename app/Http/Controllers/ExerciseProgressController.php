@@ -48,60 +48,33 @@ class ExerciseProgressController extends Controller
             ->with('error', $error);
     }
 
+    /**
+     * Parses the exercise details from the Request object and saves the Exercise to the database
+     */
     public function save(Request $request)
     {
+        //TODO:: Check into the order of things here.
+        // Is checking $request->ajax nessecary?
+        // Should that check be done before trying to extract the contents of $request->all()?
+
+        $user_id = auth()->user()->id;
         $all = $request->all();
         $contents = $all['contents'];
         $exercise_id = $all['exercise_id'];
-        $completed = $all['completed'];
+        $success = ($all['success'] == "true");
 
-        $completed = ($completed == "true");
-
-        if($request->ajax()){
-
-            $message = $this->saveProgress($exercise_id, $contents);
-
-            return response()->json([
-                'completed' => $completed, 
-                'contents' => $contents, 
-                'exercise_id' => $exercise_id,
-                'message' => $message
-            ]);
-        }
-    }
-
-    public function saveProgress($exercise_id, $contents)
-    {
-        // Get logged in user
-        $user_id = auth()->user()->id;
-
-        // See if object exists
+        // Get the ExerciseProgress for this user and exercise
         $exProgress = ExerciseProgress::where('user_id', $user_id)->where('exercise_id', $exercise_id)->first();
-        
-        $completed = "existed";
 
+        // Create new ExerciseProgress object if one doesn't exist
         if(empty($exProgress) or is_null($exProgress)){
-            $completed = "didn't exist";
-
-            // Create new ExerciseProgress object
             $exProgress = new ExerciseProgress();
             $exProgress->user_id = $user_id;
             $exProgress->exercise_id = $exercise_id;
-            $exProgress->last_contents = $contents;
-            $exProgress->last_run_date = Carbon\Carbon::now();
         }
 
-        $x = "initial";
-        if($exProgress->completed()){
-            $x = " is completed";
-        }else{
-            $x = " is not completed";
-            $exProgress->last_contents = $contents;
-            $exProgress->last_run_date = Carbon\Carbon::now();
+        if($request->ajax()){
+            $exProgress->saveProgress($contents, $success);
         }
-
-        $exProgress->save();
-
-        return "this was in saveProgress " . $completed . $x;
     }
 }

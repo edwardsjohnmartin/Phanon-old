@@ -117,21 +117,42 @@ function run() {
 
         printTestMessages(testMessages);
 
-        var completed = true;
+        var success = true;
         for(var i = 0; i < testMessages.length; i++){
             if(!testMessages[i].success){
-                completed = false;
+                success = false;
                 break;
             }
         }
 
-        save(completed);
+        save(success);
     },
         // This will print any Python errors that were in the code that was ran
         function (err) {
             printPythonErrors(err);
+            save();
         }
     );
+}
+
+// Makes an AJAX call to save the contents and whether the exercise was completed correctly to the database
+function save(success = false){
+    var editor = getEditor('#ideCodeWindow',"");
+    var contents = editor.getValue();      
+
+    // These variables must be defined on the PHP view for the AJAX call to be successful
+    var exercise_id = global_exercise_id;
+    var save_url = global_save_url;
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: save_url,
+        data: { contents: contents, exercise_id: exercise_id, success: success},
+        success: function( ret ) {
+            console.log(ret);
+        }
+    });
 }
 
 // Takes in the return from the Python tests and turns into a usable array

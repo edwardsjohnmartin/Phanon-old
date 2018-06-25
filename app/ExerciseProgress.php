@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
@@ -24,8 +25,31 @@ class ExerciseProgress extends Model
     // Timestamps
     public $timestamps = false;
 
+    // Returns whether or not the exercise was completed correctly
     public function completed()
     {
         return isset($this->completion_date);
+    }
+
+    /**
+     *  Takes in whether an exercise was completed correctly and saves its contents and current date to the database
+     */
+    public function saveProgress($contents, $success)
+    {
+        $now = Carbon\Carbon::now();
+
+        if($success){
+            $this->last_correct_contents = $contents;
+            $this->last_correct_run_date = $now;
+
+            if(!$this->completed()){
+                $this->completion_date = $now;
+            }
+        }else{
+            $this->last_contents = $contents;
+            $this->last_run_date = $now;
+        }
+
+        $this->save();
     }
 }

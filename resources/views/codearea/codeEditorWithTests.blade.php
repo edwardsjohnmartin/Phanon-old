@@ -72,21 +72,9 @@
 @endcan
 
 <script type="text/javascript">
-    function save(completed){
-        var editor = getEditor('#ideCodeWindow',"");
-        var contents = editor.getValue();
-        var exercise_id = {{$exercise->id}};        
-
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: '{{url("/save")}}',
-            data: { contents: contents, exercise_id: exercise_id, completed: completed},
-            success: function( ret ) {
-                console.log(ret);
-            }
-        });
-    }
+    // HACK: Create variables to store the information to save an exercise.
+    var global_exercise_id = {{$exercise->id}};
+    var global_save_url = '{{url("/save")}}';
 </script>
 
 @section('scripts-end')
