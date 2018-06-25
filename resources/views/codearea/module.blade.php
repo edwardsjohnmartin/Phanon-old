@@ -1,6 +1,7 @@
 @extends("layouts.app")
 
 @section('content')
+<a href="{{url("flow",["id" => $module->concept->course_id])}}">Return</a>
 <div id="exercisePanel">
     @component("codearea/exerciseDash", ['lessons' => $module->lessons(), 'module_completion' => $module_completion, 'current_exercise' => $exercise])
     @endcomponent

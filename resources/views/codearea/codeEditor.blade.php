@@ -2,7 +2,14 @@
              if(!isset($startingcode)){
                  $startingcode = "Enter Code Here";
              }
-             @endphp
+            // set this to settings when not saving data.
+            if(!isset($editor_type))
+                     $editor_type = 'none';
+            if(!isset($save_id))
+                     $save_id = -1;
+            if(!isset($save_url))
+                     $save_url = "";
+@endphp
 
 @section('scripts')
     @parent {{-- use to make sure that any scripts on parent pages are also included. --}}
@@ -16,7 +23,12 @@ activeIDE
 @endsection
 
 <div id="ideControls">
-    <button type="button" class="btn btn-default run" id="btnRunCode">Run</button>
+    <button type="button" class="btn btn-default run" id="btnRunCode"
+            data-editor-type="{{$editor_type}}"
+            data-save-id="{{$save_id}}"
+            data-save-url="{{$save_url}}">
+        Run
+    </button>
     <!--<button type="button" class="btn btn-default run" id="btnTestMessages">Show Messages</button>
     <button type="button" class="btn btn-default run" id="btnTestPythonMessages">Show Compiler Messages</button>
     <button type="button" class="btn btn-default run" id="btnTestTestMessages">Show Test Messages</button>-->

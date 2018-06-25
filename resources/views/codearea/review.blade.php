@@ -3,6 +3,7 @@
     $lessons = $module->lessons();
 ?>
 @section('content')
+<a href="{{url("flow",["id" => $module->concept->course_id])}}">Return</a>
 <div id="exercisePanel">
     <label for="ddlFilter">Filter</label>
     <select id="ddlFilter" onchange="filterExercises(this)">

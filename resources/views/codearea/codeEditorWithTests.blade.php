@@ -31,7 +31,10 @@
             ['prompt' => $exercise->prompt,
             'pre_code' => $exercise->pre_code,
             'startingcode' => $exercise->start_code,
-            'isEditor' => $isEditor])
+            'isEditor' => $isEditor,
+            'editor_type' => "exercise",
+            'save_id' => $exercise->id,
+            'save_url' => url('/save')])
 {{-- must include test output here so that it will be loaded into the correc
         spot in the editor --}}
 <div id="ideTestOutput">

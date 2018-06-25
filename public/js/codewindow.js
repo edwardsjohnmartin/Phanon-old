@@ -149,18 +149,37 @@ function save(success = false){
     var contents = editor.getValue();      
 
     // These variables must be defined on the PHP view for the AJAX call to be successful
-    var exercise_id = global_exercise_id;
-    var save_url = global_save_url;
 
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: save_url,
-        data: { contents: contents, exercise_id: exercise_id, success: success},
-        success: function( ret ) {
-            console.log(ret);
-        }
-    });
+    var btnSave = $("#btnRunCode");
+    alert(btnSave);
+    var saveId = btnSave.data("save-id");
+    var saveUrl = btnSave.data("save-url");
+    var editorType = btnSave.data("editor-type");
+
+    if (editorType == "exercise") {
+        $.ajax({ 
+            type: "GET", // For security, this should proabably be a POST not GET method.
+            dataType: "json",
+            url: saveUrl,
+            data: { contents: contents, exercise_id: saveId, success: success },
+            success: function (ret) {
+                console.log(ret);
+            }
+        });
+    } else if (editorType == "project") {
+        //$.ajax({
+        //    type: "GET", // For security, this should proabably be a POST not GET method.
+        //    dataType: "json",
+        //    url: saveUrl,
+        //    data: { contents: contents, project_id: saveId, success: success },
+        //    success: function (ret) {
+        //        console.log(ret);
+        //    }
+        //});
+    } else {
+        // do not save 
+        // this will most likely be the sandbox.
+    }
 }
 
 // Takes in the return from the Python tests and turns into a usable array

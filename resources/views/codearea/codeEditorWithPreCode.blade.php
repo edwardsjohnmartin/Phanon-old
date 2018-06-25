@@ -19,7 +19,10 @@
 @endif
 
 @component("codearea/codeEditor",
-            ['startingcode' => $startingcode])
+            ['startingcode' => $startingcode,
+            'editor_type' => $editor_type,
+            'save_id' => $save_id,
+            'save_url' => $save_url])
     {{-- this will pass down any message areas to the lower IDE --}}
     {{$slot}}
 @endcomponent
