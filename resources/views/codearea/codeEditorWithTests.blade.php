@@ -55,6 +55,7 @@
 @endif
 
 @can("exercise.autocomplete")
+    @if(!empty($users))
     {!! Form::open(['id' => 'exerciseComplete', 'action' => ['ExerciseProgressController@complete', $exercise->id], 'method' => 'PUT']) !!}
         <div class="form-group">
             <label>Select which student you want to complete the exercise for</label>
@@ -67,6 +68,7 @@
         
         {{Form::submit('Complete Exercise', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
+    @endif
 @endcan
 
 <script type="text/javascript">

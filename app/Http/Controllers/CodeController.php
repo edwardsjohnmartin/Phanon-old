@@ -96,8 +96,9 @@ class CodeController extends Controller
         }
 
         $exercise = Exercise::find($exerciseId);
-        return view('codearea.module',['module' => $myModule,
-                                        'exercise'=>$exercise])
+        return view('codearea.module')
+            ->with('module', $myModule)
+            ->with('exercise', $exercise)
             ->with('users', $users)
             ->with('module_completion', $module_completion);
     }
@@ -126,7 +127,8 @@ class CodeController extends Controller
         }
 
         $exercise = Exercise::find($exerciseId);
-        return view('codearea.review',['module' => $myModule
-                                        ,"exercise"=>$exercise]);
+        return view('codearea.review')
+            ->with('module', $myModule)
+            ->with('exercise', $exercise);
     }
 }

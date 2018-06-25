@@ -20,7 +20,16 @@
     @foreach($lessons as $lesson)
         @foreach($lesson->exercises() as $exercise)
     <?php $exerciseCounter++ ?>
-    <li class="exercise mini @if($module_completion[$lesson->id][$exercise->id] == 1) completed @endif" data-lesson-id="{{$lesson->id}}">
+    @php
+    //HACK: This is only done like this here to prevent the code/review page from breaking from $module_completion not being defined
+    $li_class = ""; 
+    if(!empty($module_completion)){
+        if($module_completion[$lesson->id][$exercise->id] == 1){
+            $li_class = " completed";
+        }
+    }
+    @endphp
+    <li class="exercise mini {{$li_class}}" data-lesson-id="{{$lesson->id}}">
         <a href="{{url($path ,['id' => $lesson->module_id,
                              'eid'=>$exercise->id])}}" onclick="showExcercise({{$exercise->id}})">
                 {{$exerciseCounter}}

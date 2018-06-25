@@ -6,7 +6,7 @@
     @endcomponent
 </div>
 <div id="codeIde">
-    @component("codearea/codeEditorWithTests",['exercise'=>$exercise, 'users' => $users])
+    @component("codearea/codeEditorWithTests",['exercise'=>$exercise])
     @endcomponent
 </div>
 @endsection

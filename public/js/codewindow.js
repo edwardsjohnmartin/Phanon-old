@@ -38,6 +38,28 @@ function builtinRead(x) {
     return Sk.builtinFiles["files"][x];
 }
 
+// Function to get the Python code needed to enable Exercise testing
+function getTests(include_python_code = true) {
+
+    var python_test_code = "";
+    var test_code = "";
+    var test_code_editor = getEditor('#ideTestCode', '#test_code');
+
+    if (test_code_editor) {
+        // Python code (from python.py)
+        python_test_code += document.getElementById("pythonTestCode").innerText.trim() + "\n";
+
+        // Test code
+        test_code = test_code_editor.getValue().trim();
+    }
+
+    if(include_python_code){
+        return python_test_code + test_code;
+    }
+
+    return test_code;
+}
+
 function run() {
     //fixed this to be dynamic.
     // the biggest problem is that it expected the code mirror windows
@@ -49,7 +71,6 @@ function run() {
     // check to see if we have pre and test code 
     // Sandbox will not have these.
     var pre_code_editor = getEditor('#idePreCode', "#pre_code");
-    var test_code_editor = getEditor('#ideTestCode', '#test_code');
     
     // Create a string that will store all parts to pass to Skulpt to compile the Python code
     var codeToRun = "";
@@ -62,12 +83,8 @@ function run() {
     // User typed code
     codeToRun += editor.getValue();
 
-    if (test_code_editor) {
-        // Python code (from python.py)
-        codeToRun += document.getElementById("pythonTestCode").innerText.trim() + "\n";
-        // Test code
-        codeToRun += test_code_editor.getValue().trim();
-    }
+    // Python and Test Code
+    codeToRun += getTests();
 
     var outputArea = document.getElementById("output");
     outputArea.innerHTML = "";
@@ -102,7 +119,7 @@ function run() {
 
         var completed = true;
         for(var i = 0; i < testMessages.length; i++){
-            if(!testMessages[i].passed){
+            if(!testMessages[i].success){
                 completed = false;
                 break;
             }
@@ -119,17 +136,30 @@ function run() {
 
 // Takes in the return from the Python tests and turns into a usable array
 // Each element of the array will be an object with the following properties:
-//     message: string - Contains the pass or fail message for a test.
-//     passed: boolean - Indicates whether the given test was successful or not.
+//     test: string - Contains the test that was ran as a string
+//     success: boolean - Indicates whether the given test was successful or not
+//     message: string - Contains the pass or fail message for a test
 function makeTestMessagesArray(ret){
     var testMessages = [];
+    var test_code = getTests(false);
+    var tests = test_code.split("test_");
 
+    // This adds the split delimiter back into the strings
+    for(var i = 0; i < tests.length; i++){
+        if(tests[i].length > 0){
+            testMessages.push("test_" + tests[i]);
+            tests[i] = "test_" + tests[i];
+        }
+    }
+
+    // Create the array of results by parsing the contents of ret
     if(ret.length > 0){
         for(var i = 0; i < ret.length; i++){
-            testMessages.push({passed: ret[i].v[0].v, message: ret[i].v[1].v});
-
-            // Converts the integer in ret to its boolean value
-            testMessages[i].passed = !!+testMessages[i].passed;
+            testMessages[i] = {
+                test: testMessages[i],
+                success: !!+ret[i].v[0].v, 
+                message: ret[i].v[1].v
+            };
         }
     }
 
