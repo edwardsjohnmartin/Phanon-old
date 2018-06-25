@@ -22,3 +22,8 @@ Is this a good idea?
 	When a project is accessed for a user, it checks if an entry in the table exists.
 	The only time an entry gets added to the table is when a special due date has been assigned for that specific user on that specific project.
 	If an entry exists, it will use that, if not, it will use the default due date for the project.
+
+If the user has attempted an exercise but not finished it, if they go to a different page and come back, should we load their old work?
+
+Should exercises have a Restart button?
+	It would allow the user to hit the button to have the exercise go back to its original state.
