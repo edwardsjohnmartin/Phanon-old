@@ -125,6 +125,14 @@ function run() {
             }
         }
 
+        if(success){
+            // Color the tile
+            var tile = document.getElementsByClassName("current")[0];
+            if(!tile.classList.contains("completed")){
+                tile.classList.add("completed");
+            }
+        }
+
         save(success);
     },
         // This will print any Python errors that were in the code that was ran

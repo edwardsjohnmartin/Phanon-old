@@ -249,10 +249,7 @@
         color: #000;
     }
     #exerciseList .exercise.current {
-        background-color: #00F;
-    }
-    #exerciseList .exercise.current a{
-        color: #000;
+        border: 2px solid #813300;
     }
 
         #exerciseList .exercise:hover {
@@ -260,7 +257,7 @@
             height: 2.2em;
             font-size: 2.2em;
             margin: 0;
-            border: 2px solid #333;
+            
             cursor: pointer;
         }
 

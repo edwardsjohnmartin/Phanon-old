@@ -13,9 +13,7 @@
     }
 </script>
 @endsection
-@php
-             $exerciseCounter = 0;
-@endphp
+@php $exerciseCounter = 0; @endphp
 <ol id="exerciseList">
     @foreach($lessons as $lesson)
         @foreach($lesson->exercises() as $exercise)
@@ -27,6 +25,9 @@
         if($module_completion[$lesson->id][$exercise->id] == 1){
             $li_class = " completed";
         }
+    }
+    if($exercise->id == $current_exercise->id){
+        $li_class .= " current";
     }
     @endphp
     <li class="exercise mini {{$li_class}}" data-lesson-id="{{$lesson->id}}">
