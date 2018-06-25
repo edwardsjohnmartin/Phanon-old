@@ -20,17 +20,17 @@ activeIDE
     <!--<button type="button" class="btn btn-default run" id="btnTestMessages">Show Messages</button>
     <button type="button" class="btn btn-default run" id="btnTestPythonMessages">Show Compiler Messages</button>
     <button type="button" class="btn btn-default run" id="btnTestTestMessages">Show Test Messages</button>-->
-</div>
-<div id="ideMessages">
-    <div>
-        <div id="ideErrors">
-            <label id="error_output">Python Error Messages Will Go Here</label>
-            <div class="messageControls">
-                <a href="#" class="minimizer">_</a>
-                <a href="#" class="closer">X</a>
+    <div id="ideMessages">
+        <div>
+            <div id="ideErrors">
+                <label id="error_output">Python Error Messages Will Go Here</label>
+                <div class="messageControls">
+                    <a href="#" class="minimizer">_</a>
+                    <a href="#" class="closer">X</a>
+                </div>
             </div>
+            {{$slot}}
         </div>
-        {{$slot}}
     </div>
 </div>
 <div id="ideMainEditor">

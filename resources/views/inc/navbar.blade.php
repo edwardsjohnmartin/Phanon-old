@@ -1,7 +1,8 @@
 @php
              use Illuminate\Support\Facades\Route;
              //$path = Route::getFacadeRoute()->current()->uri();
-             $path = Route::currentRouteName();
+             $appPath = Route::currentRouteName();
+             $currController = explode('.',$appPath)[0];
              //print_r($path);
              $paths = [
              "sandbox" => "SandBox",
@@ -12,7 +13,6 @@
              "exercises" =>"Exercises",
              "projects" =>"Projects"
              ];
-             $currController = explode('.',$path)[0];
 @endphp
 
 <nav class="navbar navbar-inverse">

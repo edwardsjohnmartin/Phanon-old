@@ -54,8 +54,12 @@ class CodeController extends Controller
         }
 
         $exercise = Exercise::find($exerciseId);
-        return view('codearea.module',['module' => $myModule,
+        if(true){ // has current exercise
+            return view('codearea.module',['module' => $myModule,
                                         'exercise'=>$exercise]);
+        }else{ // has current project
+            return view('codearea.project',['project' => $myModule]);
+        }
     }
     /**
      * Displays a test page to test python code.
