@@ -1,3 +1,5 @@
+//import { setTimeout } from "timers";
+
 function makeCodeMirror(editorEl) {
     CodeMirror.fromTextArea(editorEl, {
         lineNumbers: true,
@@ -53,7 +55,7 @@ function getTests(include_python_code = true) {
         test_code = test_code_editor.getValue().trim();
     }
 
-    if(include_python_code){
+    if (include_python_code) {
         return python_test_code + test_code;
     }
 
@@ -67,11 +69,11 @@ function run() {
     //Code found at
     //https://stackoverflow.com/questions/11581516/get-codemirror-instance?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
-    var editor = getEditor('#ideCodeWindow',"");
+    var editor = getEditor('#ideCodeWindow', "");
     // check to see if we have pre and test code 
     // Sandbox will not have these.
     var pre_code_editor = getEditor('#idePreCode', "#pre_code");
-    
+
     // Create a string that will store all parts to pass to Skulpt to compile the Python code
     var codeToRun = "";
 
@@ -118,17 +120,17 @@ function run() {
         printTestMessages(testMessages);
 
         var success = true;
-        for(var i = 0; i < testMessages.length; i++){
-            if(!testMessages[i].success){
+        for (var i = 0; i < testMessages.length; i++) {
+            if (!testMessages[i].success) {
                 success = false;
                 break;
             }
         }
 
-        if(success){
+        if (success) {
             // Color the tile
             var tile = document.getElementsByClassName("current")[0];
-            if(!tile.classList.contains("completed")){
+            if (!tile.classList.contains("completed")) {
                 tile.classList.add("completed");
             }
         }
@@ -144,26 +146,29 @@ function run() {
 }
 
 // Makes an AJAX call to save the contents and whether the exercise was completed correctly to the database
-function save(success = false){
-    var editor = getEditor('#ideCodeWindow',"");
-    var contents = editor.getValue();      
+function save(success = false) {
+    var editor = getEditor('#ideCodeWindow', "");
+    var contents = editor.getValue();
 
     // These variables must be defined on the PHP view for the AJAX call to be successful
 
     var btnSave = $("#btnRunCode");
-    alert(btnSave);
+    //alert(btnSave);
     var saveId = btnSave.data("save-id");
     var saveUrl = btnSave.data("save-url");
     var editorType = btnSave.data("editor-type");
 
     if (editorType == "exercise") {
-        $.ajax({ 
+        $.ajax({
             type: "GET", // For security, this should proabably be a POST not GET method.
             dataType: "json",
             url: saveUrl,
             data: { contents: contents, exercise_id: saveId, success: success },
-            success: function (ret) {
-                console.log(ret);
+            success: function (response) {
+                if (response.success && response.nextId > 0) {
+                    // has next lesson and had correct answer.
+                    setTimeout(redirectTo, 1000, [response.nextId]);
+                }
             }
         });
     } else if (editorType == "project") {
@@ -182,30 +187,42 @@ function save(success = false){
     }
 }
 
+/**
+ * Redirect to the next page using the newId to replace the last ID in the route.
+ * @param {any} newId
+ */
+function redirectTo(newId) {
+    var currUrl = window.location.href;
+    var lastSlash = currUrl.lastIndexOf("/");
+    var newUrlBase = currUrl.substr(0, lastSlash + 1);
+    //alert(newUrlBase + newId);
+    window.location = newUrlBase + newId;
+}
+
 // Takes in the return from the Python tests and turns into a usable array
 // Each element of the array will be an object with the following properties:
 //     test: string - Contains the test that was ran as a string
 //     success: boolean - Indicates whether the given test was successful or not
 //     message: string - Contains the pass or fail message for a test
-function makeTestMessagesArray(ret){
+function makeTestMessagesArray(ret) {
     var testMessages = [];
     var test_code = getTests(false);
     var tests = test_code.split("test_");
 
     // This adds the split delimiter back into the strings
-    for(var i = 0; i < tests.length; i++){
-        if(tests[i].length > 0){
+    for (var i = 0; i < tests.length; i++) {
+        if (tests[i].length > 0) {
             testMessages.push("test_" + tests[i]);
             tests[i] = "test_" + tests[i];
         }
     }
 
     // Create the array of results by parsing the contents of ret
-    if(ret.length > 0){
-        for(var i = 0; i < ret.length; i++){
+    if (ret.length > 0) {
+        for (var i = 0; i < ret.length; i++) {
             testMessages[i] = {
                 test: testMessages[i],
-                success: !!+ret[i].v[0].v, 
+                success: !!+ret[i].v[0].v,
                 message: ret[i].v[1].v
             };
         }
@@ -231,7 +248,7 @@ function printPythonErrors(err) {
     // Gets the line the error occurred on
     // This could be used to offset the line number with the amount of lines of pre_code
     var line_num = Number(err.toString().split("on line", 2)[1]);
-    
+
     //TODO: Figure out some way of correcting the line number
     // Different error types makes it so its not always the same pattern
     // Injecting "\n" into various parts of run() also increase complexity
@@ -278,7 +295,7 @@ function printPythonErrors(err) {
         if (err.args.v[0].v === "EOF in multi-line string") {
             msg = "ERROR: There is an open multi-line comment." + "\n";
         }
-        else{
+        else {
             msg = err.toString() + "\n";
         }
     }
@@ -291,12 +308,12 @@ function printPythonErrors(err) {
 // Clears any text inside the elements used to show Python errors and test results
 function clearMessages() {
     errorEl = document.getElementById("error_output");
-    if(errorEl != "undefined" && errorEl != null){
+    if (errorEl != "undefined" && errorEl != null) {
         errorEl.innerHTML = "";
     }
-    
+
     testEl = document.getElementById("test_output");
-    if(testEl != "undefined" && testEl != null){
+    if (testEl != "undefined" && testEl != null) {
         testEl.innerHTML = "";
     }
 }

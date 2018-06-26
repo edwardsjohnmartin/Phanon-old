@@ -3,6 +3,8 @@
 @section('scripts')
     @component('scriptbundles/actions')
     @endcomponent
+@component("scriptbundles/percentages")
+@endcomponent
 @endsection
 
 @section('content')

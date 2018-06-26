@@ -135,10 +135,12 @@
 
 .lesson, .project {
     display: inline-block;
+    width: 25%;
+    text-align:right;
 }
 
     .lesson a, .project a {
-        color: #FFF;
+        color: #000;
         height: 100%;
     }
 
@@ -150,7 +152,7 @@
     background-color: #888;
     border: 1px solid #000;
     padding: .5em;
-    color: #FFF;
+    color: #333;
     border-radius: .5em;
     transition: background-color ease .5s;
 }
@@ -160,7 +162,7 @@
     }
 
     .lesson:hover {
-        background-color: #800;
+        background-color: #AAA;
     }
 
 .itemCount {
@@ -177,13 +179,13 @@
 }
 
 .lesson {
-    border-color: #300;
-    background-color: #D00;
+    border-color: #333;
+    background-color: #EEE;
 }
 
 .project {
     border-color: #003;
-    background-color: #00D;
+    background-color: #EEF;
 }
 
 #exercisePanel {
@@ -227,10 +229,10 @@
     padding: 1em;
 }
 
-    #exerciseList .exercise {
+    #exerciseList .exercise.mini {
         width: 2em;
         height: 2em;
-        background-color: #AAA;
+        background-color: #FFF;
         margin: .2em;
         padding: .25em;
         border-radius: .3em;
@@ -238,19 +240,37 @@
         vertical-align: central;
         font-size: 2em;
         display: inline-block;
-        border: 2px solid #888;
+        border: 2px solid #AAA;
         position: relative;
+        overflow:hidden;
     }
-
-    #exerciseList .exercise.completed {
-        background-color: #080;
+        #exerciseList .exercise.mini.inactive {
+            #AAA;
+        }
+        #exerciseList .exercise.completed, #exerciseList .exercise.current.completed {
+            background-color: #DFD;
+        }
+    #exerciseList .exercise.mini a {
+        display:block;
+        width: 1.5em;
+        height: 1.5em;
+        margin: -.15em;
     }
-    #exerciseList .exercise.completed a{
+    #exerciseList .exercise.mini a:hover {
+        text-decoration:none;
+    }
+        #exerciseList .exercise.completed a{
         /*color: #000;*/
     }
     #exerciseList .exercise.current {
-        background-color: #00F;
+        border-color: #333;
+        background-color: #FFF;
     }
+        #exerciseList .exercise.current:before {
+            font-family: themify;
+            content: "\e61c";
+        }
+        
     #exerciseList .exercise.current a{
         /*color: #000;*/
     }
@@ -261,8 +281,15 @@
             font-size: 2.2em;
             margin: 0;
             border: 2px solid #333;
-            cursor: pointer;
+            cursor: not-allowed;
         }
+    #exerciseList .exercise.current:hover {
+        cursor:grabbing;
+    }
+        #exerciseList .exercise:hover a {
+                font-size: 1.5em;
+                margin: -.25em;
+            }
 
 .lessonCode {
     color: #DDD;

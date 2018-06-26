@@ -12,8 +12,6 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('codemirror/lib/codemirror.css')}}">
-    <link rel="stylesheet" href="{{ asset('codemirror/addon/fold/foldgutter.css')}}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-multiselect.css')}}" />
     <link rel="stylesheet" href="{{ asset('css/site.css')}}">
     <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css')}}">

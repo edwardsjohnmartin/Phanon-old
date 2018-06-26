@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Exercise;
 use App\ExerciseProgress;
 use Carbon;
 
@@ -76,5 +77,12 @@ class ExerciseProgressController extends Controller
         if($request->ajax()){
             $exProgress->saveProgress($contents, $success);
         }
+        $nextExercise = Exercise::where('previous_exercise_id',$exercise_id)->first();
+
+        // response to save.
+        $retAnswer = [];
+        $retAnswer["success"] = $success;
+        $retAnswer["nextId"] = isset($nextExercise)? $nextExercise->id:-1;
+        return $retAnswer;
     }
 }

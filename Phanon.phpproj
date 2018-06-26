@@ -813,6 +813,7 @@
     <Compile Include="resources\views\inc\messages.blade.php" />
     <Compile Include="resources\views\inc\navbar.blade.php" />
     <Compile Include="resources\views\scriptbundles\actions.blade.php" />
+    <Compile Include="resources\views\scriptbundles\percentages.blade.php" />
     <Compile Include="resources\views\scriptbundles\python-tests.blade.php" />
     <Compile Include="resources\views\scriptbundles\create-edit-form.blade.php" />
     <Compile Include="resources\views\scriptbundles\sculpt.blade.php" />
@@ -1244,6 +1245,7 @@
     <Content Include="public\css\bootstrap-multiselect.css" />
     <Content Include="public\css\jquery-ui.min.css" />
     <Content Include="public\css\site.css" />
+    <Content Include="public\css\percentages.css" />
     <Content Include="public\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.eot" />
     <Content Include="public\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="public\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.ttf" />

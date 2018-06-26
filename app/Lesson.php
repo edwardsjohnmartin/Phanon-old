@@ -17,7 +17,7 @@ class Lesson extends Model
 {
     // Table Name
     public $table = 'lessons';
-    
+
     // Primary Key
     public $primaryKey = 'id';
 
@@ -26,7 +26,7 @@ class Lesson extends Model
 
     // tempExercises
     public $tempExercises = [];
-    
+
 
     /**
      * Relationship function
@@ -81,10 +81,10 @@ class Lesson extends Model
                     array_push($ordered_exercises, $exercise);
                 } else {
                     $done = true;
-                } 
+                }
             }
         }
-        
+
         return $ordered_exercises;
     }
 
@@ -94,7 +94,7 @@ class Lesson extends Model
     public function nextExercise($id)
     {
         $next_exercise = $this->unorderedExercises()->where('previous_exercise_id', $id)->get();
-        
+
         if(count($next_exercise) > 0){
             return $next_exercise[0];
         } else {
@@ -102,7 +102,7 @@ class Lesson extends Model
         }
     }
 
-    /** 
+    /**
      * Removes the exercise from this lesson and retains the ordering of the remaining exercises
      */
     public function removeExercise($exercise)
@@ -113,6 +113,26 @@ class Lesson extends Model
             $next_exercise->previous_exercise_id = $exercise->previous_exercise_id;
             $next_exercise->save();
         }
+    }
+
+    public function getPercentageCompleted($userID){
+        $total = count($this->exercises());
+        $countOfDone = 0;
+        foreach($this->exercises() as $ex){
+            //echo $ex->id;
+            $prog = ExerciseProgress::where('user_id', $userID)->where('exercise_id', $ex->id)->first();
+            if(!empty($prog)){
+                if($prog->completed()){
+                    $countOfDone++;
+                }
+            }
+        }
+        if ($total > 0){
+            return $countOfDone / $total;
+        }else{
+            return 0;
+        }
+
     }
 
     public function deepCopy()
