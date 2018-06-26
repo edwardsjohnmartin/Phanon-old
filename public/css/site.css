@@ -232,7 +232,7 @@
     #exerciseList .exercise.mini {
         width: 2em;
         height: 2em;
-        background-color: #FFF;
+        background-color: #FFA;
         margin: .2em;
         padding: .25em;
         border-radius: .3em;
@@ -242,15 +242,30 @@
         display: inline-block;
         border: 2px solid #AAA;
         position: relative;
-        overflow:hidden;
+        overflow: hidden;
     }
+        
         #exerciseList .exercise.mini.inactive {
-            #AAA;
+            background-color:#DDD;
+            cursor: not-allowed;
+            color: #333;
         }
+        #exerciseList .exercise.mini.inactive span, #exerciseList .exercise.mini.current span {
+            position: absolute;
+            top: -.1em;
+            left: .1em;
+            font-size: .6em;
+        }
+    #exerciseList .exercise.mini.inactive:before {
+        font-family: themify;
+        content: "\e62b"; /*lock*/
+    }
         #exerciseList .exercise.completed, #exerciseList .exercise.current.completed {
-            background-color: #DFD;
+            background-color: #BFB;
         }
     #exerciseList .exercise.mini a {
+        color: #550;
+        font-weight:bold;
         display:block;
         width: 1.5em;
         height: 1.5em;
@@ -259,23 +274,23 @@
     #exerciseList .exercise.mini a:hover {
         text-decoration:none;
     }
-        #exerciseList .exercise.completed a{
-        /*color: #000;*/
+    #exerciseList .exercise.completed a {
+        color: #080;
     }
+        
     #exerciseList .exercise.current {
-        border-color: #333;
-        background-color: #FFF;
+     
     }
         #exerciseList .exercise.current:before {
             font-family: themify;
-            content: "\e61c";
+            content: "\e61d"; /* edit pencil */
         }
         
     #exerciseList .exercise.current a{
         /*color: #000;*/
     }
 
-        #exerciseList .exercise:hover {
+        #exerciseList .exercise.active:hover {
             width: 2.2em;
             height: 2.2em;
             font-size: 2.2em;
