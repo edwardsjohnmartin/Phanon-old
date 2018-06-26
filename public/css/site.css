@@ -10,6 +10,7 @@
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover {
     background-color: #080;
 }
+
 .navbar-inverse .navbar-nav > li > a:focus, .navbar-inverse .navbar-nav > li > a:hover {
     background-color: #060;
 }
@@ -48,11 +49,25 @@
     content: "\e6a3\0020";
 }
 
-.run:before { /* change to copy*/
+.run:before { 
     font-family: themify;
     content: "\e6ad\0020";
 }
 
+.save:before { 
+    font-family: themify;
+    content: "\e746\0020";
+}
+
+.load:before {
+    font-family: themify;
+    content: "\e6A7\0020";
+}
+
+.reset:before {
+    font-family: themify;
+    content: "\e619\0020";
+}
 
 .lesson:before {
     font-family: themify;
@@ -136,7 +151,7 @@
 .lesson, .project {
     display: inline-block;
     width: 25%;
-    text-align:right;
+    text-align: right;
 }
 
     .lesson a, .project a {
@@ -244,67 +259,75 @@
         position: relative;
         overflow: hidden;
     }
-        
+
         #exerciseList .exercise.mini.inactive {
-            background-color:#DDD;
+            background-color: #DDD;
             cursor: not-allowed;
             color: #333;
         }
-        #exerciseList .exercise.mini.inactive span, #exerciseList .exercise.mini.current span {
-            position: absolute;
-            top: -.1em;
-            left: .1em;
-            font-size: .6em;
-        }
-    #exerciseList .exercise.mini.inactive:before {
-        font-family: themify;
-        content: "\e62b"; /*lock*/
+
+            #exerciseList .exercise.mini.inactive span, #exerciseList .exercise.mini.current span {
+                position: absolute;
+                top: -.1em;
+                left: .1em;
+                font-size: .6em;
+            }
+
+            #exerciseList .exercise.mini.inactive:before {
+                font-family: themify;
+                content: "\e62b"; /*lock*/
+            }
+
+    #exerciseList .exercise.completed, #exerciseList .exercise.current.completed {
+        background-color: #BFB;
     }
-        #exerciseList .exercise.completed, #exerciseList .exercise.current.completed {
-            background-color: #BFB;
-        }
+
     #exerciseList .exercise.mini a {
         color: #550;
-        font-weight:bold;
-        display:block;
+        font-weight: bold;
+        display: block;
         width: 1.5em;
         height: 1.5em;
         margin: -.15em;
     }
-    #exerciseList .exercise.mini a:hover {
-        text-decoration:none;
-    }
+
+        #exerciseList .exercise.mini a:hover {
+            text-decoration: none;
+        }
+
     #exerciseList .exercise.completed a {
         color: #080;
     }
-        
+
     #exerciseList .exercise.current {
-     
     }
+
         #exerciseList .exercise.current:before {
             font-family: themify;
             content: "\e61d"; /* edit pencil */
         }
-        
-    #exerciseList .exercise.current a{
-        /*color: #000;*/
+
+        #exerciseList .exercise.current a {
+            /*color: #000;*/
+        }
+
+    #exerciseList .exercise.active:hover {
+        width: 2.2em;
+        height: 2.2em;
+        font-size: 2.2em;
+        margin: 0;
+        border: 2px solid #333;
+        cursor: not-allowed;
     }
 
-        #exerciseList .exercise.active:hover {
-            width: 2.2em;
-            height: 2.2em;
-            font-size: 2.2em;
-            margin: 0;
-            border: 2px solid #333;
-            cursor: not-allowed;
-        }
     #exerciseList .exercise.current:hover {
-        cursor:grabbing;
+        cursor: grabbing;
     }
-        #exerciseList .exercise:hover a {
-                font-size: 1.5em;
-                margin: -.25em;
-            }
+
+    #exerciseList .exercise:hover a {
+        font-size: 1.5em;
+        margin: -.25em;
+    }
 
 .lessonCode {
     color: #DDD;
@@ -335,7 +358,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
             min-height: 50px;
         }
 
-      
+
 .CodeMirror {
     height: 100%;
 }
@@ -369,6 +392,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 }
 
 #ideControls {
+    position: relative;
 }
 
 #idePreCode {
@@ -417,109 +441,78 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 #ideTestCode {
 }
 
+/*IDE Messages*/
+
+#ideControls > button {
+    float: left;
+}
 
 #ideMessages {
-    float:right;
-}
-/*#ideMessages * {
-    margin: 0;
-    padding: 0;
+    z-index: 999;
+    position: relative;
+    top: 2.5em;
+    left: 0;
 }
 
-    #ideMessages > div {
-        position: absolute;
+    #ideMessages #ideMessageList {
         width: 100%;
-        top: 0;
-        left: 0;
-        z-index: 999;
-    }*/
-
-#ideTestOutput, #ideErrors {
-    background-color: #AAA;
-    /*animation: hideWindow 2s ease-out 2s forwards;*/
-    height: 0;
-    transition: height 1s ease-in-out;
-    animation-iteration-count: 1;
-    overflow: hidden;
-    border-radius: .3em;
-    /*position: relative;
-    margin-left: 10%;
-    width: 90%;*/
-}
-
-@keyframes hideWindow {
-    0% {
-        height: 100%;
-        border-width: 1px;
+        position: absolute;
     }
 
-    95% {
-        height: 5%;
-        border-width: 1px;
+    #ideMessages .ideMessages {
+        height: 0;
+        position: relative;
+        overflow: hidden;
+        transition: height 1s ease-out;
+        background-color: #FFF;
     }
 
-    100% {
-        height: 0%;
-        border-width: 0px;
+    #ideMessages .messageControls {
+        position: absolute;
+        top: .1em;
+        right: .1em;
+        font-size: .8em;
     }
-}
 
-#ideTestOutput {
-    border: 0px solid #008;
-    background-color: #EEF;
-}
+        #ideMessages .messageControls a.minimizer, #ideMessages .messageControls a.closer {
+            display: inline-block;
+            border: 1px solid #333;
+            width: 1.6em;
+            height: 1.6em;
+            overflow: hidden;
+            text-align: center;
+            font-weight: bold;
+            background-color: #DDD;
+            color: #333;
+        }
 
-#ideErrors {
-    border: 0px solid #800;
-    background-color: #FEE;
-}
+        #ideMessages .messageControls a:hover {
+            text-decoration: none;
+        }
 
-#ideMessages .messageControls {
-    position: absolute;
-    top: .3em;
-    right: .6em;
-}
+        #ideMessages .messageControls a.minimizer:before {
+            font-family: themify;
+            content: "\e622\0020";
+        }
 
-    #ideMessages .messageControls a {
-        color: #333;
-        font-weight: bold;
-        text-decoration: none;
-        border: 1px solid transparent;
-        background-color: rgba(70, 70, 70, 0.33);
-        padding: .3em .5em;
+        #ideMessages .messageControls a.closer:before {
+            font-family: themify;
+            content: "\e646\0020";
+        }
+
+    #ideMessages > div .showMessage {
+        height: 3em;
+        overflow: auto;
+        padding: .3em 2em .3em .3em;
+        margin: .3em;
+        border: 2px solid #333;
         border-radius: .3em;
     }
 
-        #ideMessages .messageControls a:hover {
-            border-color: #333;
-        }
-
-#ideMessages > div .showMessage {
-    height: 100%;
-    overflow: auto;
-    padding: .3em;
-    /*box-shadow: #333 2px 2px 5px 2px;*/
-}
-
-    #ideMessages > div .showMessage > div {
+    #ideMessages > div .collapseMessage {
+        height: 2em;
     }
 
-#ideMessages > div .collapseMessage {
-    height: 2em;
-    width: 10em;
-    overflow: hidden;
-    position: relative;
-    top: -2em;
-    right: 0;
-    float: right;
-    font-size: .8em;
-}
-
-#ideMessages .collapseMessage .messageControls {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 999;
-}
+/*End IDE Messages*/
 
 /*End code IDE*/

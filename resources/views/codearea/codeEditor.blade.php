@@ -2,13 +2,13 @@
              if(!isset($startingcode)){
                  $startingcode = "Enter Code Here";
              }
-            // set this to settings when not saving data.
-            if(!isset($editor_type))
-                     $editor_type = 'none';
-            if(!isset($save_id))
-                     $save_id = -1;
-            if(!isset($save_url))
-                     $save_url = "";
+             // set this to settings when not saving data.
+             if(!isset($editor_type))
+                 $editor_type = 'none';
+             if(!isset($save_id))
+                 $save_id = -1;
+             if(!isset($save_url))
+                 $save_url = "";
 @endphp
 
 @section('scripts')
@@ -24,17 +24,38 @@ activeIDE
 
 <div id="ideControls">
     <button type="button" class="btn btn-default run" id="btnRunCode"
-            data-editor-type="{{$editor_type}}"
-            data-save-id="{{$save_id}}"
-            data-save-url="{{$save_url}}">
+        data-editor-type="{{$editor_type}}"
+        data-save-id="{{$save_id}}"
+        data-save-url="{{$save_url}}">
         Run
     </button>
-    <!--<button type="button" class="btn btn-default run" id="btnTestMessages">Show Messages</button>
-    <button type="button" class="btn btn-default run" id="btnTestPythonMessages">Show Compiler Messages</button>
-    <button type="button" class="btn btn-default run" id="btnTestTestMessages">Show Test Messages</button>-->
+    <button type="button" class="btn btn-default save" id="btnSaveCode"
+        data-editor-type="{{$editor_type}}"
+        data-save-id="{{$save_id}}"
+        data-save-url="{{$save_url}}">
+        Save
+    </button>
+    <button type="button" class="btn btn-default load" id="btnLoadCode"
+        data-editor-type="{{$editor_type}}"
+        data-save-id="{{$save_id}}"
+        data-save-url="{{$save_url}}">
+        Load
+    </button>
+       <button type="button" class="btn btn-default load" id="btnLoadSolution"
+        data-editor-type="{{$editor_type}}"
+        data-save-id="{{$save_id}}"
+        data-save-url="{{$save_url}}">
+        Load Solution
+    </button>
+       <button type="button" class="btn btn-default reset" id="btnReset"
+        data-editor-type="{{$editor_type}}"
+        data-save-id="{{$save_id}}"
+        data-save-url="{{$save_url}}">
+        Reset
+    </button>
     <div id="ideMessages">
-        <div>
-            <div id="ideErrors">
+        <div id="ideMessageList">
+            <div id="ideErrors" class="ideMessages">
                 <label id="error_output">Python Error Messages Will Go Here</label>
                 <div class="messageControls">
                     <a href="#" class="minimizer">_</a>
