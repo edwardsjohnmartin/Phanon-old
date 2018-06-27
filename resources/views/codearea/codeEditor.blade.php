@@ -27,14 +27,14 @@ activeIDE
         data-editor-type="{{$editor_type}}"
         data-save-id="{{$save_id}}"
         data-save-url="{{$save_url}}">
-        Run
+        Save & Run
     </button>
-    <button type="button" class="btn btn-default save" id="btnSaveCode"
+    {{-- <button type="button" class="btn btn-default save" id="btnSaveCode"
         data-editor-type="{{$editor_type}}"
         data-save-id="{{$save_id}}"
         data-save-url="{{$save_url}}">
         Save
-    </button>
+    </button> --}}
     <button type="button" class="btn btn-default load" id="btnLoadCode"
         data-editor-type="{{$editor_type}}"
         data-save-id="{{$save_id}}"
