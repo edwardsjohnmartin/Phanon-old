@@ -2,8 +2,18 @@
 $startdate = $module->open_date;
 $now = date(config("app.dateformat"));
 $isPast = $startdate < $now;
+$stats = $module->CompletionStats(auth()->user()->id);
 ?>
 <article class="module{{$isPast  ? ' expired' : '' }}">
+{{--    <div class="completion tiny p{{floor($stats->PercComplete*100)}}">
+            <span>{{$stats->Completed}}/{{$stats->ExerciseCount}}
+            
+            </span>
+            <div class="slice">
+                <div class="bar"></div>
+                <div class="fill"></div>
+            </div>
+        </div> --}}
     <h1>
         {{-- #todo: need to fix this to acutally use the correct exercise --}}
         <a href="{{ $isPast 
@@ -11,6 +21,7 @@ $isPast = $startdate < $now;
             : url('/code/'.$module->id.'/'.$module->id)}}">
             {{$module->name}}
         </a>
+            <span>({{$stats->Completed}}/{{$stats->ExerciseCount}})</span>
     </h1>
     <aside class="actions">
         <a class="edit" href="{{url('/modules/' . $module->id . '/edit')}}">Edit</a>

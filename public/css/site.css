@@ -88,7 +88,7 @@
 
 .module {
     border-radius: 2em;
-    border: solid 1px #FFF;
+    border: solid 1px #080;
     padding: 1em;
     margin: .5em;
     position: relative;
@@ -97,7 +97,7 @@
 }
 
 .expired {
-    background-color: #AAA;
+    background-color: #DED;
     box-shadow: #AAA 5px 5px 10px;
 }
 
@@ -177,7 +177,7 @@
     }
 
     .lesson:hover {
-        background-color: #AAA;
+        background-color: #8A8;
     }
 
 .itemCount {
@@ -190,7 +190,7 @@
 
 
 .project:hover {
-    background-color: #008;
+    background-color: #AAE;
 }
 
 .lesson {

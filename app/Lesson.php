@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
@@ -115,24 +116,34 @@ class Lesson extends Model
         }
     }
 
-    public function getPercentageCompleted($userID){
-        $total = count($this->exercises());
-        $countOfDone = 0;
-        foreach($this->exercises() as $ex){
-            //echo $ex->id;
-            $prog = ExerciseProgress::where('user_id', $userID)->where('exercise_id', $ex->id)->first();
-            if(!empty($prog)){
-                if($prog->completed()){
-                    $countOfDone++;
-                }
-            }
-        }
-        if ($total > 0){
-            return $countOfDone / $total;
-        }else{
-            return 0;
-        }
+    /**
+     * Summary of Completedness
+     * @param mixed $userID 
+     * @return object containing (Completed, ExerciseCount, PercComplete)
+     */
+    public function CompletionStats($userID){
+        $idParsed = intval($userID);
 
+        $results = DB::select(DB::raw("SELECT e.lesson_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete 
+                            FROM phanon.exercises e
+                            LEFT JOIN (SELECT id, exercise_id FROM phanon.exercise_progress WHERE user_id = :userID AND last_correct_contents IS NOT NULL) AS ep 
+                            ON ep.exercise_id = e.id WHERE e.lesson_id = :lessonID
+                            GROUP BY lesson_id "), array('userID' => $idParsed, 'lessonID' =>$this->id));
+
+        //print_r($results);
+        return $results[0];
+    }
+        /**
+         * Get the count of Exercises in this Lesson
+         * @return int Count of Exercises in this lesson.
+         */
+        public function ExerciseCount(){
+        $results = DB::select(DB::raw("SELECT COUNT(id) AS ExerciseCount FROM phanon.exercises 
+                                        WHERE lesson_id = :lessonID
+                                        GROUP BY lesson_id"), array('lessonID' =>$this->id));
+
+        //print_r($results);
+        return $results[0]->ExerciseCount;
     }
 
     public function deepCopy()

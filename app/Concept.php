@@ -2,7 +2,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
- /** Property Identification for Intellisense help.
+use Illuminate\Support\Facades\DB;
+ 
+/** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
  * @property string $name Identifying name of the Concept.
  * @property int $course_id The id of the Course this Concept is part of.
@@ -110,5 +112,25 @@ class Concept extends Model
             $next_module->previous_module_id = $module->previous_module_id;
             $next_module->save();
         }
+    }
+    /**
+     * Summary of Completedness
+     * @param mixed $userID
+     * @return object containing (Completed, ExerciseCount, PercComplete)
+     */
+    public function CompletionStats($userID){
+        $idParsed = intval($userID);
+
+        $results = DB::select(DB::raw("SELECT m.concept_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete 
+                                        FROM phanon.modules m  JOIN phanon.lessons lsn ON m.id = lsn.module_id
+                                        JOIN phanon.exercises e ON e.lesson_id = lsn.id
+                                        LEFT JOIN (SELECT id, exercise_id FROM phanon.exercise_progress 
+	                                        WHERE user_id = :userID 
+                                            AND last_correct_contents IS NOT NULL) AS ep ON ep.exercise_id = e.id
+                                        WHERE m.concept_id = :conceptID
+                                        GROUP BY m.concept_id"), array('userID' => $idParsed, 'conceptID' =>$this->id));
+
+        //print_r($results);
+        return $results[0];
     }
 }

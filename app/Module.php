@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use DateTime;
 
 /** Property Identification for Intellisense help.
@@ -152,13 +153,13 @@ class Module extends Model
         }
     }
 
-        /**
+    /**
      * Returns the current exercise not done in this module
      */
     public function currentExercise($userID)
     {
         $exerToDo = null;
-        //HACK: for now just return the first ID, but will need to get 
+        //HACK: for now just return the first ID, but will need to get
         // the current exercise.
 
         // force to date
@@ -208,6 +209,52 @@ class Module extends Model
             }
         }
     }
+
+
+    /**
+     * Summary of Completedness
+     * @param mixed $userID
+     * @return object containing (Completed, ExerciseCount, PercComplete)
+     */
+    public function CompletionStats($userID){
+        $idParsed = intval($userID);
+
+        $results = DB::select(DB::raw("SELECT lsn.module_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete
+                                        FROM phanon.lessons lsn
+                                        JOIN phanon.exercises e ON e.lesson_id = lsn.id
+                                        LEFT JOIN (SELECT id, exercise_id FROM phanon.exercise_progress WHERE user_id = :userID AND last_correct_contents IS NOT NULL)
+                                        AS ep ON ep.exercise_id = e.id WHERE lsn.module_id = :moduleID
+                                        GROUP BY lsn.module_id"), array('userID' => $idParsed, 'moduleID' =>$this->id));
+
+        //print_r($results);
+        return $results[0];
+    }
+    /**
+     * Get the count of Exercises in this Module
+     * @return int Count of Exercises in this module.
+     */
+    public function ExerciseCount(){
+        $results = DB::select(DB::raw("SELECT COUNT(ex.id) AS ExerciseCount FROM phanon.lessons lsn
+                                        JOIN phanon.exercises ex ON lsn.id = ex.lesson_id
+                                        WHERE lsn.module_id = :moduleID
+                                        GROUP BY lsn.module_id"), array('moduleID' =>$this->id));
+
+        //print_r($results);
+        return $results[0]->ExerciseCount;
+    }
+    /**
+     * Get the count of Lessons in this Module
+     * @return int Count of Lessons in this module.
+     */
+    public function LessonCount(){
+        $results = DB::select(DB::raw("SELECT COUNT(id) AS LessonCount FROM phanon.lessons
+                                        WHERE lsn.module_id = :moduleID
+                                        GROUP BY lsn.module_id"), array('moduleID' =>$this->id));
+
+        //print_r($results);
+        return $results[0]->LessonCount;
+    }
+
 
     public function deepCopy()
     {

@@ -36,8 +36,22 @@
             </aside>
 
             @foreach($course->concepts() as $concept)
+            @php
+                $stats = $concept->CompletionStats(auth()->user()->id);
+            @endphp
             <article>
-                <h3>{{$concept->name}}</h3>
+{{--                    <div class="completion tiny p{{floor($stats->PercComplete*100)}}">
+            <span>{{$stats->Completed}}/{{$stats->ExerciseCount}}
+            
+            </span>
+            <div class="slice">
+                <div class="bar"></div>
+                <div class="fill"></div>
+            </div>
+        </div>--}}
+                <h3>{{$concept->name}}
+                    <span>({{$stats->Completed}}/{{$stats->ExerciseCount}})</span>
+                </h3>
                 @foreach($concept->modules() as $module)
                 @component('flow.module',['module' => $module])
                 @endcomponent

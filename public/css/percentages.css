@@ -68,6 +68,10 @@
         font-size: 80px;
     }
 
+    .completion.tiny {
+        font-size: 35px;
+    }
+
     .completion > span {
         position: absolute;
         width: 100%;
