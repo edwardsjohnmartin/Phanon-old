@@ -45,3 +45,8 @@ Route::post('import/upload','ImportController@upload');
 Route::put('exerciseprogress/complete/{exercise_id}', ['as' => 'exerciseprogress.complete', 'uses' => 'ExerciseProgressController@complete']);
 
 Route::get('save', 'ExerciseProgressController@save')->name('save');
+
+Route::get('current', 'CodeController@current')->name('current');
+
+Route::get('newexercise/{exercise_id}', 'CodeController@newexercise')->name('newexercise');
+Route::get('newexercises/save', 'ExerciseProgressController@newsave');

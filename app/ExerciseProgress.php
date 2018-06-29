@@ -52,4 +52,19 @@ class ExerciseProgress extends Model
 
         $this->save();
     }
+
+    public static function getProgress($exercise_id, $user_id = 0)
+    {
+        if($user_id == 0){
+            $user_id = auth()->user()->id;
+        }
+        
+        $exProgress = ExerciseProgress::where('exercise_id', $exercise_id)->where('user_id', $user_id)->first();
+        
+        if(empty($exProgress) or is_null($exProgress)){
+            $exProgress = new ExerciseProgress();
+        }
+        
+        return $exProgress;
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -15,10 +16,12 @@ use App\ExerciseProgress;
 use DB;
 class CodeController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         // isAdmin middleware lets only users with a specific permission to access these resources
         //$this->middleware(['auth', 'isAdmin']);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,6 +31,7 @@ class CodeController extends Controller
     {
         return view('codearea.index');
     }
+
     /**
      * Displays a test page to test python code.
      *
@@ -37,6 +41,7 @@ class CodeController extends Controller
     {
         return view('codearea.sandbox');
     }
+
     /**
      * Figure out which is the current module and exercise the user is on
      *   then direct them to the correct coding page.
@@ -46,13 +51,11 @@ class CodeController extends Controller
     public function current()
     {
         $myModule = Module::find($id);
-
         if(isset($eid)){
             $exerciseId = $eid;
         }else{
             $exerciseId = $myModule->currentExercise(1);
         }
-
         $exercise = Exercise::find($exerciseId);
         if(true){ // has current exercise
             return view('codearea.module',['module' => $myModule,
@@ -61,6 +64,7 @@ class CodeController extends Controller
             return view('codearea.project',['project' => $myModule]);
         }
     }
+
     /**
      * Displays a test page to test python code.
      *
@@ -114,12 +118,6 @@ class CodeController extends Controller
         return view('codearea.project',['project' => $myProject]);
     }
 
-    //public function review($id)
-    //{
-    //    $myModule = Module::find($id);
-    //    return view('codearea.review',['module' => $myModule,"exercise"=>$myModule->lessons[0]->exercises[0]]);
-    //}
-
     public function review($id,$eid)
     {
         $myModule = Module::find($id);
@@ -131,8 +129,21 @@ class CodeController extends Controller
         }
 
         $exercise = Exercise::find($exerciseId);
-        return view('codearea.review')
-            ->with('module', $myModule)
-            ->with('exercise', $exercise);
+        return view('codearea.review')->
+            with('module', $myModule)->
+            with('exercise', $exercise);
+    }
+
+    public function newexercise($exercise_id)
+    {
+        $exercise = Exercise::find($exercise_id);
+
+        if(empty($exercise)){
+            return redirect('/')->
+                with('error', 'That exercise does not exist');
+        }
+
+        return view('codearea2.exerciseEditor')->
+            with('exercise', $exercise);
     }
 }

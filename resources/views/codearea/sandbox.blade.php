@@ -5,6 +5,8 @@
 @endcomponent
 @component("scriptbundles/codemirror")
 @endcomponent
+@component("scriptbundles.codewindow")
+@endcomponent
 <script>
     function fillCodeEditor(ddl) {
         var codeEditor = $("#ideCodeWindow .CodeMirror");

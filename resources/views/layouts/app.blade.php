@@ -20,7 +20,6 @@
     <script src="{{ asset('jquery/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-multiselect.js')}}"></script>
-    <script src="{{ asset('js/codewindow.js')}}"></script>
     @yield('scripts')
 </head>
 <body class="@yield("bodyTag")">

@@ -17,6 +17,8 @@
     @endcomponent
     @component("scriptbundles/codemirror")
     @endcomponent
+    @component("scriptbundles.codewindow")
+    @endcomponent
 @endsection
 @section("bodyTag")
 activeIDE

@@ -14,14 +14,14 @@
 </script>
 @endsection
 @php
-             $appPath = Route::current()->parameters["eid"];
-             $exerciseCounter = 0;
-             $currentExerciseFound = false;
-             $currentExerciseID = (int)$appPath;
-             $canBeDone = true; // always only one more than the last completed exercise.
-            $isClickable = true;
-            $isClickableCount = 1; // number of links after completed that are clickable.
-            $exerciseOrderArray = []; // new array for IDs
+    $appPath = Route::current()->parameters["eid"];
+    $exerciseCounter = 0;
+    $currentExerciseFound = false;
+    $currentExerciseID = (int)$appPath;
+    $canBeDone = true; // always only one more than the last completed exercise.
+    $isClickable = true;
+    $isClickableCount = 1; // number of links after completed that are clickable.
+    $exerciseOrderArray = []; // new array for IDs
 @endphp
 <ol id="exerciseList">
     @foreach($lessons as $lesson)
@@ -32,6 +32,7 @@
     $exerciseCounter++;
     $li_class = "";
     $isCompleted = false;
+    
     //HACK: This is only done like this here to prevent the code/review page from breaking from $module_completion not being defined
     if(!empty($module_completion)){
         $isCompleted = $module_completion[$lesson->id][$exercise->id] == 1;

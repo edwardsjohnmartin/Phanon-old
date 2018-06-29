@@ -121,7 +121,8 @@ class Lesson extends Model
      * @param mixed $userID 
      * @return object containing (Completed, ExerciseCount, PercComplete)
      */
-    public function CompletionStats($userID){
+    public function CompletionStats($userID)
+    {
         $idParsed = intval($userID);
 
         $results = DB::select(DB::raw("SELECT e.lesson_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete 
@@ -133,24 +134,49 @@ class Lesson extends Model
         //print_r($results);
         return $results[0];
     }
-        /**
-         * Get the count of Exercises in this Lesson
-         * @return int Count of Exercises in this lesson.
-         */
-        public function ExerciseCount(){
+
+    /**
+     * Get the count of Exercises in this Lesson
+     * @return int Count of Exercises in this lesson.
+     */
+    public function ExerciseCount(){
         $results = DB::select(DB::raw("SELECT COUNT(id) AS ExerciseCount FROM phanon.exercises 
-                                        WHERE lesson_id = :lessonID
-                                        GROUP BY lesson_id"), array('lessonID' =>$this->id));
+                                    WHERE lesson_id = :lessonID
+                                    GROUP BY lesson_id"), array('lessonID' =>$this->id));
 
         //print_r($results);
         return $results[0]->ExerciseCount;
     }
 
+    /**
+     * 
+     */
     public function deepCopy()
     {
         $new_lesson = new Lesson();
         $new_lesson->name = $this->name;
 
         return $new_lesson;
+    }
+
+    /**
+     * 
+     */
+    public function completed($user_id = 0)
+    {
+        if($user_id == 0){
+            $user_id = auth()->user()->id;
+        }
+        $exercises = $this->exercises();
+
+        $completed = true;
+        foreach($exercises as $exercise){
+            $ex_progress = ExerciseProgress::getProgress($exercise->id, $user_id);
+            if(!$ex_progress->completed()){
+                return $exercise->id;
+            }
+        }
+
+        return $completed;
     }
 }

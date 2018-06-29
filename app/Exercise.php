@@ -57,4 +57,25 @@ class Exercise extends Model
 
         return $new_exercise;
     }
+
+    /**
+     * 
+     */
+    public function getProgressForUser($user_id = null)
+    {
+        if(!isset($user_id)){
+            $user_id = auth()->user()->id;
+        }
+
+        $exercise_progress = ExerciseProgress::where('exercise_id', $this->id)->where('user_id', $user_id)->first();
+
+        if(empty($exercise_progress) or is_null($exercise_progress)){
+            $exercise_progress = new ExerciseProgress();
+            $exercise_progress->user_id = $user_id;
+            $exercise_progress->exercise_id = $this->id;
+            $exercise_progress->save();
+        }
+
+        return $exercise_progress;
+    }
 }

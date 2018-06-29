@@ -462,7 +462,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 #ideMessages {
     z-index: 999;
     position: relative;
-    top: 2.5em;
+    /*top: 2.5em;*/
     left: 0;
 }
 

@@ -216,7 +216,8 @@ class Module extends Model
      * @param mixed $userID
      * @return object containing (Completed, ExerciseCount, PercComplete)
      */
-    public function CompletionStats($userID){
+    public function CompletionStats($userID)
+    {
         $idParsed = intval($userID);
 
         $results = DB::select(DB::raw("SELECT lsn.module_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete
@@ -229,11 +230,13 @@ class Module extends Model
         //print_r($results);
         return $results[0];
     }
+
     /**
      * Get the count of Exercises in this Module
      * @return int Count of Exercises in this module.
      */
-    public function ExerciseCount(){
+    public function ExerciseCount()
+    {
         $results = DB::select(DB::raw("SELECT COUNT(ex.id) AS ExerciseCount FROM phanon.lessons lsn
                                         JOIN phanon.exercises ex ON lsn.id = ex.lesson_id
                                         WHERE lsn.module_id = :moduleID
@@ -242,11 +245,13 @@ class Module extends Model
         //print_r($results);
         return $results[0]->ExerciseCount;
     }
+
     /**
      * Get the count of Lessons in this Module
      * @return int Count of Lessons in this module.
      */
-    public function LessonCount(){
+    public function LessonCount()
+    {
         $results = DB::select(DB::raw("SELECT COUNT(id) AS LessonCount FROM phanon.lessons
                                         WHERE lsn.module_id = :moduleID
                                         GROUP BY lsn.module_id"), array('moduleID' =>$this->id));
@@ -254,7 +259,6 @@ class Module extends Model
         //print_r($results);
         return $results[0]->LessonCount;
     }
-
 
     public function deepCopy()
     {
@@ -281,5 +285,53 @@ class Module extends Model
     public function getOpenDate($format = 'm/d/Y h:i a')
     {
         return date_format(DateTime::createFromFormat(config("app.dateformat"), $this->open_date), $format);
+    }
+
+    /**
+     * 
+     */
+    public function completed()
+    {
+        $user_id = auth()->user()->id;
+
+        $lessons = $this->lessons();
+
+        $completed = true;
+
+        foreach($lessons as $lesson){
+            $les_completed = $lesson->completed();
+            if($les_completed !== true){
+                return $les_completed;
+            }
+        }
+
+        return $completed;
+    }
+
+    /**
+     * 
+     */
+    public function completion()
+    {
+        $module_completion = array();
+
+        foreach($this->lessons() as $lesson){
+            $les_arr = array();
+            foreach($lesson->exercises() as $exercise){
+                $cur_ex_progress = ExerciseProgress::where('user_id', auth()->user()->id)->where('exercise_id', $exercise->id)->first();     
+                
+                if(!empty($cur_ex_progress)){
+                    $ex_arr = $cur_ex_progress->completed();
+                } else {
+                    $ex_arr = 0;
+                }
+
+                $les_arr[$exercise->id] = $ex_arr;
+            }
+
+            $module_completion[$lesson->id] = $les_arr;
+        }
+
+        return $module_completion;
     }
 }

@@ -6,6 +6,7 @@ use App\Lesson;
 use App\Module;
 use App\Project;
 use App\User;
+use App\ExerciseProgress;
 use App\Enums\Permissions;
 use App\Enums\Roles;
 use Illuminate\Database\Seeder;
@@ -199,6 +200,22 @@ class DatabaseSeeder extends Seeder
 
         //self::createTestCourse();
         self::createFilledTestCourse();
+
+        // Auto-completing Lessons 1-6 for Test Student 1
+        self::completeLessonForUser(1, $s1User->id);
+        self::completeLessonForUser(2, $s1User->id);
+        self::completeExerciseForUser(34, $s1User->id);
+        self::completeExerciseForUser(35, $s1User->id);
+        self::completeExerciseForUser(36, $s1User->id);
+
+        // Auto-completing Lessons 1-7 for Admin Account
+        self::completeLessonForUser(1, $aUser->id);
+        self::completeLessonForUser(2, $aUser->id);
+        self::completeLessonForUser(3, $aUser->id);
+        self::completeLessonForUser(4, $aUser->id);
+        self::completeLessonForUser(5, $aUser->id);
+        self::completeLessonForUser(6, $aUser->id);
+        self::completeLessonForUser(7, $aUser->id);
     }
 
     /**
@@ -1909,5 +1926,22 @@ class DatabaseSeeder extends Seeder
             DB::table('users')->where('name', 'Test Student 2')->first()->id => ['role_id' => $student_role_id],
             DB::table('users')->where('name', 'Test Student 3')->first()->id => ['role_id' => $student_role_id]
         ]);
+    }
+
+    public function completeLessonForUser($lesson_id, $user_id)
+    {
+        $lesson = Lesson::find($lesson_id);
+        foreach($lesson->exercises() as $exercise){
+            self::completeExerciseForUser($exercise->id, $user_id);
+        }
+    }
+
+    public function completeExerciseForUser($exercise_id, $user_id)
+    {
+        $exProgress = new ExerciseProgress();
+        $exProgress->user_id = $user_id;
+        $exProgress->exercise_id = $exercise_id;
+        $exProgress->completion_date = Carbon\Carbon::now();
+        $exProgress->save();
     }
 }
