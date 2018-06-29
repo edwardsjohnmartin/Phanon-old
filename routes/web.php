@@ -49,4 +49,4 @@ Route::get('save', 'ExerciseProgressController@save')->name('save');
 Route::get('current', 'CodeController@current')->name('current');
 
 Route::get('newexercise/{exercise_id}', 'CodeController@newexercise')->name('newexercise');
-Route::get('newexercises/save', 'ExerciseProgressController@newsave');
+Route::post('newexercises/save', 'ExerciseProgressController@newsave');

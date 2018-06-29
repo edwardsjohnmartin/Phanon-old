@@ -253,10 +253,9 @@ function run(){
  */
 function saveExerciseCode(exercise_id, contents, success, url){
     $.ajax({
-        type: "GET",
-        dataType: "json",
+        type: "POST",
         url: url,
-        data: { contents: contents, exercise_id: exercise_id, success: success },
+        data: { contents: contents, exercise_id: exercise_id, success: success, _token: $('meta[name="csrf-token"]').attr('content')},
         success: function (data) {
             console.log(data);
         }
