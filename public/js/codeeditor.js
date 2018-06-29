@@ -110,6 +110,7 @@ function runCode(codeToRun, outputArea, userCode = ""){
             for(var i = 0; i < testResults.length; i++){
                 if(!testResults[i].success){
                     msg = testResults[i].message;
+                    addPopup(testResults[i].message,"error")
                     break;
                 }
             }
@@ -258,6 +259,20 @@ function saveExerciseCode(exercise_id, contents, success, url){
         data: { contents: contents, exercise_id: exercise_id, success: success, _token: $('meta[name="csrf-token"]').attr('content')},
         success: function (data) {
             console.log(data);
+            addPopup("Code saved!","save")
         }
     });
+}
+
+/**
+ * Display a popup message over the IDE to the user.
+ * @param {string} msg message to give the user
+ * @param {string} className additional classname(s) to add to the popup.
+ */
+function addPopup(msg, className) {
+    var popHolder = document.getElementById("popups");
+    var popUp = document.createElement("p");
+    popUp.innerText = msg;
+    popUp.className = "popup " + className;
+    popHolder.appendChild(popUp);
 }

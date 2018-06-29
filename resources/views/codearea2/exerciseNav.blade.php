@@ -7,6 +7,7 @@
     <ol id="exerciseList">
         @foreach($exercises as $exercise)
             @php
+                $is_active = true;
                 $class = "";
                 if($exercise->id == $current_exercise_id){
                     $class .= "current ";
@@ -19,16 +20,14 @@
                         $found_current = true;
                     } else {
                         $class .= "inactive ";
+                        $is_active = false;
                     }
                 }
             @endphp
             <li class="exercise mini {{$class}}">
-                @if($class != "inactive ")
+                @if($is_active) 
                 <a href="{{url('newexercise/' . $exercise->id)}}">
-                    @php
-                        echo $exercise_count++;
-                    @endphp
-                    <span class="lessonCode"></span>
+                    {{$exercise_count++}}
                 </a>
                 @endif
             </li>

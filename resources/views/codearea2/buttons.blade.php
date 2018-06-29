@@ -1,4 +1,4 @@
-<div id="ideButtons" class="col-xs-3">
+<div id="ideButtons">
     <button id="btnRunCode" type="button" class="btn btn-default run" 
         data-item-type="{{$item_type}}" 
         data-item-id="{{$item_id}}"

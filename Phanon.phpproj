@@ -762,6 +762,19 @@
     <Compile Include="resources\views\auth\passwords\reset.blade.php" />
     <Compile Include="resources\views\auth\login.blade.php" />
     <Compile Include="resources\views\auth\register.blade.php" />
+    <Compile Include="resources\views\codearea2\buttons.blade.php" />
+    <Compile Include="resources\views\codearea2\codeEditor.blade.php" />
+    <Compile Include="resources\views\codearea2\codeWindow.blade.php" />
+    <Compile Include="resources\views\codearea2\controls.blade.php" />
+    <Compile Include="resources\views\codearea2\exerciseEditor.blade.php" />
+    <Compile Include="resources\views\codearea2\exerciseNav.blade.php" />
+    <Compile Include="resources\views\codearea2\mainEditor.blade.php" />
+    <Compile Include="resources\views\codearea2\messages.blade.php" />
+    <Compile Include="resources\views\codearea2\outputWindows.blade.php" />
+    <Compile Include="resources\views\codearea2\precode.blade.php" />
+    <Compile Include="resources\views\codearea2\projectEditor.blade.php" />
+    <Compile Include="resources\views\codearea2\prompt.blade.php" />
+    <Compile Include="resources\views\codearea2\testcode.blade.php" />
     <Compile Include="resources\views\codearea\codeEditor.blade.php" />
     <Compile Include="resources\views\codearea\codeEditorWithPreCode.blade.php" />
     <Compile Include="resources\views\codearea\project.blade.php" />
@@ -1204,6 +1217,7 @@
     <Folder Include="resources\lang" />
     <Folder Include="resources\views\auth\passwords" />
     <Folder Include="resources\views\auth" />
+    <Folder Include="resources\views\codearea2\" />
     <Folder Include="resources\views\concepts\" />
     <Folder Include="resources\views\courses" />
     <Folder Include="resources\views\errors\" />
@@ -1257,6 +1271,7 @@
     <Content Include="public\fonts\themify.woff" />
     <Content Include="public\images\genericons-neue.svg" />
     <Content Include="public\js\bootstrap-multiselect.js" />
+    <Content Include="public\js\codeeditor.js" />
     <Content Include="public\js\create-edit-form.js" />
     <Content Include="public\js\jquery-ui.min.js" />
     <Content Include="public\tests\python.py" />

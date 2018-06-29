@@ -1,3 +1,3 @@
 <div id="idePrompt">
-    <p>{{$prompt}}</p>
+    <p>{!! $prompt !!}</p>
 </div>

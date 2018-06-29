@@ -20,7 +20,7 @@
     @component("scriptbundles.codewindow")
     @endcomponent
 @endsection
-@section("bodyTag")
+@section("bodyCSSClass")
 activeIDE
 @endsection
 

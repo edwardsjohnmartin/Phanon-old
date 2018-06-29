@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+{{-- does not add new lines to css --}}
+@section("bodyCSSClass", "exerciseIDE") 
+
 @section('content')
     @component('codearea2.exerciseNav', ['exercises' => $exercise->lesson->exercises(), 'current_exercise_id' => $exercise->id])
     @endcomponent

@@ -22,7 +22,7 @@
     <script src="{{ asset('js/bootstrap-multiselect.js')}}"></script>
     @yield('scripts')
 </head>
-<body class="@yield("bodyTag")">
+<body class="@yield("bodyCSSClass")">
     <div id="app">
         @include('inc.navbar')
         <div class="container-fluid">
