@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('scripts')
-@component("scriptbundles/sculpt")
+@component("scriptbundles/skulpt")
 @endcomponent
 @component("scriptbundles/codemirror")
 @endcomponent

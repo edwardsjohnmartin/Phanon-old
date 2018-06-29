@@ -816,7 +816,7 @@
     <Compile Include="resources\views\scriptbundles\percentages.blade.php" />
     <Compile Include="resources\views\scriptbundles\python-tests.blade.php" />
     <Compile Include="resources\views\scriptbundles\create-edit-form.blade.php" />
-    <Compile Include="resources\views\scriptbundles\sculpt.blade.php" />
+    <Compile Include="resources\views\scriptbundles\skulpt.blade.php" />
     <Compile Include="resources\views\layouts\app.blade.php" />
     <Compile Include="resources\views\modules\create.blade.php" />
     <Compile Include="resources\views\modules\edit.blade.php" />

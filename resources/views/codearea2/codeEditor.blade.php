@@ -1,7 +1,7 @@
 @component('scriptbundles.codemirror')
 @endcomponent
 
-@component('scriptbundles.sculpt')
+@component('scriptbundles.skulpt')
 @endcomponent
 
 @component('scriptbundles.codeeditor')

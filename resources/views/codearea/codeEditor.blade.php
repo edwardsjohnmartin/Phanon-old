@@ -13,7 +13,7 @@
 
 @section('scripts')
     @parent {{-- use to make sure that any scripts on parent pages are also included. --}}
-    @component("scriptbundles/sculpt")
+    @component("scriptbundles/skulpt")
     @endcomponent
     @component("scriptbundles/codemirror")
     @endcomponent
