@@ -19,16 +19,6 @@ use DB;
 class CodeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('codearea.index');
-    }
-
-    /**
      * Displays a test page to test python code.
      *
      * @return \Illuminate\Http\Response
@@ -36,6 +26,38 @@ class CodeController extends Controller
     public function sandbox()
     {
         return view('codearea2.sandbox');
+    }
+
+    /**
+     * 
+     */
+    public function exercise($exercise_id = null)
+    {
+        $exercise = Exercise::find($exercise_id);
+
+        if(empty($exercise)){
+            return redirect('/')->
+                with('error', 'That exercise does not exist');
+        }
+
+        return view('codearea2.exerciseEditor')->
+            with('exercise', $exercise);
+    }
+    
+    /**
+     * 
+     */
+    public function project($project_id = null)
+    {
+        $project = Project::find($project_id);
+
+        if(empty($project)){
+            return redirect('/')->
+                with('error', 'That project does not exist');
+        }
+
+        return view('codearea2.projectEditor')->
+            with('project', $project);
     }
 
     /**
@@ -61,58 +83,58 @@ class CodeController extends Controller
         }
     }
 
-    /**
-     * Displays a test page to test python code.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function exercise($id,$eid)
-    {
-        $myModule = Module::find($id);
+    // /**
+    //  * Displays a test page to test python code.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function exercise($id,$eid)
+    // {
+    //     $myModule = Module::find($id);
 
-        //HACK: This is only to be able to create a way to autocomplete exercises
-        $users = $myModule->concept->course->users;
+    //     //HACK: This is only to be able to create a way to autocomplete exercises
+    //     $users = $myModule->concept->course->users;
 
-        //HACK: This is going to be used to view exercise completion for a given module.
-        // It will be put into a better place and done better.
-        $module_completion = array();
-        foreach($myModule->lessons() as $lesson){
-            $les_arr = array();
-            foreach($lesson->exercises() as $exercise){
-                $cur_ex_progress = ExerciseProgress::where('user_id', auth()->user()->id)->where('exercise_id', $exercise->id)->first();;       
+    //     //HACK: This is going to be used to view exercise completion for a given module.
+    //     // It will be put into a better place and done better.
+    //     $module_completion = array();
+    //     foreach($myModule->lessons() as $lesson){
+    //         $les_arr = array();
+    //         foreach($lesson->exercises() as $exercise){
+    //             $cur_ex_progress = ExerciseProgress::where('user_id', auth()->user()->id)->where('exercise_id', $exercise->id)->first();;       
                 
-                if(!empty($cur_ex_progress)){
-                    $ex_arr = $cur_ex_progress->completed();
-                } else {
-                    $ex_arr = 0;
-                }
+    //             if(!empty($cur_ex_progress)){
+    //                 $ex_arr = $cur_ex_progress->completed();
+    //             } else {
+    //                 $ex_arr = 0;
+    //             }
 
-                $les_arr[$exercise->id] = $ex_arr;
-            }
+    //             $les_arr[$exercise->id] = $ex_arr;
+    //         }
 
-            $module_completion[$lesson->id] = $les_arr;
-        }
+    //         $module_completion[$lesson->id] = $les_arr;
+    //     }
 
-        if(isset($eid)){
-            $exerciseId = $eid;
-        }else{
-            $exerciseId = $myModule->currentExercise(1);
-        }
+    //     if(isset($eid)){
+    //         $exerciseId = $eid;
+    //     }else{
+    //         $exerciseId = $myModule->currentExercise(1);
+    //     }
 
-        $exercise = Exercise::find($exerciseId);
-        return view('codearea.module')
-            ->with('module', $myModule)
-            ->with('exercise', $exercise)
-            ->with('users', $users)
-            ->with('module_completion', $module_completion);
-    }
+    //     $exercise = Exercise::find($exerciseId);
+    //     return view('codearea.module')
+    //         ->with('module', $myModule)
+    //         ->with('exercise', $exercise)
+    //         ->with('users', $users)
+    //         ->with('module_completion', $module_completion);
+    // }
 
-    public function project($id)
-    {
-        $myProject = Project::find($id);
+    // public function project($id)
+    // {
+    //     $myProject = Project::find($id);
         
-        return view('codearea.project',['project' => $myProject]);
-    }
+    //     return view('codearea.project',['project' => $myProject]);
+    // }
 
     public function review($id,$eid)
     {

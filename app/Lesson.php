@@ -179,4 +179,19 @@ class Lesson extends Model
 
         return $completed;
     }
+
+    /**
+     * Returns the first incomplete exercise in a lesson for the logged-in user.
+     * If all exercises are complete, it returns the first exercise in the lesson.
+     */
+    public function nextIncompleteExercise()
+    {
+        foreach($this->exercises() as $exercise){
+            if($exercise->getProgressForUser()->completed() != true){
+                return $exercise;
+            }
+        }
+
+        return $this->exercises()[0];
+    }
 }

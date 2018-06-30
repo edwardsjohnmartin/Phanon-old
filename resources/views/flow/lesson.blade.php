@@ -6,7 +6,7 @@
              $percComplete = floor($percComplete * 100);
              @endphp
 <li class="lesson">
-    <a href="{{url('/code/'.$lesson->module_id.'/' . $lesson->id)}}">
+    <a href="{{url('/code/exercise/' . $lesson->nextIncompleteExercise()->id)}}">
         {{--
         <span>Lesson </span>
         <span class="itemCount"></span> --}}

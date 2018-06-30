@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -11,16 +12,24 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Importer;
-class ImportController extends Controller{
-    public function index(){
+
+class ImportController extends Controller
+{
+    /**
+     * 
+     */
+    public function index()
+    {
         return view("import.index");
     }
+
     /**
      * Handle file upload
      * @param Request $request File submitted byt the user.
      * @return \Illuminate\Contracts\View\Factory|Illuminate\View\View
      */
-    public function upload(Request $request){
+    public function upload(Request $request)
+    {
         $lessonsToShow = [];
 
         if($request->hasFile("newLesson")){
