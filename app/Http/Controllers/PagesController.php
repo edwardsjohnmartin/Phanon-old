@@ -23,16 +23,6 @@ class PagesController extends Controller
     }
 
     /**
-     * Displays a test page to test python code.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function sandbox()
-    {
-        return view('pages.sandbox');
-    }
-
-    /**
      * Displays a summary of a users resources.
      *
      * @return \Illuminate\Http\Response

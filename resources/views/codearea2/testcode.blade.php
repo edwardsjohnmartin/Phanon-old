@@ -4,7 +4,8 @@
 </div>
 
 @section('scripts')
-@parent
-    @component('scriptbundles/python-tests')
+    @parent
+
+    @component('scriptbundles.python-tests')
     @endcomponent
 @endsection

@@ -5,4 +5,3 @@
     @component('codearea2.messages')
     @endcomponent
 </div>
-

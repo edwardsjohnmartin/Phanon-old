@@ -9,9 +9,11 @@
             @php
                 $is_active = true;
                 $class = "";
+
                 if($exercise->id == $current_exercise_id){
                     $class .= "current ";
                 }
+                
                 if($exercise->getProgressForUser()->completed()){
                     $class .= "active completed ";
                 } else {
@@ -24,11 +26,10 @@
                     }
                 }
             @endphp
+
             <li class="exercise mini {{$class}}">
                 @if($is_active) 
-                <a href="{{url('newexercise/' . $exercise->id)}}">
-                    {{$exercise_count++}}
-                </a>
+                    <a href="{{url('newexercise/' . $exercise->id)}}">{{$exercise_count++}}</a>
                 @endif
             </li>
         @endforeach

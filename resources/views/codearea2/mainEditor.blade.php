@@ -1,4 +1,3 @@
-
 <div id="ideMainEditor">
     @component('codearea2.codeWindow', ['start_code' => $start_code])
     @endcomponent

@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+
 use Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,14 +15,9 @@ use App\Exercise;
 use App\Project;
 use App\ExerciseProgress;
 use DB;
+
 class CodeController extends Controller
 {
-    public function __construct()
-    {
-        // isAdmin middleware lets only users with a specific permission to access these resources
-        //$this->middleware(['auth', 'isAdmin']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -39,7 +35,7 @@ class CodeController extends Controller
      */
     public function sandbox()
     {
-        return view('codearea.sandbox');
+        return view('codearea2.sandbox');
     }
 
     /**

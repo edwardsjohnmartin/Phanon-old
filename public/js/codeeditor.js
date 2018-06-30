@@ -82,6 +82,8 @@ function configSkulpt(textOutput, graphicsOutput){
  * @param {*} codeToRun The Python code to run.
  */
 function runCode(codeToRun, outputArea, userCode = ""){
+    //TODO: Some of the complexity can be alleviated here by creating more functions
+
     if(codeToRun.length == 0){
         codeToRun = " ";
     }
@@ -98,43 +100,45 @@ function runCode(codeToRun, outputArea, userCode = ""){
     myPromise.then(
         function (retSuccess) {
             // This will run the Python code using the specified function in the Python code of the python.py file
-            var ret = Sk.misceval.callsim(
-                retSuccess.tp$getattr('__TEST'), 
-                Sk.builtin.str(userCode), 
-                Sk.builtin.str(outputArea.innerText)
-            );
-
-            var msg = "";
-
-            var testResults = parseTestResults(ret.v);
-            for(var i = 0; i < testResults.length; i++){
-                if(!testResults[i].success){
-                    msg = testResults[i].message;
-                    addPopup(testResults[i].message,"error")
-                    break;
+            if(hasTestCode){
+                var ret = Sk.misceval.callsim(
+                    retSuccess.tp$getattr('__TEST'), 
+                    Sk.builtin.str(userCode), 
+                    Sk.builtin.str(outputArea.innerText)
+                );
+    
+                var msg = "";
+    
+                var testResults = parseTestResults(ret.v);
+                for(var i = 0; i < testResults.length; i++){
+                    if(!testResults[i].success){
+                        msg = testResults[i].message;
+                        addPopup(testResults[i].message,"error")
+                        break;
+                    }
                 }
-            }
-
-            if(itemType == "exercise"){
-                if(msg == ""){
-                    msg = "Correct! Well done.";
-                    saveExerciseCode(itemId, userCode, true, url);
-                } else {
-                    saveExerciseCode(itemId, userCode, false, url);
+    
+                if(itemType == "exercise"){
+                    if(msg == ""){
+                        msg = "Correct! Well done.";
+                        saveExerciseCode(itemId, userCode, true, url);
+                    } else {
+                        saveExerciseCode(itemId, userCode, false, url);
+                    }
                 }
+    
+                displayMessage(msg);
             }
-
-            displayMessage(msg);
         },
         function (retError) {
             var msg = "";
 
             if (retError.args !== undefined) {
                 if (retError.args.v[0].v === "EOF in multi-line string") {
-                    msg = "ERROR: There is an open multi-line comment." + "\n";
+                    msg = "ERROR: There is an open multi-line comment.";
                 }
                 else {
-                    msg = retError.toString() + "\n";
+                    msg = retError.toString().replace("^", "").trim();
                 }
             }
 
@@ -174,7 +178,7 @@ function displayMessage(msg = ""){
     var output = document.getElementById("alerts");
 
     if(output != undefined){
-        output.innerText = msg;
+        output.innerHTML = msg;
     }
 }
 
@@ -215,15 +219,21 @@ function getCodeFromEditor(editor, includeTestCode = false){
  * Compiles the Python code from the various sources and sends it to Skulpt to be ran.
  */
 function run(){
-    var codeEditor = getCodeMirrorByParentNode("ideCodeWindow");
-    var preCodeEditor = getCodeMirrorByParentNode("idePreCode");
-    var testCodeEditor = getCodeMirrorByParentNode("ideTestCode");
-    
-    // Get Python code to run from the various CodeMirror editors
+    // Get Python code to run from the various CodeMirror editors that exist
     var codeToRun = "";
-    codeToRun += getCodeFromEditor(preCodeEditor);
+    var codeEditor = getCodeMirrorByParentNode("ideCodeWindow");
+
+    if(hasPreCode){
+        var preCodeEditor = getCodeMirrorByParentNode("idePreCode");
+        codeToRun += getCodeFromEditor(preCodeEditor);
+    }
+    
     codeToRun += getCodeFromEditor(codeEditor);
-    codeToRun += getCodeFromEditor(testCodeEditor, true);
+
+    if(hasTestCode){
+        var testCodeEditor = getCodeMirrorByParentNode("ideTestCode");
+        codeToRun += getCodeFromEditor(testCodeEditor, true);
+    }
 
     // Reset text output
     var outputArea = document.getElementById("output");
@@ -275,4 +285,14 @@ function addPopup(msg, className) {
     popUp.innerText = msg;
     popUp.className = "popup " + className;
     popHolder.appendChild(popUp);
+}
+
+/**
+ * Replaces the contents of a CodeMirror editor to the passed-in string.
+ * @param {*} parentNode The id of the element the CodeMirror is contained in.
+ * @param {*} text The text to change the contents of the CodeMirror editor to.
+ */
+function replaceEditorText(parentNode, text){
+    var editor = $("#" + parentNode + " .CodeMirror")[0];
+    editor.CodeMirror.setValue(decodeURI(text));
 }
