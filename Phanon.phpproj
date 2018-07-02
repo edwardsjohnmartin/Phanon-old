@@ -774,6 +774,8 @@
     <Compile Include="resources\views\codearea2\precode.blade.php" />
     <Compile Include="resources\views\codearea2\projectEditor.blade.php" />
     <Compile Include="resources\views\codearea2\prompt.blade.php" />
+    <Compile Include="resources\views\codearea2\sandbox.blade.php" />
+    <Compile Include="resources\views\codearea2\sandboxExamples.blade.php" />
     <Compile Include="resources\views\codearea2\testcode.blade.php" />
     <Compile Include="resources\views\codearea\codeEditor.blade.php" />
     <Compile Include="resources\views\codearea\codeEditorWithPreCode.blade.php" />
@@ -822,10 +824,12 @@
     <Compile Include="resources\views\roles\create.blade.php" />
     <Compile Include="resources\views\roles\edit.blade.php" />
     <Compile Include="resources\views\roles\index.blade.php" />
+    <Compile Include="resources\views\scriptbundles\codeeditor.blade.php" />
     <Compile Include="resources\views\scriptbundles\codemirror.blade.php" />
     <Compile Include="resources\views\inc\messages.blade.php" />
     <Compile Include="resources\views\inc\navbar.blade.php" />
     <Compile Include="resources\views\scriptbundles\actions.blade.php" />
+    <Compile Include="resources\views\scriptbundles\codewindow.blade.php" />
     <Compile Include="resources\views\scriptbundles\percentages.blade.php" />
     <Compile Include="resources\views\scriptbundles\python-tests.blade.php" />
     <Compile Include="resources\views\scriptbundles\create-edit-form.blade.php" />
@@ -839,6 +843,7 @@
     <Compile Include="resources\views\pages\index.blade.php" />
     <Compile Include="resources\views\pages\sandbox.blade.php" />
     <Compile Include="resources\views\shared\user.blade.php" />
+    <Compile Include="resources\views\tests\test.blade.php" />
     <Compile Include="resources\views\users\create.blade.php" />
     <Compile Include="resources\views\users\edit.blade.php" />
     <Compile Include="resources\views\users\index.blade.php" />
@@ -1238,6 +1243,7 @@
     <Folder Include="resources" />
     <Folder Include="resources\views\shared\" />
     <Folder Include="resources\views\shared\tables\" />
+    <Folder Include="resources\views\tests\" />
     <Folder Include="resources\views\test\" />
     <Folder Include="resources\views\users\" />
     <Folder Include="routes" />

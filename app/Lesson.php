@@ -127,7 +127,7 @@ class Lesson extends Model
 
         $results = DB::select(DB::raw("SELECT e.lesson_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete 
                             FROM phanon.exercises e
-                            LEFT JOIN (SELECT id, exercise_id FROM phanon.exercise_progress WHERE user_id = :userID AND last_correct_contents IS NOT NULL) AS ep 
+                            LEFT JOIN (SELECT id, exercise_id FROM phanon.exercise_progress WHERE user_id = :userID AND last_completion_date IS NOT NULL) AS ep 
                             ON ep.exercise_id = e.id WHERE e.lesson_id = :lessonID
                             GROUP BY lesson_id "), array('userID' => $idParsed, 'lessonID' =>$this->id));
 
