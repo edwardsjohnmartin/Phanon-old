@@ -4,7 +4,7 @@ $now = date(config("app.dateformat"));
 $isPast = $startdate < $now;
 $stats = $module->CompletionStats(auth()->user()->id);
 ?>
-<article class="module{{$isPast  ? ' expired' : '' }}">
+<article class="module sortable{{$isPast  ? ' expired' : '' }}">
    <div class="completion tiny p{{floor($stats->PercComplete*100)}}">
             <span>{{$stats->Completed}}/{{$stats->ExerciseCount}}
             
@@ -25,7 +25,7 @@ $stats = $module->CompletionStats(auth()->user()->id);
     </h1>
     <aside class="actions">
         <a class="edit" href="{{url('/modules/' . $module->id . '/edit')}}">Edit</a>
-        <a class="copy" href="{{url('/modules/' . $module->id . '/copy')}}">copy</a>
+        <a class="copy" href="{{url('/modules/' . $module->id . '/copy')}}">Copy</a>
         <a class="delete" href="{{url('/modules/' . $module->id . '/destroy')}}">Delete</a>
     </aside>
     <div class="dates">

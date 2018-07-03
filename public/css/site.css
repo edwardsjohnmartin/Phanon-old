@@ -80,14 +80,17 @@
 }
 
 /*flow - start*/
+#courseFlow .completion{
+    top: 0;
+    left: -.2em;
+}
 
-.module * {
-    border: 0;
+#courseFlow .module * {
     padding: 0;
     margin: 0;
 }
 
-.module {
+#courseFlow .module {
     border-radius: 2em;
     border: solid 1px #080;
     padding: 1em;
@@ -95,21 +98,38 @@
     position: relative;
     background-color: #FFF;
     box-shadow: #AAA 5px 5px 10px;
-    height: 3em;
+    height: 5em;
     overflow: hidden;
+    animation: hideModule 1s ease 0s forwards;
 }
 
-    .module:hover {
+    #courseFlow .module .dates {
+        margin-bottom: 1em;
+    }
+
+    #courseFlow .module:hover {
         animation: showModule 1s ease 0s forwards;
+        cursor: pointer;
+    }
+    #courseFlow .module li .completion{
+        opacity: 0;
+    }
+    #courseFlow .module:hover li .completion {
+        opacity: 1;
+    }
+    #courseFlow .module.ui-sortable-helper:hover {
+        animation: hideModule 1s ease 0s forwards;
+        cursor: move;
     }
 
 @keyframes showModule {
     0% {
-        height: 60px;
+        height: 5em;
+        cursor: wait;
     }
 
     99.99% {
-        height: 200px;
+        height: 12em;
     }
 
     100% {
@@ -118,28 +138,40 @@
     }
 }
 
-.expired {
+@keyframes hideModule {
+    0% {
+        height: 12em;
+        cursor: wait;
+    }
+
+    100% {
+        height: 5em;
+        /*height: 200px;*/
+    }
+}
+
+#courseFlow .expired {
     background-color: #DED;
     box-shadow: #AAA 5px 5px 10px;
 }
 
-.module h1 {
+#courseFlow .module h1 {
     font-size: 1.2em;
     font-weight: bold;
 }
 
-.module .details, .module .actions {
+#courseFlow .module .details, .module .actions {
     position: absolute;
     right: 2em;
     width: 25%;
 }
 
-.module .details {
+#courseFlow .module .details {
     background-color: #FFF;
     bottom: 0;
 }
 
-.module .actions {
+#courseFlow .module .actions {
     top: 0;
     width: 2em;
     overflow: hidden;
@@ -148,50 +180,75 @@
     text-align: center;
 }
 
-    .module .actions a {
+    #courseFlow .module .actions a {
         display: block;
     }
 
-        .module .actions a:hover {
+        #courseFlow .module .actions a:hover {
             text-decoration: none;
             background-color: #AAA;
             color: #FFF;
         }
 
-    .module .actions:hover {
+    #courseFlow .module .actions:hover {
         width: 6em;
         height: 7em;
         border: solid 1px #AAA;
         z-index: 999;
         background-color: #FFF;
     }
-    .components{
-        border: 1px solid #F0F;
-    }
-.components li{
-    list-style: none;
-}
-.lessons, .projects {
-    margin: 1em .3em 1.2em .2em;
+
+#courseFlow .components {
     
 }
 
-.lesson, .project {
-    display: block;
-    min-height: 80px;
+    #courseFlow .components li {
+        list-style: none;
+        display:inline-block;
+        width: 6em;
+        height: 5em;
+        margin: .3em 1em;
+        float:left;
+    }
+    #courseFlow .components li:before {
+        position:relative;
+        top: 3em;
+        left: .5em;
+    }
+
+        /*#courseFlow .components li .name:before {
+            content: ">";
+            position: absolute;
+            top: 0;
+            right: -20%;
+            font-size: 2em;
+        }*/
+
+    
+    #courseFlow .lesson .name, #courseFlow .project .name {
+    display: inline-block;
+    position: relative;
+    top: -50px;
 }
 
-    .lesson a, .project a {
+#courseFlow li.lesson .completion, #courseFlow li.project .completion {
+    top: -.6em;
+    left: 1em;
+    right: 0em;
+    font-size: 50px;
+}
+
+    #courseFlow .lesson a, #courseFlow .project a {
         color: #000;
         height: 100%;
     }
 
-    .lesson li, .project li {
+    #courseFlow .lesson li, #courseFlow .project li {
     }
 
-.lesson, .project {
+#courseFlow .lesson, #courseFlow .project {
     border: solid 1px #333;
-    background-color: #888;
+    background-color: #AAA;
     border: 1px solid #000;
     padding: .5em;
     color: #333;
@@ -199,15 +256,15 @@
     transition: background-color ease .5s;
 }
 
-    .lesson a:hover, .project a:hover {
+    #courseFlow .lesson a:hover, #courseFlow .project a:hover {
         text-decoration: none;
     }
 
-    .lesson:hover {
-        background-color: #8A8;
+    #courseFlow .lesson:hover {
+        background-color: #6A6;
     }
 
-.itemCount {
+#courseFlow .itemCount {
     background-color: #FEE;
     color: #AAA;
     border: 2px solid #300;
@@ -216,18 +273,18 @@
 }
 
 
-.project:hover {
-    background-color: #AAE;
+#courseFlow .project:hover {
+    background-color: #66A;
 }
 
-.lesson {
+#courseFlow .lesson {
     border-color: #333;
-    background-color: #EEE;
+    background-color: #ACA;
 }
 
-.project {
+#courseFlow .project {
     border-color: #003;
-    background-color: #EEF;
+    background-color: #AAC;
 }
 
 /*flow - end*/

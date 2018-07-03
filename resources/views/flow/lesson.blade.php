@@ -5,7 +5,7 @@
              $percComplete = $lessonStats->PercComplete;
              $percComplete = floor($percComplete * 100);
              @endphp
-<li class="lesson">
+<li class="lesson sortable">
     <a href="{{url('/code/exercise/' . $lesson->nextIncompleteExercise()->id)}}">
         {{--
         <span>Lesson </span>
@@ -24,6 +24,6 @@
                 <div class="fill"></div>
             </div>
         </div>
-        <p>{{$lesson->name}}</p>
+        <span class="name">{{$lesson->name}}</span>
     </a>
 </li>

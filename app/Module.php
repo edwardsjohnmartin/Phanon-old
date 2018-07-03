@@ -223,7 +223,7 @@ class Module extends Model
         $results = DB::select(DB::raw("SELECT lsn.module_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete
                                         FROM phanon.lessons lsn
                                         JOIN phanon.exercises e ON e.lesson_id = lsn.id
-                                        LEFT JOIN (SELECT id, exercise_id FROM phanon.exercise_progress WHERE user_id = :userID AND last_correct_contents IS NOT NULL)
+                                        LEFT JOIN (SELECT id, exercise_id FROM phanon.exercise_progress WHERE user_id = :userID AND completion_date IS NOT NULL)
                                         AS ep ON ep.exercise_id = e.id WHERE lsn.module_id = :moduleID
                                         GROUP BY lsn.module_id"), array('userID' => $idParsed, 'moduleID' =>$this->id));
 
