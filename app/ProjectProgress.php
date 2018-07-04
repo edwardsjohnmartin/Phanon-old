@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
@@ -20,4 +21,13 @@ class ProjectProgress extends Model
 
     // Timestamps
     public $timestamps = false;
+
+    function saveProgress($project_id, $contents)
+    {
+        $this->user_id = auth()->user()->id;
+        $this->project_id = $project_id;
+        $this->contents = $contents;
+        $this->last_run_date = Carbon\Carbon::now();
+        $this->save();
+    }
 }

@@ -54,46 +54,14 @@ class ExerciseProgressController extends Controller
      */
     public function save(Request $request)
     {
-        //TODO:: Check into the order of things here.
-        // Is checking $request->ajax nessecary?
-        // Should that check be done before trying to extract the contents of $request->all()?
-
         $user_id = auth()->user()->id;
         $all = $request->all();
         $contents = $all['contents'];
-        $exercise_id = $all['exercise_id'];
-        $success = ($all['success'] == "true");
 
-        // Get the ExerciseProgress for this user and exercise
-        $exProgress = ExerciseProgress::where('user_id', $user_id)->where('exercise_id', $exercise_id)->first();
-
-        // Create new ExerciseProgress object if one doesn't exist
-        if(empty($exProgress) or is_null($exProgress)){
-            $exProgress = new ExerciseProgress();
-            $exProgress->user_id = $user_id;
-            $exProgress->exercise_id = $exercise_id;
-        }
-
-        if($request->ajax()){
-            $exProgress->saveProgress($contents, $success);
-        }
-        $nextExercise = Exercise::where('previous_exercise_id',$exercise_id)->first();
-
-        // response to save.
-        $retAnswer = [];
-        $retAnswer["success"] = $success;
-        $retAnswer["nextId"] = isset($nextExercise)? $nextExercise->id:-1;
-        return $retAnswer;
-    }
-
-    public function newsave(Request $request)
-    {
-        $user_id = auth()->user()->id;
-        $all = $request->all();
-        $contents = $all['contents'];
         if(is_null($contents)){
             $contents = "";
         }
+
         $exercise_id = $all['exercise_id'];
         $success = ($all['success'] == "true");
 

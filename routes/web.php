@@ -29,28 +29,14 @@ Route::resource('modules', 'ModulesController');
 Route::resource('lessons', 'LessonsController');
 Route::resource('exercises', 'ExercisesController');
 Route::resource('projects', 'ProjectsController');
-//Route::resource('import', 'ImportController');
-
-// cloning routes.
-//Route::get('/courses/{id}/clone', 'CoursesController@copy')->name('courses.clone');
-//Route::get('/modules/{id}/clone', 'ModulesController@copy')->name('modules.clone');
-//Route::post('/modules', 'ModulesController@createClone');
-//Route::get('/lessons/{id}/clone', 'LessonsController@copy')->name('lessons.clone');
-//Route::post('/lessons', 'LessonsController@createClone');
-//Route::get('/exercises/{id}/clone', 'ExercisesController@copy')->name('exercises.clone');
-//Route::post('/exercises', 'ExercisesController@createClone');
-//Route::get('/projects/{id}/clone', 'ProjectsController@copy')->name('projects.clone');
-//Route::post('/projects', 'ProjectsController@createClone');
 
 Route::get('/import/index', 'ImportController@index')->name('import.index');
 Route::post('/import/upload','ImportController@upload')->name('import.upload');
 
-//Route::put('/exerciseprogress/complete/{exercise_id}', ['as' => 'exerciseprogress.complete', 'uses' => 'ExerciseProgressController@complete']);
-
 //Route::get('/current', 'CodeController@current')->name('current');
 
-//Route::get('/newexercise/{exercise_id}', 'CodeController@newexercise')->name('newexercise');
-Route::post('/newexercises/save', 'ExerciseProgressController@newsave')->name('exercise.save');
-
 Route::get('/code/exercise/{exercise_id?}', 'CodeController@exercise')->name('exercise.code');
+Route::post('/code/exercise/save', 'ExerciseProgressController@save')->name('exercise.save');
+
 Route::get('/code/project/{project_id?}', 'CodeController@project')->name('project.code');
+Route::post('/code/project/save', 'ProjectProgressController@save')->name('project.save');

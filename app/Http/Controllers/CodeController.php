@@ -14,6 +14,7 @@ use App\Module;
 use App\Exercise;
 use App\Project;
 use App\ExerciseProgress;
+use App\ProjectProgress;
 use DB;
 
 class CodeController extends Controller
@@ -25,7 +26,7 @@ class CodeController extends Controller
      */
     public function sandbox()
     {
-        return view('codearea2.sandbox');
+        return view('codearea.sandbox');
     }
 
     /**
@@ -35,13 +36,17 @@ class CodeController extends Controller
     {
         $exercise = Exercise::find($exercise_id);
 
-        if(empty($exercise)){
+        if(is_null($exercise_id) or empty($exercise)){
             return redirect('/')->
                 with('error', 'That exercise does not exist');
         }
 
-        return view('codearea2.exerciseEditor')->
-            with('exercise', $exercise);
+        // Get the users latest submission for this exercise
+        $exerciseProgress = ExerciseProgress::where('user_id', auth()->user()->id)->where('exercise_id', $exercise_id)->first();
+
+        return view('codearea.exerciseEditor')->
+            with('exercise', $exercise)->
+            with('exerciseProgress', $exerciseProgress);
     }
     
     /**
@@ -51,13 +56,17 @@ class CodeController extends Controller
     {
         $project = Project::find($project_id);
 
-        if(empty($project)){
+        if(is_null($project_id) or empty($project)){
             return redirect('/')->
                 with('error', 'That project does not exist');
         }
 
-        return view('codearea2.projectEditor')->
-            with('project', $project);
+        // Get the users latest submission for this project
+        $projectProgress = ProjectProgress::where('user_id', auth()->user()->id)->where('project_id', $project_id)->orderBy('last_run_date', 'desc')->first();
+
+        return view('codearea.projectEditor')->
+            with('project', $project)->
+            with('projectProgress', $projectProgress);
     }
 
     /**
@@ -161,7 +170,7 @@ class CodeController extends Controller
                 with('error', 'That exercise does not exist');
         }
 
-        return view('codearea2.exerciseEditor')->
+        return view('codearea.exerciseEditor')->
             with('exercise', $exercise);
     }
 }

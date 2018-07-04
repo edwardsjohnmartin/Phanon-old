@@ -32,6 +32,20 @@ function makeRunButton(button){
 
 /**
  * 
+ * @param {*} buttonId 
+ */
+function makeResetButton(buttonId){
+    var btnReset = document.getElementById(buttonId);
+
+    var resetCode = btnReset.attributes["data-reset-code"].value;
+
+    btnReset.onclick = function(){
+        replaceEditorText("ideCodeWindow", resetCode);
+    };
+}
+
+/**
+ * 
  * @param {*} prompt 
  */
 function inf(prompt) {
@@ -108,27 +122,32 @@ function runCode(codeToRun, outputArea, userCode = ""){
                 );
     
                 var msg = "";
+                var success = true;
     
                 var testResults = parseTestResults(ret.v);
                 for(var i = 0; i < testResults.length; i++){
                     if(!testResults[i].success){
+                        success = false;
                         msg = testResults[i].message;
                         addPopup(testResults[i].message,"error")
                         break;
                     }
                 }
-    
-                if(itemType == "exercise"){
-                    if(msg == ""){
-                        msg = "Correct! Well done.";
-                        saveExerciseCode(itemId, userCode, true, url);
-                    } else {
-                        saveExerciseCode(itemId, userCode, false, url);
-                    }
-                }
-    
-                displayMessage(msg);
             }
+
+            if(itemType == "exercise"){
+                if(success){
+                    msg = "Correct! Well done.";
+                    saveExerciseCode(itemId, userCode, true, url);
+                } else {
+                    saveExerciseCode(itemId, userCode, false, url);
+                }
+            }
+            else if(itemType == "project"){
+                saveProjectCode(itemId, userCode, url);
+            }
+    
+            displayMessage(msg);
         },
         function (retError) {
             var msg = "";
@@ -144,6 +163,9 @@ function runCode(codeToRun, outputArea, userCode = ""){
 
             if(itemType == "exercise"){
                 saveExerciseCode(itemId, userCode, false, url);
+            }
+            else if(itemType == "project"){
+                saveProjectCode(itemId, userCode, url);
             }
 
             displayMessage(msg);
@@ -268,7 +290,17 @@ function saveExerciseCode(exercise_id, contents, success, url){
         url: url,
         data: { contents: contents, exercise_id: exercise_id, success: success, _token: $('meta[name="csrf-token"]').attr('content')},
         success: function (data) {
-            console.log(data);
+            addPopup("Code saved!","save")
+        }
+    });
+}
+
+function saveProjectCode(project_id, contents, url){
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: { contents: contents, project_id: project_id, _token: $('meta[name="csrf-token"]').attr('content')},
+        success: function (data) {
             addPopup("Code saved!","save")
         }
     });

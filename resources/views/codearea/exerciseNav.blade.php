@@ -29,7 +29,7 @@
 
             <li class="exercise mini {{$class}}">
                 @if($is_active) 
-                    <a href="{{url('newexercise/' . $exercise->id)}}">{{$exercise_count++}}</a>
+                    <a href="{{url('code/exercise/' . $exercise->id)}}">{{$exercise_count++}}</a>
                 @endif
             </li>
         @endforeach

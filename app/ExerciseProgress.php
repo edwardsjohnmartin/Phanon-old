@@ -67,4 +67,19 @@ class ExerciseProgress extends Model
         
         return $exProgress;
     }
+
+    public function latestContents()
+    {
+        if(!is_null($this->last_run_date) and !is_null($this->last_correct_run_date)){
+            if($this->last_run_date > $this->last_correct_run_date){
+                return $this->last_contents;
+            }else{
+                return $this->last_correct_contents;
+            }
+        }else if(!is_null($this->last_run_date) and is_null($this->last_correct_run_date)){
+            return $this->last_contents;
+        }else if(is_null($this->last_run_date) and !is_null($this->last_correct_run_date)){
+            return $this->last_correct_contents;
+        }
+    }
 }
