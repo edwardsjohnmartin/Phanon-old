@@ -45,7 +45,7 @@
                             <td>
                                 <!-- HACK: Setting up structure for buttons -->
                                 <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>
-                                <a href="{{url('/flow/' . $course->id)}}" class="btn btn-view">See Flow</a>
+                                <a href="{{url('/flow/' . $course->id)}}" class="btn btn-view flow">See Flow</a>
                                 @can('course.edit')
                                     <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
                                 @endcan

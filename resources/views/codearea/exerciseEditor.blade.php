@@ -5,6 +5,7 @@
 
 @php
     // Use the users latest attempt's code or the exercise's start_code if the user has never attempted it yet
+    // TODO: Shouldn't this start with the starter code then?
     $latest_user_code = "";
 
     if(!empty($exerciseProgress)){
@@ -17,6 +18,8 @@
     @endcomponent
 
     <div id="codeIde">
+        <a class="flow" href="{{url("flow",["id" => $exercise->lesson->module->concept->course_id])}}">Return</a>
+
         @component('codearea.prompt', ['prompt' => $exercise->prompt])
         @endcomponent
 

@@ -2,45 +2,50 @@
  * Turns a normal textarea element into a CodeMirror editor.
  * @param {*} textarea The id of the textarea element to be turned into a CodeMirror editor.
  */
-function makeCodeMirror(textarea){
+function makeCodeMirror(textarea) {
     var myTextArea = document.getElementById(textarea);
 
-    var myCodeMirror = CodeMirror(function(elt) {
+    var myCodeMirror = CodeMirror(function (elt) {
         myTextArea.parentNode.replaceChild(elt, myTextArea);
     }, {
-        value: myTextArea.value,
-        lineNumbers: true,
-        cursorBlinkRate: 0,
-        autoCloseBrackets: true,
-        tabSize: 4,
-        indentUnit: 4,
-        matchBrackets: true
-    });
+            value: myTextArea.value,
+            lineNumbers: true,
+            cursorBlinkRate: 0,
+            autoCloseBrackets: true,
+            tabSize: 4,
+            indentUnit: 4,
+            matchBrackets: true
+        });
 
     return myCodeMirror;
 }
 
+//TODO: this do not technically make the button; should consider renaming to a 
+//     more accurate name like - setRunButtonEvents
 /**
  * Updates the onclick event of the button element to run the Python code in a CodeMirror editor.
  * @param {*} button The id of the button element who's onclick will be used for the run function.
  */
-function makeRunButton(button){
-    document.getElementById(button).onclick = function(){
+function makeRunButton(button) {
+    document.getElementById(button).onclick = function () {
         run();
     };
 }
 
+//TODO: this do not technically make the button; should consider renaming to a
+//     more accurate name like - setResetButtonEvents
 /**
  * 
  * @param {*} buttonId 
  */
-function makeResetButton(buttonId){
+function makeResetButton(buttonId) {
     var btnReset = document.getElementById(buttonId);
 
     var resetCode = btnReset.attributes["data-reset-code"].value;
 
-    btnReset.onclick = function(){
+    btnReset.onclick = function () {
         replaceEditorText("ideCodeWindow", resetCode);
+        addPopup("Code reset to starter code.");
     };
 }
 
@@ -79,7 +84,7 @@ function outf(text) {
  * @param {*} textOutput The id of the element the text output will go.
  * @param {*} graphicsOutput The id of the element any Turtle graphics will be drawn to.
  */
-function configSkulpt(textOutput, graphicsOutput){
+function configSkulpt(textOutput, graphicsOutput) {
     Sk.pre = textOutput;
     Sk.configure({
         output: outf,
@@ -95,10 +100,10 @@ function configSkulpt(textOutput, graphicsOutput){
  * Runs Python code using Skulpt and handles the output, showing errors or saving to the database.
  * @param {*} codeToRun The Python code to run.
  */
-function runCode(codeToRun, outputArea, userCode = ""){
+function runCode(codeToRun, outputArea, userCode = "") {
     //TODO: Some of the complexity can be alleviated here by creating more functions
 
-    if(codeToRun.length == 0){
+    if (codeToRun.length == 0) {
         codeToRun = " ";
     }
 
@@ -114,39 +119,52 @@ function runCode(codeToRun, outputArea, userCode = ""){
     myPromise.then(
         function (retSuccess) {
             // This will run the Python code using the specified function in the Python code of the python.py file
-            if(hasTestCode){
+            if (hasTestCode) {
                 var ret = Sk.misceval.callsim(
-                    retSuccess.tp$getattr('__TEST'), 
-                    Sk.builtin.str(userCode), 
+                    retSuccess.tp$getattr('__TEST'),
+                    Sk.builtin.str(userCode),
                     Sk.builtin.str(outputArea.innerText)
                 );
-    
+
                 var msg = "";
                 var success = true;
-    
+                var successCount = 0;
+                var testErrorsMessage = "";
+
                 var testResults = parseTestResults(ret.v);
-                for(var i = 0; i < testResults.length; i++){
-                    if(!testResults[i].success){
+                for (var i = 0; i < testResults.length; i++) {
+                    if (!testResults[i].success) {
                         success = false;
                         msg = testResults[i].message;
-                        addPopup(testResults[i].message,"error")
-                        break;
+                        //break; // Do not break on the first error
+                        testErrorsMessage += "<li>" + testResults[i].message + "</li>";
+                    } else {
+                        successCount++;
                     }
                 }
             }
 
-            if(itemType == "exercise"){
-                if(success){
-                    msg = "Correct! Well done.";
+            var testsPassed = "<h3>" + successCount + "/" + testResults.length + " tests passed.</h3>" +
+                "<ol>"+testErrorsMessage+"</ol>";
+            addPopup(testsPassed, (success ? "success" : "error")+" test");
+
+            if (itemType == "exercise") {
+                if (success) {
+                    msg = "Correct! Well done. Click Next to go to the next exercise.";
+                    addPopup(msg, "success permanent");
+                    // enable next button
+                    var btnNext = document.getElementById("btnNext");
+                    btnNext.classList.remove("disabled");
+
                     saveExerciseCode(itemId, userCode, true, url);
                 } else {
                     saveExerciseCode(itemId, userCode, false, url);
                 }
             }
-            else if(itemType == "project"){
+            else if (itemType == "project") {
                 saveProjectCode(itemId, userCode, url);
             }
-    
+
             displayMessage(msg);
         },
         function (retError) {
@@ -161,12 +179,13 @@ function runCode(codeToRun, outputArea, userCode = ""){
                 }
             }
 
-            if(itemType == "exercise"){
+            if (itemType == "exercise") {
                 saveExerciseCode(itemId, userCode, false, url);
             }
-            else if(itemType == "project"){
+            else if (itemType == "project") {
                 saveProjectCode(itemId, userCode, url);
             }
+            addPopup(msg, "error");
 
             displayMessage(msg);
         }
@@ -177,11 +196,11 @@ function runCode(codeToRun, outputArea, userCode = ""){
  * Parses the Skulpt array of test results into a more usable array. 
  * @param {*} ret The array returned from Skulpt when tests were present. 
  */
-function parseTestResults(ret){
+function parseTestResults(ret) {
     var testResults = [];
 
-    if(ret.length > 0){
-        for(var i = 0; i < ret.length; i++){
+    if (ret.length > 0) {
+        for (var i = 0; i < ret.length; i++) {
             testResults[i] = {
                 success: !!+ret[i].v[0].v,
                 message: ret[i].v[1].v
@@ -196,10 +215,10 @@ function parseTestResults(ret){
  * Displays a string to the element with the id "alerts". Can erase any messages by calling without any parameters.
  * @param {*} errorMsg The message to display in the "alerts" element.
  */
-function displayMessage(msg = ""){
+function displayMessage(msg = "") {
     var output = document.getElementById("alerts");
 
-    if(output != undefined){
+    if (output != undefined) {
         output.innerHTML = msg;
     }
 }
@@ -208,11 +227,11 @@ function displayMessage(msg = ""){
  * Retrieves the CodeMirror editor instance from a parent element.
  * @param {*} parentNode The id of the element the CodeMirror is contained in.
  */
-function getCodeMirrorByParentNode(parentNode){
+function getCodeMirrorByParentNode(parentNode) {
     var codeWindows = $(".CodeMirror");
 
-    for(var i = 0; i < codeWindows.length; i++){
-        if(codeWindows[i].parentNode.id == parentNode){
+    for (var i = 0; i < codeWindows.length; i++) {
+        if (codeWindows[i].parentNode.id == parentNode) {
             return codeWindows[i].CodeMirror;
         }
     }
@@ -223,14 +242,14 @@ function getCodeMirrorByParentNode(parentNode){
  * @param {*} editor CodeMirror editor instance to get contents from .
  * @param {*} includeTestCode Include the Python code that defines the various tests to run the code against.
  */
-function getCodeFromEditor(editor, includeTestCode = false){
+function getCodeFromEditor(editor, includeTestCode = false) {
     var codeToRun = "";
 
-    if(includeTestCode){
+    if (includeTestCode) {
         codeToRun += document.getElementById("pythonTestCode").innerText.trim() + "\n";
     }
 
-    if(editor != undefined){
+    if (editor != undefined) {
         codeToRun += (editor.getValue() + "\n");
     }
 
@@ -240,19 +259,19 @@ function getCodeFromEditor(editor, includeTestCode = false){
 /**
  * Compiles the Python code from the various sources and sends it to Skulpt to be ran.
  */
-function run(){
+function run() {
     // Get Python code to run from the various CodeMirror editors that exist
     var codeToRun = "";
     var codeEditor = getCodeMirrorByParentNode("ideCodeWindow");
 
-    if(hasPreCode){
+    if (hasPreCode) {
         var preCodeEditor = getCodeMirrorByParentNode("idePreCode");
         codeToRun += getCodeFromEditor(preCodeEditor);
     }
-    
+
     codeToRun += getCodeFromEditor(codeEditor);
 
-    if(hasTestCode){
+    if (hasTestCode) {
         var testCodeEditor = getCodeMirrorByParentNode("ideTestCode");
         codeToRun += getCodeFromEditor(testCodeEditor, true);
     }
@@ -263,15 +282,15 @@ function run(){
 
     // Reset graphics output
     var canvasArea = document.getElementsByTagName("canvas");
-    if(canvasArea.length > 0){
-        for(var i = 0; i < canvasArea.length; i++){
+    if (canvasArea.length > 0) {
+        for (var i = 0; i < canvasArea.length; i++) {
             canvasArea[i].classList.add("hidden");
         }
     }
 
     // Reset alert messages output
     displayMessage();
-    
+
     // Configure Skulpt and run code
     configSkulpt(outputArea.id, "mycanvas");
     runCode(codeToRun, outputArea, codeEditor.getValue());
@@ -284,24 +303,24 @@ function run(){
  * @param {*} success Indicates whether the exercise was completed correctly or not.
  * @param {*} url  The url of the route to save the exercise to the database.
  */
-function saveExerciseCode(exercise_id, contents, success, url){
+function saveExerciseCode(exercise_id, contents, success, url) {
     $.ajax({
         type: "POST",
         url: url,
-        data: { contents: contents, exercise_id: exercise_id, success: success, _token: $('meta[name="csrf-token"]').attr('content')},
+        data: { contents: contents, exercise_id: exercise_id, success: success, _token: $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            addPopup("Code saved!","save")
+            addPopup("Code saved!", "save")
         }
     });
 }
-
-function saveProjectCode(project_id, contents, url){
+//TODO: Can these two functions be combined? 
+function saveProjectCode(project_id, contents, url) {
     $.ajax({
         type: "POST",
         url: url,
-        data: { contents: contents, project_id: project_id, _token: $('meta[name="csrf-token"]').attr('content')},
+        data: { contents: contents, project_id: project_id, _token: $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            addPopup("Code saved!","save")
+            addPopup("Project Code saved!", "save")
         }
     });
 }
@@ -314,7 +333,7 @@ function saveProjectCode(project_id, contents, url){
 function addPopup(msg, className) {
     var popHolder = document.getElementById("popups");
     var popUp = document.createElement("p");
-    popUp.innerText = msg;
+    popUp.innerHTML = msg;
     popUp.className = "popup " + className;
     popHolder.appendChild(popUp);
 }
@@ -324,7 +343,7 @@ function addPopup(msg, className) {
  * @param {*} parentNode The id of the element the CodeMirror is contained in.
  * @param {*} text The text to change the contents of the CodeMirror editor to.
  */
-function replaceEditorText(parentNode, text){
+function replaceEditorText(parentNode, text) {
     var editor = $("#" + parentNode + " .CodeMirror")[0];
     editor.CodeMirror.setValue(decodeURI(text));
 }
