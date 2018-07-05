@@ -41,9 +41,8 @@ function makeRunButton(button) {
 function makeResetButton(buttonId) {
     var btnReset = document.getElementById(buttonId);
 
-    var resetCode = btnReset.attributes["data-reset-code"].value;
-
     btnReset.onclick = function () {
+        var resetCode = btnReset.attributes["data-reset-code"].value;
         replaceEditorText("ideCodeWindow", resetCode);
         addPopup("Code reset to starter code.");
     };
@@ -145,16 +144,15 @@ function runCode(codeToRun, outputArea, userCode = "") {
             }
 
             var testsPassed = "<h3>" + successCount + "/" + testResults.length + " tests passed.</h3>" +
-                "<ol>"+testErrorsMessage+"</ol>";
-            addPopup(testsPassed, (success ? "success" : "error")+" test");
+                "<ol>" + testErrorsMessage + "</ol>";
+            addPopup(testsPassed, (success ? "success" : "error") + " test");
 
             if (itemType == "exercise") {
                 if (success) {
                     msg = "Correct! Well done. Click Next to go to the next exercise.";
                     addPopup(msg, "success permanent");
-                    // enable next button
-                    var btnNext = document.getElementById("btnNext");
-                    btnNext.classList.remove("disabled");
+
+                    toggleCurrentStep("btnRunCode", "btnNext");
 
                     saveExerciseCode(itemId, userCode, true, url);
                 } else {
@@ -165,7 +163,7 @@ function runCode(codeToRun, outputArea, userCode = "") {
                 saveProjectCode(itemId, userCode, url);
             }
 
-            displayMessage(msg);
+            //displayMessage(msg);
         },
         function (retError) {
             var msg = "";
@@ -187,10 +185,21 @@ function runCode(codeToRun, outputArea, userCode = "") {
             }
             addPopup(msg, "error");
 
-            displayMessage(msg);
+            //displayMessage(msg);
         }
     );
 }
+
+function toggleCurrentStep(idToRemove, idToAdd) {
+    // enable next button
+    var btnToGetCurrent = document.getElementById(idToAdd);
+    btnToGetCurrent.classList.remove("disabled");
+    btnToGetCurrent.classList.add("currentStep");
+    // remove focus from run
+    var btnToLoseCurrent = document.getElementById(idToRemove);
+    btnToLoseCurrent.classList.remove("currentStep");
+}
+
 
 /**
  * Parses the Skulpt array of test results into a more usable array. 
@@ -289,7 +298,7 @@ function run() {
     }
 
     // Reset alert messages output
-    displayMessage();
+    //displayMessage();
 
     // Configure Skulpt and run code
     configSkulpt(outputArea.id, "mycanvas");
@@ -346,4 +355,12 @@ function addPopup(msg, className) {
 function replaceEditorText(parentNode, text) {
     var editor = $("#" + parentNode + " .CodeMirror")[0];
     editor.CodeMirror.setValue(decodeURI(text));
+
+    // if reset button exists, give it starter code.
+    var btnReset = document.getElementById("btnReset");
+    if (btnReset != null) {
+        btnReset.setAttribute("data-reset-code", text);
+    }
+
+
 }

@@ -124,10 +124,11 @@ class Lesson extends Model
     public function CompletionStats($userID)
     {
         $idParsed = intval($userID);
+        $database = config("database.connections.mysql.database");
 
         $results = DB::select(DB::raw("SELECT e.lesson_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete 
-                            FROM phanon.exercises e
-                            LEFT JOIN (SELECT id, exercise_id FROM phanon.exercise_progress WHERE user_id = :userID AND completion_date IS NOT NULL) AS ep 
+                            FROM $database.exercises e
+                            LEFT JOIN (SELECT id, exercise_id FROM $database.exercise_progress WHERE user_id = :userID AND completion_date IS NOT NULL) AS ep 
                             ON ep.exercise_id = e.id WHERE e.lesson_id = :lessonID
                             GROUP BY lesson_id "), array('userID' => $idParsed, 'lessonID' =>$this->id));
 
@@ -140,7 +141,8 @@ class Lesson extends Model
      * @return int Count of Exercises in this lesson.
      */
     public function ExerciseCount(){
-        $results = DB::select(DB::raw("SELECT COUNT(id) AS ExerciseCount FROM phanon.exercises 
+        $database = config("database.connections.mysql.database");
+        $results = DB::select(DB::raw("SELECT COUNT(id) AS ExerciseCount FROM $database.exercises 
                                     WHERE lesson_id = :lessonID
                                     GROUP BY lesson_id"), array('lessonID' =>$this->id));
 

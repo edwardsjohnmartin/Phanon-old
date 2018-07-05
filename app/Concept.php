@@ -121,13 +121,13 @@ class Concept extends Model
      */
     public function CompletionStats($userID){
         $idParsed = intval($userID);
-
+        $database = config("database.connections.mysql.database");
         // Changed this to check if the completion_date is not null instead of the last_correct_contents
         // This is because if the exercise is auto completed, the completion_date would be filled and not the last_correct_contents
         $results = DB::select(DB::raw("SELECT m.concept_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete 
-                                        FROM phanon.modules m  JOIN phanon.lessons lsn ON m.id = lsn.module_id
-                                        JOIN phanon.exercises e ON e.lesson_id = lsn.id
-                                        LEFT JOIN (SELECT id, exercise_id FROM phanon.exercise_progress 
+                                        FROM $database.modules m  JOIN $database.lessons lsn ON m.id = lsn.module_id
+                                        JOIN $database.exercises e ON e.lesson_id = lsn.id
+                                        LEFT JOIN (SELECT id, exercise_id FROM $database.exercise_progress 
 	                                        WHERE user_id = :userID 
                                             AND completion_date IS NOT NULL) AS ep ON ep.exercise_id = e.id
                                         WHERE m.concept_id = :conceptID

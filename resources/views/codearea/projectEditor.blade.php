@@ -20,7 +20,8 @@
         @component('codearea.precode', ['pre_code' => $project->pre_code])
         @endcomponent
 
-        @component('codearea.codeEditor', ['start_code' => $project->start_code, 'latest_user_code' => $latest_user_code, 'item_type' => 'project', 'item_id' => $project->id])
+        @component('codearea.codeEditor', ['start_code' => $project->start_code, 'latest_user_code' => $latest_user_code, 
+                    'item_type' => 'project', 'item_id' => $project->id,"previous_item_id"=> -1, "next_item_id" => -1])
         @endcomponent
     </div>
 @endsection

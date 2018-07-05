@@ -556,9 +556,10 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         height: 1.6em;
         line-height: 1;
         position: relative;
+        overflow:hidden;
     }
 
-        #ideControls button.run {
+        #ideControls button.currentStep {
             background-color: #080;
         }
 
@@ -570,7 +571,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
             height: auto;
         }
 
-        #ideControls button.run:hover {
+        #ideControls button.currentStep:hover {
             background-color: #00A;
         }
 
@@ -644,11 +645,13 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 
 #popups {
     position: absolute;
-    top: 6em;
+    top: 3em;
     left: 10%;
     pointer-events: none;
     width: 20em;
     text-align: center;
+    /*display:flex;
+    flex-direction:column-reverse;*/
 }
 
 .popup {
@@ -673,10 +676,11 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 
     .popup.error {
         background-color: #FEE;
+        animation-delay: 1500ms;
     }
 
     .popup.permanent {
-        animation: none;
+        animation-delay: 10s;
     }
 
 @keyframes hidePopup {
