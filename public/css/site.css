@@ -681,6 +681,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 
     .popup.permanent {
         animation-delay: 10s;
+        pointer-events: auto;
     }
 
 @keyframes hidePopup {

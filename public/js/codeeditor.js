@@ -149,7 +149,9 @@ function runCode(codeToRun, outputArea, userCode = "") {
 
             if (itemType == "exercise") {
                 if (success) {
-                    msg = "Correct! Well done. Click Next to go to the next exercise.";
+                    var nextLink = "<a href='" + getLinkFromButton("btnNext")
+                        + "' >Next</a>";
+                    msg = "Well done. Click " + nextLink + " to go to the next exercise.";
                     addPopup(msg, "success permanent");
 
                     toggleCurrentStep("btnRunCode", "btnNext");
@@ -361,6 +363,18 @@ function replaceEditorText(parentNode, text) {
     if (btnReset != null) {
         btnReset.setAttribute("data-reset-code", text);
     }
+}
 
-
+/**
+ * Get the link from data attributes from a given button
+ * @param string btnId the identifier for the button to get the link from
+ * @returns url from button's data attributes.
+ */
+function getLinkFromButton(btnId) {
+    var url = "";
+    var btn = document.getElementById(btnId);
+    if (btn != null) {
+        url = btn.getAttribute("data-url");
+    }
+    return url
 }

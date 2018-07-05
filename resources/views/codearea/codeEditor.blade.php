@@ -21,9 +21,9 @@
     if(isset($latest_user_code)){
         $start_code = $latest_user_code;
         if($has_solution)
-            $messages[] = "user solution loaded";
+            $messages[] = "Your solution loaded.|load";
         else
-            $messages[] = "user code loaded";
+            $messages[] = "Your latest code loaded.|load";
     }
 @endphp
 
