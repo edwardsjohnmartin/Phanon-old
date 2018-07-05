@@ -347,6 +347,14 @@ function addPopup(msg, className) {
     popUp.innerHTML = msg;
     popUp.className = "popup " + className;
     popHolder.appendChild(popUp);
+    var logBook = document.getElementById("ideLog");
+    var newEntryTitle = document.createElement("dt");
+    newEntryTitle.innerText = (new Date()).toLocaleTimeString();
+    var newEntry = document.createElement("dd");
+    newEntry.innerHTML = msg;
+    newEntry.className = className;
+    logBook.appendChild(newEntryTitle);
+    logBook.appendChild(newEntry);
 }
 
 /**

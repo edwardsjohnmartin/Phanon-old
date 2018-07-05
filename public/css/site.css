@@ -77,8 +77,8 @@
 .previous:before {
     font-family: themify;
     /*content: "\e662"; -- double arrow*/
-    content: "\e71c"; /* -- finger*/
-    /*content: "\e629";  -- arrow*/
+    /*content: "\e71c";  -- finger*/
+    content: "\e629"; /*-- arrow*/
     margin-right: .5em;
 }
 
@@ -98,7 +98,7 @@
 
 .load:before {
     font-family: themify;
-    content: "\e6A7";
+    content: "\e632";
     margin-right: .5em;
 }
 
@@ -137,6 +137,12 @@
 .project:before {
     font-family: themify;
     content: "\e618";
+    margin-right: .5em;
+}
+
+#ideLogs h2:before {
+    font-family: themify;
+    content: "\e663";
     margin-right: .5em;
 }
 
@@ -556,7 +562,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         height: 1.6em;
         line-height: 1;
         position: relative;
-        overflow:hidden;
+        overflow: hidden;
     }
 
         #ideControls button.currentStep {
@@ -611,7 +617,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     }
 
 #ideGraphics {
-    border: 1px solid #00F;
+    /*border: 1px solid #00F;*/
 }
 
 #ideTextOutput {
@@ -643,6 +649,61 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     left: 0;
 }
 
+/*IDE Log Messages*/
+
+#ideMessages #ideLogs {
+    position: relative;
+    top: -.6em;
+    cursor: help;
+}
+
+    #ideMessages #ideLogs * {
+        margin: 0;
+        padding: 0;
+        font-size: 1em;
+    }
+
+    #ideMessages #ideLogs h2 {
+        background-color: #DDD;
+        border: 1px solid #333;
+        border-radius: 1em 1em 0 0;
+        text-align: center;
+        width: 5em;
+        position: absolute;
+        top: 0;
+        right: 5em;
+    }
+
+#ideMessages #ideLog {
+    border: 1px solid #000;
+    background: #EEE;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 1.2em;
+    min-width: 20em;
+    transition: height 2s ease;
+    height: 0vh;
+    overflow: auto;
+ display: flex;
+ flex-direction:column-reverse;
+}
+
+#ideMessages #ideLogs:hover #ideLog {
+    height: 80vh;
+}
+
+
+#ideMessages #ideLog dt {
+    padding-left: .5em;
+    border-bottom: 1px solid #000;
+    text-align:right;
+}
+
+#ideMessages #ideLog ol {
+    padding-left: 4em;
+}
+
 #popups {
     position: absolute;
     top: 3em;
@@ -656,7 +717,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 
 .popup {
     display: block;
-    animation: hidePopup 2s forwards 800ms;
+    animation: hidePopup 2s ease 800ms forwards;
     background-color: #FAFAFA;
     border: 1px solid #333;
     overflow: hidden;
@@ -687,12 +748,12 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 @keyframes hidePopup {
     0% {
         height: 2.5em;
-        border-width: 1;
+        border-width: 1px;
         margin: 0;
     }
 
     99.99% {
-        border-width: 1;
+        border-width: 1px;
         box-shadow: #333 0 0 10px;
         position: static;
     }
@@ -708,26 +769,27 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         top: 0;
         left: 0;
     }
+}
 
-    #ideMessages #ideMessageList {
-        width: 100%;
-        position: absolute;
-    }
+#ideMessages #ideMessageList {
+    width: 100%;
+    position: absolute;
+}
 
-    #ideMessages .ideMessages {
-        height: 0;
-        position: relative;
-        overflow: hidden;
-        transition: height 1s ease-out;
-        background-color: #FFF;
-    }
+#ideMessages .ideMessages {
+    height: 0;
+    position: relative;
+    overflow: hidden;
+    transition: height 1s ease-out;
+    background-color: #FFF;
+}
 
-    #ideMessages .messageControls {
-        position: absolute;
-        top: .1em;
-        right: .1em;
-        font-size: .8em;
-    }
+#ideMessages .messageControls {
+    position: absolute;
+    top: .1em;
+    right: .1em;
+    font-size: .8em;
+}
 
     #ideMessages .messageControls a.minimizer, #ideMessages .messageControls a.closer {
         display: inline-block;
@@ -757,18 +819,18 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         margin-right: .5em;
     }
 
-    #ideMessages > div .showMessage {
-        height: 3em;
-        overflow: auto;
-        padding: .3em 2em .3em .3em;
-        margin: .3em;
-        border: 2px solid #333;
-        border-radius: .3em;
-    }
-
-    #ideMessages > div .collapseMessage {
-        height: 2em;
-    }
+#ideMessages > div .showMessage {
+    height: 3em;
+    overflow: auto;
+    padding: .3em 2em .3em .3em;
+    margin: .3em;
+    border: 2px solid #333;
+    border-radius: .3em;
 }
+
+#ideMessages > div .collapseMessage {
+    height: 2em;
+}
+
 /*End IDE Messages*/
 /*End code IDE*/

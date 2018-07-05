@@ -7,13 +7,13 @@
              }
 @endphp
 <div id="ideButtons">
-    @if($previous_item_id > 0)
-    <button id="btnPrevious" title="Go to previous. (Ctrl+P)" type="button" class="btn btn-default previous"
-        data-id="{{$previous_item_id}}" onclick="window.location='{{url("code/".$item_type."/".$previous_item_id)}}';"
-        data-url="{{url("code/".$item_type."/".$previous_item_id)}}">
+    
+    <button id="btnPrevious" title="Go to previous. (Ctrl+P)" type="button" class="btn btn-default previous{{$previous_item_id > 0? " ":" disabled"}}"
+        data-id="{{$previous_item_id}}" onclick="window.location='{{url(" code/".$item_type."/".$previous_item_id)}}';"
+        data-url="{{url(" code/".$item_type."/".$previous_item_id)}}">
         Previous
     </button>
-    @endif
+    
     <button id="btnRunCode" title="Run and Save code. (Ctrl+Enter)" type="button" class="btn btn-default run currentStep"
         data-item-type="{{$item_type}}"
         data-item-id="{{$item_id}}"
