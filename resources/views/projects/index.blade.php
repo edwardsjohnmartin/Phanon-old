@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    @can('projects.create')
-    <a href="{{url('/projects/create')}}" class="btn btn-primary">Create Project</a>
+    @can('project.create')
+        <a href="{{url('/projects/create')}}" class="btn btn-primary">Create Project</a>
     @endcan
+
     <h1>Projects</h1>
     @if(count($projects) > 0)
         @foreach($projects as $project)

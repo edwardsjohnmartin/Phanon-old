@@ -2,6 +2,7 @@
 
 @section('content')
     <a href="{{url('/concepts')}}" class="btn btn-default">Go Back</a>
+    
     <h1>{{$concept->name}}</h1>
     <div>
         <label>Containing Course</label>

@@ -5,4 +5,3 @@
     include("tests/python.py") // file must be included to work
     @endphp
 </script>
-

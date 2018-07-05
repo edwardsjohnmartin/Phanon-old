@@ -12,14 +12,14 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-multiselect.css')}}" />
     <link rel="stylesheet" href="{{ asset('css/site.css')}}">
     <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css')}}">
+    
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('jquery/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap-multiselect.js')}}"></script>
+    
     @yield('scripts')
 </head>
 <body class="@yield("bodyCSSClass")">

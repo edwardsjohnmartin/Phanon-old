@@ -11,25 +11,34 @@
 @endsection
 
 @php
+    if($item_type == 'exercise'){
+        $next_item_id = $item->nextExercise()->id;
+        $previous_item_id = $item->previous_exercise_id;
+        $is_completed = $item->isCompleted();
+    } else {
+        $next_item_id = -1;
+        $previous_item_id = -1;
+        $is_completed = false;
+    }
+    
     $messages = [];
-    $reset_code = $start_code;
 
-    // make sure needed variables exists to be passed down.
-    if(!isset($has_solution)) $has_solution = false;
-    if(!(isset($previous_item_id))) $previous_item_id = -1;
-    if(!(isset($next_item_id))) $next_item_id = -1;
-    if(isset($latest_user_code)){
-        $start_code = $latest_user_code;
-        if($has_solution)
-            $messages[] = "Your solution loaded.|load";
-        else
-            $messages[] = "Your latest code loaded.|load";
+    if($is_completed){
+        array_push($messages, "Your solution was loaded.|load");
+    } else if(!is_null($item) and $initial_editor_code != $item->start_code){
+        array_push($messages, "Your latest code was loaded.|load");
     }
 @endphp
 
-@component('codearea.controls', ['item_type' => $item_type, 'item_id' => $item_id, 'reset_code' => $reset_code,'messages' => $messages,
-        "previous_item_id"=> $previous_item_id, "next_item_id" => $next_item_id,'has_solution' => $has_solution])
+@component('codearea.controls', [
+    'item_type' => $item_type,
+    'item' => $item,
+    'messages' => $messages,
+    'previous_item_id' => $previous_item_id,
+    'next_item_id' => $next_item_id,
+    'is_completed' => $is_completed
+])
 @endcomponent
 
-@component('codearea.mainEditor', ['start_code' => $start_code])
+@component('codearea.mainEditor', ['initial_editor_code' => $initial_editor_code])
 @endcomponent

@@ -1,7 +1,11 @@
-
 <div id="ideControls" class="row">
-    @component('codearea.buttons', ['item_type' => $item_type, 'item_id' => $item_id, 'reset_code' => $reset_code,
-    "previous_item_id"=> $previous_item_id, "next_item_id" => $next_item_id,'has_solution' => $has_solution])
+    @component('codearea.buttons', [
+        'item_type' => $item_type,
+        'item' => $item,
+        'previous_item_id' => $previous_item_id,
+        'next_item_id' => $next_item_id,
+        'is_completed' => $is_completed
+    ])
     @endcomponent
 
     @component('codearea.messages')

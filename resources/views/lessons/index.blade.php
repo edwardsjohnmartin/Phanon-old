@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    @can('lessons.create')
-    <a href="{{url('/lessons/create')}}" class="btn btn-primary">Create Lesson</a>
+    @can('lesson.create')
+        <a href="{{url('/lessons/create')}}" class="btn btn-primary">Create Lesson</a>
     @endcan
+
     <h1>Lessons</h1>
     @if(count($lessons) > 0)
         @foreach($lessons as $lesson)

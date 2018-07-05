@@ -78,4 +78,25 @@ class Exercise extends Model
 
         return $exercise_progress;
     }
+
+    /**
+     * 
+     */
+    public function nextExercise()
+    {
+        $nextExercise = Exercise::where('previous_exercise_id', $this->id)->first();
+
+        if(!is_null($nextExercise)){
+            return $nextExercise;
+        } else {
+            //TODO: This should not need to return a new Exercise
+            return new Exercise();
+        }
+    }
+
+    public function isCompleted()
+    {
+        $exerciseProgress = $this->getProgressForUser();
+        return $exerciseProgress->completed();
+    }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('scripts')
-    @component('scriptbundles/create-edit-form')
+    @component('scriptbundles.create-edit-form')
     @endcomponent
 @endsection
 

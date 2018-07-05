@@ -10,9 +10,12 @@
     @endcomponent
 
     <div id="codeIde" class="fullIDE">
-        @component('codearea.codeEditor', ['start_code' => '', 'item_type' => '', 'item_id' => ''])
+        @component('codearea.codeEditor', [
+            'item_type' => 'sandbox', 
+            'item' => null,
+            'initial_editor_code' => null,
+            'messages' => []
+        ])
         @endcomponent
     </div>
-
-    <input type="hidden" id="pre_code" value='Some value' />
 @endsection

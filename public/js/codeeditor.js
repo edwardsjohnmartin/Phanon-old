@@ -115,6 +115,10 @@ function runCode(codeToRun, outputArea, userCode = "") {
     var itemId = runBtn.attributes["data-item-id"].value;
     var url = runBtn.attributes["data-save-url"].value;
 
+    if (itemType == "project") {
+        saveProjectCode(itemId, userCode, url);
+    }
+
     myPromise.then(
         function (retSuccess) {
             // This will run the Python code using the specified function in the Python code of the python.py file
@@ -143,11 +147,11 @@ function runCode(codeToRun, outputArea, userCode = "") {
                 }
             }
 
-            var testsPassed = "<h3>" + successCount + "/" + testResults.length + " tests passed.</h3>" +
-                "<ol>" + testErrorsMessage + "</ol>";
-            addPopup(testsPassed, (success ? "success" : "error") + " test");
-
             if (itemType == "exercise") {
+                var testsPassed = "<h3>" + successCount + "/" + testResults.length + " tests passed.</h3>" +
+                    "<ol>" + testErrorsMessage + "</ol>";
+                addPopup(testsPassed, (success ? "success" : "error") + " test");
+
                 if (success) {
                     var nextLink = "<a href='" + getLinkFromButton("btnNext")
                         + "' >Next</a>";
@@ -160,9 +164,6 @@ function runCode(codeToRun, outputArea, userCode = "") {
                 } else {
                     saveExerciseCode(itemId, userCode, false, url);
                 }
-            }
-            else if (itemType == "project") {
-                saveProjectCode(itemId, userCode, url);
             }
 
             //displayMessage(msg);
@@ -181,9 +182,6 @@ function runCode(codeToRun, outputArea, userCode = "") {
 
             if (itemType == "exercise") {
                 saveExerciseCode(itemId, userCode, false, url);
-            }
-            else if (itemType == "project") {
-                saveProjectCode(itemId, userCode, url);
             }
             addPopup(msg, "error");
 
@@ -365,12 +363,6 @@ function addPopup(msg, className) {
 function replaceEditorText(parentNode, text) {
     var editor = $("#" + parentNode + " .CodeMirror")[0];
     editor.CodeMirror.setValue(decodeURI(text));
-
-    // if reset button exists, give it starter code.
-    var btnReset = document.getElementById("btnReset");
-    if (btnReset != null) {
-        btnReset.setAttribute("data-reset-code", text);
-    }
 }
 
 /**
@@ -384,5 +376,6 @@ function getLinkFromButton(btnId) {
     if (btn != null) {
         url = btn.getAttribute("data-url");
     }
+    
     return url
 }

@@ -1,5 +1,5 @@
 <div id="ideCodeWindow">
-    <textarea id="codeWindow" class="code">{{$start_code}}</textarea>
+    <textarea id="codeWindow" class="code">{{$initial_editor_code}}</textarea>
 </div>
 
 @section("scripts-end")

@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('scripts')
-    @component('scriptbundles/create-edit-form')
+    @component('scriptbundles.create-edit-form')
+    @endcomponent
+
+    @component('scriptbundles.bootstrap-multiselect')
     @endcomponent
 @endsection
 

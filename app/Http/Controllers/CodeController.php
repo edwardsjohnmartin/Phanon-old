@@ -35,13 +35,6 @@ class CodeController extends Controller
     public function exercise($exercise_id = null)
     {
         $exercise = Exercise::find($exercise_id);
-        $nextExercise = Exercise::where("previous_exercise_id",$exercise_id)->first();
-
-        if($nextExercise == null) {
-            // create new exercise so code below does not crash.
-            $nextExercise = new Exercise();
-            //$nextExercise->id = -1;
-        }
 
         if(is_null($exercise_id) or empty($exercise)){
             return redirect('/')->
@@ -51,7 +44,7 @@ class CodeController extends Controller
         // Get the users latest submission for this exercise
         $exerciseProgress = ExerciseProgress::where('user_id', auth()->user()->id)->where('exercise_id', $exercise_id)->first();
 
-        return view('codearea.exerciseEditor',["previous_exercise_id" => $exercise->previous_exercise_id, "next_exercise_id" => $nextExercise->id])->
+        return view('codearea.exerciseEditor')->
             with('exercise', $exercise)->
             with('exerciseProgress', $exerciseProgress);
     }

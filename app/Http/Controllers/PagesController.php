@@ -57,6 +57,5 @@ class PagesController extends Controller
         $course = Course::find($id);
         return view('flow.index')->
             with('course', $course);
-        //return view('pages.flow');
     }
 }
