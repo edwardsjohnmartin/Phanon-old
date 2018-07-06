@@ -100,6 +100,11 @@ class Course extends Model
         return $ordered_concepts;
     }
 
+    public function teams()
+    {
+        return $this->hasMany('App\Team');
+    }
+
     /**
      * Returns the concept that comes after the given concept within the course
      */

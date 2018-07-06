@@ -32,6 +32,10 @@
         <p>{{$project->start_code}}</p>
     </div>
     <div>
+        <label>Partners Enabled</label>
+        <p>{{$project->hasPartners(true)}}</p>
+    </div>
+    <div>
         <small>Author: {{$project->owner->name}}</small>
     </div>
     <div>

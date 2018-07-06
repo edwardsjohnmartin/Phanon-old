@@ -64,4 +64,9 @@ class User extends Authenticatable
             return $this->enrolledCourses()->wherePivot('role_id', $role_id)->get();
         }
     }
+
+    public function teams()
+    {
+        return $this->belongsToMany('App\Team', 'team_users')->select('id', 'name');
+    }
 }

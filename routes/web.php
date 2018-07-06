@@ -40,3 +40,5 @@ Route::post('/code/exercise/save', 'ExerciseProgressController@save')->name('exe
 
 Route::get('/code/project/{project_id?}', 'CodeController@project')->name('project.code');
 Route::post('/code/project/save', 'ProjectProgressController@save')->name('project.save');
+
+Route::get('/projects/{id}/partners', 'ProjectsController@partners')->name('project.partners');

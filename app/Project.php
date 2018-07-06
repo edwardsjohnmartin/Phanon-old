@@ -33,6 +33,29 @@ class Project extends Model
     public $timestamps = true;
 
     /**
+     * Returns whether or not the project has partners enabled.
+     * Can be returned as a boolean or a string if true is passed-in.
+     */
+    public function hasPartners($asString = false)
+    {
+        if($this->has_partners == true){
+            $value = true;
+        } else {
+            $value = false;
+        }
+
+        if($asString){
+            if($value){
+                $value = 'True';
+            } else {
+                $value = 'False';
+            }
+        }
+
+        return $value;
+    }
+
+    /**
      * Relationship function
      * Returns the module this project belongs to
      */
@@ -48,6 +71,37 @@ class Project extends Model
     public function owner()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function teams()
+    {
+        return $this->belongsToMany('App\Team', 'project_teams')->withPivot('project_id', 'team_id');
+    }
+
+    /**
+     * Returns the project this course is in if it exists. If not, returns null.
+     */
+    public function course()
+    {
+        $module = $this->module;
+
+        if(!empty($module)){
+            $concept = $module->concept;
+        } else {
+            return null;
+        }
+
+        if(!empty($concept)){
+            $course = $concept->course;
+        } else {
+            return null;
+        }
+
+        if(!empty($course)){
+            return $course;
+        } else {
+            return null;
+        }
     }
 
     public function deepCopy()

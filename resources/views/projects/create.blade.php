@@ -7,19 +7,20 @@
             {{Form::label('name', 'Name')}}
             {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Name'])}}
         </div>
-
+        <div class="form-group">
+            {{Form::label('has_partners', 'Partners Enabled')}}
+            {{Form::checkbox('has_partners', 'yes', false)}}
+        </div>
         <div class="form-group">
             {{Form::label('open_date', 'Open Date')}}
             {{Form::date('open_date', \Carbon\Carbon::now()->toDateString())}}
             {{Form::time('open_time', \Carbon\Carbon::now()->toTimeString())}}
         </div>
-
         <div class="form-group">
             {{Form::label('close_date', 'Close Date')}}
             {{Form::date('close_date', \Carbon\Carbon::now()->toDateString())}}
             {{Form::time('close_time', \Carbon\Carbon::now()->toTimeString())}}
         </div>
-
         <div class="form-group">
             {{Form::label('prompt', 'Prompt')}}
             {{Form::textarea('prompt', '', ['class' => 'form-control'])}}

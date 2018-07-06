@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
+use App\Team;
+use App\Enums\Roles;
 use DB;
 
 class ProjectsController extends Controller
@@ -47,7 +49,7 @@ class ProjectsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:projects',
+            'name' => 'required',
             'open_date' => 'required',
             'open_time' => 'required',
             'close_date' => 'required',
@@ -63,6 +65,11 @@ class ProjectsController extends Controller
         $project->prompt = $request->input('prompt');
         $project->pre_code = $request->input('pre_code');
         $project->start_code = $request->input('start_code');
+        if($request->input('has_partners') == 'yes'){
+            $project->has_partners = true;
+        } else {
+            $project->has_partners = false;
+        }
         $project->owner_id = auth()->user()->id;
 
         // Save project to the database
@@ -133,6 +140,11 @@ class ProjectsController extends Controller
         $project->prompt = $request->input('prompt');
         $project->pre_code = $request->input('pre_code');
         $project->start_code = $request->input('start_code');
+        if($request->input('has_partners') == 'yes'){
+            $project->has_partners = true;
+        } else {
+            $project->has_partners = false;
+        }
 
         // Save the project to the database
         $project->save();
@@ -160,7 +172,7 @@ class ProjectsController extends Controller
         return redirect('/projects')->with('success', 'Project Deleted');
     }
 
-     /**
+    /**
      * Show the form for deep copying a specific project
      * 
      * @param int $id
@@ -186,5 +198,33 @@ class ProjectsController extends Controller
 
         return redirect('/projects')->
             with('success', 'Project Cloned');
+    }
+
+    /**
+     * 
+     */
+    public function partners($id)
+    {
+        $project = Project::find($id);
+
+        // Validate project exists
+        if(empty($project) or is_null($project)){
+            return redirect('/projects')->
+                with('error', 'There is no project with an id of ' . $id);
+        }
+
+        // Validate user is in the course
+        $course = $project->course();
+
+        // Validate course exists
+        if(empty($course) or is_null($course)){
+            return redirect('/projects/' . $id)->
+                with('error', 'This project does not belong to a course and cannot be assigned partners');
+        }
+
+        return view('projects.partners')->
+            with('project', $project)->
+            with('course', $course)->
+            with('students', $course->getUsersByRole(Roles::id(Roles::STUDENT)));
     }
 }

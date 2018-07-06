@@ -2,6 +2,7 @@
 namespace App\Enums;
 
 use App\Enums\Enum;
+use Spatie\Permission\Models\Role;
 
 class Roles extends Enum
 {
@@ -25,4 +26,9 @@ class Roles extends Enum
     // Observers will be able to view content on the website but not be able to interact with anything
     // This will be for people who want to demo the website without needing to be assigned to a course
     const OBSERVER = 'Observer';
+
+    public static function id($name)
+    {
+        return Role::select('id')->where('name', $name)->first()->id;
+    }
 }

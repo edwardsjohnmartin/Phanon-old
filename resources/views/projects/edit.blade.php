@@ -8,6 +8,10 @@
             {{Form::text('name', $project->name, ['class' => 'form-control', 'placeholder' => 'Name'])}}
         </div>
         <div class="form-group">
+            {{Form::label('has_partners', 'Partners Enabled')}}
+            {{Form::checkbox('has_partners', 'yes', $project->hasPartners())}}
+        </div>
+        <div class="form-group">
             {{Form::label('open_date', 'Open Date')}}
             {{Form::date('open_date', new \Carbon\Carbon($project->open_date))}}
             {{Form::time('open_time', date("H:i:s", strtotime($project->open_date)))}}
