@@ -42,3 +42,6 @@ Route::get('/code/project/{project_id?}', 'CodeController@project')->name('proje
 Route::post('/code/project/save', 'ProjectProgressController@save')->name('project.save');
 
 Route::get('/projects/{id}/partners', 'ProjectsController@partners')->name('project.partners');
+Route::get('/courses/{id}/teams', 'CoursesController@teams')->name('course.teams');
+Route::post('/teams', 'TeamsController@createTeam')->name('teams.create');
+Route::post('/assignRandomTeams', 'TeamsController@assignRandomTeams')->name('teams.assignRandom');

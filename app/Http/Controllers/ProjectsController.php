@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Project;
 use App\Team;
 use App\Enums\Roles;
+use Spatie\Permission\Models\Role;
 use DB;
 
 class ProjectsController extends Controller
@@ -215,6 +216,13 @@ class ProjectsController extends Controller
 
         // Validate user is in the course
         $course = $project->course();
+        $users = $course->users()->get()->keyBy('id')->toArray();
+        if(!array_key_exists(auth()->user()->id, $users)){
+            if(!auth()->user()->isAdmin()){
+                return redirect('/')->
+                    with('error', 'You are not a listed participant of this course. If this is an error, please contact your course administrator.');
+            }
+        }
 
         // Validate course exists
         if(empty($course) or is_null($course)){
@@ -222,9 +230,14 @@ class ProjectsController extends Controller
                 with('error', 'This project does not belong to a course and cannot be assigned partners');
         }
 
+        // Get users role within the course
+        $role_id = DB::table('course_user')->where('course_id', $course->id)->where('user_id', auth()->user()->id)->select('role_id')->first()->role_id;
+        $role = Role::find($role_id);
+
         return view('projects.partners')->
             with('project', $project)->
             with('course', $course)->
-            with('students', $course->getUsersByRole(Roles::id(Roles::STUDENT)));
+            with('students', $course->getUsersByRole(Roles::id(Roles::STUDENT)))->
+            with('role', $role);
     }
 }

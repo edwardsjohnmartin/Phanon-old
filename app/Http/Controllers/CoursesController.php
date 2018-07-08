@@ -369,4 +369,20 @@ class CoursesController extends Controller
         return redirect('/courses/' . $new_course->id . '/fullview')->
             with('success', 'Course Cloned');
     }
+
+    public function teams($id)
+    {
+        $course = Course::find($id);
+
+        if(!empty($course) and !is_null($course)){
+            $students = $course->getUsersByRole(Roles::id(Roles::STUDENT));
+
+            return view('courses.teams')->
+                with('course', $course)->
+                with('students', $students);
+        } else {
+            return redirect('/index')->
+                with('error', 'That course does not exist.');
+        }
+    }
 }

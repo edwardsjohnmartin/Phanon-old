@@ -67,6 +67,17 @@ class User extends Authenticatable
 
     public function teams()
     {
-        return $this->belongsToMany('App\Team', 'team_users')->select('id', 'name');
+        return $this->belongsToMany('App\Team');
+    }
+
+    public function isAdmin()
+    {
+        foreach ($this->roles as $role){
+            if ($role->name == Roles::ADMIN){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

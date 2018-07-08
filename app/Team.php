@@ -35,4 +35,33 @@ class Team extends Model
     {
         return $this->belongsTo('App\Course');
     }
+
+    public function addMember($user_id)
+    {
+        $this->members()->attach($user_id);
+    }
+
+    public function addMembers($members)
+    {
+        foreach($members as $member){
+            $this->addMember($member);
+        }
+    }
+
+    public static function makeTeam($course_id, $members)
+    {
+        $team = new Team();
+        $team->name = "New Team";
+        $team->course_id = $course_id;
+        $team->save();
+
+        $team->addMembers($members);
+
+        return $team;
+    }
+
+    public function assignProject($project_id)
+    {
+        $this->projects()->attach($project_id);
+    }
 }

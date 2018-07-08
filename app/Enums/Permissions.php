@@ -38,4 +38,9 @@ class Permissions extends Enum
     const PROJECT_CREATE = 'project.create';
     const PROJECT_EDIT = 'project.edit';
     const PROJECT_DELETE = 'project.delete';
+
+    const TEAM_VIEW = 'team.view';
+    const TEAM_CREATE = 'team.create';
+    const TEAM_EDIT = 'team.edit';
+    const TEAM_DELETE = 'team.delete';
 }

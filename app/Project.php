@@ -75,7 +75,7 @@ class Project extends Model
 
     public function teams()
     {
-        return $this->belongsToMany('App\Team', 'project_teams')->withPivot('project_id', 'team_id');
+        return $this->belongsToMany('App\Team', 'project_teams');
     }
 
     /**
@@ -133,5 +133,10 @@ class Project extends Model
     public function getCloseDate($format = 'm/d/Y h:i a')
     {
         return date_format(DateTime::createFromFormat(config("app.dateformat"), $this->close_date), $format);
+    }
+
+    public function assignTeams($teams)
+    {
+        $this->teams()->sync($teams);
     }
 }

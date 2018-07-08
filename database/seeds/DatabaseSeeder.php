@@ -86,6 +86,10 @@ class DatabaseSeeder extends Seeder
         $teacher_role->givePermissionTo(Permissions::PROJECT_CREATE);
         $teacher_role->givePermissionTo(Permissions::PROJECT_EDIT);
         $teacher_role->givePermissionTo(Permissions::PROJECT_DELETE);
+        $teacher_role->givePermissionTo(Permissions::TEAM_VIEW);
+        $teacher_role->givePermissionTo(Permissions::TEAM_CREATE);
+        $teacher_role->givePermissionTo(Permissions::TEAM_EDIT);
+        $teacher_role->givePermissionTo(Permissions::TEAM_DELETE);
 
         $teaching_assistant_role = Role::create(['name' => Roles::TEACHING_ASSISTANT]);
         $teaching_assistant_role->givePermissionTo(Permissions::COURSE_VIEW);
@@ -100,6 +104,10 @@ class DatabaseSeeder extends Seeder
         $teaching_assistant_role->givePermissionTo(Permissions::EXERCISE_EDIT);
         $teaching_assistant_role->givePermissionTo(Permissions::PROJECT_VIEW);
         $teaching_assistant_role->givePermissionTo(Permissions::PROJECT_EDIT);
+        $teaching_assistant_role->givePermissionTo(Permissions::TEAM_VIEW);
+        $teaching_assistant_role->givePermissionTo(Permissions::TEAM_CREATE);
+        $teaching_assistant_role->givePermissionTo(Permissions::TEAM_EDIT);
+        $teaching_assistant_role->givePermissionTo(Permissions::TEAM_DELETE);
 
         $student_role = Role::create(['name' => Roles::STUDENT]);
         $student_role->givePermissionTo(Permissions::COURSE_VIEW);
@@ -108,6 +116,7 @@ class DatabaseSeeder extends Seeder
         $student_role->givePermissionTo(Permissions::LESSON_VIEW);
         $student_role->givePermissionTo(Permissions::EXERCISE_VIEW);
         $student_role->givePermissionTo(Permissions::PROJECT_VIEW);
+        $student_role->givePermissionTo(Permissions::TEAM_VIEW);
 
         $observer_role = Role::create(['name' => Roles::OBSERVER]);
         $observer_role->givePermissionTo(Permissions::COURSE_VIEW);
@@ -189,6 +198,78 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('tester'),
         ]);
         $s3User->assignRole($student_role);
+
+        // Create student user
+        $s4User = User::create([
+            'name' => 'Test Student 4',
+            'email' => 'teststudent4@test.com',
+            'password' => bcrypt('tester'),
+        ]);
+        $s4User->assignRole($student_role);
+
+        // Create student user
+        $s5User = User::create([
+            'name' => 'Test Student 5',
+            'email' => 'teststudent5@test.com',
+            'password' => bcrypt('tester'),
+        ]);
+        $s5User->assignRole($student_role);
+
+        // Create student user
+        $s6User = User::create([
+            'name' => 'Test Student 6',
+            'email' => 'teststudent6@test.com',
+            'password' => bcrypt('tester'),
+        ]);
+        $s6User->assignRole($student_role);
+
+        // Create student user
+        $s7User = User::create([
+            'name' => 'Test Student 7',
+            'email' => 'teststudent7@test.com',
+            'password' => bcrypt('tester'),
+        ]);
+        $s7User->assignRole($student_role);
+
+        // Create student user
+        $s8User = User::create([
+            'name' => 'Test Student 8',
+            'email' => 'teststudent8@test.com',
+            'password' => bcrypt('tester'),
+        ]);
+        $s8User->assignRole($student_role);
+
+        // Create student user
+        $s9User = User::create([
+            'name' => 'Test Student 9',
+            'email' => 'teststudent9@test.com',
+            'password' => bcrypt('tester'),
+        ]);
+        $s9User->assignRole($student_role);
+
+        // Create student user
+        $s10User = User::create([
+            'name' => 'Test Student 10',
+            'email' => 'teststudent10@test.com',
+            'password' => bcrypt('tester'),
+        ]);
+        $s10User->assignRole($student_role);
+
+        // Create student user
+        $s11User = User::create([
+            'name' => 'Test Student 11',
+            'email' => 'teststudent11@test.com',
+            'password' => bcrypt('tester'),
+        ]);
+        $s11User->assignRole($student_role);
+
+        // Create student user
+        $s12User = User::create([
+            'name' => 'Test Student 12',
+            'email' => 'teststudent12@test.com',
+            'password' => bcrypt('tester'),
+        ]);
+        $s12User->assignRole($student_role);
 
         // Create an obersver user
         $o1User = User::create([
@@ -1924,7 +2005,15 @@ class DatabaseSeeder extends Seeder
         $course->users()->attach([
             DB::table('users')->where('name', 'Test Student 1')->first()->id => ['role_id' => $student_role_id],
             DB::table('users')->where('name', 'Test Student 2')->first()->id => ['role_id' => $student_role_id],
-            DB::table('users')->where('name', 'Test Student 3')->first()->id => ['role_id' => $student_role_id]
+            DB::table('users')->where('name', 'Test Student 3')->first()->id => ['role_id' => $student_role_id],
+            DB::table('users')->where('name', 'Test Student 4')->first()->id => ['role_id' => $student_role_id],
+            DB::table('users')->where('name', 'Test Student 5')->first()->id => ['role_id' => $student_role_id],
+            DB::table('users')->where('name', 'Test Student 6')->first()->id => ['role_id' => $student_role_id],
+            DB::table('users')->where('name', 'Test Student 7')->first()->id => ['role_id' => $student_role_id],
+            DB::table('users')->where('name', 'Test Student 8')->first()->id => ['role_id' => $student_role_id],
+            DB::table('users')->where('name', 'Test Student 9')->first()->id => ['role_id' => $student_role_id],
+            DB::table('users')->where('name', 'Test Student 10')->first()->id => ['role_id' => $student_role_id],
+            DB::table('users')->where('name', 'Test Student 12')->first()->id => ['role_id' => $student_role_id]
         ]);
     }
 
