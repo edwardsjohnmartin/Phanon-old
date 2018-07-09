@@ -22,6 +22,7 @@ function makeCodeMirror(textarea) {
 
 //TODO: this do not technically make the button; should consider renaming to a 
 //     more accurate name like - setRunButtonEvents
+
 /**
  * Updates the onclick event of the button element to run the Python code in a CodeMirror editor.
  * @param {*} button The id of the button element who's onclick will be used for the run function.

@@ -18,7 +18,7 @@
     <ul class="list-group">
         @foreach($course->concepts() as $concept)
         <li class="list-group-item">
-            <a href="{{url('/concepts/' . $concept->id)}}">{{$concept->name}}</a>
+            <a href="{{url('/concepts/'.$concept->id)}}">{{$concept->name}}</a>
             @foreach($concept->modules() as $module)
                 @component('modules/partial',['module' => $module])
                                 @endcomponent

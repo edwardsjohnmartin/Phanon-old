@@ -1,13 +1,21 @@
 <?php
 $startdate = $module->open_date;
 $now = date(config("app.dateformat"));
-$isPast = $startdate < $now;
+//HACK: major hack this is not the way it should be done.
+$is_completed = $module->completed() <= 1; // See comments on this method.
 $stats = $module->CompletionStats(auth()->user()->id);
+$moduleOpen = !$is_completed;
 ?>
-<article class="module sortable{{$isPast  ? ' expired' : '' }}">
+<article 
+   class="module sortable{{$is_completed  ? ' expired' : '' }}{{
+            !$is_completed  ? ' current' : '' }}">
    <div class="completion tiny p{{floor($stats->PercComplete*100)}}">
-            <span>{{$stats->Completed}}/{{$stats->ExerciseCount}}
-            
+            <span>
+                 @if($stats->Completed < $stats->ExerciseCount)
+                {{$stats->Completed}}/{{$stats->ExerciseCount}}
+            @else
+                Done
+                @endif
             </span>
             <div class="slice">
                 <div class="bar"></div>
@@ -16,12 +24,12 @@ $stats = $module->CompletionStats(auth()->user()->id);
         </div>
     <h1>
         {{-- #todo: need to fix this to acutally use the correct exercise --}}
-        <a href="{{ $isPast 
+        <a href="{{$is_completed 
             ? url('/code/review/'.$module->id.'/'.$module->id)
             : url('/code/'.$module->id.'/'.$module->id)}}">
             {{$module->name}}
         </a>
-            <span>({{$stats->Completed}} of {{$stats->ExerciseCount}} complete)</span>
+            <span>({{$stats->Completed}} / {{$stats->ExerciseCount}})</span>
     </h1>
     <aside class="actions">
         <a class="edit" href="{{url('/modules/' . $module->id . '/edit')}}">Edit</a>
@@ -58,5 +66,8 @@ $stats = $module->CompletionStats(auth()->user()->id);
         @endif
         @endforeach
     </ul>
-
+    <button class="contentControl {{$moduleOpen ? "collapser":"expander"}}"
+            >Show/Hide Contents</button>
 </article>
+
+{{-- events for contentControl is handled at the index page level. --}}

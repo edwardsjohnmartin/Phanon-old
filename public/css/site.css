@@ -58,19 +58,19 @@
 
 .flow:before {
     font-family: themify;
-    content: "\e713";
+    content: "\e713"; /*accordian*/
     margin-right: .5em;
 }
 
 .run:before {
     font-family: themify;
-    content: "\e6ad";
+    content: "\e6ad"; /* play */
     margin-right: .5em;
 }
 
 .success:before {
     font-family: themify;
-    content: "\e6ad";
+    content: "\e6ad"; /* smiley */
     margin-right: .5em;
 }
 
@@ -164,37 +164,58 @@
     border-radius: 2em;
     border: solid 1px #080;
     padding: 1em;
-    margin: .5em;
+    margin: .5em .5em 2em .5em;
     position: relative;
     background-color: #FFF;
     box-shadow: #AAA 5px 5px 10px;
-    height: 5em;
-    overflow: hidden;
-    animation: hideModule 1s ease 0s forwards;
+    /*animation: hideModule 1s ease 0s forwards;*/
 }
 
     #courseFlow .module .dates {
         margin-bottom: 1em;
     }
 
-    #courseFlow .module:hover {
+    /*#courseFlow .module:hover {
         animation: showModule 1s ease 0s forwards;
         cursor: pointer;
-    }
+    }*/
 
-    #courseFlow .module li .completion {
-        opacity: 0;
-    }
-
-    #courseFlow .module:hover li .completion {
-        opacity: 1;
-    }
-
+    
     #courseFlow .module.ui-sortable-helper:hover {
-        animation: hideModule 1s ease 0s forwards;
+        /*animation: hideModule 1s ease 0s forwards;*/
         cursor: move;
     }
+    #courseFlow .module .contentControl {
+        position: absolute;
+         bottom: 0; 
+         left: 50%;
+         margin-left: -2.5em;
+         width: 5em;
+         padding: .2em 2em;
+         height: 2em;
+         border: 1px solid #333;
+         background-color: #DDD;
+         overflow:hidden;
+         border-radius: 1em 1em 0 0 ;
+    }
+    #courseFlow .module .expander{
 
+    }
+    #courseFlow .module .expander:before {
+        font-family: themify;
+        content: "\e663";
+        margin-right: 6em;
+    }
+    #courseFlow .module .collapser {
+        bottom: -2em;
+        border-radius: 0 0 1em 1em;
+        z-index: 999;
+    }
+    #courseFlow .module .collapser:before {
+        font-family: themify;
+        content: "\e660";
+        margin-right: 6em;
+    }
 @keyframes showModule {
     0% {
         height: 5em;
@@ -223,10 +244,7 @@
     }
 }
 
-#courseFlow .expired {
-    background-color: #DED;
-    box-shadow: #AAA 5px 5px 10px;
-}
+
 
 #courseFlow .module h1 {
     font-size: 1.2em;
@@ -270,24 +288,25 @@
         z-index: 999;
         background-color: #FFF;
     }
-
-#courseFlow .components {
+#courseFlow .expired {
+    background-color: #DED;
 }
+#courseFlow .components {
+    display: none;
+}
+#courseFlow .current .components {
+    display: block;
+}
+
 
     #courseFlow .components li {
         list-style: none;
-        display: inline-block;
-        width: 6em;
-        height: 5em;
-        margin: .3em 1em;
-        float: left;
+        font-size: 2.2em;
+        height: 2em;
+        margin: .1em .5em .3em 1em;
     }
 
-        #courseFlow .components li:before {
-            position: relative;
-            top: 3em;
-            left: .5em;
-        }
+        
 
 /*#courseFlow .components li .name:before {
             content: ">";
@@ -298,35 +317,47 @@
         }*/
 
 
-#courseFlow .lesson .name, #courseFlow .project .name {
+/*#courseFlow .lesson .name, #courseFlow .project .name {
     display: inline-block;
     position: relative;
     top: -50px;
 }
-
+    */
 #courseFlow li.lesson .completion, #courseFlow li.project .completion {
-    top: -.6em;
-    left: 1em;
-    right: 0em;
-    font-size: 50px;
+    left: -.5em;
 }
 
 #courseFlow .lesson a, #courseFlow .project a {
     color: #000;
     height: 100%;
 }
+/* Completed Component*/
+#courseFlow .completion.p100 .bar {
+    background-color: #F0F;
+}
+
+#courseFlow .completion.p100 .bar,#courseFlow .completion.p100 .fill {
+    border-color: #080;
+    
+}
+#courseFlow .completion.p100 span {
+    color: #080;
+    font-weight: bold;
+}
+
+
 
 #courseFlow .lesson li, #courseFlow .project li {
 }
 
 #courseFlow .lesson, #courseFlow .project {
-    border: solid 1px #333;
+    /*border: solid 1px #333;
     background-color: #AAA;
     border: 1px solid #000;
     padding: .5em;
     color: #333;
     border-radius: .5em;
-    transition: background-color ease .5s;
+    transition: background-color ease .5s;*/
 }
 
     #courseFlow .lesson a:hover, #courseFlow .project a:hover {

@@ -188,7 +188,10 @@ class Lesson extends Model
      */
     public function nextIncompleteExercise()
     {
+     //HACK: this is really slow. Many many database calls. 
+        // We need to get this into a single database call.
         foreach($this->exercises() as $exercise){
+            
             if($exercise->getProgressForUser()->completed() != true){
                 return $exercise;
             }

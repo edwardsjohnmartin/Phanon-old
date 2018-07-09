@@ -24,7 +24,7 @@
     $messages = [];
 
     if($is_completed){
-        array_push($messages, "Your solution was loaded.|load");
+        $messages[]  = "Your solution was loaded.|load";
     } else if(!is_null($item) and $initial_editor_code != $item->start_code){
         array_push($messages, "Your latest code was loaded.|load");
     }

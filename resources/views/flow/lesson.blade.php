@@ -1,8 +1,8 @@
 @php
              //use App\Lesson;
              //$lesson = new Lesson();
-             $lessonStats = $lesson->CompletionStats(auth()->user()->id);
-             $percComplete = $lessonStats->PercComplete;
+             $stats = $lesson->CompletionStats(auth()->user()->id);
+             $percComplete = $stats->PercComplete;
              $percComplete = floor($percComplete * 100);
              @endphp
 <li class="lesson sortable">
@@ -13,8 +13,8 @@
 
         <div class="completion p{{$percComplete}}">
             <span>
-                @if($lessonStats->Completed < $lessonStats->ExerciseCount)
-                {{$lessonStats->Completed}}/{{$lessonStats->ExerciseCount}}
+                @if($stats->Completed < $stats->ExerciseCount)
+                {{$stats->Completed}}/{{$stats->ExerciseCount}}
             @else
                 Done
                 @endif

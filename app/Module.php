@@ -290,7 +290,9 @@ class Module extends Model
     }
 
     /**
-     *
+     * returns true if the module has been completed
+     * NM. that is not what this does. this is not good.
+     * We should not mix return types. 
      */
     public function completed()
     {
