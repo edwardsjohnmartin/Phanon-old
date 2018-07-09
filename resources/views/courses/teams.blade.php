@@ -11,9 +11,6 @@
 @section('content')
     <h1>{{$course->name}} Teams</h1>
 
-    @component('partials.teamsTable', ['teams' => $course->teams])
-    @endcomponent
-
     @can('team.create')
         {!! Form::open(['id' => 'createTeam', 'action' => 'TeamsController@createTeam', 'method' => 'POST']) !!}
             <div class="form-group">
@@ -34,4 +31,7 @@
             makeMultiSelect('students', 'Select Students');
         </script>
     @endcan
+
+    @component('partials.teamsTable', ['teams' => $course->teams])
+    @endcomponent
 @endsection

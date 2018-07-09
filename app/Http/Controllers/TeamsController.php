@@ -21,17 +21,26 @@ class TeamsController extends Controller
                 with('error', 'There must be at least two students on the team.');
         }
 
-        //TODO: Add a check here to see if a team in this course with these members already exists
+        $team = Team::checkIfTeamExistsInCourse($students, $course_id);
 
-        $team = new Team();
-        $team->name = 'New Team';
-        $team->course_id = $course_id;
-        $team->save();
+        if(!$team){
+            $team = new Team();
+            $team->name = 'New Team';
+            $team->course_id = $course_id;
+            $team->save();
+    
+            $team->addMembers($students);
 
-        $team->addMembers($students);
+            $success = "A team with those members was created.";
 
-        return redirect(url('/courses/' . $course_id . '/teams'))->
-            with('success', 'The team id is ' . $team->id);
+            return redirect(url('/courses/' . $course_id . '/teams'))->
+                with('success', $success);
+        } else {
+            $error = "A team with those members already exists.";
+
+            return redirect(url('/courses/' . $course_id . '/teams'))->
+                with('error', $error);
+        }
     }
 
     public function assignRandomTeams(Request $request)
@@ -55,18 +64,43 @@ class TeamsController extends Controller
 
         if($count % 2 == 0){
             for($i = 0; $i < $count; $i+=2){
-                $team = Team::makeTeam($course_id, [$ids[$i], $ids[$i+1]]);
+                $newMembers = [];
+                array_push($newMembers, $ids[$i]);
+                array_push($newMembers, $ids[$i+1]);
+
+                $team = Team::checkIfTeamExistsInCourse($newMembers, $course_id);
+                
+                if(!$team){
+                    $team = new Team();
+                    $team->name = 'New Team';
+                    $team->course_id = $course_id;
+                    $team->save();
+            
+                    $team->addMembers($newMembers);
+                }
+
                 array_push($teams, $team->id);
             }
         } else {
             for($i = 0; $i < $count-1; $i+=2){
+                $newMembers = [];
+
                 if($count - $i == 3){
-                    $team = Team::makeTeam($course_id, [$ids[$i], $ids[$i+1], $ids[$i+2]]);
-                    array_push($teams, $team->id);
+                    array_push($newMembers, $ids[$i]);
+                    array_push($newMembers, $ids[$i+1]);
+                    array_push($newMembers, $ids[$i+2]);
                 } else {
-                    $team = Team::makeTeam($course_id, [$ids[$i], $ids[$i+1]]);
-                    array_push($teams, $team->id);
+                    array_push($newMembers, $ids[$i]);
+                    array_push($newMembers, $ids[$i+1]);
                 }
+
+                $team = Team::checkIfTeamExistsInCourse($newMembers, $course_id);
+
+                if(!$team){
+                    $team = Team::makeTeam($course_id, $newMembers);
+                }
+                
+                array_push($teams, $team->id); 
             }
         }
 

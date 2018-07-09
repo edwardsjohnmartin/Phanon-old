@@ -64,4 +64,29 @@ class Team extends Model
     {
         $this->projects()->attach($project_id);
     }
+
+    public static function checkIfTeamExistsInCourse($user_ids, $course_id)
+    {
+        sort($user_ids);
+        
+        $teams = Team::where('course_id', $course_id)->get();
+
+        foreach($teams as $team){
+            $members = $team->members()->select('id')->withPivot('user_id')->get()->toArray();
+        
+            $students = [];
+
+            foreach($members as $member){
+                array_push($students, $member['id']);
+            }
+
+            sort($students);
+
+            if($students == $user_ids){
+                return $team;
+            }
+        }
+
+        return false;
+    }
 }
