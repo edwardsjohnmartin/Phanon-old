@@ -2,6 +2,9 @@
 
 @section('content')
     <a href="{{url('/projects')}}" class="btn btn-default">Go Back</a>
+    @if($project->teamsEnabled())
+        <a href="{{url('/projects/' . $project->id . '/teams')}}" class="btn btn-default">Teams</a>
+    @endif
     <h1>{{$project->name}}</h1>
     <div>
         <label>Module</label>
@@ -32,8 +35,8 @@
         <p>{{$project->start_code}}</p>
     </div>
     <div>
-        <label>Partners Enabled</label>
-        <p>{{$project->hasPartners(true)}}</p>
+        <label>Teams Enabled</label>
+        <p>{{$project->teamsEnabled(true)}}</p>
     </div>
     <div>
         <small>Author: {{$project->owner->name}}</small>

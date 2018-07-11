@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -8,6 +7,8 @@ use App\Team;
 use App\Course;
 use App\Project;
 use App\Enums\Roles;
+use App\User;
+use Auth;
 
 class TeamsController extends Controller
 {
@@ -47,26 +48,24 @@ class TeamsController extends Controller
     {
         $project_id = $request->input('project_id');
         $course_id = $request->input('course_id');
+        $student_ids = $request->input('students');
 
-        $course = Course::find($course_id);
-        $students = $course->getUsersByRole(Roles::id(Roles::STUDENT));
-
-        $ids = [];
-        foreach($students as $student){
-            array_push($ids, $student->id);
+        if(count($student_ids) < 2){
+            return redirect(url('/projects/' . $project_id . '/teams'))->
+                with('error', 'At least two students must be selected to assign teams');
         }
 
-        shuffle($ids);
+        shuffle($student_ids);
 
-        $count = count($ids);
+        $count = count($student_ids);
 
         $teams = [];
 
         if($count % 2 == 0){
             for($i = 0; $i < $count; $i+=2){
                 $newMembers = [];
-                array_push($newMembers, $ids[$i]);
-                array_push($newMembers, $ids[$i+1]);
+                array_push($newMembers, $student_ids[$i]);
+                array_push($newMembers, $student_ids[$i+1]);
 
                 $team = Team::checkIfTeamExistsInCourse($newMembers, $course_id);
                 
@@ -86,12 +85,12 @@ class TeamsController extends Controller
                 $newMembers = [];
 
                 if($count - $i == 3){
-                    array_push($newMembers, $ids[$i]);
-                    array_push($newMembers, $ids[$i+1]);
-                    array_push($newMembers, $ids[$i+2]);
+                    array_push($newMembers, $student_ids[$i]);
+                    array_push($newMembers, $student_ids[$i+1]);
+                    array_push($newMembers, $student_ids[$i+2]);
                 } else {
-                    array_push($newMembers, $ids[$i]);
-                    array_push($newMembers, $ids[$i+1]);
+                    array_push($newMembers, $student_ids[$i]);
+                    array_push($newMembers, $student_ids[$i+1]);
                 }
 
                 $team = Team::checkIfTeamExistsInCourse($newMembers, $course_id);
@@ -107,7 +106,91 @@ class TeamsController extends Controller
         $project = Project::find($project_id);
         $project->assignTeams($teams);
 
-        return redirect(url('/projects/' . $project_id . '/partners'))->
-            with('success', 'The ids array shuffled is: ' . print_r($ids, true));
+        return redirect(url('/projects/' . $project_id . '/teams'))->
+            with('success', 'The ids array shuffled is: ' . print_r($student_ids, true));
+    }
+
+    public function showLoginForm()
+    {
+        return view('teams.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if(Auth::validate($credentials)){
+            $user = User::where('email', $credentials['email'])->first();
+
+            // Validate the new user isnt the currently logged-in user
+            if($user->id == auth()->user()->id){
+                return redirect(url('teams/login'))->
+                    with('error', 'That user is already logged in');
+            }
+
+            if(session()->exists('members')){
+                $members = session('members');
+            } else {
+                $members = [];
+            }
+
+            // Validate the new user isn't already in the session as a member
+            foreach($members as $member){
+                if($member->id == $user->id){
+                    return redirect(url('teams/login'))->
+                        with('error', 'That user is already logged in');
+                }
+            }
+
+            array_push($members, $user);
+
+            session(['members' => $members]);
+
+            return redirect(url('teams/manage'))->
+                with('success', 'Team member logged in');
+        } else {
+            return redirect(url('teams/login'))->
+                with('error', 'Incorrect credentials');
+        }        
+    }
+
+    public function logout($member_id)
+    {
+        if(session()->exists('members')){
+            $members = session('members');
+
+            $newMembers = [];
+            $logged_user_out = false;
+
+            foreach($members as $member){
+                if($member->id != $member_id){
+                    array_push($newMembers, $member);
+                } else {
+                    $logged_user_out = true;
+                }
+            }
+
+            if($logged_user_out){
+                session(['members' => $newMembers]);
+
+                return redirect(url('/teams/manage'))->
+                    with('success', 'Team member logged out successfully');
+            } else {
+                return redirect(url('/teams/manage'))->
+                    with('error', 'Could not find team member to log them out');
+            }
+        }
+    }
+
+    public function manage()
+    {
+        if(session()->exists('members')){
+            $members = session('members');
+        } else {
+            $members = [];
+        }
+
+        return view('teams.manage')->
+            with('members', $members);
     }
 }

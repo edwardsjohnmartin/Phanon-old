@@ -80,4 +80,25 @@ class User extends Authenticatable
 
         return false;
     }
+
+    /**
+     * Takes in a project_id and uses the currently logged-in user to find their team for that project.
+     */
+    public function teamForProject($project_id)
+    {
+        // Verify the project exists
+        if(Project::find($project_id)->exists){
+            // Get all ids of teams that belong to the project
+            $project_team_ids = DB::table('project_teams')->where('project_id', $project_id)->pluck('team_id')->toArray();
+            
+            // Get the id of the team the logged-in user is a member of
+            $team_id = DB::table('team_users')->whereIn('team_id', $project_team_ids)->where('user_id', auth()->user()->id)->pluck('team_id')->first();
+
+            $team = Team::find($team_id);
+
+            return $team;
+        }
+
+        return null;
+    }
 }

@@ -16,13 +16,16 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+
+            $table->dateTime('open_date');
+            $table->dateTime('close_date');
+
+            $table->boolean('teams_enabled')->default(false);
+
             $table->text('prompt');
             $table->text('pre_code')->nullable();
             $table->text('start_code')->nullable();
             $table->text('solution')->nullable();
-            $table->boolean('has_partners')->default(false);
-            $table->dateTime('open_date');
-            $table->dateTime('close_date');
 
             $table->integer('module_id')->unsigned()->index()->nullable();
             $table->foreign('module_id')->references('id')->on('modules');

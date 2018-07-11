@@ -41,7 +41,13 @@ Route::post('/code/exercise/save', 'ExerciseProgressController@save')->name('exe
 Route::get('/code/project/{project_id?}', 'CodeController@project')->name('project.code');
 Route::post('/code/project/save', 'ProjectProgressController@save')->name('project.save');
 
-Route::get('/projects/{id}/partners', 'ProjectsController@partners')->name('project.partners');
+Route::get('/projects/{id}/teams', 'ProjectsController@teams')->name('project.teams');
 Route::get('/courses/{id}/teams', 'CoursesController@teams')->name('course.teams');
 Route::post('/teams', 'TeamsController@createTeam')->name('teams.create');
 Route::post('/assignRandomTeams', 'TeamsController@assignRandomTeams')->name('teams.assignRandom');
+
+Route::get('/teams/login', 'TeamsController@showLoginForm')->name('teams.login');
+Route::post('/teams/login', 'TeamsController@login');
+Route::post('/teams/logout/{member_id}', 'TeamsController@logout')->name('teams.logout');
+
+Route::get('/teams/manage', 'TeamsController@manage')->name('teams.manage');

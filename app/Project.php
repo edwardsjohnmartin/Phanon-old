@@ -3,6 +3,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
+use DB;
+use Spatie\Permission\Models\Role;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
@@ -33,12 +35,12 @@ class Project extends Model
     public $timestamps = true;
 
     /**
-     * Returns whether or not the project has partners enabled.
+     * Returns whether or not the project has teams enabled.
      * Can be returned as a boolean or a string if true is passed-in.
      */
-    public function hasPartners($asString = false)
+    public function teamsEnabled($asString = false)
     {
-        if($this->has_partners == true){
+        if($this->teams_enabled == true){
             $value = true;
         } else {
             $value = false;
@@ -138,5 +140,28 @@ class Project extends Model
     public function assignTeams($teams)
     {
         $this->teams()->sync($teams);
+    }
+
+    /**
+     * Returns the role a user has within a course the project belongs to
+     */
+    public function getRole($user_id = null)
+    {
+        if(is_null($user_id)){
+            $user_id = auth()->user()->id;
+        }
+
+        $course_id = $this->course()->id;
+
+        $ret = DB::table('course_user')->where('course_id', $course_id)->where('user_id', $user_id)->select('role_id')->first();
+        
+        if(empty($ret) or is_null($ret)){
+            return null;
+        }
+        
+        $role_id = $ret->role_id;
+        $role = Role::find($role_id);
+
+        return $role;
     }
 }

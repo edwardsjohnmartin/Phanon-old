@@ -32,6 +32,6 @@
         </script>
     @endcan
 
-    @component('partials.teamsTable', ['teams' => $course->teams])
+    @component('teams.teamsTable', ['teams' => $course->teams])
     @endcomponent
 @endsection

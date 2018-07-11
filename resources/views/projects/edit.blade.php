@@ -8,8 +8,8 @@
             {{Form::text('name', $project->name, ['class' => 'form-control', 'placeholder' => 'Name'])}}
         </div>
         <div class="form-group">
-            {{Form::label('has_partners', 'Partners Enabled')}}
-            {{Form::checkbox('has_partners', 'yes', $project->hasPartners())}}
+            {{Form::label('teams_enabled', 'Teams Enabled')}}
+            {{Form::checkbox('teams_enabled', 'yes', $project->teamsEnabled())}}
         </div>
         <div class="form-group">
             {{Form::label('open_date', 'Open Date')}}
