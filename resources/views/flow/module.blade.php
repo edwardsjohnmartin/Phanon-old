@@ -2,19 +2,39 @@
 $startdate = $module->open_date;
 $now = date(config("app.dateformat"));
 //HACK: major hack this is not the way it should be done.
-$is_completed = $module->completed() <= 1; // See comments on this method.
-$stats = $module->CompletionStats(auth()->user()->id);
+$lessonsAndProjectsCount = count($module->lessonsAndProjects());
+if($lessonsAndProjectsCount > 0){
+    $is_completed = $module->completed() <= 1; // See comments on this method.
+    $stats = $module->CompletionStats(auth()->user()->id);
+    if(!is_null($stats)){
+        $stats_perc_complete = floor($stats->PercComplete*100);
+        $stats_completed = $stats->Completed;
+        $stats_exercise_count = $stats->ExerciseCount;
+    } else {
+        $stats_perc_complete = 0;
+        $stats_completed = 0;
+        $stats_exercise_count = 0;
+    }    
+} else {
+    $is_completed = false;
+    $stats = null;
+    $stats_perc_complete = 0;
+    $stats_completed = 0;
+    $stats_exercise_count = 0;
+}
 $moduleOpen = !$is_completed;
 ?>
 <article 
    class="module sortable{{$is_completed  ? ' expired' : '' }}{{
             !$is_completed  ? ' current' : '' }}">
-   <div class="completion tiny p{{floor($stats->PercComplete*100)}}">
+   <div class="completion tiny p{{$stats_perc_complete}}">
             <span>
-                 @if($stats->Completed < $stats->ExerciseCount)
-                {{$stats->Completed}}/{{$stats->ExerciseCount}}
-            @else
-                Done
+                @if(!is_null($stats))
+                    @if($stats_completed < $stats_exercise_count)
+                        {{$stats_completed}}/{{$stats_exercise_count}}
+                    @else
+                        Done
+                    @endif
                 @endif
             </span>
             <div class="slice">
@@ -29,7 +49,7 @@ $moduleOpen = !$is_completed;
             : url('/code/'.$module->id.'/'.$module->id)}}">
             {{$module->name}}
         </a>
-            <span>({{$stats->Completed}} / {{$stats->ExerciseCount}})</span>
+            <span>({{$stats_completed}} / {{$stats_exercise_count}})</span>
     </h1>
     <aside class="actions">
         <a class="edit" href="{{url('/modules/' . $module->id . '/edit')}}">Edit</a>
@@ -56,15 +76,17 @@ $moduleOpen = !$is_completed;
     </ul>--}}
 
     <ul class="components">
+        @if($lessonsAndProjectsCount > 0)
         @foreach($module->lessonsAndProjects() as $comp)
-        @if(get_class($comp) == "App\Lesson")
-            @component('flow.lesson',['lesson' => $comp])
-            @endcomponent
-        @else
-        @component('flow.project',['project' => $comp])
-            @endcomponent
-        @endif
+            @if(get_class($comp) == "App\Lesson")
+                @component('flow.lesson',['lesson' => $comp])
+                @endcomponent
+            @else
+                @component('flow.project',['project' => $comp])
+                @endcomponent
+            @endif
         @endforeach
+        @endif
     </ul>
     <button class="contentControl {{$moduleOpen ? "collapser":"expander"}}"
             >Show/Hide Contents</button>

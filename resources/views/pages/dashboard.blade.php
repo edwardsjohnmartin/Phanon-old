@@ -22,7 +22,7 @@
                     </div>
                     @endif
                     @can('course.create')
-                    <a href="{{url('/courses/create')}}" class="btn btn-primary btn-add">Create Course</a>
+                        <a href="{{url('/flow/course/create')}}" class="btn btn-primary btn-add">Create Course</a>
                     @endcan
                     <h3>Your Courses</h3>
                     @if(count($courses) > 0)

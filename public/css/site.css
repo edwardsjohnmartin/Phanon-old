@@ -865,3 +865,12 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 
 /*End IDE Messages*/
 /*End code IDE*/
+
+/*Flow Authoring Start*/ 
+#courseFlow .components.authoring li{
+    list-style: none;
+    font-size: inherit;
+    height: inherit;
+    margin: .1em .5em .3em 1em;
+}
+/*Flow Authoring End*/ 

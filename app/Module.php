@@ -228,7 +228,11 @@ class Module extends Model
                                         GROUP BY lsn.module_id"), array('userID' => $idParsed, 'moduleID' =>$this->id));
 
         //print_r($results);
-        return $results[0];
+        if(!is_null($results) and !empty($results)){
+            return $results[0];
+        }
+        
+        return null;
     }
 
     /**

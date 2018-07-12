@@ -51,3 +51,6 @@ Route::post('/teams/login', 'TeamsController@login');
 Route::post('/teams/logout/{member_id}', 'TeamsController@logout')->name('teams.logout');
 
 Route::get('/teams/manage', 'TeamsController@manage')->name('teams.manage');
+
+Route::get('/flow/course/create', 'FlowController@create')->name('flow.create');
+Route::post('/flow/course/store', 'FlowController@store')->name('flow.store');
