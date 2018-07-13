@@ -128,17 +128,17 @@
     margin-right: .5em;
 }
 
-.lesson:before {
+/* .lesson:before {
     font-family: themify;
     content: "\e617";
     margin-right: .5em;
-}
+} */
 
-.project:before {
+/* .project:before {
     font-family: themify;
     content: "\e618";
     margin-right: .5em;
-}
+} */
 
 #ideLogs h2:before {
     font-family: themify;
@@ -874,3 +874,22 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     margin: .1em .5em .3em 1em;
 }
 /*Flow Authoring End*/ 
+
+/*Course Flow Start*/
+#module_list.components li a{
+    display:inline-block;
+    width: 95%;
+}
+#module_list.components li a span.name{
+    position: absolute;
+    height: 2em;
+    max-width: 15em;
+    max-height: 4em;
+    font-size: calc(10px + 1vw);
+    padding-top: 1vh;
+    margin-left: -.25vw;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/*Course Flow End*/ 

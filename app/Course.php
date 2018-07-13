@@ -35,7 +35,7 @@ class Course extends Model
      */
     public function unorderedConcepts()
     {
-        return $concepts = $this->hasMany('App\Concept');
+        return $concepts = $this->hasMany('App\Concept')->orderBy('previous_concept_id');
     }
 
     /**

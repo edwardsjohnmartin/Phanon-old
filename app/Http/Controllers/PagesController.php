@@ -48,14 +48,4 @@ class PagesController extends Controller
         return view('pages.dashboard')->
             with('courses', $coursesToShow);
     }
-
-    /**
-     * 
-     */
-    public function flow($id)
-    {
-        $course = Course::find($id);
-        return view('flow.index')->
-            with('course', $course);
-    }
 }

@@ -38,13 +38,18 @@ class Module extends Model
         return $this->belongsTo('App\Concept');
     }
 
+    public function components()
+    {
+        return $this->testLessons()->union($this->testProjects()->toBase());
+    }
+
     /**
      * Relationship function
      * Returns an array of lessons contained in this module
      */
     public function unorderedLessons()
     {
-        return $this->hasMany('App\Lesson');
+        return $this->hasMany('App\Lesson')->orderBy('previous_lesson_id');
     }
 
     /**
@@ -53,7 +58,17 @@ class Module extends Model
      */
     public function unorderedProjects()
     {
-        return $this->hasMany('App\Project');
+        return $this->hasMany('App\Project')->orderBy('previous_lesson_id');
+    }
+
+    public function testLessons()
+    {
+        return $this->hasMany('App\Lesson')->select('id', 'name', 'module_id', 'previous_lesson_id')->addSelect(DB::raw("'lesson' as type"))->addSelect(DB::raw("'2' as type_ordering"));
+    }
+
+    public function testProjects()
+    {
+        return $this->hasMany('App\Project')->select('id', 'name', 'module_id', 'previous_lesson_id')->addSelect(DB::raw("'project' as type"))->addSelect(DB::raw("'1' as type_ordering"));
     }
 
     /**
@@ -248,7 +263,12 @@ class Module extends Model
                                         GROUP BY lsn.module_id"), array('moduleID' =>$this->id));
 
         //print_r($results);
-        return $results[0]->ExerciseCount;
+
+        if(!empty($results[0]->ExerciseCount)){
+            return $results[0]->ExerciseCount;
+        } 
+
+        return 0;
     }
 
     /**

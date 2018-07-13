@@ -12,7 +12,6 @@
 Auth::routes();
 Route::get('/', 'PagesController@index')->name('index');
 Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
-Route::get('/flow/{id}', 'PagesController@flow')->name('flow'); // course flow page.
 Route::get('/sandbox', 'CodeController@sandbox')->name('sandbox');
 
 //Route::get('/code/current/', 'CodeController@current')->name('current');
@@ -54,3 +53,5 @@ Route::get('/teams/manage', 'TeamsController@manage')->name('teams.manage');
 
 Route::get('/flow/course/create', 'FlowController@create')->name('flow.create');
 Route::post('/flow/course/store', 'FlowController@store')->name('flow.store');
+Route::get('/flow/{id}', 'FlowController@show')->name('flow.show');
+Route::get('/oldflow/{id}', 'FlowController@flow');

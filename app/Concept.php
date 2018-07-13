@@ -43,7 +43,7 @@ class Concept extends Model
      */
     public function unorderedModules()
     {
-        return $this->hasMany('App\Module');
+        return $this->hasMany('App\Module')->orderBy('previous_module_id');
     }
 
     /**

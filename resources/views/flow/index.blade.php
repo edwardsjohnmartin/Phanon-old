@@ -8,8 +8,7 @@
 @endsection
 
 @section('content')
-@php use App\Enums\Permissions
-@endphp
+
 <div class="container">
     <div class="row">
         <section id="courseFlow" class="col-md-8 col-md-offset-2">

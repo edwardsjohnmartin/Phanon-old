@@ -28,7 +28,6 @@ class Lesson extends Model
     // tempExercises
     public $tempExercises = [];
 
-
     /**
      * Relationship function
      * Returns the module this lesson belongs to
@@ -44,7 +43,7 @@ class Lesson extends Model
      */
     public function unorderedExercises()
     {
-        return $this->hasMany('App\Exercise');
+        return $this->hasMany('App\Exercise')->orderBy('previous_exercise_id');
     }
 
     /**

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -10,6 +9,7 @@ use App\Module;
 use App\Lesson;
 use App\Project;
 use App\Enums\Roles;
+use DB;
 use Carbon;
 
 class FlowController extends Controller
@@ -106,5 +106,41 @@ class FlowController extends Controller
         
         // return redirect(url('/dashboard'))->
         //     with('success', 'Course Created');
+    }
+
+    public function show($id)
+    {
+        $course = Course::where('id', $id)->
+        select('id', 'name', 'open_date', 'close_date')->
+        with(['unorderedConcepts' => function($concepts){
+            $concepts->select('id', 'name', 'course_id', 'previous_concept_id')->
+            with(['unorderedModules' => function($modules){
+                $modules->select('id', 'name', 'concept_id', 'previous_module_id', 'open_date')->
+                with(['components' => function($components){
+                    $components->orderBy('previous_lesson_id')->orderBy('type_ordering');
+                }]);
+            }]);
+        }])->first();
+
+        if(empty($course) or is_null($course)){
+            return redirect('/dashboard')->
+                with('error', 'That course does not exist');
+        }
+
+        return view('flow.newCourse')->
+            with('course', $course);
+    }
+
+    public function flow($id)
+    {
+        $course = Course::find($id)->first();
+
+        if(empty($course) or is_null($course)){
+            return redirect('/dashboard')->
+                with('error', 'That course does not exist');
+        }
+
+        return view('flow.index')->
+            with('course', $course);
     }
 }
