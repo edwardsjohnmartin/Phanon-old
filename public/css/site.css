@@ -128,17 +128,17 @@
     margin-right: .5em;
 }
 
-/* .lesson:before {
+/*.lesson span:before {
     font-family: themify;
     content: "\e617";
     margin-right: .5em;
-} */
+} 
 
-/* .project:before {
+ .project span:before {
     font-family: themify;
     content: "\e618";
     margin-right: .5em;
-} */
+}*/
 
 #ideLogs h2:before {
     font-family: themify;
@@ -155,10 +155,10 @@
     left: -.2em;
 }
 
-#courseFlow .module * {
+/*#courseFlow .module * {
     padding: 0;
     margin: 0;
-}
+}*/
 
 #courseFlow .module {
     border-radius: 2em;
@@ -180,42 +180,47 @@
         cursor: pointer;
     }*/
 
-    
+
     #courseFlow .module.ui-sortable-helper:hover {
         /*animation: hideModule 1s ease 0s forwards;*/
         cursor: move;
     }
+
     #courseFlow .module .contentControl {
         position: absolute;
-         bottom: 0; 
-         left: 50%;
-         margin-left: -2.5em;
-         width: 5em;
-         padding: .2em 2em;
-         height: 2em;
-         border: 1px solid #333;
-         background-color: #DDD;
-         overflow:hidden;
-         border-radius: 1em 1em 0 0 ;
+        bottom: 0;
+        left: 50%;
+        margin-left: -2.5em;
+        width: 5em;
+        padding: .2em 2em;
+        height: 2em;
+        border: 1px solid #333;
+        background-color: #DDD;
+        overflow: hidden;
+        border-radius: 1em 1em 0 0;
     }
-    #courseFlow .module .expander{
 
+    #courseFlow .module .expander {
     }
-    #courseFlow .module .expander:before {
-        font-family: themify;
-        content: "\e663";
-        margin-right: 6em;
-    }
+
+        #courseFlow .module .expander:before {
+            font-family: themify;
+            content: "\e663";
+            margin-right: 6em;
+        }
+
     #courseFlow .module .collapser {
         bottom: -2em;
         border-radius: 0 0 1em 1em;
         z-index: 999;
     }
-    #courseFlow .module .collapser:before {
-        font-family: themify;
-        content: "\e660";
-        margin-right: 6em;
-    }
+
+        #courseFlow .module .collapser:before {
+            font-family: themify;
+            content: "\e660";
+            margin-right: 6em;
+        }
+
 @keyframes showModule {
     0% {
         height: 5em;
@@ -288,25 +293,45 @@
         z-index: 999;
         background-color: #FFF;
     }
+
 #courseFlow .expired {
     background-color: #DED;
 }
+
 #courseFlow .components {
     display: none;
 }
+
 #courseFlow .current .components {
     display: block;
 }
 
 
-    #courseFlow .components li {
-        list-style: none;
-        font-size: 2.2em;
-        height: 2em;
-        margin: .1em .5em .3em 1em;
+#courseFlow .components li {
+    list-style: none;
+    font-size: 2em;
+    height: 2em;
+    border-radius: 0 1em 1em 0;
+    margin: .1em .5em .3em 1em;
+    line-height: .5;
+}
+    /*#courseFlow .components a:before {
+    font-size: .5em;
+    position:relative;
+    left:-2em;
+    margin-right: -2em;
+}*/
+    #courseFlow .components li a {
+        display: block;
+        height: 100%;
     }
 
-        
+    #courseFlow .components li span.name {
+        position: relative;
+        top: 20%;
+        font-size: calc(.5em + 1vw);
+        margin-top: .5em;
+    }
 
 /*#courseFlow .components li .name:before {
             content: ">";
@@ -325,39 +350,94 @@
     */
 #courseFlow li.lesson .completion, #courseFlow li.project .completion {
     left: -.5em;
+    margin-right: -.25em;
 }
 
 #courseFlow .lesson a, #courseFlow .project a {
     color: #000;
+}
+
+#courseFlow .project .projectStatus {
+    border: 3px solid #333;
+    background-color: #DDD;
+    border-radius: .5em;
+    width: 2.2em;
+    height: 2.2em;
+    margin: -.1em .5em 0 -1em;
+    float: left;
+}
+#courseFlow .project .dates {
+    font-size: .5em;
+    position: absolute;
+    bottom: -.5em;
+    height: 1em;
+    right: 2em;
+}
+    #courseFlow .project .dates dt, #courseFlow .project .dates dd {
+        float: left;
+        padding-right: .5em;
+    }
+    #courseFlow .project.open {
+    background-color: #FFD;
+}
+
+    #courseFlow .project.open .projectStatus {
+        background-color: #FFD;
+    }
+
+#courseFlow .project.inProgress {
+    background-color: #DDF;
+}
+
+    #courseFlow .project.inProgress .projectStatus {
+        background-color: #DDF;
+    }
+
+#courseFlow .project.closed {
+    background-color: #DDD;
+}
+
+    #courseFlow .project.closed .projectStatus {
+        background-color: #DFD;
+    }
+
+#courseFlow .project .projectStatus span {
+    font-size: .4em;
+    vertical-align: text-top;
+    text-align: center;
+    display: block;
+    line-height: 5em;
     height: 100%;
+    width: 100%;
 }
 /* Completed Component*/
-#courseFlow .completion.p100 .bar {
-    background-color: #F0F;
+#courseFlow .completion {
+    top: -.05em;
+    margin: 0;
 }
 
-#courseFlow .completion.p100 .bar,#courseFlow .completion.p100 .fill {
-    border-color: #080;
-    
-}
-#courseFlow .completion.p100 span {
-    color: #080;
-    font-weight: bold;
-}
+    #courseFlow .completion.p100 .bar {
+        background-color: #F0F;
+    }
 
+    #courseFlow .completion.p100 .bar, #courseFlow .completion.p100 .fill {
+        border-color: #080;
+    }
 
+    #courseFlow .completion.p100 span {
+        color: #080;
+        font-weight: bold;
+    }
 
-#courseFlow .lesson li, #courseFlow .project li {
-}
 
 #courseFlow .lesson, #courseFlow .project {
-    /*border: solid 1px #333;
+    border: solid 1px #888;
     background-color: #AAA;
-    border: 1px solid #000;
-    padding: .5em;
+    border-left: 0;
     color: #333;
     border-radius: .5em;
-    transition: background-color ease .5s;*/
+    position: relative;
+    transition: background-color ease .5s;
 }
 
     #courseFlow .lesson a:hover, #courseFlow .project a:hover {
@@ -680,60 +760,60 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     left: 0;
 }
 
-/*IDE Log Messages*/
+    /*IDE Log Messages*/
 
-#ideMessages #ideLogs {
-    position: relative;
-    top: -.6em;
-    cursor: help;
-}
-
-    #ideMessages #ideLogs * {
-        margin: 0;
-        padding: 0;
-        font-size: 1em;
+    #ideMessages #ideLogs {
+        position: relative;
+        top: -.6em;
+        cursor: help;
     }
 
-    #ideMessages #ideLogs h2 {
-        background-color: #DDD;
-        border: 1px solid #333;
-        border-radius: 1em 1em 0 0;
-        text-align: center;
-        width: 5em;
+        #ideMessages #ideLogs * {
+            margin: 0;
+            padding: 0;
+            font-size: 1em;
+        }
+
+        #ideMessages #ideLogs h2 {
+            background-color: #DDD;
+            border: 1px solid #333;
+            border-radius: 1em 1em 0 0;
+            text-align: center;
+            width: 5em;
+            position: absolute;
+            top: 0;
+            right: 5em;
+        }
+
+    #ideMessages #ideLog {
+        border: 1px solid #000;
+        background: #EEE;
         position: absolute;
         top: 0;
-        right: 5em;
+        right: 0;
+        margin-top: 1.2em;
+        min-width: 20em;
+        transition: height 2s ease;
+        height: 0vh;
+        overflow: auto;
+        display: flex;
+        flex-direction: column-reverse;
     }
 
-#ideMessages #ideLog {
-    border: 1px solid #000;
-    background: #EEE;
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: 1.2em;
-    min-width: 20em;
-    transition: height 2s ease;
-    height: 0vh;
-    overflow: auto;
- display: flex;
- flex-direction:column-reverse;
-}
-
-#ideMessages #ideLogs:hover #ideLog {
-    height: 80vh;
-}
+    #ideMessages #ideLogs:hover #ideLog {
+        height: 80vh;
+    }
 
 
-#ideMessages #ideLog dt {
-    padding-left: .5em;
-    border-bottom: 1px solid #000;
-    text-align:right;
-}
+    #ideMessages #ideLog dt {
+        padding-left: .5em;
+        border-bottom: 1px solid #000;
+        text-align: right;
+    }
 
-#ideMessages #ideLog ol {
-    padding-left: 4em;
-}
+    #ideMessages #ideLog ol {
+        padding-left: 4em;
+    }
 
 #popups {
     position: absolute;
@@ -866,30 +946,12 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 /*End IDE Messages*/
 /*End code IDE*/
 
-/*Flow Authoring Start*/ 
-#courseFlow .components.authoring li{
+/*Flow Authoring Start*/
+#courseFlow .components.authoring li {
     list-style: none;
     font-size: inherit;
     height: inherit;
     margin: .1em .5em .3em 1em;
 }
-/*Flow Authoring End*/ 
+/*Flow Authoring End*/
 
-/*Course Flow Start*/
-#module_list.components li a{
-    display:inline-block;
-    width: 95%;
-}
-#module_list.components li a span.name{
-    position: absolute;
-    height: 2em;
-    max-width: 15em;
-    max-height: 4em;
-    font-size: calc(10px + 1vw);
-    padding-top: 1vh;
-    margin-left: -.25vw;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-/*Course Flow End*/ 

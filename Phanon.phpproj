@@ -794,6 +794,7 @@
     <Compile Include="resources\views\courses\index.blade.php" />
     <Compile Include="resources\views\flow\authoring\create.blade.php" />
     <Compile Include="resources\views\flow\authoring\store.blade.php" />
+    <Compile Include="resources\views\flow\concept.blade.php" />
     <Compile Include="resources\views\flow\course.blade.php" />
     <Compile Include="resources\views\courses\show.blade.php" />
     <Compile Include="resources\views\errors\401.blade.php" />
@@ -802,11 +803,11 @@
     <Compile Include="resources\views\exercises\edit.blade.php" />
     <Compile Include="resources\views\exercises\index.blade.php" />
     <Compile Include="resources\views\exercises\show.blade.php" />
-    <Compile Include="resources\views\flow\newConcept.blade.php" />
-    <Compile Include="resources\views\flow\newCourse.blade.php" />
-    <Compile Include="resources\views\flow\newLesson.blade.php" />
-    <Compile Include="resources\views\flow\newModule.blade.php" />
-    <Compile Include="resources\views\flow\newProject.blade.php" />
+    <Compile Include="resources\views\flow\todelete\newConcept.blade.php" />
+    <Compile Include="resources\views\flow\todelete\newCourse.blade.php" />
+    <Compile Include="resources\views\flow\todelete\newLesson.blade.php" />
+    <Compile Include="resources\views\flow\todelete\newModule.blade.php" />
+    <Compile Include="resources\views\flow\todelete\newProject.blade.php" />
     <Compile Include="resources\views\import\reader.blade.php" />
     <Compile Include="resources\views\import\index.blade.php" />
     <Compile Include="resources\views\lessons\clone.blade.php" />
@@ -1243,6 +1244,7 @@
     <Folder Include="resources\views\errors\" />
     <Folder Include="resources\views\exercises\" />
     <Folder Include="resources\views\flow\authoring\" />
+    <Folder Include="resources\views\flow\todelete\" />
     <Folder Include="resources\views\inc" />
     <Folder Include="resources\views\layouts" />
     <Folder Include="resources\views\lessons\" />

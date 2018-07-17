@@ -295,9 +295,10 @@ class DatabaseSeeder extends Seeder
         self::completeLessonForUser(3, $aUser->id);
         self::completeLessonForUser(4, $aUser->id);
         self::completeLessonForUser(5, $aUser->id);
-        self::completeLessonForUser(6, $aUser->id);
-        self::completeLessonForUser(7, $aUser->id);
+        self::completePartialLessonForUser(6, $aUser->id,13);
     }
+
+    #region Test Course Create
 
     /**
      * Create a fully populated course with its object relationships defined.
@@ -1152,7 +1153,7 @@ class DatabaseSeeder extends Seeder
             'owner_id' => $user->id,
         ]);
 
-
+#endregion
 
 
         #region Full Course Dump
@@ -2022,6 +2023,17 @@ class DatabaseSeeder extends Seeder
         $lesson = Lesson::find($lesson_id);
         foreach($lesson->exercises() as $exercise){
             self::completeExerciseForUser($exercise->id, $user_id);
+        }
+    }
+
+    public function completePartialLessonForUser($lesson_id, $user_id, $count)
+    {
+        $lesson = Lesson::find($lesson_id);
+        foreach($lesson->exercises() as $exercise){
+            if ($count > 0){
+                self::completeExerciseForUser($exercise->id, $user_id);
+                $count--;
+            }
         }
     }
 

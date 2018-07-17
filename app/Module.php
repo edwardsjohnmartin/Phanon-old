@@ -242,6 +242,11 @@ class Module extends Model
                                         AS ep ON ep.exercise_id = e.id WHERE lsn.module_id = :moduleID
                                         GROUP BY lsn.module_id"), array('userID' => $idParsed, 'moduleID' =>$this->id));
 
+        //TODO: need to add projects here for completion stats
+        // A project is completed when its date to complete has passed.
+        // Grades are not being stored in the system; so we do not need to worry about graded status.
+        // It might be nice to worry about submitted status.
+
         //print_r($results);
         if(!is_null($results) and !empty($results)){
             return $results[0];
