@@ -819,6 +819,8 @@
     <Compile Include="resources\views\modules\clone.blade.php" />
     <Compile Include="resources\views\flow\module.blade.php" />
     <Compile Include="resources\views\flow\index.blade.php" />
+    <Compile Include="resources\views\pages\about.blade.php" />
+    <Compile Include="resources\views\pages\dashCourse.blade.php" />
     <Compile Include="resources\views\permissions\create.blade.php" />
     <Compile Include="resources\views\permissions\edit.blade.php" />
     <Compile Include="resources\views\permissions\index.blade.php" />

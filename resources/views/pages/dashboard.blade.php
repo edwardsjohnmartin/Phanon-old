@@ -5,8 +5,8 @@
     @endcomponent
 @endsection
 @php
-    //HACK: This should not be here but I don't know how else to get access to the class
-    use Spatie\Permission\Models\Role;
+             //HACK: This should not be here but I don't know how else to get access to the class
+             use Spatie\Permission\Models\Role;
 @endphp
 @section('content')
 <div class="container">
@@ -18,13 +18,30 @@
                 <div class="panel-body">
                     @if (session('status'))
                     <div class="alert alert-success">
+
+
+
                         {{ session('status') }}
                     </div>
                     @endif
                     @can('course.create')
-                        <a href="{{url('/flow/course/create')}}" class="btn btn-primary btn-add">Create Course</a>
+                    <a href="{{url('/flow/course/create')}}" class="btn btn-primary btn-add">Create Course</a>
                     @endcan
                     <h3>Your Courses</h3>
+                    <ul class="courseList">
+                    @foreach($courses as $course)
+                        @component('pages.dashCourse',['course' => $course])
+                        @endcomponent
+                        @component('pages.dashCourse',['course' => $course])
+                        @endcomponent
+                        @component('pages.dashCourse',['course' => $course])
+                        @endcomponent
+                        @component('pages.dashCourse',['course' => $course])
+                        @endcomponent
+                    @endforeach
+                    </ul>
+                    {{--
+                    #region table courses
                     @if(count($courses) > 0)
                     <table class="table table-striped">
                         <tr>
@@ -37,24 +54,27 @@
                         <tr>
                             <td>{{$course->name}}</td>
                             @if($course->pivot)
-                                <td>{{Role::find($course->pivot->role_id)->name}}</td>
+                            <td>{{Role::find($course->pivot->role_id)->name}}</td>
                             @else
-                                <td>Role goes here</td>
+                            <td>Role goes here</td>
                             @endif
                             <td>{{$course->getCloseDate(config('app.dateformat_short'))}}</td>
                             <td>
                                 <!-- HACK: Setting up structure for buttons -->
                                 <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>
                                 <a href="{{url('/flow/' . $course->id)}}" class="btn btn-view flow">See Flow</a>
-                                @can('course.edit')
-                                    <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
+                                @can(Permissions::COURSE_EDIT)
+                                <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
                                 @endcan
-                                @can('course.delete')
+                                @can(Permissions::COURSE_DELETE)
                                 <a href="{{url('/courses/' . $course->id . '/delete')}}"
-                                    onclick="return actionVerify(event,'{{'delete '.$course->name}}');"
-                                    class="btn btn-delete">
+                                   onclick="return actionVerify(event,'{{'delete '.$course->name}}');"
+                                   class="btn btn-delete">
                                     Delete
                                 </a>
+
+
+
                                 {!!Form::open(['action' => ['CoursesController@destroy', $course->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
                                     {{Form::hidden('_method', 'DELETE')}}
                                     {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
@@ -63,7 +83,7 @@
                             </td>
                         </tr>
                         @endforeach
-                    @else
+                        @else
                         <tr>
                             <td colspan="3">
                                 You do not have any courses
@@ -71,6 +91,9 @@
                         </tr>
                         @endif
                     </table>
+                    #endregion
+                    --}}
+
                 </div>
             </div>
         </div>

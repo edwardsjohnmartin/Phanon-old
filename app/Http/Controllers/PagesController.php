@@ -13,13 +13,23 @@ use Spatie\Permission\Models\Permission;
 class PagesController extends Controller
 {
     /**
-     * Displays the websites home page.
+     * Displays the website's home page.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         return view('pages.index');
+    }
+
+    /**
+     * Displays the page describing what the purpose of the site is.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function about()
+    {
+        return view('pages.about');
     }
 
     /**

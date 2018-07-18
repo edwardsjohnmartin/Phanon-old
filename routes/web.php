@@ -12,6 +12,7 @@
 Auth::routes();
 Route::get('/', 'PagesController@index')->name('index');
 Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
+Route::get('/about', 'PagesController@about')->name('about');
 Route::get('/sandbox', 'CodeController@sandbox')->name('sandbox');
 
 //Route::get('/code/current/', 'CodeController@current')->name('current');
