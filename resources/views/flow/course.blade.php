@@ -2,9 +2,9 @@
 <aside class="dates">
     <!--TODO: these dates should come preformatted-->
     <!--Not sure why we are parsing them then reformatting them again.-->
-    <span class="start">{{$course->getOpenDate(config('dateformat_short'))}}</span>
+    <span class="start">{{$course->getOpenDate(config('app.dateformat_short'))}}</span>
     <span> - </span>
-    <span class="end">{{$course->getCloseDate(config('dateformat_short'))}}</span>
+    <span class="end">{{$course->getCloseDate(config('app.dateformat_short'))}}</span>
 </aside>
 <aside class="actions">
     <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>

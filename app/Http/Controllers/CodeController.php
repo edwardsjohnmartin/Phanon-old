@@ -50,7 +50,7 @@ class CodeController extends Controller
     }
     
     /**
-     * 
+     * Gets a project as well as the logged-in users progress on that project and directs them to the coding page for it. 
      */
     public function project($project_id = null)
     {
@@ -61,6 +61,18 @@ class CodeController extends Controller
                 with('error', 'That project does not exist');
         }
 
+        // Check that the current date is within the projects open and close dates. 
+        $now = date(config('app.dateformat'));
+        $course_id = $project->course()->id;
+
+        // This is going to be commented out for now for testing purposes but it does work and will be used in release
+        if($now < $project->open_date){
+            //return redirect('/flow/' . $course_id)->
+                //with('error', 'That project is not open yet.');
+        }
+
+        //TODO: Add a check to see if the project is past due. The project code page should have some kind of flag that dictates whether or not it can save.
+        
         // Get the users latest submission for this project
         $projectProgress = ProjectProgress::where('user_id', auth()->user()->id)->where('project_id', $project_id)->orderBy('last_run_date', 'desc')->first();
 
