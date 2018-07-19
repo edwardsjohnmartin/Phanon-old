@@ -219,7 +219,7 @@
     margin: 0;
 }*/
 
-#courseFlow .module {
+#courseFlow .module, .course {
     border-radius: 2em;
     border: solid 1px #080;
     padding: 1em;
@@ -230,7 +230,7 @@
     /*animation: hideModule 1s ease 0s forwards;*/
 }
 
-    #courseFlow .module .dates {
+    #courseFlow .module .dates, .course .actions .dates {
         margin-bottom: 1em;
     }
 
@@ -308,14 +308,37 @@
     }
 }
 
+.courseList {
+    list-style: none;
+    padding: 0;
+}
 
+    .courseList li {
+        width: 45%;
+        float: left;
+        height: 6em;
+    }
 
-#courseFlow .module h1 {
+@media screen and (max-width: 700px) {
+    .courseList li {
+        width: 100%;
+    }
+}
+
+.course > a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: -1em;
+    padding: 1em;
+}
+
+#courseFlow .module h1, .course.h4 {
     font-size: 1.2em;
     font-weight: bold;
 }
 
-#courseFlow .module .details, .module .actions {
+#courseFlow .module .details, .module .actions, .course .actions {
     position: absolute;
     right: 2em;
     width: 25%;
@@ -326,7 +349,7 @@
     bottom: 0;
 }
 
-#courseFlow .module .actions {
+#courseFlow .module .actions, .course .actions {
     top: 0;
     width: 2em;
     overflow: hidden;
@@ -335,17 +358,17 @@
     text-align: center;
 }
 
-    #courseFlow .module .actions a {
+    #courseFlow .module .actions a, .course .actions a {
         display: block;
     }
 
-        #courseFlow .module .actions a:hover {
+        #courseFlow .module .actions a:hover, .course .actions a:hover {
             text-decoration: none;
             background-color: #AAA;
             color: #FFF;
         }
 
-    #courseFlow .module .actions:hover {
+    #courseFlow .module .actions:hover, .course .actions:hover{
         width: 6em;
         height: 7em;
         border: solid 1px #AAA;
@@ -456,14 +479,17 @@
     margin: -.1em .5em 0 -1em;
     float: left;
 }
-#courseFlow .project .dates {
+dl.dates {
     font-size: .5em;
     position: absolute;
     bottom: -.5em;
     height: 1em;
     right: 2em;
 }
-    #courseFlow .project .dates dt, #courseFlow .project .dates dd {
+.course dl.dates {
+    font-size: .8em;
+}
+    dl.dates dt, dl.dates dd {
         float: left;
         padding-right: .5em;
     }
