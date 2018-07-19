@@ -44,9 +44,7 @@ $moduleOpen = !$is_completed;
         </div>
     <h1>
         {{-- #todo: need to fix this to acutally use the correct exercise --}}
-        <a href="{{$is_completed 
-            ? url('/code/review/'.$module->id.'/'.$module->id)
-            : url('/code/'.$module->id.'/'.$module->id)}}">
+        <a href="{{url('/code/exercise/'.$module->currentExercise(1)->id)}}">
             {{$module->name}}
         </a>
             <span>({{$stats_completed}} / {{$stats_exercise_count}})</span>

@@ -5,13 +5,13 @@
     $currController = explode('.', $appPath)[0];
     
     $paths = [
-        "sandbox" => "SandBox",
-        "courses" =>"Courses",
-        "concepts" =>"Concepts",
-        "modules" =>"Modules",
-        "lessons" =>"Lessons",
-        "exercises" =>"Exercises",
-        "projects" =>"Projects"
+        "sandbox" => "SandBox|sandbox",
+        "courses" =>"Courses|course",
+        "concepts" =>"Concepts|concept",
+        "modules" =>"Modules|module",
+        "lessons" =>"Lessons|lesson",
+        "exercises" =>"Exercises|exercise",
+        "projects" =>"Projects|project"
     ];
 @endphp
 
@@ -36,8 +36,14 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                @foreach($paths as $path)
-                    <li><a href="{{url('/' . strtolower($path))}}">{{$path}}</a></li>
+                <li>@yield("navButtons")</li>
+                @foreach($paths as $pathString)
+                    @php 
+                         $pathParts = explode("|",$pathString);
+                         $path = $pathParts[0];
+                         $css = count($pathParts) > 1? $pathParts[1]: "";
+                    @endphp
+                    <li><a {{$css != ""?"class=$css ":""}} href="{{url('/' . strtolower($path))}}">{{$path}}</a></li>
                 @endforeach
             </ul>
 

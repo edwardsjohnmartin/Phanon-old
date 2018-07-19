@@ -18,7 +18,9 @@
     @endcomponent
 
     <div id="codeIde">
-        <a class="flow" href="{{url('flow/' . $exercise->lesson->module->concept->course_id)}}">Return</a>
+        @section("navButtons")
+        <a class="flow" href="{{url('flow/' . $exercise->lesson->module->concept->course_id)}}">Course Flow</a>
+        @endsection
 
         @component('codearea.prompt', ['prompt' => $exercise->prompt])
         @endcomponent

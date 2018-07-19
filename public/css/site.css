@@ -8,6 +8,9 @@
 }
 /* From: https://themify.me/themify-icons */
 
+.navbar{
+    margin-bottom: 0;
+}
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover {
     background-color: #080;
 }
@@ -128,17 +131,68 @@
     margin-right: .5em;
 }
 
-/*.lesson span:before {
+.course:before {
     font-family: themify;
-    content: "\e617";
+    content: "\e60a";
     margin-right: .5em;
-} 
+}
 
- .project span:before {
+.concept:before {
+    font-family: themify;
+    content: "\e607";
+    margin-right: .5em;
+}
+
+.module:before{
+    font-family: themify;
+    content: "\e75a";
+    margin-right: .5em;
+}
+
+.project:before, .project .completion span:before {
     font-family: themify;
     content: "\e618";
     margin-right: .5em;
-}*/
+}
+
+.open .projectStatus:before {
+    font-family: themify;
+    content: "\e64f";
+    margin-right: .5em;
+}
+
+.inProgress .projectStatus:before {
+    font-family: themify;
+    content: "\e626";
+    margin-right: .5em;
+}
+
+.closed .projectStatus:before {
+    font-family: themify;
+    content: "\e687"; /*package*/
+    margin-right: .5em;
+}
+
+
+.lesson:before, .lesson .completion span:before {
+    font-family: themify;
+    content: "\e617";
+    margin-right: .5em;
+}
+
+.exercise:before {
+    font-family: themify;
+    content: "\e61d";
+    margin-right: .5em;
+}
+
+.sandbox:before {
+    font-family: themify;
+    content: "\e606"; /* thought */
+    content: "\e6b9"; /* ball */
+    margin-right: .5em;
+}
+
 
 #ideLogs h2:before {
     font-family: themify;
@@ -155,12 +209,17 @@
     left: -.2em;
 }
 
+#courseFlow .lesson:before, #courseFlow .project:before{
+    content: "";
+    margin-right: 0;
+}
+
 /*#courseFlow .module * {
     padding: 0;
     margin: 0;
 }*/
 
-#courseFlow .module, .course {
+#courseFlow .module {
     border-radius: 2em;
     border: solid 1px #080;
     padding: 1em;
@@ -171,7 +230,7 @@
     /*animation: hideModule 1s ease 0s forwards;*/
 }
 
-    #courseFlow .module .dates,, .course .actions .dates {
+    #courseFlow .module .dates {
         margin-bottom: 1em;
     }
 
@@ -249,36 +308,14 @@
     }
 }
 
-.courseList{
-    list-style: none;
-    padding: 0;
-}
-.courseList li {
-    width: 45%;
-   float: left;
-    height: 6em;
-}
-@media screen and (max-width: 700px){
-    .courseList li {
-        width: 100%;
-    }
-    }
 
-.course > a{
-    display: block;
-    
-    width: 100%;
-    height: 100%;
-    margin: -1em;
-    padding: 1em;
-}
 
-#courseFlow .module h1, .course h4 {
+#courseFlow .module h1 {
     font-size: 1.2em;
     font-weight: bold;
 }
 
-#courseFlow .module .details, .module .actions, .course .actions {
+#courseFlow .module .details, .module .actions {
     position: absolute;
     right: 2em;
     width: 25%;
@@ -289,7 +326,7 @@
     bottom: 0;
 }
 
-#courseFlow .module .actions, .course .actions {
+#courseFlow .module .actions {
     top: 0;
     width: 2em;
     overflow: hidden;
@@ -298,17 +335,17 @@
     text-align: center;
 }
 
-    #courseFlow .module .actions a, .course .actions a{
+    #courseFlow .module .actions a {
         display: block;
     }
 
-        #courseFlow .module .actions a:hover, .course .actions a:hover{
+        #courseFlow .module .actions a:hover {
             text-decoration: none;
             background-color: #AAA;
             color: #FFF;
         }
 
-    #courseFlow .module .actions:hover, .course .actions:hover {
+    #courseFlow .module .actions:hover {
         width: 6em;
         height: 7em;
         border: solid 1px #AAA;
@@ -370,6 +407,24 @@
     top: -50px;
 }
     */
+#courseFlow .completion > span{
+    color: #333;
+    font-size: .25em;
+    width: 4em;
+    line-height: 4em;
+}
+
+#courseFlow .completion:hover > span {
+    color: #03F;
+    font-size: .35em;
+    width: 3em;
+    line-height: 3em;
+}
+
+#courseFlow .completion:hover > span:before {
+    content:"";
+}
+
 #courseFlow li.lesson .completion, #courseFlow li.project .completion {
     left: -.5em;
     margin-right: -.25em;
@@ -378,7 +433,20 @@
 #courseFlow .lesson a, #courseFlow .project a {
     color: #000;
 }
-
+#courseFlow .project .projectStatus:before,
+#courseFlow .lesson .completion span:before,
+#courseFlow .module .completion span:before {
+    position: absolute;
+    font-size: 3em;
+    margin-left: -.1em;
+    color: #333;
+    opacity: .10;
+}
+#courseFlow .project .projectStatus:before {
+    font-size: 1.4em;
+    margin-left: .2em;
+    margin-top: .5em;
+}
 #courseFlow .project .projectStatus {
     border: 3px solid #333;
     background-color: #DDD;
@@ -388,17 +456,14 @@
     margin: -.1em .5em 0 -1em;
     float: left;
 }
-dl.dates {
+#courseFlow .project .dates {
     font-size: .5em;
     position: absolute;
     bottom: -.5em;
     height: 1em;
     right: 2em;
 }
-.course dl.dates{
-    font-size: .8em;
-}
-    dl.dates dt,  dl.dates dd {
+    #courseFlow .project .dates dt, #courseFlow .project .dates dd {
         float: left;
         padding-right: .5em;
     }
@@ -434,7 +499,16 @@ dl.dates {
     line-height: 5em;
     height: 100%;
     width: 100%;
+    transition: font-size 400ms ease;
 }
+
+#courseFlow .project .projectStatus:hover span {
+    font-size: .55em;
+    line-height: 3.5em;
+    color: #03F;
+    font-weight:bold;
+}
+
 /* Completed Component*/
 #courseFlow .completion {
     top: -.05em;
@@ -499,24 +573,31 @@ dl.dates {
 /*flow - end*/
 
 #exercisePanel {
-    width: 20%;
-    position: absolute;
-    height: 95%;
+    width: 15%;
+    height: 90%;
+    min-width: 100px;
+    position: relative;
+    left: -15px;
     overflow: auto;
-    top: 3.5em;
-    left: 0;
+    margin: 0;
+    float: left;
     background-color: #FFF;
     box-shadow: inset #333 0 0 10px;
 }
 
-#codeIde {
-    margin-left: 21%;
+#exercisePanel .exercise:before{
+    content: "";
+    margin-right: 0;
+}
+    #codeIde {
+    margin-left: 15%;
     height: 100%;
 }
 
     #codeIde.fullIDE {
         margin-left: 0;
     }
+
 
 #exerciseList {
     list-style: none;
@@ -561,14 +642,21 @@ dl.dates {
     #exerciseList .exercise.completed, #exerciseList .exercise.current.completed {
         background-color: #BFB;
     }
-
+    #exerciseList .exercise.mini {
+        transition-property: margin,height, width;
+        transition-duration: 400ms;
+        transition-timing-function: ease;
+    }
     #exerciseList .exercise.mini a {
         color: #550;
         font-weight: bold;
         display: block;
         width: 1.5em;
         height: 1.5em;
-        margin: -.15em;
+        line-height: 1.5em;
+        transition-property: font-size, width, line-height;
+        transition-duration: 400ms;
+        transition-timing-function: ease;
     }
 
         #exerciseList .exercise.mini a:hover {
@@ -612,7 +700,8 @@ dl.dates {
 
     #exerciseList .exercise:hover a {
         font-size: 1.5em;
-        margin: -.25em;
+        width: 1em;
+        line-height: 1em;
     }
 
 #codeWindow {
@@ -659,19 +748,59 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 
 #codeIde {
     height: 95%;
+    position: relative; 
 }
     /*set sizes*/
     #codeIde h3 {
-        height: 2%;
+        margin: 0;
+        font-size: 1.2em;
+        font-weight: bold;
+        float:left;
+        display:inline;
+        margin-right: 1em;
+        color: #AAA;
     }
 
     #codeIde #idePrompt {
         height: 5%;
+        border: 1px solid #333;
+        margin: 0;
+        background-color: #FFF;
+        transition: height ease 2s;
+        padding: .5em;
+        overflow:auto;
     }
 
-    #codeIde.projectIDE #idePrompt {
-        height: 20%;
+        #codeIde #idePrompt:after {
+            font-family: themify;
+            content: "\e663";
+            position: absolute;
+            z-index: 999;
+            top:0;
+            left: 50%;
+            color: #CCC;
+        }
+        .projectIde #codeIde #idePrompt {
+    height: 20%;
+}
+
+#codeIde #idePrompt:hover, .projectIde #codeIde #idePrompt:hover {
+    height: 50%;
+}
+
+    #codeIde #idePrompt:hover:after {
+        color: #36F;
+        font-weight: bold;
+        animation: promptAfter 2s ease forwards;
     }
+@keyframes promptAfter{
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}    
 
     #codeIde #ideControls {
         height: 40px;

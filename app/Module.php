@@ -187,7 +187,7 @@ class Module extends Model
         //    }
         //}
 
-        $exerToDo = $this->lessons[0]->exercises[0];
+        $exerToDo = $this->lessons()[0]->exercises()[0];
         return $exerToDo;
     }
 

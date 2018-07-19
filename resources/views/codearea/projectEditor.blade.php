@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 {{-- does not add new lines to css --}}
-@section("bodyCSSClass", "projectIDE")
+@section("bodyCSSClass", "projectIde")
 
 @php
     $initial_editor_code = $project->start_code;
@@ -13,7 +13,10 @@
 
 @section('content')
     <div id="codeIde" class="fullIDE">
-        <a class="flow" href="{{url('flow/' . $project->module->concept->course_id)}}">Return</a>
+        @section("navButtons")
+        <a class="flow" href="{{url('flow/' . $project->module->concept->course_id)}}">Course Flow</a>
+@endsection
+        
         
         @component('codearea.prompt', ['prompt' => $project->prompt])
         @endcomponent
