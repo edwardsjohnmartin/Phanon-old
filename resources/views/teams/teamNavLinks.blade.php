@@ -3,7 +3,7 @@
         $members = session('members');
         $count = count($members);
     } else {
-        $members = null;
+        $members = []; // was null , but could not be counted on line 13.
         $count = 0;
     }
 @endphp

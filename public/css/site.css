@@ -219,7 +219,7 @@
     margin: 0;
 }*/
 
-#courseFlow .module, .course {
+#courseFlow .module, .courseList .course {
     border-radius: 2em;
     border: solid 1px #080;
     padding: 1em;
