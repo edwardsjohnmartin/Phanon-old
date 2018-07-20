@@ -5,20 +5,18 @@
         $stats = $lesson->CompletionStats(auth()->user()->id);
         $percComplete = $stats->PercComplete;
         $percComplete = floor($percComplete * 100);
-        $next_incomplete_exercise = $lesson->nextIncompleteExercise();
-        $next_incomplete_exercise_id = $next_incomplete_exercise->id;
+        $next_incomplete_exercise_id = $lesson->nextIncompleteExercise()->id;
         $stats_completed = $stats->Completed;
         $stats_exercise_count = $stats->ExerciseCount;
     } else {
         $stats = null;
         $percComplete = 0;
-        $next_incomplete_exercise = null;
         $next_incomplete_exercise_id = 0;
         $stats_completed = 0;
         $stats_exercise_count = 0;
     }
 @endphp
-<li class="lesson sortable">
+<li class="lesson sortable{{$percComplete == 100?" completed":""}}">
     <a href="{{url('/code/exercise/' . $next_incomplete_exercise_id)}}">
         {{--
         <span>Lesson </span>

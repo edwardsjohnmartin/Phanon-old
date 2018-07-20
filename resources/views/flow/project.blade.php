@@ -3,21 +3,27 @@
 //$project = new Project();
 //print_r($project);
 $now = Carbon\Carbon::now();
+$now = date_add($now,date_interval_create_from_date_string("6 days"));// add a week for testing.
 $css_class = "none";
 $status_text = "nothing";
 $status_open_tense = "s"; // s for still available. ed for done.
 $status_close_tense = "es"; // es for still available. ed for done.
-if($project->open_date > $now && $project->close_date > $now){
+if($project->open_date > $now){
+    $css_class = "pending";
+    $status_text = "Not Open";
+}elseif($project->open_date < $now && $project->close_date > $now){
     $css_class = "open";
     $status_text = "Open";
+    $status_open_tense = "ed";
 }elseif($project->close_date < $now){
     $css_class = "closed";
     $status_text = "Closed";
     $status_open_tense = "ed";
     $status_close_tense = "ed";
-}else{
+}else{ // in progress
     $css_class = "inProgress";
     $status_text = "In Progress";
+    $status_open_tense = "ed";
 }
 ?>
 <li class="project {{$css_class}}">

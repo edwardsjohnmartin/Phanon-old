@@ -1,30 +1,30 @@
- <h1>{{$course->name}}</h1>
-<aside class="dates">
-    <!--TODO: these dates should come preformatted-->
-    <!--Not sure why we are parsing them then reformatting them again.-->
-    <span class="start">{{$course->getOpenDate(config('app.dateformat_short'))}}</span>
-    <span> - </span>
-    <span class="end">{{$course->getCloseDate(config('app.dateformat_short'))}}</span>
-</aside>
-<aside class="actions">
-    <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>
-    @can(Permissions::COURSE_EDIT)
+
+<div id="courseDetails">
+    <h1>{{$course->name}}</h1>
+    <aside class="dates">
+        <!--TODO: these dates should come preformatted-->
+        <!--Not sure why we are parsing them then reformatting them again.-->
+        <span class="start">{{$course->getOpenDate(config('app.dateformat_short'))}}</span>
+        <span> - </span>
+        <span class="end">{{$course->getCloseDate(config('app.dateformat_short'))}}</span>
+    </aside>
+    <aside class="actions">
+        <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>
+        @can(Permissions::COURSE_EDIT)
         <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
-    @endcan
+        @endcan
     @can(Permissions::COURSE_DELETE)
         <a href="{{url('/courses/' . $course->id . '/delete')}}"
             onclick="return actionVerify(event,'{{'delete '.$course->name}}');" class="btn btn-delete">
             Delete
         </a>
-    @endcan
-</aside>
-
+        @endcan
+    </aside>
+</div>
 @foreach($course->concepts() as $concept)
     @component("flow.concept",["concept" => $concept])
     @endcomponent
 @endforeach
-
-
 
 {{-- extends('layouts.app')
 

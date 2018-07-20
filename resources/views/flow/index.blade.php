@@ -12,8 +12,8 @@
 <div class="container">
     <div class="row">
         <section id="courseFlow" class="col-md-8 col-md-offset-2">
-           @component("flow.course",["course" => $course])
-           @endcomponent
+            @component("flow.course",["course" => $course])
+            @endcomponent
         </section>
     </div>
 </div>
@@ -41,12 +41,18 @@
             }
             if (wasAction) {
                 $(t).parent().find(".components").animate({ height: "toggle" });
+                $("html,body").animate({
+                    scrollTop: $(t).parent().offset().top - (parseInt($("body").css("padding-top"))
+                        + parseInt($("#courseDetails").css("height")))
+                }, 2000
+                );
             }
         }
     });
     $().ready(function () {
         $("html,body").animate({
-            scrollTop: $(".current").offset().top
+            scrollTop: $(".current").offset().top - (parseInt($("body").css("padding-top"))
+                + parseInt($("#courseDetails").css("height")) + 10)
         }, 2000
         );
     });

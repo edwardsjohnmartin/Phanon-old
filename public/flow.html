@@ -1,0 +1,1954 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="k77dmPiUpAgCcqHxbvR6HFjcn8VavPZeDuXLTGhh">
+
+    <title>Phanon</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="http://localhost:20002/public/css/app.css">
+    <link rel="stylesheet" href="http://localhost:20002/public/css/site.css">
+    <link rel="stylesheet" href="http://localhost:20002/public/css/jquery-ui.min.css">
+
+    <!-- Scripts -->
+    <script src="http://localhost:20002/public/js/app.js"></script>
+    <script src="http://localhost:20002/public/jquery/jquery-3.2.1.min.js"></script>
+    <script src="http://localhost:20002/public/js/jquery-ui.min.js"></script>
+
+    <script src="http://localhost:20002/public/js/actions.js"></script>
+    <link rel="stylesheet" href="http://localhost:20002/public/css/percentages.css">
+</head>
+<body class="">
+    <div id="app">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+
+                    <!-- Collapsed Hamburger -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Branding Image -->
+                    <a class="navbar-brand" href="http://localhost:20002/public/index.php">
+                        Phanon
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav">
+                        <li></li>
+                        <li>
+                            <a class="sandbox" href="http://localhost:20002/public/index.php/sandbox">Sandbox</a>
+                        </li>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" role="button" aria-expanded="false">
+                                Something
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a class=course href="http://localhost:20002/public/index.php/courses">Courses</a></li>
+                                <li><a class=concept href="http://localhost:20002/public/index.php/concepts">Concepts</a></li>
+                                <li><a class=module href="http://localhost:20002/public/index.php/modules">Modules</a></li>
+                                <li><a class=lesson href="http://localhost:20002/public/index.php/lessons">Lessons</a></li>
+                                <li><a class=exercise href="http://localhost:20002/public/index.php/exercises">Exercises</a></li>
+                                <li><a class=project href="http://localhost:20002/public/index.php/projects">Projects</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <!-- Authentication Links -->
+                        <li class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+                                Team         <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="http://localhost:20002/public/index.php/teams/login">Log In Team Member</a></li>
+                                <li><a class="dropdown-item" href="http://localhost:20002/public/index.php/teams/manage">Manage Team</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Admin Account
+                                <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="http://localhost:20002/public/index.php/users">
+                                        <i class="fa fa-btn fa-unlock"></i>Admin
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:20002/public/index.php/dashboard">Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="http://localhost:20002/public/index.php/logout"
+                                       onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+
+                                    <form id="logout-form" action="http://localhost:20002/public/index.php/logout" method="POST" style="display: none;">
+                                        <input type="hidden" name="_token" value="k77dmPiUpAgCcqHxbvR6HFjcn8VavPZeDuXLTGhh">
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+
+            <div class="container">
+                <div class="row">
+                    <section id="courseFlow" class="col-md-8 col-md-offset-2">
+                        <div id="courseDetails">
+                            <h1>1181 Test Course</h1>
+                            <aside class="dates">
+                                <!--TODO: these dates should come preformatted-->
+                                <!--Not sure why we are parsing them then reformatting them again.-->
+                                <span class="start">05/15/2018</span>
+                                <span> - </span>
+                                <span class="end">10/15/2018</span>
+                            </aside>
+                            <aside class="actions">
+                                <a href="http://localhost:20002/public/index.php/courses/1" class="btn btn-view">View</a>
+                                <a href="http://localhost:20002/public/index.php/courses/1/edit" class="btn btn-edit">Edit</a>
+                                <a href="http://localhost:20002/public/index.php/courses/1/delete"
+                                   onclick="return actionVerify(event,'delete 1181 Test Course');" class="btn btn-delete">
+                                    Delete
+                                </a>
+                            </aside>
+                        </div>
+                        <article class="concept sortableConcept">
+
+                            <h3>
+                                Concept Name
+
+                            </h3>
+                            <article class="module sortable expired">
+                                <div class="completion tiny p100">
+                                    <span>
+                                        Done
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/1">
+                                        Printing
+                                    </a>
+                                    <span>(27 / 27)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/1/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/1/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/1/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">05/15/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable completed">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/1">
+
+
+                                            <div class="completion p100">
+                                                <span>
+                                                    Done
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Print statements</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/1">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Initials</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>05/19/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>05/21/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable completed">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/28">
+
+
+                                            <div class="completion p100">
+                                                <span>
+                                                    Done
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Turtle basics</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/2">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Pictures</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>05/26/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>05/28/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+
+                                    <li class="lesson sortable completed">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/34">
+
+
+                                            <div class="completion p100">
+                                                <span>
+                                                    Done
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Variables</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable completed">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/54">
+
+
+                                            <div class="completion p100">
+                                                <span>
+                                                    Done
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">String conversions</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/3">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Variables and input</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>06/02/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>06/04/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable completed">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/59">
+
+
+                                            <div class="completion p100">
+                                                <span>
+                                                    Done
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Comments</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl expander">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                        </article>
+                        <article class="concept sortableConcept">
+
+                            <h3>
+                                Variable Types
+
+                            </h3>
+                            <article class="module sortable current">
+                                <div class="completion tiny p38">
+                                    <span>
+                                        14/36
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/65">
+                                        Data Types
+                                    </a>
+                                    <span>(14 / 36)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/4/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/4/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/4/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">06/05/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable completed">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/79">
+                                            <div class="completion p100">
+                                                <span>
+                                                    14/14
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Variable types</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/99">
+
+
+                                            <div class="completion p55">
+                                                <span>
+                                                    11/20
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">type()</span>
+                                        </a>
+                                    </li>
+                                    <li class="project pending">
+                                        <a href="http://localhost:20002/public/index.php/code/project/4">
+                                            <div class="projectStatus">
+                                                <span>Not Open</span>
+                                            </div>
+                                            <span class="name"> Mad Libs Generator</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>06/09/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>06/11/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/101">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/2
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Multiline comments</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/103">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/16
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Range</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/119">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/28
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">For loops I</span>
+                                        </a>
+                                    </li>
+                                    <li class="project open">
+                                        <a href="http://localhost:20002/public/index.php/code/project/5">
+                                            <div class="projectStatus">
+                                                <span>Open</span>
+                                            </div>
+                                            <span class="name"> Shapes II</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>06/16/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>06/18/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/147">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/7
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Functions II</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/154">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/13
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Functions III</span>
+                                        </a>
+                                    </li>
+                                    <li class="project inProgress">
+                                        <a href="http://localhost:20002/public/index.php/code/project/6">
+                                            <div class="projectStatus">
+                                                <span>In Progress</span>
+                                            </div>
+                                            <span class="name"> Throw physics simulation</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>06/23/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>06/25/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/167">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/13
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Functions IV</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/180">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/9
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Fixing bugs in functions</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/7">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Darts</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>06/23/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>06/25/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/189">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/23
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">If statements I</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/8">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Stadium seating</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>06/30/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/02/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/212">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/11
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">If statements II</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/223">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/12
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">or/and</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/235">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/4
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Not equal</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/9">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Calculator I</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>06/30/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/02/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/239">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/8
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">If statements III</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/247">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/10
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">If/elif</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/2
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/257">
+                                        Random
+                                    </a>
+                                    <span>(0 / 2)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/9/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/9/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/9/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">06/27/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/257">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/2
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">random</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/10">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Draw shape on click</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/01/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/03/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                        </article>
+                        <article class="concept sortableConcept">
+
+                            <h3>
+                                More Iteration
+
+                            </h3>
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/15
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/259">
+                                        For Loops Again
+                                    </a>
+                                    <span>(0 / 15)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/10/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/10/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/10/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">07/03/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/259">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/15
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">For loops II</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/11">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Stats</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/07/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/09/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/20
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/274">
+                                        While Loops
+                                    </a>
+                                    <span>(0 / 20)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/11/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/11/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/11/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">07/04/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/274">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/15
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">While loops</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/12">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Prompt for shapes</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/08/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/10/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/289">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/5
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">While loops II</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/13">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Medal count</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/08/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/10/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                        </article>
+                        <article class="concept sortableConcept">
+
+                            <h3>
+                                Arithmetic
+
+                            </h3>
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/19
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/294">
+                                        Modulus
+                                    </a>
+                                    <span>(0 / 19)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/12/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/12/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/12/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">07/10/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/294">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/19
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Modulo operator</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/14">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Day of the Week</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/14/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/16/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/15">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Elapsed time</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/14/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/16/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/16">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Random dot</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/14/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/16/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/17">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Throw physics simulation</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/14/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/16/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                        </article>
+                        <article class="concept sortableConcept">
+
+                            <h3>
+                                Collections
+
+                            </h3>
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/26
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/313">
+                                        Lists
+                                    </a>
+                                    <span>(0 / 26)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/13/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/13/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/13/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">07/17/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/313">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/15
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Lists I</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/328">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/11
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Lists II - indexed assignment</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/13
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/339">
+                                        Loops Lists
+                                    </a>
+                                    <span>(0 / 13)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/14/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/14/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/14/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">07/18/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/339">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/13
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Lists II - loops</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/18">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Random dots</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/22/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/24/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/19">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Initials</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/22/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/24/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/23
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/352">
+                                        Appending Lists
+                                    </a>
+                                    <span>(0 / 23)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/15/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/15/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/15/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">07/19/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/352">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/6
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Lists III - append</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/358">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/17
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Lists II</span>
+                                        </a>
+                                    </li>
+                                    <li class="project closed">
+                                        <a href="http://localhost:20002/public/index.php/code/project/20">
+                                            <div class="projectStatus">
+                                                <span>Closed</span>
+                                            </div>
+                                            <span class="name"> Histogram</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/23/2018</dd>
+                                                <dt>Closed</dt>
+                                                <dd>07/25/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/38
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/375">
+                                        Splicing Lists
+                                    </a>
+                                    <span>(0 / 38)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/16/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/16/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/16/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">07/20/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/375">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/38
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">list slicing</span>
+                                        </a>
+                                    </li>
+                                    <li class="project open">
+                                        <a href="http://localhost:20002/public/index.php/code/project/21">
+                                            <div class="projectStatus">
+                                                <span>Open</span>
+                                            </div>
+                                            <span class="name"> Random dots II</span>
+                                            <dl class="dates">
+                                                <dt>Opened</dt>
+                                                <dd>07/24/2018</dd>
+                                                <dt>Closes</dt>
+                                                <dd>07/26/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                        </article>
+                        <article class="concept sortableConcept">
+
+                            <h3>
+                                Object Oriented Programming
+
+                            </h3>
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/190
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/413">
+                                        Intro To Objects
+                                    </a>
+                                    <span>(0 / 190)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/17/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/17/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/17/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">07/24/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/413">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/22
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Objects I</span>
+                                        </a>
+                                    </li>
+                                    <li class="project pending">
+                                        <a href="http://localhost:20002/public/index.php/code/project/22">
+                                            <div class="projectStatus">
+                                                <span>Not Open</span>
+                                            </div>
+                                            <span class="name"> Animals</span>
+                                            <dl class="dates">
+                                                <dt>Opens</dt>
+                                                <dd>07/28/2018</dd>
+                                                <dt>Closes</dt>
+                                                <dd>07/30/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="project pending">
+                                        <a href="http://localhost:20002/public/index.php/code/project/23">
+                                            <div class="projectStatus">
+                                                <span>Not Open</span>
+                                            </div>
+                                            <span class="name"> Cards</span>
+                                            <dl class="dates">
+                                                <dt>Opens</dt>
+                                                <dd>07/28/2018</dd>
+                                                <dt>Closes</dt>
+                                                <dd>07/30/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/435">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/48
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Objects II - data attributes</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/483">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/10
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Objects III - lists of objects</span>
+                                        </a>
+                                    </li>
+                                    <li class="project pending">
+                                        <a href="http://localhost:20002/public/index.php/code/project/24">
+                                            <div class="projectStatus">
+                                                <span>Not Open</span>
+                                            </div>
+                                            <span class="name"> Exploding dots</span>
+                                            <dl class="dates">
+                                                <dt>Opens</dt>
+                                                <dd>07/28/2018</dd>
+                                                <dt>Closes</dt>
+                                                <dd>07/30/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/493">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/44
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Objects III - methods</span>
+                                        </a>
+                                    </li>
+                                    <li class="project pending">
+                                        <a href="http://localhost:20002/public/index.php/code/project/25">
+                                            <div class="projectStatus">
+                                                <span>Not Open</span>
+                                            </div>
+                                            <span class="name"> Buttons</span>
+                                            <dl class="dates">
+                                                <dt>Opens</dt>
+                                                <dd>07/28/2018</dd>
+                                                <dt>Closes</dt>
+                                                <dd>07/30/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/537">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/21
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">objects - common bugs in methods</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/558">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/19
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">objects - methods vs. functions</span>
+                                        </a>
+                                    </li>
+                                    <li class="project pending">
+                                        <a href="http://localhost:20002/public/index.php/code/project/26">
+                                            <div class="projectStatus">
+                                                <span>Not Open</span>
+                                            </div>
+                                            <span class="name"> Buttons II</span>
+                                            <dl class="dates">
+                                                <dt>Opens</dt>
+                                                <dd>07/28/2018</dd>
+                                                <dt>Closes</dt>
+                                                <dd>07/30/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/577">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/26
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Objects - data attributes II</span>
+                                        </a>
+                                    </li>
+                                    <li class="project pending">
+                                        <a href="http://localhost:20002/public/index.php/code/project/27">
+                                            <div class="projectStatus">
+                                                <span>Not Open</span>
+                                            </div>
+                                            <span class="name"> Student database</span>
+                                            <dl class="dates">
+                                                <dt>Opens</dt>
+                                                <dd>07/28/2018</dd>
+                                                <dt>Closes</dt>
+                                                <dd>07/30/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                        </article>
+                        <article class="concept sortableConcept">
+
+                            <h3>
+                                Advanced Lists
+
+                            </h3>
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/54
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/603">
+                                        Searching
+                                    </a>
+                                    <span>(0 / 54)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/18/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/18/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/18/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">07/31/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/603">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/12
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">lists - search</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/615">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/28
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">2D lists</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/643">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/14
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">2D lists II</span>
+                                        </a>
+                                    </li>
+                                    <li class="project pending">
+                                        <a href="http://localhost:20002/public/index.php/code/project/28">
+                                            <div class="projectStatus">
+                                                <span>Not Open</span>
+                                            </div>
+                                            <span class="name"> Random grid</span>
+                                            <dl class="dates">
+                                                <dt>Opens</dt>
+                                                <dd>08/04/2018</dd>
+                                                <dt>Closes</dt>
+                                                <dd>08/06/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                        </article>
+                        <article class="concept sortableConcept">
+
+                            <h3>
+                                Scope
+
+                            </h3>
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/40
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/657">
+                                        Scope
+                                    </a>
+                                    <span>(0 / 40)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/19/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/19/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/19/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">08/07/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/657">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/3
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Scope</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/660">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/3
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">Global variables</span>
+                                        </a>
+                                    </li>
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/663">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/34
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">trace</span>
+                                        </a>
+                                    </li>
+                                    <li class="project pending">
+                                        <a href="http://localhost:20002/public/index.php/code/project/29">
+                                            <div class="projectStatus">
+                                                <span>Not Open</span>
+                                            </div>
+                                            <span class="name"> tic-tac-toe</span>
+                                            <dl class="dates">
+                                                <dt>Opens</dt>
+                                                <dd>08/11/2018</dd>
+                                                <dt>Closes</dt>
+                                                <dd>08/13/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                        </article>
+                        <article class="concept sortableConcept">
+
+                            <h3>
+                                Try-Catch
+
+                            </h3>
+                            <article class="module sortable current">
+                                <div class="completion tiny p0">
+                                    <span>
+                                        0/16
+                                    </span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <h1>
+
+                                    <a href="http://localhost:20002/public/index.php/code/exercise/697">
+                                        Error Handling
+                                    </a>
+                                    <span>(0 / 16)</span>
+                                </h1>
+                                <aside class="actions">
+                                    <a class="edit" href="http://localhost:20002/public/index.php/modules/20/edit">Edit</a>
+                                    <a class="copy" href="http://localhost:20002/public/index.php/modules/20/copy">Copy</a>
+                                    <a class="delete" href="http://localhost:20002/public/index.php/modules/20/destroy">Delete</a>
+                                </aside>
+                                <div class="dates">
+                                    <!--TODO: these dates should come preformatted-->
+                                    <!--Not sure why we are parsing them then reformatting them again.-->
+                                    <span class="start">08/14/2018</span>
+                                </div>
+
+
+                                <ul class="components">
+                                    <li class="lesson sortable">
+                                        <a href="http://localhost:20002/public/index.php/code/exercise/697">
+
+
+                                            <div class="completion p0">
+                                                <span>
+                                                    0/16
+                                                </span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                            <span class="name">try and except</span>
+                                        </a>
+                                    </li>
+                                    <li class="project pending">
+                                        <a href="http://localhost:20002/public/index.php/code/project/30">
+                                            <div class="projectStatus">
+                                                <span>Not Open</span>
+                                            </div>
+                                            <span class="name"> Green Eggs and Ham</span>
+                                            <dl class="dates">
+                                                <dt>Opens</dt>
+                                                <dd>08/18/2018</dd>
+                                                <dt>Closes</dt>
+                                                <dd>08/20/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                    <li class="project pending">
+                                        <a href="http://localhost:20002/public/index.php/code/project/31">
+                                            <div class="projectStatus">
+                                                <span>Not Open</span>
+                                            </div>
+                                            <span class="name"> Student database II</span>
+                                            <dl class="dates">
+                                                <dt>Opens</dt>
+                                                <dd>08/18/2018</dd>
+                                                <dt>Closes</dt>
+                                                <dd>08/20/2018</dd>
+
+                                            </dl>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="contentControl collapser">
+                                    Show/Hide Contents
+                                </button>
+                            </article>
+
+
+                        </article>
+
+
+
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(".concept sortableConcept").sortable({ items: ".module" });
+        $(".module").disableSelection();
+        // contentControl event logic
+        $("#courseFlow").click(function (e) {
+            e = e || window.event;
+            var t = e.target || e.srcElement;
+            if (t.tagName === "BUTTON") {
+                // had to name these expander and collapser because of BootStrap
+                var wasAction = true;
+                if (t.classList.contains("expander")) {
+                    // only handle content Controls
+                    $(t).removeClass("expander").addClass("collapser");
+                } else if (t.classList.contains("collapser")) {
+                    // collapse components
+                    $(t).removeClass("collapser").addClass("expander");
+                } else {
+                    // other buttons we are not handling here.
+                    wasAction = false;
+                }
+                if (wasAction) {
+                    $(t).parent().find(".components").animate({ height: "toggle" });
+                    $("html,body").animate({
+                        scrollTop: $(t).parent().offset().top - (parseInt($("body").css("padding-top"))
+                            + parseInt($("#courseDetails").css("height")))
+                    }, 2000
+                    );
+                }
+            }
+        });
+        
+        $().ready(function () {
+            $("html,body").animate({
+                scrollTop: $(".current").offset().top - (parseInt($("body").css("padding-top"))
+                    + parseInt($("#courseDetails").css("height")) + 20)
+            }, 2000
+            );
+        });
+    </script>
+</body>
+</html>

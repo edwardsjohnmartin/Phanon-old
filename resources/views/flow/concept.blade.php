@@ -1,7 +1,7 @@
 @php
                 //$stats = $concept->CompletionStats(auth()->user()->id);
             @endphp
-<article class="sortableConcept">
+<article class="concept sortableConcept">
     {{--
     <div class="completion tiny p{{floor($stats->PercComplete*100)}}">
         <span>

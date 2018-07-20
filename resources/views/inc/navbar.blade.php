@@ -5,7 +5,6 @@
     $currController = explode('.', $appPath)[0];
     
     $paths = [
-        "sandbox" => "SandBox|sandbox",
         "courses" =>"Courses|course",
         "concepts" =>"Concepts|concept",
         "modules" =>"Modules|module",
@@ -15,7 +14,7 @@
     ];
 @endphp
 
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
 
@@ -37,14 +36,25 @@
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
                 <li>@yield("navButtons")</li>
-                @foreach($paths as $pathString)
-                    @php 
-                         $pathParts = explode("|",$pathString);
-                         $path = $pathParts[0];
-                         $css = count($pathParts) > 1? $pathParts[1]: "";
-                    @endphp
-                    <li><a {{$css != ""?"class=$css ":""}} href="{{url('/' . strtolower($path))}}">{{$path}}</a></li>
-                @endforeach
+                <li>
+                    <a class="sandbox" href="{{url('/sandbox')}}">Sandbox</a>
+                </li>
+                <li class="dropdown">
+                    <a data-toggle="dropdown" role="button" aria-expanded="false">
+                        Structure
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        @foreach($paths as $pathString)
+                        @php
+                        $pathParts = explode("|",$pathString);
+                        $path = $pathParts[0];
+                        $css = count($pathParts) > 1? $pathParts[1]: "";
+                        @endphp
+                        <li><a {{$css !="" ?"class=$css ":" "}} href="{{url('/' . strtolower($path))}}">{{$path}}</a></li>
+                        @endforeach
+                    </ul>
+                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
