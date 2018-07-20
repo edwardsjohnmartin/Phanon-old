@@ -100,6 +100,24 @@ class Course extends Model
         return $ordered_concepts;
     }
 
+    /**
+     * Returns an array of all projects within the course.
+     */
+    public function projects()
+    {
+        $projects = [];
+
+        foreach($this->concepts() as $concept){
+            foreach($concept->modules() as $module){
+                foreach($module->projects() as $project){
+                    array_push($projects, $project);
+                }
+            }
+        }
+
+        return $projects;
+    }
+
     public function teams()
     {
         return $this->hasMany('App\Team');

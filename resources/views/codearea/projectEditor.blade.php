@@ -14,10 +14,9 @@
 @section('content')
     <div id="codeIde" class="fullIDE">
         @section("navButtons")
-        <a class="flow" href="{{url('flow/' . $project->module->concept->course_id)}}">Course Flow</a>
-@endsection
-        
-        
+            <a class="flow" href="{{url('flow/' . $project->module->concept->course_id)}}">Course Flow</a>
+        @endsection  
+
         @component('codearea.prompt', ['prompt' => $project->prompt])
         @endcomponent
 

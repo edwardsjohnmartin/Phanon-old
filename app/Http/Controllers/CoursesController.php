@@ -54,7 +54,7 @@ class CoursesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) 
@@ -376,10 +376,12 @@ class CoursesController extends Controller
 
         if(!empty($course) and !is_null($course)){
             $students = $course->getUsersByRole(Roles::id(Roles::STUDENT));
+            $projects = $course->projects();
 
             return view('courses.teams')->
                 with('course', $course)->
-                with('students', $students);
+                with('students', $students)->
+                with('projects', $projects);
         } else {
             return redirect('/index')->
                 with('error', 'That course does not exist.');

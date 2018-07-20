@@ -46,7 +46,7 @@ Route::get('/courses/{id}/teams', 'CoursesController@teams')->name('course.teams
 Route::post('/teams', 'TeamsController@createTeam')->name('teams.create');
 Route::post('/assignRandomTeams', 'TeamsController@assignRandomTeams')->name('teams.assignRandom');
 
-Route::get('/teams/login', 'TeamsController@showLoginForm')->name('teams.login');
+Route::get('/teams/login', 'TeamsController@loginForm')->name('teams.login');
 Route::post('/teams/login', 'TeamsController@login');
 Route::post('/teams/logout/{member_id}', 'TeamsController@logout')->name('teams.logout');
 

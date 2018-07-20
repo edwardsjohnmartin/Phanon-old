@@ -72,7 +72,7 @@ class CodeController extends Controller
         }
 
         //TODO: Add a check to see if the project is past due. The project code page should have some kind of flag that dictates whether or not it can save.
-        
+
         // Get the users latest submission for this project
         $projectProgress = ProjectProgress::where('user_id', auth()->user()->id)->where('project_id', $project_id)->orderBy('last_run_date', 'desc')->first();
 

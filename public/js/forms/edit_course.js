@@ -422,3 +422,12 @@ function deleteProject(project_id){
         projectDiv.parentNode.removeChild(projectDiv);
     }
 }
+
+function toggleEditable(element){
+    $(element).attr('contentEditable', true);
+    $(element).blur(
+        function() {
+            $(this).attr('contentEditable', false);
+        }
+    );
+}

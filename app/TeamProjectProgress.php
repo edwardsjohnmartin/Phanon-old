@@ -3,6 +3,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
+use Carbon;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
@@ -19,8 +20,20 @@ class TeamProjectProgress extends Model
     // Primary Key
     public $primaryKey = 'id';
 
+    // Timestamps
+    public $timestamps = false;
+
     public function team()
     {
         return $this->belongsTo('App\Team');
+    }
+
+    function saveProgress($team_id, $project_id, $contents)
+    {
+        $this->team_id = $team_id;
+        $this->project_id = $project_id;
+        $this->contents = $contents;
+        $this->last_run_date = Carbon\Carbon::now();
+        $this->save();
     }
 }

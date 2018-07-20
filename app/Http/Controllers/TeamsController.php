@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Team;
 use App\Course;
 use App\Project;
+use App\TeamProjectProgress;
 use App\Enums\Roles;
 use App\User;
 use Auth;
 
 class TeamsController extends Controller
 {
+    /**
+     * Store a newly created team in the database for a specific course.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function createTeam(Request $request)
     {
         $course_id = $request->input('course_id');
@@ -32,7 +39,7 @@ class TeamsController extends Controller
     
             $team->addMembers($students);
 
-            $success = "A team with those members was created.";
+            $success = "A team with the selected students was created.";
 
             return redirect(url('/courses/' . $course_id . '/teams'))->
                 with('success', $success);
@@ -44,6 +51,12 @@ class TeamsController extends Controller
         }
     }
 
+    /**
+     * Assigns the selected students to teams for a specific project.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function assignRandomTeams(Request $request)
     {
         $project_id = $request->input('project_id');
@@ -110,11 +123,22 @@ class TeamsController extends Controller
             with('success', 'The ids array shuffled is: ' . print_r($student_ids, true));
     }
 
-    public function showLoginForm()
+    /**
+     * Shows the team member login form.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function loginForm()
     {
         return view('teams.login');
     }
 
+    /**
+     * Attempt to validate a team member login.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -154,6 +178,12 @@ class TeamsController extends Controller
         }        
     }
 
+    /**
+     * Logs out a team member and updates the team members in the session.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function logout($member_id)
     {
         if(session()->exists('members')){
@@ -182,6 +212,12 @@ class TeamsController extends Controller
         }
     }
 
+    /**
+     * Show the form for viewing the logged-in team members and logging-out team members.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function manage()
     {
         if(session()->exists('members')){

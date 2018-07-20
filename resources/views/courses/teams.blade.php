@@ -9,9 +9,30 @@
 @endsection
 
 @section('content')
-    <h1>{{$course->name}} Teams</h1>
+    <h1>{{$course->name}} Teams Manage Page</h1>
 
     @can('team.create')
+        <div>
+            <table class="table">
+                <tr>
+                    <th>Concept</th>
+                    <th>Module</th>
+                    <th>Project</th>
+                    <th>Teams Enabled</th>
+                    <th>Actions</th>
+                <tr>
+                @foreach($projects as $project)
+                    <tr>
+                        <td>{{$project->module->concept->name}}</td>
+                        <td>{{$project->module->name}}</td>
+                        <td>{{$project->name}}</td>
+                        <td>{{$project->teamsEnabled(true)}}</td>
+                        <td><a class="btn" href="{{url('/projects/' . $project->id . '/teams')}}">View Project Teams</a></td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
+
         {!! Form::open(['id' => 'createTeam', 'action' => 'TeamsController@createTeam', 'method' => 'POST']) !!}
             <div class="form-group">
                 <label>Select which students to add to a team</label>

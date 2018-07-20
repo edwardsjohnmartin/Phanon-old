@@ -4,10 +4,7 @@
     @component('scriptbundles/actions')
     @endcomponent
 @endsection
-@php
-             //HACK: This should not be here but I don't know how else to get access to the class
-             use Spatie\Permission\Models\Role;
-@endphp
+
 @section('content')
 <div class="container">
     <div class="row">

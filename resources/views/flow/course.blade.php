@@ -19,6 +19,9 @@
             Delete
         </a>
         @endcan
+        @can(Permissions::TEAM_CREATE)
+            <a href="{{url('/courses/' . $course->id . '/teams')}}" class="btn">View Teams</a>
+        @endcan
     </aside>
 </div>
 @foreach($course->concepts() as $concept)
