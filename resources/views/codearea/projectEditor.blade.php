@@ -17,7 +17,7 @@
             <a class="flow" href="{{url('flow/' . $project->module->concept->course_id)}}">Course Flow</a>
         @endsection  
 
-        @component('codearea.prompt', ['prompt' => $project->prompt])
+        @component('codearea.prompt', ['prompt' => $project->prompt, 'show_survey' => true])
         @endcomponent
 
         @component('codearea.precode', ['pre_code' => $project->pre_code])

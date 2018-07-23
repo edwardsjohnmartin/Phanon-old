@@ -78,7 +78,7 @@ body {
 
 .success:before {
     font-family: themify;
-    content: "\e6ad"; /* smiley */
+    content: "\e71f"; /* smiley */
     margin-right: .5em;
 }
 
@@ -198,6 +198,17 @@ body {
     margin-right: .5em;
 }
 
+#projectDifficulty li:before {
+    font-family: themify;
+    content: "\e606"; /* thought */
+    content: "\e69a"; /* hammer */
+}
+
+#projectEnjoyment li:before {
+    font-family: themify;
+    content: "\e71f"; /* smiley */
+}
+
 
 #ideLogs h2:before {
     font-family: themify;
@@ -205,8 +216,49 @@ body {
     margin-right: .5em;
 }
 
+
 /* -- End Icons --*/
 
+/* Rating systems */
+#projectRatings h4, #projectRatings ol, #projectRatings li {
+   display:inline-block;
+}
+
+#projectRatings ol {
+    list-style: none;
+    padding: 0;
+    direction: rtl;
+}
+
+#projectRatings li {
+    font-size: 15px;
+    height: 25px;
+    width: 25px;
+    overflow: hidden;
+    padding: 0 0 0 3px;
+    background-color: #DDD;
+    border: 1px solid #AAA;
+    direction: ltr;
+}
+
+    #projectRatings li:before {
+        color: #888;
+        margin-right: 1em;
+    }
+
+    #projectRatings li:hover,
+    #projectRatings li:hover ~ li, 
+    #projectRatings .selected{
+        background-color: #FFA;
+    }
+    #projectRatings li:hover:before,
+    #projectRatings li:hover ~ li:before {
+        color: #000;
+        cursor: pointer;
+    }
+
+
+/* End - Rating systems */
 
 /*flow - start*/
 #courseFlow #courseDetails {
@@ -220,13 +272,16 @@ body {
     position: sticky;
     z-index: 990;
 }
-    #courseFlow #courseDetails h1{
+
+    #courseFlow #courseDetails h1 {
         margin: .25em;
     }
-        #courseFlow #courseDetails .dates {
-    text-align:right;
-}
-    #courseFlow > article:nth-child(2) {
+
+    #courseFlow #courseDetails .dates {
+        text-align: right;
+    }
+
+#courseFlow > article:nth-child(2) {
     margin-top: 40px;
 }
 
@@ -252,8 +307,8 @@ body {
     opacity: .15;
 }
 
-#courseFlow .concept h3{
-    position:sticky;
+#courseFlow .concept h3 {
+    position: sticky;
     top: 100px;
     z-index: 991;
 }
@@ -298,38 +353,42 @@ body {
         cursor: move;
     }
 
-    #courseFlow .module .contentControl {
+    #courseFlow .module .contentControl, #codeIde .contentControl {
         position: absolute;
         bottom: 0;
         left: 50%;
         margin-left: -2.5em;
         width: 5em;
-        padding: .2em 2em;
-        height: 2em;
+        padding: .1em 2em;
+        height: 1.5em;
         border: 1px solid #333;
         background-color: #DDD;
         overflow: hidden;
         border-radius: 1em 1em 0 0;
         z-index: 980;
     }
-
-
-    #courseFlow .module .expander:before {
-        font-family: themify;
-        content: "\e663";
-        margin-right: 6em;
-    }
-
-    #courseFlow .module .collapser {
-        bottom: -2em;
-        border-radius: 0 0 1em 1em;
-    }
-
-        #courseFlow .module .collapser:before {
-            font-family: themify;
-            content: "\e660";
-            margin-right: 6em;
+        #courseFlow .module .contentControl:disabled, #codeIde .contentControl:disabled {
+            border: 1px solid #AAA;
+            background-color: #EEE;
+            color: #AAA;
+            font-size: .7em;
         }
+        .expander:before {
+    font-family: themify;
+    content: "\e663";
+    margin-right: 6em;
+}
+
+#courseFlow .module .collapser, #codeIde .collapser {
+    bottom: -1.5em;
+    border-radius: 0 0 1em 1em;
+}
+
+.collapser:before {
+    font-family: themify;
+    content: "\e660";
+    margin-right: 6em;
+}
 
 @keyframes showModule {
     0% {
@@ -879,16 +938,31 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     }
 
     #codeIde #idePrompt {
-        height: 5%;
+        max-height: 50%;
+        min-height: 5%;
         border: 1px solid #333;
+        border-radius: 0 0 1em 1em;
         margin: 0;
+        top: -20px;
         background-color: #FFF;
         transition: height ease 2s;
         padding: .5em;
-        overflow: auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+    #codeIde #idePrompt h4{
+        vertical-align: top;
+        margin: 0;
+        font-size: 1em;
+        margin-left: 1em;
+    }
+    #codeIde #promptContainer {
+        margin: 1em;
+        overflow:auto;
     }
 
-        #codeIde #idePrompt:after {
+    /*#codeIde #idePrompt:after {
             font-family: themify;
             content: "\e663";
             position: absolute;
@@ -920,19 +994,15 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     100% {
         transform: rotate(180deg);
     }
-}
+}*/
 
-#codeIde #ideControls {
-    height: 40px;
-}
+    #codeIde #ideControls {
+        height: 40px;
+    }
 
-#codeIde #ideMainEditor {
-    height: 80%;
-}
-
-#idePrompt {
-    overflow: auto;
-}
+    #codeIde #ideMainEditor {
+        height: 80%;
+    }
 
 #ideControls {
     position: relative;

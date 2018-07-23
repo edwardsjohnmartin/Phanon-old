@@ -18,3 +18,45 @@ function actionVerify(action, e, url) {
     var answer = confirm("Are you sure you want to " + action + "?");
     return answer;
 }
+
+/**
+ * Set contentController Events and handle bubbled events.
+ * @param containerId parent element that contains all elements.
+ * @param collapsingChildSelector css selector based as child of containterId 
+ * that will be the element that collapses and expands.
+ * @param success event that will fire if collaps was successful.
+ */
+function handleContentControllers(containerId, collapsingChildSelector, scrollToParent = false,success) {
+    var wasAction = false;
+    $(containerId).click(function (e) {
+        e = e || window.event;
+        var t = e.target || e.srcElement;
+        if (t.tagName === "BUTTON") {
+            // had to name these expander and collapser because of BootStrap
+            wasAction = true;
+            if (t.classList.contains("expander")) {
+                // only handle content Controls
+                $(t).removeClass("expander").addClass("collapser");
+            } else if (t.classList.contains("collapser")) {
+                $(t).removeClass("collapser").addClass("expander");
+            } else {
+                // other buttons we are not handling here.
+                wasAction = false;
+            }
+            if (wasAction) {
+                $(t).parent().find(collapsingChildSelector).animate({ height: "toggle" });
+                if (scrollToParent) {
+                    $("html,body").animate({
+                        scrollTop: $(t).parent().offset().top - (parseInt($("body").css("padding-top")))
+                    }, 2000
+                    );
+
+                }
+                if (event != undefined) {
+                    success();
+                }
+            }
+        }
+    });
+    return wasAction;
+}
