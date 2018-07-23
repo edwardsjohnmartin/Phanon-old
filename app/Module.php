@@ -187,7 +187,18 @@ class Module extends Model
         //    }
         //}
 
-        $exerToDo = $this->lessons()[0]->exercises()[0];
+        if(count($this->lessons()) > 0){
+            $containingLesson = $this->lessons()[0];
+
+            if(count($containingLesson->exercises()) > 0){
+                $exerToDo = $containingLesson->exercises()[0];
+            } else {
+                $exerToDo = Exercise::find(1);
+            }
+        } else {
+            $exerToDo = Exercise::find(1);
+        }
+        
         return $exerToDo;
     }
 

@@ -28,37 +28,42 @@ $moduleOpen = !$is_completed;
    class="module sortable{{$is_completed  ? ' expired' : '' }}{{
             !$is_completed  ? ' current' : '' }}">
    <div class="completion tiny p{{$stats_perc_complete}}">
-            <span>
-                @if(!is_null($stats))
-                    @if($stats_completed < $stats_exercise_count)
-                        {{$stats_completed}}/{{$stats_exercise_count}}
-                    @else
-                        Done
-                    @endif
+        <span>
+            @if(!is_null($stats))
+                @if($stats_completed < $stats_exercise_count)
+                    {{$stats_completed}}/{{$stats_exercise_count}}
+                @else
+                    Done
                 @endif
-            </span>
-            <div class="slice">
-                <div class="bar"></div>
-                <div class="fill"></div>
-            </div>
+            @endif
+        </span>
+
+        <div class="slice">
+            <div class="bar"></div>
+            <div class="fill"></div>
         </div>
+    </div>
+
     <h1>
         {{-- #todo: need to fix this to acutally use the correct exercise --}}
         <a href="{{url('/code/exercise/'.$module->currentExercise(1)->id)}}">
             {{$module->name}}
         </a>
-            <span>({{$stats_completed}} / {{$stats_exercise_count}})</span>
+        <span>({{$stats_completed}} / {{$stats_exercise_count}})</span>
     </h1>
+
     <aside class="actions">
         <a class="edit" href="{{url('/modules/' . $module->id . '/edit')}}">Edit</a>
         <a class="copy" href="{{url('/modules/' . $module->id . '/copy')}}">Copy</a>
         <a class="delete" href="{{url('/modules/' . $module->id . '/destroy')}}">Delete</a>
     </aside>
+
     <div class="dates">
         <!--TODO: these dates should come preformatted-->
         <!--Not sure why we are parsing them then reformatting them again.-->
         <span class="start">{{date_format($module->OpenDate(),config("app.dateformat_short"))}}</span>
     </div>
+
     {{--
     <ul class="lessons">
         @foreach($module->lessons() as $less)
@@ -75,19 +80,26 @@ $moduleOpen = !$is_completed;
 
     <ul class="components">
         @if($lessonsAndProjectsCount > 0)
-        @foreach($module->lessonsAndProjects() as $comp)
-            @if(get_class($comp) == "App\Lesson")
-                @component('flow.lesson',['lesson' => $comp])
-                @endcomponent
-            @else
-                @component('flow.project',['project' => $comp])
-                @endcomponent
-            @endif
-        @endforeach
+            @foreach($module->lessonsAndProjects() as $comp)
+                @if(get_class($comp) == "App\Lesson")
+                    @component('flow.lesson',['lesson' => $comp])
+                    @endcomponent
+                @else
+                    @component('flow.project',['project' => $comp])
+                    @endcomponent
+                @endif
+            @endforeach
         @endif
     </ul>
-    <button class="contentControl {{$moduleOpen ? "collapser":"expander"}}"
-            >Show/Hide Contents</button>
+
+    <div class="row edit-button-div" style="visibility: hidden; display: none;">
+        <button class="center-block" onclick="createLesson(this, {{$module->id}})">Create New Lesson</button>
+        <button class="center-block" onclick="createProject(this, {{$module->id}})">Create New Project</button>
+    </div>
+
+    <button class="contentControl {{$moduleOpen ? "collapser":"expander"}}">
+        Show/Hide Contents
+    </button>
 </article>
 
 {{-- events for contentControl is handled at the index page level. --}}

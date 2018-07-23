@@ -14,28 +14,27 @@
 
                 <div class="panel-body">
                     @if (session('status'))
-                    <div class="alert alert-success">
-
-
-
-                        {{ session('status') }}
-                    </div>
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
                     @endif
+
                     @can('course.create')
-                    <a href="{{url('/flow/course/create')}}" class="btn btn-primary btn-add">Create Course</a>
+                        <a href="{{url('/flow/course/create')}}" class="btn btn-primary btn-add">Create Course</a>
                     @endcan
+
                     <h3>Your Courses</h3>
                     <ul class="courseList">
-                    @foreach($courses as $course)
-                        @component('pages.dashCourse',['course' => $course])
-                        @endcomponent
-                        @component('pages.dashCourse',['course' => $course])
-                        @endcomponent
-                        @component('pages.dashCourse',['course' => $course])
-                        @endcomponent
-                        @component('pages.dashCourse',['course' => $course])
-                        @endcomponent
-                    @endforeach
+                        @foreach($courses as $course)
+                            @component('pages.dashCourse',['course' => $course])
+                            @endcomponent
+                            @component('pages.dashCourse',['course' => $course])
+                            @endcomponent
+                            @component('pages.dashCourse',['course' => $course])
+                            @endcomponent
+                            @component('pages.dashCourse',['course' => $course])
+                            @endcomponent
+                        @endforeach
                     </ul>
                     {{--
                     #region table courses
@@ -64,18 +63,16 @@
                                 <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
                                 @endcan
                                 @can(Permissions::COURSE_DELETE)
-                                <a href="{{url('/courses/' . $course->id . '/delete')}}"
-                                   onclick="return actionVerify(event,'{{'delete '.$course->name}}');"
-                                   class="btn btn-delete">
-                                    Delete
-                                </a>
+                                    <a href="{{url('/courses/' . $course->id . '/delete')}}"
+                                    onclick="return actionVerify(event,'{{'delete '.$course->name}}');"
+                                    class="btn btn-delete">
+                                        Delete
+                                    </a>
 
-
-
-                                {!!Form::open(['action' => ['CoursesController@destroy', $course->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
-                                    {{Form::hidden('_method', 'DELETE')}}
-                                    {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-                                {!!Form::close() !!}
+                                    {!!Form::open(['action' => ['CoursesController@destroy', $course->id], 'method' => 'POST' , 'class' => 'pull-right'])!!}
+                                        {{Form::hidden('_method', 'DELETE')}}
+                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                    {!!Form::close() !!}
                                 @endcan
                             </td>
                         </tr>

@@ -21,7 +21,14 @@ class FlowController extends Controller
 
     public function create()
     {
-        return view('flow.authoring.create');
+        $course = new Course();
+        $course->name = "New Course";
+        $course->open_date = Carbon\Carbon::now();
+        $course->close_date = Carbon\Carbon::now();
+        $course->owner_id = auth()->user()->id;
+        $course->save();
+
+        return redirect(url('flow/' . $course->id));
     }
 
     public function store(Request $request)
@@ -129,5 +136,115 @@ class FlowController extends Controller
 
         return view('flow.index')->
             with('course', $course);
+    }
+
+    public function createConcept(Request $request)
+    {
+        $course_id = $request->all()['course_id'];
+
+        $course = Course::find($course_id);
+        $concepts = $course->concepts();
+
+        if(count($concepts) > 0){
+            $last_concept_id = end($concepts)->id;
+        } else {
+            $last_concept_id = null;
+        }
+
+        $concept = new Concept();
+        $concept->name = "New Concept";
+        $concept->course_id = $course_id;
+        $concept->previous_concept_id = $last_concept_id;
+        $concept->owner_id = auth()->user()->id;
+        $concept->save();
+
+        return view('flow.concept')->
+            with('concept', $concept);
+    }
+
+    public function createModule(Request $request)
+    {
+        $concept_id = $request->all()['concept_id'];
+
+        $concept = Concept::find($concept_id);
+        $modules = $concept->modules();
+
+        if(count($modules) > 0){
+            $last_module_id = end($modules)->id;
+        } else {
+            $last_module_id = null;
+        }
+
+        $module = new Module();
+        $module->name = "New Module";
+        $module->open_date = Carbon\Carbon::now();
+        $module->concept_id = $concept_id;
+        $module->previous_module_id = $last_module_id;
+        $module->owner_id = auth()->user()->id;
+        $module->save();
+
+        return view('flow.module')->
+            with('module', $module);
+    }
+
+    public function createLesson(Request $request)
+    {
+        $module_id = $request->all()['module_id'];
+
+        $module = Module::find($module_id);
+        $components = $module->lessonsAndProjects();
+
+        if(count($components) > 0){
+            $last_component = end($components);
+            if(get_class($last_component) == "App\Lesson"){
+                $last_lesson_id = $last_component->id;
+            } else {
+                $last_lesson_id = $last_component->previous_lesson_id;
+            }
+        } else {
+            $last_lesson_id = null;
+        }
+
+        $lesson = new Lesson();
+        $lesson->name = "New Lesson";
+        $lesson->module_id = $module_id;
+        $lesson->previous_lesson_id = $last_lesson_id;
+        $lesson->owner_id = auth()->user()->id;
+        $lesson->save();
+
+        return view('flow.lesson')->
+            with('lesson', $lesson);
+    }
+
+    public function createProject(Request $request)
+    {
+        $module_id = $request->all()['module_id'];
+
+        $module = Module::find($module_id);
+        $components = $module->lessonsAndProjects();
+
+        if(count($components) > 0){
+            $last_component = end($components);
+            if(get_class($last_component) == "App\Lesson"){
+                $last_lesson_id = $last_component->id;
+            } else {
+                $last_lesson_id = $last_component->previous_lesson_id;
+            }
+        } else {
+            $last_lesson_id = null;
+        }
+
+        $project = new Project();
+        $project->name = "New Project";
+        $project->open_date = Carbon\Carbon::now();
+        $project->close_date = Carbon\Carbon::now();
+        $project->prompt = "Empty Prompt";
+        $project->module_id = $module_id;
+        $project->previous_lesson_id = $last_lesson_id;
+        $project->owner_id = auth()->user()->id;
+        $project->save();
+
+        return view('flow.project')->
+            with('project', $project);
     }
 }
