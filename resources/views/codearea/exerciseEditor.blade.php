@@ -22,7 +22,7 @@
         <a class="flow" href="{{url('flow/' . $exercise->lesson->module->concept->course_id)}}">Course Flow</a>
         @endsection
 
-        @component('codearea.prompt', ['prompt' => $exercise->prompt, 'show_survey' => false])
+        @component('codearea.prompt', ['prompt' => $exercise->prompt, 'show_survey' => false, 'team' => null])
         @endcomponent
 
         @component('codearea.precode', ['pre_code' => $exercise->pre_code])

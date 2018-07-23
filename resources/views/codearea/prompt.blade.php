@@ -1,6 +1,9 @@
 @php
-if(!isset($show_survey)) $show_survey = false;
+    // make sure show_survey is set
+    if(!isset($show_survey)) $show_survey = false; 
+    if(!isset($team)) $team = null;
 @endphp
+
 @section("scripts")
     @parent
     @component('scriptbundles/actions')
@@ -45,6 +48,10 @@ if(!isset($show_survey)) $show_survey = false;
             <li id="enjoyment_0">0</li>
         </ol>
     </div>
+    @endif
+    @if($team != null)
+        @component('codearea.team', ['team'=>$team])
+        @endcomponent
     @endif
 </div>
 

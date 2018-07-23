@@ -783,6 +783,7 @@
     <Compile Include="resources\views\codearea\prompt.blade.php" />
     <Compile Include="resources\views\codearea\sandbox.blade.php" />
     <Compile Include="resources\views\codearea\sandboxExamples.blade.php" />
+    <Compile Include="resources\views\codearea\team.blade.php" />
     <Compile Include="resources\views\codearea\testcode.blade.php" />
     <Compile Include="resources\views\concepts\create.blade.php" />
     <Compile Include="resources\views\concepts\edit.blade.php" />

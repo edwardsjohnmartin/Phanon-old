@@ -9,7 +9,8 @@
     @if(count($projects) > 0)
         @foreach($projects as $project)
             <div class="well">
-                <h3><a href="{{url('/projects/' . $project->id)}}">{{$project->name}}</a></h3>
+                <h3><a href="{{url('/projects/' . $project->id)}}">{{$project->name}}</a>  </h3>
+                <span>Has Teams: {{$project->teamsEnabled()?"yes":"no"}}</span>
                 @if(!is_null($project->module))
                     <p>Contained in the module: <a href="{{url('/modules/' . $project->module->id)}}">{{$project->module->name}}</a></p>
                 @else
