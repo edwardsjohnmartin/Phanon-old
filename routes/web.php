@@ -56,3 +56,8 @@ Route::get('/flow/course/create', 'FlowController@create')->name('flow.create');
 Route::post('/flow/course/store', 'FlowController@store')->name('flow.store');
 Route::get('/flow/{id}', 'FlowController@show')->name('flow.show');
 Route::get('/oldflow/{id}', 'FlowController@flow');
+
+Route::post('/ajax/conceptcreate', 'FlowController@createConcept');
+Route::post('/ajax/modulecreate', 'FlowController@createModule');
+Route::post('/ajax/lessoncreate', 'FlowController@createLesson');
+Route::post('/ajax/projectcreate', 'FlowController@createProject');

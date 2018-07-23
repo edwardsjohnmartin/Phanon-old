@@ -53,7 +53,7 @@ class PagesController extends Controller
 
         //DEMO: This will return all courses the user has a role in
         //NOTE: This does not include courses owned by the user that they do not have a role in
-        $coursesToShow = $user->enrolledCourses;
+        //$coursesToShow = $user->enrolledCourses;
 
         return view('pages.dashboard')->
             with('courses', $coursesToShow);

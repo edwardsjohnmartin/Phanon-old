@@ -23,11 +23,112 @@
             <a href="{{url('/courses/' . $course->id . '/teams')}}" class="btn">View Teams</a>
         @endcan
     </aside>
+    <button class="pull-right" onclick="toggleEditButtonText(this);">Enable Edit Mode</button>
 </div>
+
 @foreach($course->concepts() as $concept)
     @component("flow.concept",["concept" => $concept])
     @endcomponent
 @endforeach
+
+@section('scripts-end')
+    @parent
+
+    <script>
+        function toggleVisibilityByClass(className){
+            if($('.edit-button-div').css('visibility') == 'hidden'){
+                $('.edit-button-div').css('visibility', 'visible');
+                $('.edit-button-div').css('display', 'initial');
+            } else {
+                $('.edit-button-div').css('visibility', 'hidden');
+                $('.edit-button-div').css('display', 'none');
+            }
+        }
+
+        function toggleEditButtonText(editBtn){
+            if(editBtn.innerText == "Enable Edit Mode"){
+                editBtn.innerText = "Turn Off Edit Mode";
+            } else {
+                editBtn.innerText = "Enable Edit Mode";
+            }
+
+            toggleVisibilityByClass('edit-button-div');
+        }
+
+        function createConcept(course_id){
+            $.ajax({
+                type: "POST",
+                url: "{{url('/ajax/conceptcreate')}}",
+                data: { course_id: course_id, _token: $('meta[name="csrf-token"]').attr('content') },
+                success: function (data) {
+                    var courseFlow = document.getElementById('courseFlow');
+                    courseFlow.innerHTML += data;
+                }
+            });
+        }
+
+        function createModule(ele, concept_id){
+            $.ajax({
+                type: "POST",
+                url: "{{url('/ajax/modulecreate')}}",
+                data: { concept_id: concept_id, _token: $('meta[name="csrf-token"]').attr('content') },
+                success: function (data) {
+                    var newEle = document.createElement('div');
+                    newEle.innerHTML = data;
+
+                    var moduleArticle = newEle.getElementsByTagName('article')[0];
+
+                    var buttonDiv = ele.parentNode;
+
+                    var conceptArticle = buttonDiv.parentNode;
+                    conceptArticle.insertBefore(moduleArticle, buttonDiv);
+                }
+            });
+        }
+
+        function createLesson(ele, module_id){
+            $.ajax({
+                type: "POST",
+                url: "{{url('/ajax/lessoncreate')}}",
+                data: { module_id: module_id, _token: $('meta[name="csrf-token"]').attr('content') },
+                success: function (data) {
+                    var newEle = document.createElement('div');
+                    newEle.innerHTML = data;
+
+                    var listItem = newEle.getElementsByTagName('li')[0];
+
+                    var buttonDiv = ele.parentNode;
+
+                    var moduleArticle = buttonDiv.parentNode;
+
+                    var componentsList = moduleArticle.getElementsByTagName('ul')[0];
+                    componentsList.appendChild(listItem);
+                }
+            });
+        }
+
+        function createProject(ele, module_id){
+            $.ajax({
+                type: "POST",
+                url: "{{url('/ajax/projectcreate')}}",
+                data: { module_id: module_id, _token: $('meta[name="csrf-token"]').attr('content') },
+                success: function (data) {
+                    var newEle = document.createElement('div');
+                    newEle.innerHTML = data;
+
+                    var listItem = newEle.getElementsByTagName('li')[0];
+
+                    var buttonDiv = ele.parentNode;
+
+                    var moduleArticle = buttonDiv.parentNode;
+
+                    var componentsList = moduleArticle.getElementsByTagName('ul')[0];
+                    componentsList.appendChild(listItem);
+                }
+            });
+        }
+    </script>
+@endsection
 
 {{-- extends('layouts.app')
 

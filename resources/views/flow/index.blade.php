@@ -3,8 +3,9 @@
 @section('scripts')
     @component('scriptbundles/actions')
     @endcomponent
-@component("scriptbundles/percentages")
-@endcomponent
+
+    @component("scriptbundles/percentages")
+    @endcomponent
 @endsection
 
 @section('content')
@@ -16,8 +17,13 @@
             @endcomponent
         </section>
     </div>
+
+    <div class="row edit-button-div" style="visibility: hidden; display: none">
+        <button class="center-block" onclick="createConcept({{$course->id}})">Create New Concept</button>
+    </div>
 </div>
 @endsection
+
 @section("scripts-end")
 @parent
 <script>
