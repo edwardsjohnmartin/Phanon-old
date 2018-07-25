@@ -54,6 +54,7 @@ class CodeController extends Controller
      */
     public function project($project_id = null)
     {
+        //$project = new Project();
         $project = Project::find($project_id);
 
         if(is_null($project_id) or empty($project)){
@@ -76,9 +77,12 @@ class CodeController extends Controller
         // Get the users latest submission for this project
         $projectProgress = ProjectProgress::where('user_id', auth()->user()->id)->where('project_id', $project_id)->orderBy('last_run_date', 'desc')->first();
 
+        $team = auth()->user()->teamForProject($project->id);
+
         return view('codearea.projectEditor')->
             with('project', $project)->
-            with('projectProgress', $projectProgress);
+            with('projectProgress', $projectProgress)->
+            with('team',$team);
     }
 
     /**

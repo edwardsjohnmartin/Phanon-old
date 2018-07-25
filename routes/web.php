@@ -47,6 +47,7 @@ Route::post('/teams', 'TeamsController@createTeam')->name('teams.create');
 Route::post('/assignRandomTeams', 'TeamsController@assignRandomTeams')->name('teams.assignRandom');
 
 Route::get('/teams/login', 'TeamsController@loginForm')->name('teams.login');
+Route::get('/teams/loginform', 'TeamsController@loginModal')->name('teams.loginform');
 Route::post('/teams/login', 'TeamsController@login');
 Route::post('/teams/logout/{member_id}', 'TeamsController@logout')->name('teams.logout');
 

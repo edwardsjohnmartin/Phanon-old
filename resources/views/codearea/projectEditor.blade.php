@@ -9,7 +9,6 @@
     if(!empty($projectProgress)){
         $initial_editor_code = $projectProgress->contents;
     }
-    print_r( auth()->user()->teamForProject($project->id));
 @endphp
 
 @section('content')
@@ -19,7 +18,7 @@
         @endsection  
 
         @component('codearea.prompt', ['prompt' => $project->prompt, 'show_survey' => true,
-                    'team' => auth()->user()->teamForProject($project->id)])
+                    'team' => $team])
         @endcomponent
 
         @component('codearea.precode', ['pre_code' => $project->pre_code])

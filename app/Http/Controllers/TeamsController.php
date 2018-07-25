@@ -36,7 +36,7 @@ class TeamsController extends Controller
             $team->name = 'New Team';
             $team->course_id = $course_id;
             $team->save();
-    
+
             $team->addMembers($students);
 
             $success = "A team with the selected students was created.";
@@ -81,13 +81,13 @@ class TeamsController extends Controller
                 array_push($newMembers, $student_ids[$i+1]);
 
                 $team = Team::checkIfTeamExistsInCourse($newMembers, $course_id);
-                
+
                 if(!$team){
                     $team = new Team();
                     $team->name = 'New Team';
                     $team->course_id = $course_id;
                     $team->save();
-            
+
                     $team->addMembers($newMembers);
                 }
 
@@ -111,8 +111,8 @@ class TeamsController extends Controller
                 if(!$team){
                     $team = Team::makeTeam($course_id, $newMembers);
                 }
-                
-                array_push($teams, $team->id); 
+
+                array_push($teams, $team->id);
             }
         }
 
@@ -125,12 +125,18 @@ class TeamsController extends Controller
 
     /**
      * Shows the team member login form.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function loginForm()
     {
         return view('teams.login');
+    }
+
+    public function loginModal()
+    {
+        $url = $_GET['url'];
+        return view('teams.loginform',['url' => $url]);
     }
 
     /**
@@ -141,15 +147,22 @@ class TeamsController extends Controller
      */
     public function login(Request $request)
     {
+        $no_redirect = isset($_GET['noredirect']) && $_GET['noredirect'];
+        $messages = [];
         $credentials = $request->only('email', 'password');
+
 
         if(Auth::validate($credentials)){
             $user = User::where('email', $credentials['email'])->first();
 
             // Validate the new user isnt the currently logged-in user
             if($user->id == auth()->user()->id){
-                return redirect(url('teams/login'))->
-                    with('error', 'That user is already logged in');
+                if($no_redirect){
+                    $messages[] = '{"type":"error","message":"That user is already logged in."}';
+                }else{
+                    return redirect(url('teams/login'))->
+                        with('error', 'That user is already logged in.');
+                }
             }
 
             if(session()->exists('members')){
@@ -161,21 +174,36 @@ class TeamsController extends Controller
             // Validate the new user isn't already in the session as a member
             foreach($members as $member){
                 if($member->id == $user->id){
-                    return redirect(url('teams/login'))->
-                        with('error', 'That user is already logged in');
+                    if($no_redirect){
+                        $messages[] = '{"type":"error","message":"You are already logged in."}';
+                    }else{
+                        return redirect(url('teams/login'))->
+                            with('error', 'That user is already logged in.');
+                    }
                 }
             }
 
             array_push($members, $user);
 
             session(['members' => $members]);
-
-            return redirect(url('teams/manage'))->
-                with('success', 'Team member logged in');
+            if($no_redirect){
+                $messages[] = '{"type":"success","message":"Login successful."}';
+            }else{
+                return redirect(url('teams/manage'))->
+                    with('success', 'Team member logged in.');
+            }
         } else {
-            return redirect(url('teams/login'))->
-                with('error', 'Incorrect credentials');
-        }        
+            if($no_redirect){
+                $messages[] = '{"type":"error","message":"Login failed."}';
+            }else{
+                return redirect(url('teams/login'))->
+                    with('error', 'Incorrect credentials.');
+            }
+        }
+        if($no_redirect){
+            // if not redirecting give back any messages.
+            return $messages;
+        }
     }
 
     /**

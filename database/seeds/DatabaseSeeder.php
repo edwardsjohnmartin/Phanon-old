@@ -1140,7 +1140,9 @@ class DatabaseSeeder extends Seeder
             DB::table('users')->where('name', 'Test Student 3')->first()->id => ['role_id' => $student_role_id]
         ]);
     }
-     public function createFilledTestCourse()
+    #endregion
+
+    public function createFilledTestCourse()
     {
         // The course owner will be the user with an id of 1
         $user = User::find(1);
@@ -1153,10 +1155,7 @@ class DatabaseSeeder extends Seeder
             'owner_id' => $user->id,
         ]);
 
-#endregion
-
-
-        #region Full Course Dump
+    #region Full Course Dump
         $EOL = "\r\n";
         $concept1= Concept::create(['name' => 'Print Statements','course_id' => $course->id,'owner_id' => $user->id]);
         $module1= Module::create(['name' => 'Printing','concept_id' => $concept1->id,'open_date' => '2018-05-15 0:00:00','owner_id' => $user->id]);

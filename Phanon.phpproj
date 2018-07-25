@@ -857,6 +857,7 @@
     <Compile Include="resources\views\pages\sandbox.blade.php" />
     <Compile Include="resources\views\shared\user.blade.php" />
     <Compile Include="resources\views\teams\login.blade.php" />
+    <Compile Include="resources\views\teams\loginform.blade.php" />
     <Compile Include="resources\views\teams\manage.blade.php" />
     <Compile Include="resources\views\teams\teamNavLinks.blade.php" />
     <Compile Include="resources\views\teams\teamsTable.blade.php" />
@@ -1290,6 +1291,10 @@
     <Content Include="public\css\site.css" />
     <Content Include="public\css\percentages.css" />
     <Content Include="public\flow.html" />
+    <Content Include="public\fonts\captainicon.eot" />
+    <Content Include="public\fonts\captainicon.svg" />
+    <Content Include="public\fonts\captainicon.ttf" />
+    <Content Include="public\fonts\captainicon.woff" />
     <Content Include="public\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.eot" />
     <Content Include="public\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="public\fonts\vendor\bootstrap-sass\bootstrap\glyphicons-halflings-regular.ttf" />
