@@ -1297,5 +1297,9 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     height: inherit;
     margin: .1em .5em .3em 1em;
 }
+
+.editable.edit-on {
+    outline-style: dashed;
+}
 /*Flow Authoring End*/
 

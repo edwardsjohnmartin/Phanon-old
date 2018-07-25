@@ -27,6 +27,6 @@
     @endforeach
 
     <div class="row edit-button-div" style="visibility: hidden; display: none;">
-        <button class="center-block" onclick="createModule(this, {{$concept->id}})">Create New Module</button>
+        <button class="center-block" onclick="createModule(this, {{$concept->id}}, '{{url('/ajax/modulecreate')}}')">Create New Module</button>
     </div>
 </article>

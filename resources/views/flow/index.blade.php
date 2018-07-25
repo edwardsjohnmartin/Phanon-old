@@ -6,6 +6,9 @@
 
     @component("scriptbundles/percentages")
     @endcomponent
+
+    @component("scriptbundles/course-flow")
+    @endcomponent
 @endsection
 
 @section('content')
@@ -19,7 +22,7 @@
     </div>
 
     <div class="row edit-button-div" style="visibility: hidden; display: none">
-        <button class="center-block" onclick="createConcept({{$course->id}})">Create New Concept</button>
+        <button class="center-block" onclick="createConcept({{$course->id}}, '{{url('/ajax/conceptcreate')}}')">Create New Concept</button>
     </div>
 </div>
 @endsection
