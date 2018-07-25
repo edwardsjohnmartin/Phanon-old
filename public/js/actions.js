@@ -53,7 +53,9 @@ function handleContentControllers(containerId, collapsingChildSelector, scrollTo
 
                 }
                 if (event != undefined) {
-                    success();
+                    // This was commented out because it kept giving the following error
+                    // "Uncaught TypeError: success is not a function"
+                    //success();
                 }
             }
         }

@@ -19,6 +19,13 @@ use DB;
 
 class CodeController extends Controller
 {
+    public function __construct()
+    {
+        // Use the 'auth' middleware to make sure a user is logged in
+        // Use the 'clearance' middleware to check if a user has permission to access each function
+        $this->middleware(['auth', 'clearance'])->except(['sandbox']);
+    }
+
     /**
      * Displays a test page to test python code.
      *
@@ -170,19 +177,6 @@ class CodeController extends Controller
         $exercise = Exercise::find($exerciseId);
         return view('codearea.review')->
             with('module', $myModule)->
-            with('exercise', $exercise);
-    }
-
-    public function newexercise($exercise_id)
-    {
-        $exercise = Exercise::find($exercise_id);
-
-        if(empty($exercise)){
-            return redirect('/')->
-                with('error', 'That exercise does not exist');
-        }
-
-        return view('codearea.exerciseEditor')->
             with('exercise', $exercise);
     }
 }

@@ -27,12 +27,12 @@
 // }
 
 function toggleVisibilityByClass(className){
-    if($('.edit-button-div').css('visibility') == 'hidden'){
-        $('.edit-button-div').css('visibility', 'visible');
-        $('.edit-button-div').css('display', 'initial');
+    if($('.' + className).css('visibility') == 'hidden'){
+        $('.' + className).css('visibility', 'visible');
+        $('.' + className).css('display', 'initial');
     } else {
-        $('.edit-button-div').css('visibility', 'hidden');
-        $('.edit-button-div').css('display', 'none');
+        $('.' + className).css('visibility', 'hidden');
+        $('.' + className).css('display', 'none');
     }
 }
 
@@ -40,6 +40,7 @@ function toggleEditButtonText(editBtn){
     if(editBtn.innerText == "Enable Edit Mode"){
         editBtn.innerText = "Turn Off Edit Mode";
         addBlurEvents();
+        expandModules();
     } else {
         editBtn.innerText = "Enable Edit Mode";
         removeBlurEvents();
@@ -63,6 +64,14 @@ function addBlurEvents(){
     $('.editable').blur(function(){
         console.log("blur happened");
         console.log(this);
+    });
+}
+
+function expandModules(){
+    var expandButtons = $('.expander');
+    $.each(expandButtons, function(e, btn){
+        $(btn).addClass('collapser').removeClass('expander');
+        $(btn).parent().find('.components').animate({ height: "toggle" });
     });
 }
 
