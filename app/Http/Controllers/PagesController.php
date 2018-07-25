@@ -12,6 +12,13 @@ use Spatie\Permission\Models\Permission;
 
 class PagesController extends Controller
 {
+    public function __construct()
+    {
+        // Use the 'auth' middleware to make sure a user is logged in
+        // Use the 'clearance' middleware to check if a user has permission to access each function
+        $this->middleware(['auth', 'clearance'])->except(['index', 'about']);
+    }
+
     /**
      * Displays the website's home page.
      *

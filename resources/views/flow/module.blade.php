@@ -93,8 +93,8 @@ $moduleOpen = !$is_completed;
     </ul>
 
     <div class="row edit-button-div" style="visibility: hidden; display: none;">
-        <button class="center-block" onclick="createLesson(this, {{$module->id}})">Create New Lesson</button>
-        <button class="center-block" onclick="createProject(this, {{$module->id}})">Create New Project</button>
+        <button class="center-block" onclick="createLesson(this, {{$module->id}}, '{{url('/ajax/lessoncreate')}}')">Create New Lesson</button>
+        <button class="center-block" onclick="createProject(this, {{$module->id}}, '{{url('/ajax/projectcreate')}}')">Create New Project</button>
     </div>
 
     <button class="contentControl {{$moduleOpen ? "collapser":"expander"}}">
