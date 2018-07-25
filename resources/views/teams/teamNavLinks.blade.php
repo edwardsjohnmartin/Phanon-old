@@ -3,14 +3,14 @@
         $members = session('members');
         $count = count($members);
     } else {
-        $members = []; // was null , but could not be counted on line 13.
+        $members = []; 
         $count = 0;
     }
 @endphp
 
 <li class="dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
-        Team @if(count($members) > 0)({{$count}} members logged in) @endif
+        Team @if($count > 0)({{$count}} members logged in) @endif
         <span class="caret"></span>
     </a>
 

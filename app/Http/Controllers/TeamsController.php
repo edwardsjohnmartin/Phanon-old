@@ -148,7 +148,7 @@ class TeamsController extends Controller
     public function login(Request $request)
     {
         $no_redirect = isset($_GET['noredirect']) && $_GET['noredirect'];
-        $messages = [];
+        $ret_messages = [];
         $credentials = $request->only('email', 'password');
 
 
@@ -158,7 +158,8 @@ class TeamsController extends Controller
             // Validate the new user isnt the currently logged-in user
             if($user->id == auth()->user()->id){
                 if($no_redirect){
-                    $messages[] = '{"type":"error","message":"That user is already logged in."}';
+                    // convert messages to objects so that they serialize to JSON on the other end.
+                    $ret_messages[] = (object)["type" => "error", "message" => "That user is already logged in."];
                 }else{
                     return redirect(url('teams/login'))->
                         with('error', 'That user is already logged in.');
@@ -171,11 +172,13 @@ class TeamsController extends Controller
                 $members = [];
             }
 
+            $already_there = false;
             // Validate the new user isn't already in the session as a member
             foreach($members as $member){
                 if($member->id == $user->id){
+                    $already_there = true;
                     if($no_redirect){
-                        $messages[] = '{"type":"error","message":"You are already logged in."}';
+                        $ret_messages[] = (object)["type" => "error", "message" => "Already logged in."];
                     }else{
                         return redirect(url('teams/login'))->
                             with('error', 'That user is already logged in.');
@@ -183,18 +186,21 @@ class TeamsController extends Controller
                 }
             }
 
-            array_push($members, $user);
+            if(!$already_there){
+                //need to only put the user here once.
+                array_push($members, $user);
+               session(['members' => $members]);
+            }
 
-            session(['members' => $members]);
             if($no_redirect){
-                $messages[] = '{"type":"success","message":"Login successful."}';
+                $ret_messages[] = (object)["type" => "success", "message" => "Login successful."];
             }else{
                 return redirect(url('teams/manage'))->
                     with('success', 'Team member logged in.');
             }
         } else {
             if($no_redirect){
-                $messages[] = '{"type":"error","message":"Login failed."}';
+                $ret_messages[] = (object)["type" => "error", "message" => "Login failed."];
             }else{
                 return redirect(url('teams/login'))->
                     with('error', 'Incorrect credentials.');
@@ -202,7 +208,8 @@ class TeamsController extends Controller
         }
         if($no_redirect){
             // if not redirecting give back any messages.
-            return $messages;
+            return response()->json($ret_messages);
+            //return $ret_messages;
         }
     }
 
@@ -214,6 +221,9 @@ class TeamsController extends Controller
      */
     public function logout($member_id)
     {
+        $no_redirect = isset($_GET['noredirect']) && $_GET['noredirect'];
+        $ret_messages = [];
+
         if(session()->exists('members')){
             $members = session('members');
 
@@ -231,12 +241,25 @@ class TeamsController extends Controller
             if($logged_user_out){
                 session(['members' => $newMembers]);
 
-                return redirect(url('/teams/manage'))->
-                    with('success', 'Team member logged out successfully');
+                if($no_redirect){
+                    $ret_messages[] = (object)["success" => "error", "message" => "Team member logged out successfully."];
+                }else{
+                    return redirect(url('/teams/manage'))->
+                        with('success', 'Team member logged out successfully');
+                }
             } else {
-                return redirect(url('/teams/manage'))->
-                    with('error', 'Could not find team member to log them out');
+                if($no_redirect){
+                    $ret_messages[] = (object)["type" => "error", "message" => "Could not find team member to log them out."];
+                }else{
+                    return redirect(url('/teams/manage'))->
+                   with('error', 'Could not find team member to log them out');
+                }
             }
+        }else{
+            $ret_messages[] = (object)["type" => "error", "message" => "Could not find team member to log them out."];
+        }
+        if($no_redirect){
+            return response()->json($ret_messages);
         }
     }
 
