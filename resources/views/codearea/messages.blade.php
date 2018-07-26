@@ -12,6 +12,7 @@
 </div>
 
 @section("scripts-end")
+@parent
 <script>
     $("#ideLogs").click(function () {
         $("#ideLog").toggle();

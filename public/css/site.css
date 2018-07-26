@@ -266,16 +266,18 @@ body {
         margin-right: 1em;
     }
 
-    #projectRatings li:hover,
-    #projectRatings li:hover ~ li,
     #projectRatings .selected {
-        background-color: #FFA;
+        background-color: #FF9;
     }
 
+#projectRatings li:hover,
+#projectRatings li:hover ~ li {
+    background-color: #FF0;
+    cursor:pointer;
+}
         #projectRatings li:hover:before,
         #projectRatings li:hover ~ li:before {
             color: #000;
-            cursor: pointer;
         }
 
 
@@ -705,7 +707,7 @@ dl.dates dt, dl.dates dd {
 }
 
     #courseFlow .completion.p100 .bar {
-        background-color: #F0F;
+        
     }
 
     #courseFlow .completion.p100 .bar, #courseFlow .completion.p100 .fill {
@@ -959,6 +961,9 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         margin-right: 1em;
         color: #AAA;
     }
+    #ideLog h3{
+        float:none;
+    }
 
     #codeIde #idePrompt {
         max-height: 50%;
@@ -1002,6 +1007,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 
             #codeIde .teams ul li {
                 border: 1px solid #333;
+                background-color: #EEE;
                 border-radius: .3em;
                 list-style: none;
                 display: inline-block;
@@ -1035,13 +1041,13 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     }
 
     #codeIde #fader {
-        border: 1px solid #F0F;
+        border: 1px solid #333;
         height: 100%;
         position: absolute;
         width: 110%;
         z-index: 990;
         margin: 0 -5% 0 -5%;
-        background-color: rgba(128, 128, 128, 0.30);
+        background-color: rgba(0, 0, 0, 0.40);
         cursor: not-allowed;
     }
 
@@ -1049,7 +1055,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
             border: 1px solid #333;
             background-color: #EEE;
             text-align: center;
-            margin: 5% auto;
+            margin: 40px auto;
             z-index: 999;
             padding: 1em;
         }
@@ -1186,6 +1192,14 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 #ideButtons {
 }
 
+#ideButtons .buttonSpacer {
+    display: inline-block;
+    height: 2em;
+    width: 2em;
+    color: transparent;
+}
+
+
 #ideMessages {
     z-index: 990;
     position: relative;
@@ -1227,6 +1241,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         right: 0;
         margin-top: 1.2em;
         min-width: 20em;
+        max-height: 50vh;
         transition: height 2s ease;
         overflow: auto;
         display: flex;
@@ -1239,12 +1254,29 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         border-bottom: 1px solid #000;
         text-align: right;
     }
-
-    #ideMessages #ideLog ol {
+        #ideMessages #ideLog dt:before {
+         content:"";
+        }
+        #ideMessages #ideLog dd {
+            padding-left: .3em;
+        }
+            #ideMessages #ideLog ol {
         padding-left: 4em;
     }
-
-#popups {
+        #ideMessages #ideLog .save{
+            background-color: #DDF;
+        }
+        #ideMessages #ideLog .success {
+            background-color: #EFE;
+        }
+        #ideMessages #ideLog .reset {
+            background-color: #FFE;
+        }
+        #ideMessages #ideLog .error {
+            background-color: #FEE;
+        }
+        
+            #popups {
     position: absolute;
     top: 3em;
     left: 10%;

@@ -45,7 +45,7 @@ function makeResetButton(buttonId) {
     btnReset.onclick = function () {
         var resetCode = btnReset.attributes["data-reset-code"].value;
         replaceEditorText("ideCodeWindow", resetCode);
-        addPopup("Code reset to starter code.");
+        addPopup("Code reset to starter code.","reset");
     };
 }
 
@@ -349,6 +349,7 @@ function addPopup(msg, className) {
     var logBook = document.getElementById("ideLog");
     var newEntryTitle = document.createElement("dt");
     newEntryTitle.innerText = (new Date()).toLocaleTimeString();
+    newEntryTitle.className = className;
     var newEntry = document.createElement("dd");
     newEntry.innerHTML = msg;
     newEntry.className = className;

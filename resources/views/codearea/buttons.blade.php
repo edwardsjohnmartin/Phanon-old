@@ -6,14 +6,18 @@
     if(!isset($next_item_id)){
         $next_item_id = -1;
     }
+
 @endphp
 
 <div id="ideButtons">
-    @if($item_type != 'sandbox')
+    @if($item_type != 'sandbox' && $item_type != 'project')
             <button id="btnPrevious" title="Go to previous. (Ctrl+P)" type="button" 
                class="btn btn-default previous{{$previous_item_id > 0? "":" disabled"}}"
-                onclick="location.href = '{{url("code/" . $item_type . "/" . $previous_item_id)}}'"
+                onclick="location.href = '{{url("code/" . $item_type . "/" . $previous_item_id)}}'">
+                Previous
             </button>
+    @else
+            <span class="buttonSpacer"> - </span>
     @endif
 
     <button id="btnRunCode" title="Run and Save code. (Ctrl+Enter)" type="button" class="btn btn-default run currentStep"
@@ -28,20 +32,26 @@
         Run
     </button>
 
-    @if($item_type != 'sandbox')
-        <button id="btnReset" title="Discard changes and go back to starting code. (Ctrl+R)" type="button" class="btn btn-default reset"
-            data-reset-code="{{$item->start_code}}">
-            Reset
-        </button>
-    @endif
+    
+    <button id="btnReset" title="Discard changes and go back to starting code. (Ctrl+R)" type="button" class="btn btn-default reset"
+        @if($item_type != 'sandbox')
+        data-reset-code="{{$item->start_code}}">
+        @else
+        >
+        @endif
 
-    @if($item_type != 'sandbox')
+            Reset
+    </button>
+
+    @if($item_type != 'sandbox' && $item_type != 'project')
             <button id="btnNext" title="Go to next. (Ctrl+N)" type="button" 
                 class="btn btn-default next{{$is_completed && $next_item_id > 0? "":" disabled"}}"
                 data-id="{{$next_item_id}}" onclick="window.location='{{url('code/'.$item_type.'/'.$next_item_id)}}';"
                 data-url="{{url("code/".$item_type."/".$next_item_id)}}">
                 Next
             </button>
+      @else
+            <span class="buttonSpacer"> - </span>
     @endif
 
     @if($item_type != "sandbox" and $role->hasPermissionTo(Permissions::PROJECT_EDIT))
@@ -61,9 +71,7 @@
 
 @section("scripts-end")
     @parent
-    @if($item_type != 'sandbox')
-        <script>
-            makeResetButton("btnReset");
-        </script>
-    @endif
+    <script>
+        makeResetButton("btnReset");
+    </script>
 @endsection
