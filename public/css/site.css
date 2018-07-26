@@ -1387,5 +1387,10 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 .editable.edit-on {
     outline-style: dashed;
 }
+
+#ideProjectName {
+    margin-top: -20px; 
+    margin-bottom: 20px; 
+}
 /*Flow Authoring End*/
 

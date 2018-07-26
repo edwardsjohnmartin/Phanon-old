@@ -27,7 +27,7 @@ function makeCodeMirror(textarea) {
  * Updates the onclick event of the button element to run the Python code in a CodeMirror editor.
  * @param {*} button The id of the button element who's onclick will be used for the run function.
  */
-function makeRunButton(button) {
+function setRunButtonEvent(button) {
     document.getElementById(button).onclick = function () {
         run();
     };
@@ -379,4 +379,135 @@ function getLinkFromButton(btnId) {
     }
     
     return url
+}
+
+/**
+ * Turns edit mode on so an exercise or projects details can be edited.
+ * @param {*} editBtn 
+ * @param {*} itemType 
+ * @param {*} url 
+ */
+function toggleEditMode(editBtn, itemType, url) {
+    // Change the contentEditable attribute of all elements with the editable class
+    toggleEditableElements();
+
+    // Make prompt editable
+    togglePromptText($('#promptInstructions'));
+
+    // Make pre code div visible
+    toggleDivVisibility('#idePreCode');
+
+    // Make dates div visible
+    toggleDivVisibility('#ideProjectDates');
+
+    // Make team settings div visible
+    toggleDivVisibility('#ideTeamsSetting');
+
+    // If edit mode is being turned off, save to database through AJAX call
+    if($(editBtn).text() == "Turn Off Edit Mode"){
+        if(itemType == "project"){
+            saveProjectEdit(url);
+        } else if(itemType == "exercise"){
+            saveExerciseEdit(url);
+        } 
+    }
+
+    // Change edit button text
+    toggleButtonText(editBtn);
+}
+
+/**
+ * Toggles the contentEditable attribute of any elements with the editable class.
+ */
+function toggleEditableElements(){
+    if($('.editable').attr('contentEditable') == 'true'){
+        $('.editable').attr('contentEditable', 'false');
+    } else {
+        $('.editable').attr('contentEditable', 'true');
+    }
+
+    // Add styling to the elements when edit mode is on
+    $('.editable').toggleClass('edit-on');
+}
+
+/**
+ * Toggles the text on the button that turns edit mode on.
+ * @param {*} editBtn 
+ */
+function toggleButtonText(editBtn) {
+    if($(editBtn).text() == "Enable Edit Mode"){
+        $(editBtn).text("Turn Off Edit Mode");
+    } else {
+        $(editBtn).text("Enable Edit Mode");
+    }
+}
+
+/**
+ * Toggles the prompt between its raw html and its html parsed.
+ * @param {*} promptSection 
+ */
+function togglePromptText(promptSection) {
+    if($(promptSection).hasClass("edit-on")){
+        // Change the text shown for the prompt to its raw html
+        $(promptSection).text($(promptSection).data("raw-prompt"));
+    } else {
+        // Change the text shown for the prompt to its text with the html parsed and update its data attribute with the new raw html
+        $(promptSection).data("raw-prompt", $(promptSection).text());
+        $(promptSection).html($(promptSection).text());
+    }
+}
+
+/**
+ * Toggles a div to be shown or hidden.
+ * @param {*} divName 
+ */
+function toggleDivVisibility(divName) {
+    var myDiv = $(divName);
+    if($(myDiv).hasClass('hidden')){
+        // Make div visible
+        $(myDiv).removeClass('hidden');
+    } else {
+        // Make div hidden
+        $(myDiv).addClass('hidden');
+    }
+}
+
+/**
+ * Makes an AJAX call with a projects details to save to the database.
+ * @param {*} url 
+ */
+function saveProjectEdit(url) {
+    var project_id = $('#projectId').text();
+    var name = $('#projectName').text();
+    var prompt = $('#promptInstructions').data("raw-prompt");
+    var pre_code = $('#idePreCode').find('.CodeMirror')[0].CodeMirror.getValue();
+    var open_date = $('#projectOpenDate').val();
+    var close_date = $('#projectCloseDate').val();
+    var teams_enabled = $("#projectTeamsSetting").is(':checked');
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            project_id: project_id,
+            name: name,
+            prompt: prompt,
+            pre_code: pre_code,
+            open_date: open_date,
+            close_date: close_date,
+            teams_enabled: teams_enabled,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            addPopup("Project Edited Successfully!", "save")
+        }
+    });
+}
+
+/**
+ * Makes an AJAX call with an exercises details to save to the database.
+ * @param {*} url 
+ */
+function saveExerciseEdit(url) {
+    console.log("exercise edit");
 }

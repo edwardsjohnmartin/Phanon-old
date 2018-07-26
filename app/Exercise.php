@@ -47,6 +47,38 @@ class Exercise extends Model
         return $this->belongsTo('App\User');
     }
 
+    /**
+     * Returns the course this exercise is in if it exists. Returns null if the exercise is not contained in a course.
+     */
+    public function course()
+    {
+        $lesson = $this->lesson;
+
+        if(!empty($lesson)){
+            $module = $lesson->module;
+        } else {
+            return null;
+        }
+
+        if(!empty($module)){
+            $concept = $module->concept;
+        } else {
+            return null;
+        }
+
+        if(!empty($concept)){
+            $course = $concept->course;
+        } else {
+            return null;
+        }
+
+        if(!empty($course)){
+            return $course;
+        } else {
+            return null;
+        }
+    }
+
     public function deepCopy()
     {
         $new_exercise = new Exercise();

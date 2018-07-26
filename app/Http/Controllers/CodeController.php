@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Auth;
 use App\Enums\Roles;
+use App\Enums\Permissions;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Lesson;
@@ -48,12 +49,24 @@ class CodeController extends Controller
                 with('error', 'That exercise does not exist');
         }
 
+        // Get users role for the course the project is in
+        $role = $exercise->course()->getUsersRole(auth()->user()->id);
+
         // Get the users latest submission for this exercise
         $exerciseProgress = ExerciseProgress::where('user_id', auth()->user()->id)->where('exercise_id', $exercise_id)->first();
 
         return view('codearea.exerciseEditor')->
             with('exercise', $exercise)->
-            with('exerciseProgress', $exerciseProgress);
+            with('exerciseProgress', $exerciseProgress)->
+            with('role', $role);
+    }
+
+    /**
+     * Takes in a request from an AJAX call and edits an exercise in the database.
+     */
+    public function editExercise(Request $request)
+    {
+
     }
     
     /**
@@ -61,17 +74,47 @@ class CodeController extends Controller
      */
     public function project($project_id = null)
     {
-        //$project = new Project();
         $project = Project::find($project_id);
 
+        // Validate project exists
         if(is_null($project_id) or empty($project)){
             return redirect('/')->
                 with('error', 'That project does not exist');
         }
 
+        // Validate the user has permission to access the project
+        $course = $project->course();
+
+        $isInCourse = $course->isUserEnrolledOrOwner(auth()->user()->id);
+
+        if($isInCourse){
+            $canViewProject = true;
+
+            // Get users role for the course the project is in
+            $role = $course->getUsersRole(auth()->user()->id);
+        } else {
+            $canViewProject = false;
+
+            // Check if user has project edit permission
+            foreach(auth()->user()->roles as $userRole){
+                if($userRole->hasPermissionTo(Permissions::PROJECT_EDIT)){
+                    $canViewProject = true;
+
+                    // If user has the ta role, they can view projects for courses they aren't a ta of, but not edit them
+                    //HACK: Hard coding the user as a Student role so they can view but not edit the project
+                    $role = Role::where('name', Roles::STUDENT)->first();
+                    break;
+                }
+            }
+        }
+        
+        if(!$canViewProject){
+            return redirect('/')->
+                with('error', 'You do not have permission to view that project');
+        }
+
         // Check that the current date is within the projects open and close dates. 
         $now = date(config('app.dateformat'));
-        $course_id = $project->course()->id;
 
         // This is going to be commented out for now for testing purposes but it does work and will be used in release
         if($now < $project->open_date){
@@ -89,7 +132,50 @@ class CodeController extends Controller
         return view('codearea.projectEditor')->
             with('project', $project)->
             with('projectProgress', $projectProgress)->
-            with('team',$team);
+            with('role', $role)->
+            with('team', $team);
+    }
+
+    /**
+     * Takes in a request from an AJAX call and edits an project in the database.
+     */
+    public function editProject(Request $request)
+    {
+        $all = $request->all();
+        $project_id = $all['project_id'];
+        $name = $all['name'];
+        $prompt = $all['prompt'];
+        $pre_code = $all['pre_code'];
+        $open_date = $all['open_date'];
+        $close_date = $all['close_date'];
+        $teams_enabled = $all['teams_enabled'];
+        if($teams_enabled == "true"){
+            $teams_enabled = 1;
+        } else {
+            $teams_enabled = 0;
+        }
+
+        // Retrieve project from id
+        $project = Project::find($project_id);
+
+        // Validate project exists
+        if(is_null($project) or empty($project)){
+            return "Project does not exist.";
+        }
+
+        // Edit the projects details
+        $project->name = $name;
+        $project->prompt = $prompt;
+        $project->pre_code = $pre_code;
+        $project->open_date = $open_date;
+        $project->close_date = $close_date;
+        $project->teams_enabled = $teams_enabled;
+        $project->updated_by = auth()->user()->id;
+
+        // Save project to the database
+        $project->save();
+
+        return "SUCCESS";
     }
 
     /**

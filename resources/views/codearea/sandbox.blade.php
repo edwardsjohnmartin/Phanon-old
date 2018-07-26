@@ -11,6 +11,7 @@
 
     <div id="codeIde" class="fullIDE">
         @component('codearea.codeEditor', [
+            'role' => null,
             'item_type' => 'sandbox', 
             'item' => null,
             'initial_editor_code' => null,

@@ -16,9 +16,14 @@ class FlowController extends Controller
 {
     public function __construct()
     {
+        // Use the 'auth' middleware to make sure a user is logged in
+        // Use the 'clearance' middleware to check if a user has permission to access each function
         $this->middleware(['auth']);
     }
 
+    /**
+     * Creates a new course in the database using default values and redirects to the flow page.
+     */
     public function create()
     {
         $course = new Course();
@@ -31,94 +36,13 @@ class FlowController extends Controller
         return redirect(url('flow/' . $course->id));
     }
 
-    public function store(Request $request)
-    {
-        $all = $request->all();
-        $course_details = $all['course'];
-
-        $user_id = auth()->user()->id;
-
-        $course = new Course();
-        $course->name = $course_details['name'];
-        $course->open_date = $course_details['open_date'];
-        $course->close_date = $course_details['close_date'];
-        $course->owner_id = $user_id;
-        $course->save();
-
-        if(array_key_exists('concepts', $course_details)){
-            $previous_concept_id = null;
-
-            foreach($course_details['concepts'] as $arr_concept){
-                $concept = new Concept();
-                $concept->name = $arr_concept['name'];
-                $concept->course_id = $course->id;
-                $concept->previous_concept_id = $previous_concept_id;
-                $concept->owner_id = $user_id;
-                $concept->save();
-
-                if(array_key_exists('modules', $arr_concept)){
-                    $previous_module_id = null;
-
-                    foreach($arr_concept['modules'] as $arr_module){
-                        $module = new Module();
-                        $module->name = $arr_module['name'];
-                        $module->open_date = $arr_module['open_date'];
-                        $module->concept_id = $concept->id;
-                        $module->previous_module_id = $previous_module_id;
-                        $module->owner_id = $user_id;
-                        $module->save();
-
-                        if(array_key_exists('components', $arr_module)){
-                            $previous_lesson_id = null;
-
-                            foreach($arr_module['components'] as $arr_component){
-                                if($arr_component['type'] == 'lesson'){
-                                    $item = new Lesson();
-                                    $item->name = $arr_component['name'];
-                                    $item->module_id = $module->id;
-                                    $item->previous_lesson_id = $previous_lesson_id;
-                                    $item->owner_id = $user_id;
-                                    $item->save();
-
-                                    $previous_lesson_id = $item->id;
-                                } elseif($arr_component['type'] == 'project'){
-                                    $item = new Project();
-                                    $item->name = $arr_component['name'];
-                                    $item->module_id = $module->id;
-                                    $item->previous_lesson_id = $previous_lesson_id;
-                                    $item->owner_id = $user_id;
-
-                                    $now = Carbon\Carbon::now();
-                                    $item->open_date = $now;
-                                    $item->close_date = $now;
-                                    $item->prompt = 'Sample Prompt';
-
-                                    $item->save();
-                                }
-                            }
-                        }
-
-                        $previous_module_id = $module->id;
-                    }
-                }
-
-                $previous_concept_id = $concept->id;
-            }
-        }
-
-        $course->addUserAsRole($user_id, Roles::id(Roles::TEACHER));
-
-        return view('flow.authoring.store')->
-            with('all', $all);
-
-        // return redirect(url('/dashboard'))->
-        //     with('success', 'Course Created');
-    }
-
+    /**
+     * Takes in a course id and eager loads a course to show the course flow of.
+     */
     public function show($id)
     {
         $course = Course::where('id', $id)->
-        select('id', 'name', 'open_date', 'close_date')->
+        select('id', 'name', 'open_date', 'close_date', 'owner_id')->
         with(['unorderedConcepts' => function($concepts){
             $concepts->select('id', 'name', 'course_id', 'previous_concept_id')->
             with(['unorderedModules' => function($modules){
@@ -134,10 +58,17 @@ class FlowController extends Controller
                 with('error', 'That course does not exist');
         }
 
+        // Get users role within the course
+        $role = $course->getUsersRole(auth()->user()->id);
+
         return view('flow.index')->
-            with('course', $course);
+            with('course', $course)->
+            with('role', $role);
     }
 
+    /** 
+     * Creates a concept in the database using an AJAX request.
+     */
     public function createConcept(Request $request)
     {
         $course_id = $request->all()['course_id'];
@@ -162,6 +93,9 @@ class FlowController extends Controller
             with('concept', $concept);
     }
 
+    /** 
+     * Creates a module in the database using an AJAX request.
+     */
     public function createModule(Request $request)
     {
         $concept_id = $request->all()['concept_id'];
@@ -187,6 +121,9 @@ class FlowController extends Controller
             with('module', $module);
     }
 
+    /** 
+     * Creates a lesson in the database using an AJAX request.
+     */
     public function createLesson(Request $request)
     {
         $module_id = $request->all()['module_id'];
@@ -205,6 +142,7 @@ class FlowController extends Controller
             $last_lesson_id = null;
         }
 
+        // Create a lesson in the database
         $lesson = new Lesson();
         $lesson->name = "New Lesson";
         $lesson->module_id = $module_id;
@@ -216,6 +154,9 @@ class FlowController extends Controller
             with('lesson', $lesson);
     }
 
+    /** 
+     * Creates a project in the database using an AJAX request.
+     */
     public function createProject(Request $request)
     {
         $module_id = $request->all()['module_id'];
@@ -234,6 +175,7 @@ class FlowController extends Controller
             $last_lesson_id = null;
         }
 
+        // Create a project in the database
         $project = new Project();
         $project->name = "New Project";
         $project->open_date = Carbon\Carbon::now();

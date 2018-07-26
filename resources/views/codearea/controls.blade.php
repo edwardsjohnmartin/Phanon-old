@@ -1,5 +1,6 @@
 <div id="ideControls" class="row">
     @component('codearea.buttons', [
+        'role' => $role,
         'item_type' => $item_type,
         'item' => $item,
         'previous_item_id' => $previous_item_id,

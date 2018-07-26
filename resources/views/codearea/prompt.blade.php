@@ -11,9 +11,9 @@
 @endsection
 
 <div id="idePrompt">
-    <div id="promptContainer">
+    <div id="promptContainer" class="editable">
         <h3>Instructions</h3>
-        <section id="promptInstructions">{!!$prompt !!}</section>
+        <section id="promptInstructions" data-raw-prompt="{{$prompt}}">{!!$prompt !!}</section>
     </div>
     {{-- needs to start open on the first approach  --}}
     <button class="contentControl collapser" {{$show_survey?'disabled="disabled"':''}}>Show/Hide Contents</button>

@@ -17,14 +17,14 @@
             <a class="flow" href="{{url('flow/' . $project->module->concept->course_id)}}">Course Flow</a>
         @endsection  
 
-        @component('codearea.prompt', ['prompt' => $project->prompt, 'show_survey' => true,
-                    'team' => $team])
-        @endcomponent
-
-        @component('codearea.precode', ['pre_code' => $project->pre_code])
+        @component('codearea.projectDetails', [
+            'project' => $project,
+            'team' => $team
+        ])
         @endcomponent
 
         @component('codearea.codeEditor', [
+            'role' => $role,
             'item' => $project,
             'item_type' => 'project',
             'initial_editor_code' => $initial_editor_code

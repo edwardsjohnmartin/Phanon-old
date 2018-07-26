@@ -213,4 +213,44 @@ class Course extends Model
         return date_format(DateTime::createFromFormat(config("app.dateformat"),
             $this->close_date), $format);
     }
+
+    /**
+     * Takes in a user id and returns their role within the course.
+     */
+    public function getUsersRole($user_id)
+    {
+        if($this->owner_id == $user_id){
+            // Get admin role if user owns course
+            $role = Role::where('name', Roles::ADMIN)->first();
+        } else {
+            // Get users role within the course
+            $selection = DB::table('course_user')->select('role_id')->where('course_id', $this->id)->where('user_id', $user_id)->first();
+            if(!is_null($selection)){
+                $role_id = $selection->role_id;
+                $role = Role::find($role_id);
+            } else {
+                $role = null;
+            }
+        }
+
+        return $role;
+    }
+
+    /**
+     * Takes in a user id and returns a boolean of whether the user is enrolled in the course as any role or if they own(created) the course.
+     */
+    public function isUserEnrolledOrOwner($user_id)
+    {
+        if($this->owner_id == $user_id){
+            return true;
+        }
+
+        foreach($this->users as $user){
+            if($user->id == $user_id){
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
