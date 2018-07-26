@@ -26,7 +26,10 @@
             <a href="{{url('/courses/' . $course->id . '/teams')}}" class="btn">View Teams</a>
         @endcan
     </aside>
-    <button class="pull-right" onclick="toggleEditButtonText(this);">Enable Edit Mode</button>
+
+    @if($role->hasPermissionTo(Permissions::COURSE_EDIT))
+        <button class="pull-right" onclick="toggleEditButtonText(this);">Enable Edit Mode</button>
+    @endif
 </div>
 
 @foreach($course->concepts() as $concept)

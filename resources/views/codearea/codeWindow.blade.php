@@ -18,6 +18,6 @@
             makeCodeMirror("test_code");
         }
 
-        makeRunButton("btnRunCode");
+        setRunButtonEvent("btnRunCode");
     </script>
 @endsection

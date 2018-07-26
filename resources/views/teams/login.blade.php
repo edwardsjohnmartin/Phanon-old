@@ -8,7 +8,7 @@
                     <div class="panel-heading">Team Member Login</div>
 
                     <div class="panel-body">
-                       @component('teams.loginform',['errors'=>$errors,'url' => '/teams/login'])
+                        @component('teams.loginform',['errors'=>$errors,'url' => '/teams/login'])
                         @endcomponent
                     </div>
                 </div>

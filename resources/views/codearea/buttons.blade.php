@@ -44,6 +44,19 @@
             </button>
     @endif
 
+    @if($item_type != "sandbox" and $role->hasPermissionTo(Permissions::PROJECT_EDIT))
+        @php
+            if($item_type == "project"){
+                $url = url('/ajax/projectedit');
+            } elseif($item_type == "exercise"){
+                $url = url('/ajax/exerciseedit');
+            } else {
+                $url = "";
+            }
+        @endphp
+
+        <button class="btn" style="width: auto" onclick="toggleEditMode(this, '{{$item_type}}', '{{$url}}');">Enable Edit Mode</button> 
+    @endif
 </div>
 
 @section("scripts-end")

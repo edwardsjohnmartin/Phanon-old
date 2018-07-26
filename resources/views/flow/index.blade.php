@@ -16,7 +16,7 @@
 <div class="container">
     <div class="row">
         <section id="courseFlow" class="col-md-8 col-md-offset-2">
-            @component("flow.course",["course" => $course])
+            @component("flow.course",["course" => $course, "role" => $role])
             @endcomponent
         </section>
     </div>

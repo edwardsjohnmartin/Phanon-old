@@ -31,6 +31,7 @@
 @endphp
 
 @component('codearea.controls', [
+    'role' => $role,
     'item_type' => $item_type,
     'item' => $item,
     'messages' => $messages,

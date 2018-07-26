@@ -31,8 +31,9 @@
         @component('codearea.testcode', ['test_code' => $exercise->test_code])
         @endcomponent
 
-        @component('codearea.codeEditor', 
+        @component('codearea.codeEditor',
         [
+            'role' => $role,
             'item' => $exercise,
             'item_type' => 'exercise',
             'initial_editor_code' => $initial_editor_code

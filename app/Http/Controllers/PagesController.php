@@ -51,12 +51,21 @@ class PagesController extends Controller
 
         $coursesToShow = null;
 
+        // Get courses a user owns but may not have a role in
+        $ownedCourses = $user->courses()->get();
+
+        // Get courses a user has a role in but may not own
+        $enrolledCourses = $user->enrolledCourses;
+
+        // Combine the courses into a single collection
+        $coursesToShow = $ownedCourses->merge($enrolledCourses);
+
         //TODO: Really need a better permission set for this.
-        if ($user->hasPermissionTo(Permissions::ADMIN)){
-            $coursesToShow = Course::paginate(10);
-        } else{
-            $coursesToShow = $user->enrolledCourses()->get();
-        }
+        // if ($user->hasPermissionTo(Permissions::ADMIN)){
+        //     $coursesToShow = Course::paginate(10);
+        // } else{
+        //     $coursesToShow = $user->enrolledCourses()->get();
+        // }
 
         //DEMO: This will return all courses the user has a role in
         //NOTE: This does not include courses owned by the user that they do not have a role in

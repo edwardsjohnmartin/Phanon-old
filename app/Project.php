@@ -81,7 +81,7 @@ class Project extends Model
     }
 
     /**
-     * Returns the project this course is in if it exists. If not, returns null.
+     * Returns the course this project is in if it exists. If not, returns null.
      */
     public function course()
     {
