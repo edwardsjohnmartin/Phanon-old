@@ -1,7 +1,11 @@
-
+@php
+    if(!isset($team_id)) $team_id = 0;
+@endphp
 <form class="form-horizontal" method="POST" action="{{url($url)}}">
     {{csrf_field()}}
-
+    @if($team_id > 0)
+    <input type="hidden" name="teamid" value="{{$team_id}}" />
+    @endif
     <div class="form-group{{$errors->has('email') ? ' has-error' : ''}}">
         <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 

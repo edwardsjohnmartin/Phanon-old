@@ -54,7 +54,12 @@
         @endcomponent
     @endif
 </div>
-
+    @if($show_survey)
+<div id="fader"><div class="message">
+    <h1>Please rate your first impression of this project.</h1>
+     <p>Don't worry, you will be still be able modify your ratings as you work on the project.</p>
+     </div></div>
+@endif
 @section("scripts-end")
 @parent
 <script>
@@ -81,6 +86,9 @@
             selectRating(selType, selIndex, 9); // baking 9 for now.
         }
         if (difficultRating >= 0 && enjoymentRating >= 0) {
+            $("#fader").animate({ height: 0 }, 400, function () {
+                $(this).hide();
+            });
             $("#output").text("difficulty: " + difficultRating + " enjoyment: " + enjoymentRating);
             $(".contentControl").attr("disabled", false);
         }

@@ -10,3 +10,11 @@
         {{$slot}}
     </div>
 </div>
+
+@section("scripts-end")
+<script>
+    $("#ideLogs").click(function () {
+        $("#ideLog").toggle();
+    });
+</script>
+@endsection

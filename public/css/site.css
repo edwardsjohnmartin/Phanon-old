@@ -198,6 +198,24 @@ body {
     margin-right: .5em;
 }
 
+.member:before {
+    font-family: themify;
+    content: "\e602"; /* person */
+    margin-right: .5em;
+}
+
+.login:before {
+    font-family: themify;
+    content: "\e62d"; /* link */
+    margin-right: .5em;
+}
+
+.logout:before {
+    font-family: themify;
+    content: "\e604"; /* unlink */
+    margin-right: .5em;
+}
+
 #projectDifficulty li:before {
     font-family: themify;
     content: "\e606"; /* thought */
@@ -217,11 +235,13 @@ body {
 }
 
 
+
+
 /* -- End Icons --*/
 
 /* Rating systems */
 #projectRatings h4, #projectRatings ol, #projectRatings li {
-   display:inline-block;
+    display: inline-block;
 }
 
 #projectRatings ol {
@@ -247,15 +267,16 @@ body {
     }
 
     #projectRatings li:hover,
-    #projectRatings li:hover ~ li, 
-    #projectRatings .selected{
+    #projectRatings li:hover ~ li,
+    #projectRatings .selected {
         background-color: #FFA;
     }
-    #projectRatings li:hover:before,
-    #projectRatings li:hover ~ li:before {
-        color: #000;
-        cursor: pointer;
-    }
+
+        #projectRatings li:hover:before,
+        #projectRatings li:hover ~ li:before {
+            color: #000;
+            cursor: pointer;
+        }
 
 
 /* End - Rating systems */
@@ -367,13 +388,15 @@ body {
         border-radius: 1em 1em 0 0;
         z-index: 980;
     }
+
         #courseFlow .module .contentControl:disabled, #codeIde .contentControl:disabled {
             border: 1px solid #AAA;
             background-color: #EEE;
             color: #AAA;
             font-size: .7em;
         }
-        .expander:before {
+
+.expander:before {
     font-family: themify;
     content: "\e663";
     margin-right: 6em;
@@ -951,17 +974,85 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         display: flex;
         flex-direction: column;
     }
-    #codeIde #idePrompt h4{
-        vertical-align: top;
-        margin: 0;
-        font-size: 1em;
-        margin-left: 1em;
-    }
+
+        #codeIde #idePrompt h4 {
+            vertical-align: top;
+            margin: 0;
+            font-size: 1em;
+            margin-left: 1em;
+        }
+
     #codeIde #promptContainer {
         margin: 1em;
-        overflow:auto;
+        overflow: auto;
     }
 
+    #codeIde .teams {
+        display: inline-block;
+        position: relative;
+    }
+
+        #codeIde .teams ul {
+            list-style: none;
+            position: absolute;
+            top: -2em;
+            right: 0;
+            padding: 0;
+        }
+
+            #codeIde .teams ul li {
+                border: 1px solid #333;
+                border-radius: .3em;
+                list-style: none;
+                display: inline-block;
+                padding: .3em;
+            }
+
+                #codeIde .teams ul li.activeMember {
+                    background-color: #EFE;
+                    font-weight: bold;
+                }
+
+                #codeIde .teams ul li:hover {
+                    background-color: #CEC;
+                }
+
+                #codeIde .teams ul li a:before {
+                    margin-right: 0;
+                }
+
+    #codeIde #loginModal {
+        border: 1px solid #333;
+        border-radius: 1em;
+        background-color: #EEE;
+        position: absolute;
+        z-index: 999;
+        right: 0;
+        transition: height 4s ease;
+        overflow: hidden;
+        padding: 1em;
+        display: none;
+    }
+
+    #codeIde #fader {
+        border: 1px solid #F0F;
+        height: 100%;
+        position: absolute;
+        width: 110%;
+        z-index: 990;
+        margin: 0 -5% 0 -5%;
+        background-color: rgba(128, 128, 128, 0.30);
+        cursor: not-allowed;
+    }
+
+        #codeIde #fader .message {
+            border: 1px solid #333;
+            background-color: #EEE;
+            text-align: center;
+            margin: 5% auto;
+            z-index: 999;
+            padding: 1em;
+        }
     /*#codeIde #idePrompt:after {
             font-family: themify;
             content: "\e663";
@@ -995,7 +1086,6 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         transform: rotate(180deg);
     }
 }*/
-
     #codeIde #ideControls {
         height: 40px;
     }
@@ -1097,7 +1187,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 }
 
 #ideMessages {
-    z-index: 999;
+    z-index: 990;
     position: relative;
     /*top: 2.5em;*/
     top: 0;
@@ -1138,14 +1228,9 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         margin-top: 1.2em;
         min-width: 20em;
         transition: height 2s ease;
-        height: 0vh;
         overflow: auto;
         display: flex;
         flex-direction: column-reverse;
-    }
-
-    #ideMessages #ideLogs:hover #ideLog {
-        height: 80vh;
     }
 
 
@@ -1166,6 +1251,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     pointer-events: none;
     width: 20em;
     text-align: center;
+    z-index: 999;
     /*display:flex;
     flex-direction:column-reverse;*/
 }
@@ -1239,14 +1325,14 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     background-color: #FFF;
 }
 
-#ideMessages .messageControls {
+.messageControls {
     position: absolute;
     top: .1em;
     right: .1em;
     font-size: .8em;
 }
 
-    #ideMessages .messageControls a.minimizer, #ideMessages .messageControls a.closer {
+    .messageControls a.minimizer, .messageControls a.closer {
         display: inline-block;
         border: 1px solid #333;
         width: 1.6em;
@@ -1258,17 +1344,17 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         color: #333;
     }
 
-    #ideMessages .messageControls a:hover {
+    .messageControls a:hover {
         text-decoration: none;
     }
 
-    #ideMessages .messageControls a.minimizer:before {
+    .messageControls a.minimizer:before {
         font-family: themify;
         content: "\e622";
         margin-right: .5em;
     }
 
-    #ideMessages .messageControls a.closer:before {
+    .messageControls a.closer:before {
         font-family: themify;
         content: "\e646";
         margin-right: .5em;
