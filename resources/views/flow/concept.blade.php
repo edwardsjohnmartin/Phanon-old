@@ -1,5 +1,10 @@
 @php
     //$stats = $concept->CompletionStats(auth()->user()->id);
+
+    // Check whether this concept was just created through an AJAX call to set visibility of create button
+    if(!isset($ajaxCreation)){
+        $ajaxCreation = false;
+    }
 @endphp
 
 <article class="concept sortableConcept">
@@ -16,7 +21,7 @@
         </div>
     </div>--}}
 
-    <h3>
+    <h3 class="editable">
         {{$concept->name}}
         {{-- <span>({{$stats->Completed}}/{{$stats->ExerciseCount}})</span> --}}
     </h3>
@@ -26,7 +31,7 @@
         @endcomponent
     @endforeach
 
-    <div class="row edit-button-div" style="visibility: hidden; display: none;">
+    <div class="row create-button-div @if(!$ajaxCreation) hidden @endif">
         <button class="center-block" onclick="createModule(this, {{$concept->id}}, '{{url('/ajax/modulecreate')}}')">Create New Module</button>
     </div>
 </article>

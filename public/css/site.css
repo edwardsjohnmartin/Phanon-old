@@ -1418,6 +1418,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 
 .editable.edit-on {
     outline-style: dashed;
+    outline-width: 2px;
 }
 
 #ideProjectName {

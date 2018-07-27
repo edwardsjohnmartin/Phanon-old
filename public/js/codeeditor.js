@@ -20,9 +20,6 @@ function makeCodeMirror(textarea) {
     return myCodeMirror;
 }
 
-//TODO: this do not technically make the button; should consider renaming to a 
-//     more accurate name like - setRunButtonEvents
-
 /**
  * Updates the onclick event of the button element to run the Python code in a CodeMirror editor.
  * @param {*} button The id of the button element who's onclick will be used for the run function.
@@ -201,7 +198,6 @@ function toggleCurrentStep(idToRemove, idToAdd) {
     btnToLoseCurrent.classList.remove("currentStep");
 }
 
-
 /**
  * Parses the Skulpt array of test results into a more usable array. 
  * @param {*} ret The array returned from Skulpt when tests were present. 
@@ -323,6 +319,7 @@ function saveExerciseCode(exercise_id, contents, success, url) {
         }
     });
 }
+
 //TODO: Can these two functions be combined? 
 function saveProjectCode(project_id, contents, url) {
     $.ajax({
@@ -349,7 +346,6 @@ function addPopup(msg, className) {
     var logBook = document.getElementById("ideLog");
     var newEntryTitle = document.createElement("dt");
     newEntryTitle.innerText = (new Date()).toLocaleTimeString();
-    newEntryTitle.className = className;
     var newEntry = document.createElement("dd");
     newEntry.innerHTML = msg;
     newEntry.className = className;
@@ -395,13 +391,13 @@ function toggleEditMode(editBtn, itemType, url) {
     // Make prompt editable
     togglePromptText($('#promptInstructions'));
 
-    // Make pre code div visible
+    // Toggle pre code div visibility
     toggleDivVisibility('#idePreCode');
 
-    // Make dates div visible
+    // Toggle dates div visibility
     toggleDivVisibility('#ideProjectDates');
 
-    // Make team settings div visible
+    // Toggle team settings div visibility
     toggleDivVisibility('#ideTeamsSetting');
 
     // If edit mode is being turned off, save to database through AJAX call
@@ -420,7 +416,7 @@ function toggleEditMode(editBtn, itemType, url) {
 /**
  * Toggles the contentEditable attribute of any elements with the editable class.
  */
-function toggleEditableElements(){
+function toggleEditableElements() {
     if($('.editable').attr('contentEditable') == 'true'){
         $('.editable').attr('contentEditable', 'false');
     } else {

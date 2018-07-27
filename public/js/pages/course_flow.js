@@ -1,45 +1,95 @@
-function toggleVisibilityByClass(className){
-    if($(className).css('visibility') == 'hidden'){
-        $(className).css('visibility', 'visible');
-        $(className).css('display', 'initial');
-    } else {
-        $(className).css('visibility', 'hidden');
-        $(className).css('display', 'none');
-    }
-}
+function toggleEditMode(editBtn) {
+    // Toggle visibility of all divs that contain a create object button
+    var allDivs = $('div').find('.create-button-div');
+    $(allDivs).each(function(index, d){
+        toggleDivVisibility(d);
+    });
 
-function toggleEditButtonText(editBtn){
-    if(editBtn.innerText == "Enable Edit Mode"){
-        editBtn.innerText = "Turn Off Edit Mode";
-        addBlurEvents();
+    // Toggle edit mode for all elements relating to the course
+    toggleCourseEditMode();
+
+    // Toggle edit mode for all elements relating to concepts
+    toggleConceptEditMode();
+
+    // Toggle edit mode for all elements relating to modules
+    toggleModuleEditMode();
+
+    if($(editBtn).text() == "Enable Edit Mode"){
+        // Expand all the modules so their contents can be seen
         expandModules();
-    } else {
-        editBtn.innerText = "Enable Edit Mode";
-        removeBlurEvents();
     }
 
-    toggleVisibilityByClass('.edit-button-div');
-    toggleEditableElements();
+    // Toggle edit button text
+    toggleEditButtonText(editBtn);
 }
 
-function toggleEditableElements(){
-    if($('.editable').attr('contentEditable') == 'true'){
-        $('.editable').attr('contentEditable', 'false');
-    } else {
-        $('.editable').attr('contentEditable', 'true');
-    }
+function toggleCourseEditMode() {
+    // Toggle course field elements contentEditable attribute
 
-    $('.editable').toggleClass('edit-on');
-}
+    // name
+    // open date
+    // close date
 
-function addBlurEvents(){
-    $('.editable').blur(function(){
-        console.log("blur happened");
-        console.log(this);
+    var allFields = $('#courseDetails').find('.editable');
+    $(allFields).each(function(index, f){
+        toggleContentEditable(f);
+        addBlurEvent(f, function() {
+            saveCourseEdit();
+        });
     });
 }
 
-function expandModules(){
+function toggleConceptEditMode() {
+    // Toggle concept fields editability
+
+    // name
+
+    var allFields = $('article.concept').find('.editable');
+    $(allFields).each(function(index, f){
+        toggleContentEditable(f);
+    });
+}
+
+function toggleModuleEditMode() {
+    // Toggle module fields editability
+
+    // name
+    // open date
+}
+
+function toggleContentEditable(element) {
+    if($(element).hasClass('edit-on')){
+        $(element).removeClass('edit-on');
+        $(element).attr('contentEditable', false);
+    } else {
+        $(element).addClass('edit-on');
+        $(element).attr('contentEditable', true);
+    }
+}
+
+/**
+ * Toggles a div to be shown or hidden.
+ * @param {*} divName 
+ */
+function toggleDivVisibility(myDiv) {
+    if($(myDiv).hasClass('hidden')){
+        // Make div visible
+        $(myDiv).removeClass('hidden');
+    } else {
+        // Make div hidden
+        $(myDiv).addClass('hidden');
+    }
+}
+
+function toggleEditButtonText(editBtn) {
+    if($(editBtn).text() == "Enable Edit Mode"){
+        $(editBtn).text("Turn Off Edit Mode");
+    } else {
+        $(editBtn).text("Enable Edit Mode");
+    }
+}
+
+function expandModules() {
     var expandButtons = $('.expander');
     $.each(expandButtons, function(e, btn){
         $(btn).addClass('collapser').removeClass('expander');
@@ -47,11 +97,15 @@ function expandModules(){
     });
 }
 
-function removeBlurEvents(){
-    $('.editable').off("blur");
+function addBlurEvent(element, blurFunction) {
+    if($(element).hasClass('edit-on')){
+        $(element).blur(blurFunction);
+    } else {
+        $(element).off('blur');
+    }
 }
 
-function createConcept(course_id, url){
+function createConcept(course_id, url) {
     $.ajax({
         type: "POST",
         url: url,
@@ -63,7 +117,7 @@ function createConcept(course_id, url){
     });
 }
 
-function createModule(ele, concept_id, url){
+function createModule(ele, concept_id, url) {
     $.ajax({
         type: "POST",
         url: url,
@@ -82,7 +136,7 @@ function createModule(ele, concept_id, url){
     });
 }
 
-function createLesson(ele, module_id, url){
+function createLesson(ele, module_id, url) {
     $.ajax({
         type: "POST",
         url: url,
@@ -103,7 +157,7 @@ function createLesson(ele, module_id, url){
     });
 }
 
-function createProject(ele, module_id, url){
+function createProject(ele, module_id, url) {
     $.ajax({
         type: "POST",
         url: url,
@@ -120,6 +174,30 @@ function createProject(ele, module_id, url){
 
             var componentsList = moduleArticle.getElementsByTagName('ul')[0];
             componentsList.appendChild(listItem);
+        }
+    });
+}
+
+function saveCourseEdit() {
+    var url = $('#courseDetails').data('course-url');
+
+    var course_id = $('#courseDetails').data('course-id');
+    var name = $('#courseName').text();
+    var open_date = $('#courseOpenDate').text();
+    var close_date = $('#courseCloseDate').text();
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            course_id: course_id,
+            name: name,
+            open_date: open_date,
+            close_date: close_date,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            console.log(data);
         }
     });
 }

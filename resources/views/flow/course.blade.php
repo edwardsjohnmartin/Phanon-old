@@ -1,11 +1,11 @@
-<div id="courseDetails">
-    <h1 class="editable">{{$course->name}}</h1>
+<div id="courseDetails" data-course-url="{{url('/ajax/courseedit')}}" data-course-id="{{$course->id}}">
+    <h1 id="courseName" class="editable">{{$course->name}}</h1>
     <aside class="dates">
         <!--TODO: these dates should come preformatted-->
         <!--Not sure why we are parsing them then reformatting them again.-->
-        <span class="start editable">{{$course->getOpenDate(config('app.dateformat_short'))}}</span>
+        <span id="courseOpenDate" class="start editable">{{$course->getOpenDate(config('app.dateformat_short'))}}</span>
         <span> - </span>
-        <span class="end editable">{{$course->getCloseDate(config('app.dateformat_short'))}}</span>
+        <span id="courseCloseDate" class="end editable">{{$course->getCloseDate(config('app.dateformat_short'))}}</span>
     </aside>
     
     <aside class="actions">
@@ -28,7 +28,7 @@
     </aside>
 
     @if($role->hasPermissionTo(Permissions::COURSE_EDIT))
-        <button class="pull-right" onclick="toggleEditButtonText(this);">Enable Edit Mode</button>
+        <button class="pull-right" onclick="toggleEditMode(this);">Enable Edit Mode</button>
     @endif
 </div>
 

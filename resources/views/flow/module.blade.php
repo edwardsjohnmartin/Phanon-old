@@ -1,29 +1,36 @@
 <?php
-$startdate = $module->open_date;
-$now = date(config("app.dateformat"));
-//HACK: major hack this is not the way it should be done.
-$lessonsAndProjectsCount = count($module->lessonsAndProjects());
-if($lessonsAndProjectsCount > 0){
-    $is_completed = $module->completed() <= 1; // See comments on this method.
-    $stats = $module->CompletionStats(auth()->user()->id);
-    if(!is_null($stats)){
-        $stats_perc_complete = floor($stats->PercComplete*100);
-        $stats_completed = $stats->Completed;
-        $stats_exercise_count = $stats->ExerciseCount;
+    // Check whether this module was just created through an AJAX call to set visibility of create buttons
+    if(!isset($ajaxCreation)){
+        $ajaxCreation = false;
+    }
+
+    $startdate = $module->open_date;
+    $now = date(config("app.dateformat"));
+
+    //HACK: major hack this is not the way it should be done.
+    $lessonsAndProjectsCount = count($module->lessonsAndProjects());
+    if($lessonsAndProjectsCount > 0){
+        $is_completed = $module->completed() <= 1; // See comments on this method.
+        $stats = $module->CompletionStats(auth()->user()->id);
+        if(!is_null($stats)){
+            $stats_perc_complete = floor($stats->PercComplete*100);
+            $stats_completed = $stats->Completed;
+            $stats_exercise_count = $stats->ExerciseCount;
+        } else {
+            $stats_perc_complete = 0;
+            $stats_completed = 0;
+            $stats_exercise_count = 0;
+        }    
     } else {
+        $is_completed = false;
+        $stats = null;
         $stats_perc_complete = 0;
         $stats_completed = 0;
         $stats_exercise_count = 0;
-    }    
-} else {
-    $is_completed = false;
-    $stats = null;
-    $stats_perc_complete = 0;
-    $stats_completed = 0;
-    $stats_exercise_count = 0;
-}
-$moduleOpen = !$is_completed;
+    }
+    $moduleOpen = !$is_completed;
 ?>
+
 <article 
    class="module sortable{{$is_completed  ? ' expired' : '' }}{{
             !$is_completed  ? ' current' : '' }}">
@@ -46,7 +53,7 @@ $moduleOpen = !$is_completed;
 
     <h1>
         {{-- #todo: need to fix this to acutally use the correct exercise --}}
-        <a href="{{url('/code/exercise/'.$module->currentExercise(1)->id)}}">
+        <a class="editable" href="{{url('/code/exercise/'.$module->currentExercise(1)->id)}}">
             {{$module->name}}
         </a>
         <span>({{$stats_completed}} / {{$stats_exercise_count}})</span>
@@ -59,9 +66,7 @@ $moduleOpen = !$is_completed;
     </aside>
 
     <div class="dates">
-        <!--TODO: these dates should come preformatted-->
-        <!--Not sure why we are parsing them then reformatting them again.-->
-        <span class="start">{{date_format($module->OpenDate(),config("app.dateformat_short"))}}</span>
+        <span class="start editable">{{$module->getOpenDate(config("app.dateformat_short"))}}</span>
     </div>
 
     {{--
@@ -92,7 +97,7 @@ $moduleOpen = !$is_completed;
         @endif
     </ul>
 
-    <div class="row edit-button-div" style="visibility: hidden; display: none;">
+    <div class="row create-button-div @if(!$ajaxCreation) hidden @endif">
         <button class="center-block" onclick="createLesson(this, {{$module->id}}, '{{url('/ajax/lessoncreate')}}')">Create New Lesson</button>
         <button class="center-block" onclick="createProject(this, {{$module->id}}, '{{url('/ajax/projectcreate')}}')">Create New Project</button>
     </div>

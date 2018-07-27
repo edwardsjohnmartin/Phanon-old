@@ -7,6 +7,7 @@ use App\Course;
 use App\Concept;
 use App\Module;
 use App\Lesson;
+use App\Exercise;
 use App\Project;
 use App\Enums\Roles;
 use DB;
@@ -90,7 +91,8 @@ class FlowController extends Controller
         $concept->save();
 
         return view('flow.concept')->
-            with('concept', $concept);
+            with('concept', $concept)->
+            with('ajaxCreation', true);
     }
 
     /** 
@@ -118,7 +120,8 @@ class FlowController extends Controller
         $module->save();
 
         return view('flow.module')->
-            with('module', $module);
+            with('module', $module)->
+            with('ajaxCreation', true);
     }
 
     /** 
@@ -149,6 +152,14 @@ class FlowController extends Controller
         $lesson->previous_lesson_id = $last_lesson_id;
         $lesson->owner_id = auth()->user()->id;
         $lesson->save();
+
+        // Create an exercise in the database to put into the lesson
+        $exercise = new Exercise();
+        $exercise->prompt = "Empty Prompt";
+        $exercise->test_code = "";
+        $exercise->lesson_id = $lesson->id;
+        $exercise->owner_id = auth()->user()->id;
+        $exercise->save();
 
         return view('flow.lesson')->
             with('lesson', $lesson);
@@ -188,5 +199,51 @@ class FlowController extends Controller
 
         return view('flow.project')->
             with('project', $project);
+    }
+
+    public function editCourse(Request $request)
+    {
+        $all = $request->all();
+        $course_id = $all['course_id'];
+        $name = $all['name'];
+        $open_date = $all['open_date'];
+        $close_date = $all['close_date'];
+
+        // Validate the open_date is valid
+        if(strtotime($open_date) === false){
+            return "The open date could not be parsed to a usable date";
+        } else {
+            $open_date = Carbon\Carbon::parse($open_date);
+        }
+
+        // Validate the close_date is valid
+        if(strtotime($close_date) === false){
+            return "The close date could not be parsed to a usable date";
+        } else {
+            $close_date = Carbon\Carbon::parse($close_date);
+        }
+
+        // Validate open_date comes before close_date
+        if($open_date > $close_date){
+            return "The course open date must come before the course close date";
+        } 
+
+        // Find existing course from the course_id
+        $course = Course::find($course_id);
+
+        // Validate the course does exist
+        if(is_null($course) or empty($course)){
+            return "Course Not Found";
+        }
+
+        // Modify the course details using the data from the AJAX call
+        $course->name = $name;
+        $course->open_date = $open_date;
+        $course->close_date = $close_date;
+
+        // Save the course to the database
+        $course->save();
+
+        return "Course Edited Successfully";
     }
 }
