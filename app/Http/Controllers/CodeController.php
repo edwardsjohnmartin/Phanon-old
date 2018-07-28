@@ -66,7 +66,30 @@ class CodeController extends Controller
      */
     public function editExercise(Request $request)
     {
+        $all = $request->all();
+        $exercise_id = $all['exercise_id'];
+        $prompt = $all['prompt'];
+        $pre_code = $all['pre_code'];
+        $test_code = $all['test_code'];
 
+        // Retrieve exercise from id
+        $exercise = Exercise::find($exercise_id);
+
+        // Validate exercise exists
+        if(is_null($exercise) or empty($exercise)){
+            return "Exercise does not exist.";
+        }
+
+        // Edit the exercises details
+        $exercise->prompt = $prompt;
+        $exercise->pre_code = $pre_code;
+        $exercise->test_code = $test_code;
+        $exercise->updated_by = auth()->user()->id;
+
+        // Save exercise to the database
+        $exercise->save();
+
+        return "The exercise was edited succesfully";
     }
     
     /**

@@ -378,6 +378,14 @@ function getLinkFromButton(btnId) {
     return url
 }
 
+function toggleAddExerciseVisibility() {
+    if($('#addExerciseBtn').hasClass('hidden')){
+        $('#addExerciseBtn').removeClass('hidden');
+    } else {
+        $('#addExerciseBtn').addClass('hidden');
+    }
+}
+
 /**
  * Turns edit mode on so an exercise or projects details can be edited.
  * @param {*} editBtn 
@@ -385,6 +393,12 @@ function getLinkFromButton(btnId) {
  * @param {*} url 
  */
 function toggleEditMode(editBtn, itemType, url) {
+    if(itemType == "exercise"){
+        toggleAddExerciseVisibility();
+
+        toggleDivVisibility('#ideTestCode');
+    }
+
     // Change the contentEditable attribute of all elements with the editable class
     toggleEditableElements();
 
@@ -496,7 +510,8 @@ function saveProjectEdit(url) {
             _token: $('meta[name="csrf-token"]').attr('content')
         },
         success: function (data) {
-            addPopup("Project Edited Successfully!", "save")
+            addPopup("Project Edited Successfully!", "save");
+            console.log(data);
         }
     });
 }
@@ -506,5 +521,24 @@ function saveProjectEdit(url) {
  * @param {*} url 
  */
 function saveExerciseEdit(url) {
-    console.log("exercise edit");
+    var exercise_id = $('#exerciseId').text();
+    var prompt = $('#promptInstructions').data("raw-prompt");
+    var pre_code = $('#idePreCode').find('.CodeMirror')[0].CodeMirror.getValue();
+    var test_code = $('#ideTestCode').find('.CodeMirror')[0].CodeMirror.getValue();
+    
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            exercise_id: exercise_id,
+            prompt: prompt,
+            pre_code: pre_code,
+            test_code: test_code,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            addPopup("Exercise Edited Successfully!", "save");
+            console.log(data);
+        }
+    });
 }

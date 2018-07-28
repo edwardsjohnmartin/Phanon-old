@@ -33,5 +33,9 @@
                 @endif
             </li>
         @endforeach
+
+        <li id="addExerciseBtn" class="exercise mini hidden">
+            <button onclick="console.log('asdf');">+</button>
+        </li>
     </ol>
 </div>
