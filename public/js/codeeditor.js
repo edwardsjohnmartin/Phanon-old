@@ -542,3 +542,26 @@ function saveExerciseEdit(url) {
         }
     });
 }
+
+function createProjectSurveyResponse(difficultyRating, enjoymentRating) {
+    var url = $('#projectRatings').data('survey-response-create-url');
+    var project_id = $('#projectId').text();
+
+    // Validate response amounts are between 0 and 9 before making AJAX call
+    if((difficultyRating >= 0 && difficultyRating <= 9) && (enjoymentRating >= 0 && enjoymentRating <= 9)){
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                project_id: project_id,
+                difficulty_rating: difficultyRating,
+                enjoyment_rating: enjoymentRating,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+                addPopup("Project survey answered successfully!", "save")
+                console.log(data);
+            }
+        });
+    }
+}

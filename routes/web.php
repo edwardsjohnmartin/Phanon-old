@@ -64,3 +64,5 @@ Route::post('/ajax/projectcreate', 'FlowController@createProject');
 Route::post('/ajax/projectedit', 'CodeController@editProject');
 Route::post('/ajax/exerciseedit', 'CodeController@editExercise');
 Route::post('/ajax/courseedit', 'FlowController@editCourse');
+
+Route::post('/ajax/projectsurveycreate', 'ProjectSurveyResponsesController@createResponse');

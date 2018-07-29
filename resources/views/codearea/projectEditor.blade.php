@@ -19,7 +19,8 @@
 
         @component('codearea.projectDetails', [
             'project' => $project,
-            'team' => $team
+            'team' => $team,
+            'projectSurveyResponse' => $projectSurveyResponse
         ])
         @endcomponent
 

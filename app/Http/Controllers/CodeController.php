@@ -16,6 +16,7 @@ use App\Exercise;
 use App\Project;
 use App\ExerciseProgress;
 use App\ProjectProgress;
+use App\ProjectSurveyResponse;
 use DB;
 
 class CodeController extends Controller
@@ -150,13 +151,17 @@ class CodeController extends Controller
         // Get the users latest submission for this project
         $projectProgress = ProjectProgress::where('user_id', auth()->user()->id)->where('project_id', $project_id)->orderBy('last_run_date', 'desc')->first();
 
+        // Get the users latest survey response for this project
+        $projectSurveyResponse = ProjectSurveyResponse::where('user_id', auth()->user()->id)->where('project_id', $project_id)->orderBy('response_date', 'desc')->first();
+
         $team = auth()->user()->teamForProject($project->id);
 
         return view('codearea.projectEditor')->
             with('project', $project)->
             with('projectProgress', $projectProgress)->
             with('role', $role)->
-            with('team', $team);
+            with('team', $team)->
+            with('projectSurveyResponse', $projectSurveyResponse);
     }
 
     /**

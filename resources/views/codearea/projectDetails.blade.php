@@ -9,7 +9,8 @@
 @component('codearea.prompt', [
     'prompt' => $project->prompt,
     'show_survey' => true,
-    'team' => $team
+    'team' => $team,
+    'projectSurveyResponse' => $projectSurveyResponse
 ])
 @endcomponent
 

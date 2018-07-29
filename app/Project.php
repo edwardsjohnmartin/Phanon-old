@@ -106,6 +106,11 @@ class Project extends Model
         }
     }
 
+    public function surveyResponses()
+    {
+        return $this->hasMany('App\ProjectSurveyResponse');
+    }
+
     public function deepCopy()
     {
         $new_project = new Project();

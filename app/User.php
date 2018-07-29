@@ -101,4 +101,9 @@ class User extends Authenticatable
 
         return null;
     }
+
+    public function projectSurveyResponses()
+    {
+        return $this->hasMany('App\ProjectSurveyResponse');
+    }
 }
