@@ -10,7 +10,8 @@
     'prompt' => $project->prompt,
     'show_survey' => true,
     'team' => $team,
-    'projectSurveyResponse' => $projectSurveyResponse
+    'projectSurveyResponse' => $projectSurveyResponse,
+    'item_type' => $item_type
 ])
 @endcomponent
 

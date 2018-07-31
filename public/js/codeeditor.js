@@ -266,9 +266,19 @@ function getCodeFromEditor(editor, includeTestCode = false) {
  * Compiles the Python code from the various sources and sends it to Skulpt to be ran.
  */
 function run() {
+    var divName = "ideCodeWindow";
+
+    // This will only be true when the user had edit permissions and tabs were created
+    // It will run the code of the active tab
+    var activeli = $('li.nav-item.active');
+    if(activeli.length > 0){
+        var alink = activeli.find('a');
+        divName = alink.attr('href').substring(1);
+    }
+
     // Get Python code to run from the various CodeMirror editors that exist
     var codeToRun = "";
-    var codeEditor = getCodeMirrorByParentNode("ideCodeWindow");
+    var codeEditor = getCodeMirrorByParentNode(divName);
 
     if (hasPreCode) {
         var preCodeEditor = getCodeMirrorByParentNode("idePreCode");
@@ -538,7 +548,6 @@ function saveExerciseEdit(url) {
         },
         success: function (data) {
             addPopup("Exercise Edited Successfully!", "save");
-            console.log(data);
         }
     });
 }
@@ -564,4 +573,23 @@ function createProjectSurveyResponse(difficultyRating, enjoymentRating) {
             }
         });
     }
+}
+
+function addNewExerciseToLesson(url) {
+    // Get lesson id of exercise
+    var lesson_id = $("#exerciseList").data("lesson-id");
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            lesson_id: lesson_id,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            console.log(data);
+
+            // Add tile icon for newly created exercise
+        }
+    });
 }

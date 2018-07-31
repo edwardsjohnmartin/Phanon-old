@@ -4,7 +4,7 @@
 @endphp
 
 <div id="exercisePanel">
-    <ol id="exerciseList">
+    <ol id="exerciseList" data-lesson-id="{{$lesson_id}}">
         @foreach($exercises as $exercise)
             @php
                 $is_active = true;
@@ -35,7 +35,7 @@
         @endforeach
 
         <li id="addExerciseBtn" class="exercise mini hidden">
-            <button onclick="console.log('asdf');">+</button>
+            <button onclick="addNewExerciseToLesson('{{url('/ajax/exercisecreate')}}');">+</button>
         </li>
     </ol>
 </div>
