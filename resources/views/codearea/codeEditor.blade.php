@@ -41,5 +41,9 @@
 ])
 @endcomponent
 
-@component('codearea.mainEditor', ['initial_editor_code' => $initial_editor_code])
+@component('codearea.mainEditor', [
+    'initial_editor_code' => $initial_editor_code,
+    'role' => $role,
+    'item' => $item
+])
 @endcomponent

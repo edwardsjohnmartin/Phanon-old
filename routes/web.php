@@ -60,6 +60,7 @@ Route::post('/ajax/conceptcreate', 'FlowController@createConcept');
 Route::post('/ajax/modulecreate', 'FlowController@createModule');
 Route::post('/ajax/lessoncreate', 'FlowController@createLesson');
 Route::post('/ajax/projectcreate', 'FlowController@createProject');
+Route::post('/ajax/exercisecreate', 'CodeController@createExercise');
 
 Route::post('/ajax/projectedit', 'CodeController@editProject');
 Route::post('/ajax/exerciseedit', 'CodeController@editExercise');

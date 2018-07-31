@@ -62,6 +62,30 @@ class CodeController extends Controller
             with('role', $role);
     }
 
+    public function createExercise(Request $request)
+    {
+        $lesson_id = $request->all()['lesson_id'];
+
+        $lesson = Lesson::find($lesson_id);
+        if(is_null($lesson) or empty($lesson)){
+            return "Cannot create a new exercise in this lesson";
+        }
+
+        $exercises = $lesson->exercises();
+        $last_exercise_id = end($exercises)->id;
+
+        // Create an exercise in the database to put into the lesson
+        $exercise = new Exercise();
+        $exercise->prompt = "Empty Prompt";
+        $exercise->test_code = "";
+        $exercise->previous_exercise_id = $last_exercise_id;
+        $exercise->lesson_id = $lesson->id;
+        $exercise->owner_id = auth()->user()->id;
+        $exercise->save();
+
+        return ['msg' => "Exercise was created successfully", 'exercise_id' => $exercise->id];
+    }
+
     /**
      * Takes in a request from an AJAX call and edits an exercise in the database.
      */

@@ -14,7 +14,11 @@
 @endphp
 
 @section('content')
-    @component('codearea.exerciseNav', ['exercises' => $exercise->lesson->exercises(), 'current_exercise_id' => $exercise->id])
+    @component('codearea.exerciseNav', [
+        'exercises' => $exercise->lesson->exercises(),
+        'current_exercise_id' => $exercise->id,
+        'lesson_id' => $exercise->lesson->id
+    ])
     @endcomponent
 
     <div id="codeIde">
@@ -26,7 +30,12 @@
             <p id="exerciseId">{{$exercise->id}}</p>
         </div>
         
-        @component('codearea.prompt', ['prompt' => $exercise->prompt, 'show_survey' => false, 'team' => null])
+        @component('codearea.prompt', [
+            'prompt' => $exercise->prompt,
+            'show_survey' => false,
+            'team' => null,
+            'item_type' => 'exercise'
+        ])
         @endcomponent
 
         @component('codearea.precode', ['pre_code' => $exercise->pre_code])

@@ -39,7 +39,7 @@
     {{-- needs to start open on the first approach  --}}
     <button class="contentControl collapser" {{$show_survey?'disabled="disabled"':''}}>Show/Hide Contents</button>
 
-    @if($show_survey)
+    @if($item_type == 'project' and $show_survey)
     <div id="projectRatings" data-survey-response-create-url="{{url('/ajax/projectsurveycreate')}}">
         <h3>Ratings</h3>
         {{-- Projects have survey buttons.  --}}
@@ -72,12 +72,12 @@
     </div>
     @endif
 
-    @if($team != null)
+    @if($item_type == 'project' and $team != null)
         @component('codearea.team', ['team'=>$team])
         @endcomponent
     @endif
 </div>
-    @if($blockCodeWindow)
+    @if($item_type == 'project' and $blockCodeWindow)
         <div id="fader">
             <div class="message">
                 <h1>Please rate your first impression of this project.</h1>
