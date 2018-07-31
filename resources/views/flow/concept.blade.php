@@ -25,12 +25,12 @@
         {{$concept->name}}
         {{-- <span>({{$stats->Completed}}/{{$stats->ExerciseCount}})</span> --}}
     </h3>
-
+    <?php $concept->eagerLoading = $eagered; ?>
     @foreach($concept->modules() as $module)
-        @component('flow.module',['module' => $module])
+        @component('flow.module',['module' => $module, 'eagered' => $eagered])
         @endcomponent
     @endforeach
-
+    
     <div class="row create-button-div @if(!$ajaxCreation) hidden @endif">
         <button class="center-block" onclick="createModule(this, {{$concept->id}}, '{{url('/ajax/modulecreate')}}')">Create New Module</button>
     </div>

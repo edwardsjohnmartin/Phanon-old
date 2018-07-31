@@ -17,7 +17,6 @@ foreach($members as $member){
 
 @endphp
 <div id="teamMembers" class="teams">
-    <meta name="_token" content="{{csrf_token()}}" />
     <ul>
         @foreach($members as $member)
             @if(Auth::user()->id == $member->id)
@@ -111,7 +110,7 @@ function logMemberOut(memId) {
         url: "{{url('/teams/logout')}}/" + memId + "?noredirect=true"
         , method: 'POST'
         , cache: false
-        , data: { "_token": $("input[name=_token]").val() }
+        , data: { "_token": $("input[name=csrf_token]").val() }
         , success: function (mess) {
             if (mess.type == "success") {
                 addPopup(mess.message, "success");

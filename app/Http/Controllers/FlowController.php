@@ -11,6 +11,7 @@ use App\Exercise;
 use App\Project;
 use App\Enums\Roles;
 use DB;
+use Session;
 use Carbon;
 
 class FlowController extends Controller
@@ -42,17 +43,33 @@ class FlowController extends Controller
      */
     public function show($id)
     {
+        //$course = Course::where('id', $id)->
+        //select('id', 'name', 'open_date', 'close_date', 'owner_id')->
+        //with(['unorderedConcepts' => function($concepts){
+        //    $concepts->select('id', 'name', 'course_id', 'previous_concept_id')->
+        //    with(['unorderedModules' => function($modules){
+        //        $modules->select('id', 'name', 'concept_id', 'previous_module_id', 'open_date')->
+        //        with(['components' => function($components){
+        //            $components->orderBy('previous_lesson_id')->orderBy('type_ordering');
+        //        }]);
+        //    }]);
+        //}])->first();
+
         $course = Course::where('id', $id)->
-        select('id', 'name', 'open_date', 'close_date', 'owner_id')->
-        with(['unorderedConcepts' => function($concepts){
-            $concepts->select('id', 'name', 'course_id', 'previous_concept_id')->
-            with(['unorderedModules' => function($modules){
-                $modules->select('id', 'name', 'concept_id', 'previous_module_id', 'open_date')->
-                with(['components' => function($components){
-                    $components->orderBy('previous_lesson_id')->orderBy('type_ordering');
-                }]);
-            }]);
-        }])->first();
+         select('id', 'name', 'open_date', 'close_date', 'owner_id')->
+         with(['unorderedConcepts' => function($concepts){
+             $concepts->select('id', 'name', 'course_id', 'previous_concept_id')->
+             with(['unorderedModules' => function($modules){
+                 $modules->select('id', 'name', 'concept_id', 'previous_module_id', 'open_date')->
+                 with(['unorderedLessons' => function($lessons){
+                     $lessons->with('unorderedExercises');
+                 },'unorderedProjects']);
+             }]);
+         }])->first();
+
+        $eagered = false;
+        if (isset($_GET['eager'])) 
+            $eagered = $_GET['eager'] == 'true';
 
         if(empty($course) or is_null($course)){
             return redirect('/dashboard')->
@@ -61,13 +78,15 @@ class FlowController extends Controller
 
         // Get users role within the course
         $role = $course->getUsersRole(auth()->user()->id);
+        //$progress = $course->ExerciseProgress(auth()->user()->id);
 
         return view('flow.index')->
             with('course', $course)->
-            with('role', $role);
+            with('role', $role)->
+            with('eagered',$eagered);
     }
 
-    /** 
+    /**
      * Creates a concept in the database using an AJAX request.
      */
     public function createConcept(Request $request)
@@ -95,7 +114,7 @@ class FlowController extends Controller
             with('ajaxCreation', true);
     }
 
-    /** 
+    /**
      * Creates a module in the database using an AJAX request.
      */
     public function createModule(Request $request)
@@ -124,7 +143,7 @@ class FlowController extends Controller
             with('ajaxCreation', true);
     }
 
-    /** 
+    /**
      * Creates a lesson in the database using an AJAX request.
      */
     public function createLesson(Request $request)
@@ -165,7 +184,7 @@ class FlowController extends Controller
             with('lesson', $lesson);
     }
 
-    /** 
+    /**
      * Creates a project in the database using an AJAX request.
      */
     public function createProject(Request $request)
@@ -226,7 +245,7 @@ class FlowController extends Controller
         // Validate open_date comes before close_date
         if($open_date > $close_date){
             return "The course open date must come before the course close date";
-        } 
+        }
 
         // Find existing course from the course_id
         $course = Course::find($course_id);

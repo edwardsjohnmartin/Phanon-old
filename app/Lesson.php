@@ -1,6 +1,7 @@
 <?php
 namespace App;
 
+use App\ObjectTools;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +28,9 @@ class Lesson extends Model
 
     // tempExercises
     public $tempExercises = [];
+
+    // Toggle whether to use Eager loading
+    public $eagerLoading = false;
 
     /**
      * Relationship function
@@ -66,25 +70,43 @@ class Lesson extends Model
         // Create the array that will store the exercises in the correct order
         $ordered_exercises = array();
 
-        if(count($exercises) > 0){
-            // Get the first exercise (its previous_exercise_id is null) and put it into the array
-            $exercise = $this->unorderedExercises()->whereNull('previous_exercise_id')->get()[0];
-            array_push($ordered_exercises, $exercise);
+        if($this->eagerLoading){
+            // this approach should use the eager loaded and not do additional DB calls.
+            // saved ~200 ms in the test cases.
+            foreach($exercises as $exercise){
+                $prevId = $exercise->previous_exercise_id;
+                $index = ObjectTools::getIndex($ordered_exercises, $prevId);
+                if($index > -1){
+                    // add after previous
+                    array_splice($ordered_exercises,$index+1,0,[$exercise]);
+                }else{
+                    // add at end
+                    $ordered_exercises[] = $exercise;
+                }
 
-            $done = false;
-            while($done == false){
-                $next_exercise = self::nextExercise($exercise->id);
+            }
+        }else{
+            // uses lazy loading
 
-                if(!is_null($next_exercise)){
-                    $exercise = $next_exercise;
+            if(count($exercises) > 0){
+                // Get the first exercise (its previous_exercise_id is null) and put it into the array
+                $exercise = $this->unorderedExercises()->whereNull('previous_exercise_id')->get()[0];
+                array_push($ordered_exercises, $exercise);
 
-                    array_push($ordered_exercises, $exercise);
-                } else {
-                    $done = true;
+                $done = false;
+                while($done == false){
+                    $next_exercise = self::nextExercise($exercise->id);
+
+                    if(!is_null($next_exercise)){
+                        $exercise = $next_exercise;
+
+                        array_push($ordered_exercises, $exercise);
+                    } else {
+                        $done = true;
+                    }
                 }
             }
         }
-
         return $ordered_exercises;
     }
 
@@ -117,7 +139,7 @@ class Lesson extends Model
 
     /**
      * Summary of Completedness
-     * @param mixed $userID 
+     * @param mixed $userID
      * @return object containing (Completed, ExerciseCount, PercComplete)
      */
     public function CompletionStats($userID)
@@ -125,9 +147,9 @@ class Lesson extends Model
         $idParsed = intval($userID);
         $database = config("database.connections.mysql.database");
 
-        $results = DB::select(DB::raw("SELECT e.lesson_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete 
+        $results = DB::select(DB::raw("SELECT e.lesson_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete
                             FROM $database.exercises e
-                            LEFT JOIN (SELECT id, exercise_id FROM $database.exercise_progress WHERE user_id = :userID AND completion_date IS NOT NULL) AS ep 
+                            LEFT JOIN (SELECT id, exercise_id FROM $database.exercise_progress WHERE user_id = :userID AND completion_date IS NOT NULL) AS ep
                             ON ep.exercise_id = e.id WHERE e.lesson_id = :lessonID
                             GROUP BY lesson_id "), array('userID' => $idParsed, 'lessonID' =>$this->id));
 
@@ -141,7 +163,7 @@ class Lesson extends Model
      */
     public function ExerciseCount(){
         $database = config("database.connections.mysql.database");
-        $results = DB::select(DB::raw("SELECT COUNT(id) AS ExerciseCount FROM $database.exercises 
+        $results = DB::select(DB::raw("SELECT COUNT(id) AS ExerciseCount FROM $database.exercises
                                     WHERE lesson_id = :lessonID
                                     GROUP BY lesson_id"), array('lessonID' =>$this->id));
 
@@ -150,7 +172,7 @@ class Lesson extends Model
     }
 
     /**
-     * 
+     *
      */
     public function deepCopy()
     {
@@ -161,7 +183,7 @@ class Lesson extends Model
     }
 
     /**
-     * 
+     *
      */
     public function completed($user_id = 0)
     {
@@ -187,10 +209,10 @@ class Lesson extends Model
      */
     public function nextIncompleteExercise()
     {
-     //HACK: this is really slow. Many many database calls. 
+     //HACK: this is really slow. Many many database calls.
         // We need to get this into a single database call.
         foreach($this->exercises() as $exercise){
-            
+
             if($exercise->getProgressForUser()->completed() != true){
                 return $exercise;
             }
@@ -198,4 +220,17 @@ class Lesson extends Model
 
         return $this->exercises()[0];
     }
+
+    public function nextExerciseToDo($coll,$userId)
+    {
+        foreach($this->exercises() as $exercise){
+            $prog = ObjectTools::getItem($coll,['exercise_id','user_id'],[$exercise->id,$userId]);
+            if($prog->completed() != true){
+                return $exercise;
+            }
+        }
+
+        return $this->exercises()[0];
+    }
+
 }

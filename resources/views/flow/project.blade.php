@@ -3,7 +3,7 @@
 //$project = new Project();
 //print_r($project);
 $now = Carbon\Carbon::now();
-$now = date_add($now,date_interval_create_from_date_string("6 days"));// add a week for testing.
+//$now = date_add($now,date_interval_create_from_date_string("7 days"));// add a week for testing.
 $css_class = "none";
 $status_text = "nothing";
 $status_open_tense = "s"; // s for still available. ed for done.

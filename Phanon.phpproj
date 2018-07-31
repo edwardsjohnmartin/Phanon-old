@@ -57,6 +57,7 @@
     <Compile Include="app\Http\Middleware\VerifyCsrfToken.php" />
     <Compile Include="app\Http\Kernel.php" />
     <Compile Include="app\Importer.php" />
+    <Compile Include="app\ObjectTools.php" />
     <Compile Include="app\Project.php" />
     <Compile Include="app\ProjectProgress.php" />
     <Compile Include="app\Providers\AppServiceProvider.php" />

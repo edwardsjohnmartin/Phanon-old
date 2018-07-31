@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $pre_code Code that will be ran in the compiler directly before the user's submitted code.
  *                             The user will be able to use this code in their submission if they desire.
  * @property string $start_code Initial code given to the user to start the Exercise with.
- * @property string $test_code Code that is run immediately following the user's submitted code. 
+ * @property string $test_code Code that is run immediately following the user's submitted code.
  *                             It is used to validate the user's answer against to check for correctness.
  * @property string $solution Code defined by the creator of this Exercise that solves it.
  * @property int $lesson_id The id of the Lesson this Exercise is part of.
@@ -23,7 +23,7 @@ class Exercise extends Model
 {
     // Table Name
     public $table = 'exercises';
-    
+
     // Primary Key
     public $primaryKey = 'id';
 
@@ -91,14 +91,13 @@ class Exercise extends Model
     }
 
     /**
-     * 
+     *
      */
     public function getProgressForUser($user_id = null)
     {
         if(!isset($user_id)){
             $user_id = auth()->user()->id;
         }
-
         $exercise_progress = ExerciseProgress::where('exercise_id', $this->id)->where('user_id', $user_id)->first();
 
         if(empty($exercise_progress) or is_null($exercise_progress)){
@@ -112,7 +111,7 @@ class Exercise extends Model
     }
 
     /**
-     * 
+     *
      */
     public function nextExercise()
     {

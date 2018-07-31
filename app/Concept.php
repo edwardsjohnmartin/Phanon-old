@@ -1,9 +1,10 @@
 <?php
 namespace App;
 
+use App\ObjectTools;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
- 
+
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
  * @property string $name Identifying name of the Concept.
@@ -18,7 +19,7 @@ class Concept extends Model
 {
     // Table Name
     public $table = 'concepts';
-    
+
     // Primary Key
     public $primaryKey = 'id';
 
@@ -27,6 +28,10 @@ class Concept extends Model
 
     // tempModules
     public $tempModules = [];
+
+    // Toggle whether to use Eager loading
+    public $eagerLoading = false;
+
 
     /**
      * Relationship function
@@ -66,25 +71,42 @@ class Concept extends Model
         // Create the array that will store the modules in the correct order
         $ordered_modules = array();
 
-        if(count($modules) > 0){
-            // Get the first module (its previous_module_id is null) and put it into the ordered_modules array
-            $module = $this->unorderedModules()->whereNull('previous_module_id')->get()[0];
-            array_push($ordered_modules, $module);
+        if($this->eagerLoading){
+            // this approach should use the eager loaded and not do additional DB calls.
+            // saved ~200 ms in the test cases.
+            foreach($modules as $module){
+                $prevId = $module->previous_module_id;
+                $index = ObjectTools::getIndex($ordered_modules, $prevId);
+                if($index > -1){
+                    // add after previous
+                    array_splice($ordered_modules,$index+1,0,[$module]);
+                }else{
+                    // add at end
+                    $ordered_modules[] = $module;
+                }
 
-            $done = false;
-            while($done == false){
-                $next_module = self::nextModule($module->id);
+            }
+        }else{
+            // uses lazy loading
+            if(count($modules) > 0){
+                // Get the first module (its previous_module_id is null) and put it into the ordered_modules array
+                $module = $this->unorderedModules()->whereNull('previous_module_id')->get()[0];
+                array_push($ordered_modules, $module);
 
-                if(!is_null($next_module)){
-                    $module = $next_module;
+                $done = false;
+                while($done == false){
+                    $next_module = self::nextModule($module->id);
 
-                    array_push($ordered_modules, $module);
-                } else {
-                    $done = true;
-                } 
+                    if(!is_null($next_module)){
+                        $module = $next_module;
+
+                        array_push($ordered_modules, $module);
+                    } else {
+                        $done = true;
+                    }
+                }
             }
         }
-        
         return $ordered_modules;
     }
 
@@ -124,11 +146,11 @@ class Concept extends Model
         $database = config("database.connections.mysql.database");
         // Changed this to check if the completion_date is not null instead of the last_correct_contents
         // This is because if the exercise is auto completed, the completion_date would be filled and not the last_correct_contents
-        $results = DB::select(DB::raw("SELECT m.concept_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete 
+        $results = DB::select(DB::raw("SELECT m.concept_id, COUNT(ep.id) as Completed, COUNT(e.id) as ExerciseCount, (COUNT(ep.id)/COUNT(e.id)) as PercComplete
                                         FROM $database.modules m  JOIN $database.lessons lsn ON m.id = lsn.module_id
                                         JOIN $database.exercises e ON e.lesson_id = lsn.id
-                                        LEFT JOIN (SELECT id, exercise_id FROM $database.exercise_progress 
-	                                        WHERE user_id = :userID 
+                                        LEFT JOIN (SELECT id, exercise_id FROM $database.exercise_progress
+	                                        WHERE user_id = :userID
                                             AND completion_date IS NOT NULL) AS ep ON ep.exercise_id = e.id
                                         WHERE m.concept_id = :conceptID
                                         GROUP BY m.concept_id"), array('userID' => $idParsed, 'conceptID' =>$this->id));
@@ -138,7 +160,7 @@ class Concept extends Model
     }
 
     /**
-     * 
+     *
      */
     public function completed()
     {
@@ -147,7 +169,7 @@ class Concept extends Model
         $modules = $this->modules();
 
         $completed = true;
-        
+
         foreach($modules as $module){
             $mod_completed = $module->completed();
             if($mod_completed !== true){

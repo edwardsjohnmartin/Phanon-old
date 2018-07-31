@@ -1,6 +1,7 @@
 <?php
 namespace App;
 
+use App\ObjectTools;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use DateTime;
@@ -28,6 +29,9 @@ class Module extends Model
 
     // tempComponents
     public $tempComponents = [];
+
+    // Toggle whether to use Eager loading
+    public $eagerLoading = false;
 
     /**
      * Relationship function
@@ -86,26 +90,44 @@ class Module extends Model
     public function lessons()
     {
         // Get the lessons that are in the module
-        $lessons = $this->unorderedLessons;
+        $lessons = $this->unorderedLessons();
 
         // Create the array that will store the lessons in the correct order
         $ordered_lessons = array();
 
-        if(count($lessons) > 0){
-            // Get the first lesson (its previous_lesson_id is null) and put it into the array
-            $lesson = $this->unorderedLessons()->whereNull('previous_lesson_id')->get()[0];
-            array_push($ordered_lessons, $lesson);
+        if($this->eagerLoading){
+            // this approach should use the eager loaded and not do additional DB calls.
+            // saved ~200 ms in the test cases.
+            foreach($lessons as $lesson){
+                $prevId = $lesson->previous_lesson_id;
+                $index = ObjectTools::getIndex($ordered_lessons, $prevId);
+                if($index > -1){
+                    // add after previous
+                    array_splice($ordered_lessons,$index+1,0,[$lesson]);
+                }else{
+                    // add at end
+                    $ordered_lessons[] = $lesson;
+                }
 
-            $done = false;
-            while(!$done){
-                $next_lesson = self::nextLesson($lesson->id);
+            }
+        }else{
+            // uses lazy loading
+            if(count($lessons) > 0){
+                //Get the first lesson (its previous_lesson_id is null) and put it into the array
+                $lesson = $this->unorderedLessons()->whereNull('previous_lesson_id')->get()[0];
+                array_push($ordered_lessons, $lesson);
 
-                if(!is_null($next_lesson)){
-                    $lesson = $next_lesson;
+                $done = false;
+                while(!$done){
+                    $next_lesson = self::nextLesson($lesson->id);
 
-                    array_push($ordered_lessons, $lesson);
-                } else {
-                    $done = true;
+                    if(!is_null($next_lesson)){
+                        $lesson = $next_lesson;
+
+                        array_push($ordered_lessons, $lesson);
+                    } else {
+                        $done = true;
+                    }
                 }
             }
         }
@@ -128,29 +150,61 @@ class Module extends Model
     {
         $ordered_contents = array();
 
-        // Add any projects that don't come after a lesson
-        $null_projects = $this->unorderedProjects()->whereNull('previous_lesson_id')->orderBy('open_date', 'ASC')->get();
-        if(count($null_projects) > 0){
-            foreach($null_projects as $null_project){
-                array_push($ordered_contents, $null_project);
+        if($this->eagerLoading){
+            // this approach should use the eager loaded and not do additional DB calls.
+            // saved ~300 ms in the test cases.
+            foreach($this->unorderedLessons as $lesson){
+                $prevId = $lesson->previous_lesson_id;
+                $index = ObjectTools::getIndex($ordered_contents, $prevId);
+                if($index > -1){
+                    // add after previous
+                    array_splice($ordered_contents,$index+1,0,[$lesson]);
+                }else{
+                    // add at end
+                    $ordered_contents[] = $lesson;
+                }
             }
-        }
+            foreach($this->unorderedProjects as $project){
+                $prevId = $project->previous_lesson_id;
+                $index = ObjectTools::getIndex($ordered_contents, $prevId);
+                if($index > -1){
+                    // add after previous
+                    array_splice($ordered_contents,$index+1,0,[$project]);
+                }else{
+                    // add at end
+                    $ordered_contents[] = $project;
+                }
 
-        if(count($this->unorderedLessons) > 0){
-            $lessons = $this->lessons();
+            }
+        }else{
+            // uses lazy loading
+            // Add any projects that don't come after a lesson
+            
+            $null_projects = $this->unorderedProjects()->whereNull('previous_lesson_id')->orderBy('open_date', 'ASC')->get();
+            if(count($null_projects) > 0){
+                foreach($null_projects as $null_project){
+                    array_push($ordered_contents, $null_project);
+                }
+            }
 
-            // Add all lessons in order of dependance
-            foreach($lessons as $lesson){
-                array_push($ordered_contents, $lesson);
+            if(count($this->unorderedLessons) > 0){
+                $lessons = $this->lessons();
 
-                // Add the projects that come after each lesson
-                $projects = $this->unorderedProjects()->where('previous_lesson_id', $lesson->id)->orderBy('open_date', 'ASC')->get();
-                foreach($projects as $project){
-                    array_push($ordered_contents, $project);
+                // Add all lessons in order of dependance
+                foreach($lessons as $lesson){
+                    //array_push($ordered_contents, $lesson);
+                    $ordered_contents[] = $lesson; // faster
+
+                    // Add the projects that come after each lesson
+                    
+                    $projects = $this->unorderedProjects()->where('previous_lesson_id', $lesson->id)->orderBy('open_date', 'ASC')->get();
+                    foreach($projects as $project){
+                        //array_push($ordered_contents, $project);
+                        $ordered_contents[] = $project; // faster
+                    }
                 }
             }
         }
-
         return $ordered_contents;
     }
 
@@ -187,18 +241,22 @@ class Module extends Model
         //    }
         //}
 
-        if(count($this->lessons()) > 0){
-            $containingLesson = $this->lessons()[0];
+        //if($this->eagerLoading){
+        //    //HACK: this is just to speed things up for now.
+        //    $exerToDo = new Exercise();
+        //    $exerToDo->id = -1;
+        //}else{
+            
+                $containingLesson = $this->lessons()[0];
+                $containingLesson->eagerLoading = $this->eagerLoading;
+                if(count($containingLesson->exercises()) > 0){
+                    $exerToDo = $containingLesson->exercises()[0];
+                } else {
+                    $exerToDo = Exercise::find(1);
+                }
+            
+        //}
 
-            if(count($containingLesson->exercises()) > 0){
-                $exerToDo = $containingLesson->exercises()[0];
-            } else {
-                $exerToDo = Exercise::find(1);
-            }
-        } else {
-            $exerToDo = Exercise::find(1);
-        }
-        
         return $exerToDo;
     }
 
@@ -262,7 +320,7 @@ class Module extends Model
         if(!is_null($results) and !empty($results)){
             return $results[0];
         }
-        
+
         return null;
     }
 
@@ -282,7 +340,7 @@ class Module extends Model
 
         if(!empty($results[0]->ExerciseCount)){
             return $results[0]->ExerciseCount;
-        } 
+        }
 
         return 0;
     }
@@ -332,7 +390,7 @@ class Module extends Model
     /**
      * returns true if the module has been completed
      * NM. that is not what this does. this is not good.
-     * We should not mix return types. 
+     * We should not mix return types.
      */
     public function completed()
     {

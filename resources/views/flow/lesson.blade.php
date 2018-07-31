@@ -1,11 +1,22 @@
-@php
+<?php
     //use App\Lesson;
     //$lesson = new Lesson();
-    if(count($lesson->exercises()) > 0){
+$numberFound = 0;
+if ($eagered){
+    $numberFound = count($lesson->unorderedExercises());
+}else{
+    $numberFound = count($lesson->exercises());
+}
+    if($numberFound > 0){
         $stats = $lesson->CompletionStats(auth()->user()->id);
         $percComplete = $stats->PercComplete;
         $percComplete = floor($percComplete * 100);
-        $next_incomplete_exercise_id = $lesson->nextIncompleteExercise()->id;
+        //if ($eagered){
+        //    $next_incomplete_exercise_id = $lesson->nextExerciseToDo($progress,auth()->user()->id)->id;
+        //}else{
+        //    $next_incomplete_exercise_id = $lesson->nextIncompleteExercise()->id;
+        //}
+        $next_incomplete_exercise_id = 0;
         $stats_completed = $stats->Completed;
         $stats_exercise_count = $stats->ExerciseCount;
     } else {
@@ -15,7 +26,8 @@
         $stats_completed = 0;
         $stats_exercise_count = 0;
     }
-@endphp
+//@endphp
+?>
 <li class="lesson sortable{{$percComplete == 100?" completed":""}}">
     <a href="{{url('/code/exercise/' . $next_incomplete_exercise_id)}}">
         {{--

@@ -1,6 +1,6 @@
 @php
     // make sure show_survey is set
-    if(!isset($show_survey)) $show_survey = false; 
+    if(!isset($show_survey)) $show_survey = false;
     if(!isset($team)) $team = null;
 
     if(isset($projectSurveyResponse)){
@@ -20,15 +20,15 @@
     @component('scriptbundles/actions')
     @endcomponent
 
-    <script>
-        function selectRating(identifier, selected, max) {
-            for (var i = 0; i <= max; i++) {
-                var rating = $("#" + identifier + "_" + i);
-                rating.removeClass("selected");
-                if (i <= selected) rating.addClass("selected");
-            }
+<script>
+    function selectRating(identifier, selected, max) {
+        for (var i = 0; i <= max; i++) {
+            var rating = $("#" + identifier + "_" + i);
+            rating.removeClass("selected");
+            if (i <= selected) rating.addClass("selected");
         }
-    </script>
+    }
+</script>
 @endsection
 
 <div id="idePrompt">
@@ -78,69 +78,73 @@
     @endif
 </div>
     @if($blockCodeWindow)
-        <div id="fader">
-            <div class="message">
-                <h1>Please rate your first impression of this project.</h1>
-                <p>Don't worry, you will be still be able modify your ratings as you work on the project.</p>
-            </div>
-        </div>
+<div id="fader">
+    <div class="message">
+        <h1>Please rate your first impression of this project.</h1>
+        <p>Don't worry, you will be still be able modify your ratings as you work on the project.</p>
+    </div>
+</div>
     @endif
 
 @section("scripts-end")
     @parent
-    <script>
-        handleContentControllers("#idePrompt", "#promptInstructions");
+    @if($show_survey)
+<script>
+   handleContentControllers("#idePrompt", "#promptInstructions");
 
-        // These are now set using PHP variables
-        var difficultRating = '{{$diffuculty_rating}}';
-        var enjoymentRating = '{{$enjoyment_rating}}';
+    // These are now set using PHP variables
+    var difficultRating = '{{$diffuculty_rating}}';
+    var enjoymentRating = '{{$enjoyment_rating}}';
 
-        $("#projectRatings").click(function (evt) {
-            evt = evt || window.event;
-            var target = evt.target || evt.srcElement;
-            if (target.tagName == "LI") {
-                // only handle scale clicks
-                var tarId = target.id;
-                var idParts = tarId.split("_");
-                var selType = idParts[0];
-                var selIndex = parseInt(idParts[1]);
-                if (selType == "difficulty") {
-                    // difficulty rating
-                    difficultRating = selIndex;
-                } else if (selType == "enjoyment") {
-                    // enjoyment rating
-                    enjoymentRating = selIndex;
-                } else {
-                    // should not hit this
-                }
-                selectRating(selType, selIndex, 9); // baking 9 for now.
+    // set visibility of controls for doing project as needed.
+    if (difficultRating >= 0) selectRating("difficulty", difficultRating, 9);
+    if (enjoymentRating >= 0) selectRating("enjoyment", enjoymentRating, 9);
+
+    setInstructionsPaneControls();
+
+    $("#projectRatings").click(function (evt) {
+        evt = evt || window.event;
+        var target = evt.target || evt.srcElement;
+        if (target.tagName == "LI") {
+            // only handle scale clicks
+            var tarId = target.id;
+            var idParts = tarId.split("_");
+            var selType = idParts[0];
+            var selIndex = parseInt(idParts[1]);
+            if (selType == "difficulty") {
+                // difficulty rating
+                difficultRating = selIndex;
+            } else if (selType == "enjoyment") {
+                // enjoyment rating
+                enjoymentRating = selIndex;
+            } else {
+                // should not hit this
             }
+            selectRating(selType, selIndex, 9); // baking 9 for now.
+        }
 
-            if (difficultRating >= 0 && enjoymentRating >= 0) {
-                $("#fader").animate({ height: 0 }, 400, function () {
-                    $(this).hide();
-                });
-                $("#output").text("difficulty: " + difficultRating + " enjoyment: " + enjoymentRating);
-                $(".contentControl").attr("disabled", false);
+        if (difficultRating >= 0 && enjoymentRating >= 0) {
+            setInstructionsPaneControls();
+            // Call function that makes AJAX call to save survey results to the database. It is located in codeeditor.js
+            createProjectSurveyResponse(difficultRating, enjoymentRating);
+        }
+    });
 
-                // Call function that makes AJAX call to save survey results to the database. It is located in codeeditor.js
-                createProjectSurveyResponse(difficultRating, enjoymentRating);
-            }
+    function setInstructionsPaneControls() {
+        $("#fader").animate({ height: 0 }, 400, function () {
+            $(this).hide();
         });
-    </script>
-@endsection
+        // for debugging you can uncomment the next line.
+        //$("#output").text("difficulty: " + difficultRating + " enjoyment: " + enjoymentRating);
+        $(".contentControl").attr("disabled", false);
+    }
 
-@if(!$blockCodeWindow)
-    @section("scripts-end")       
-        @parent 
 
-        <script>
-            // Fake click event on the ratings of the users last response
-            var difficulty_rating = '{{$projectSurveyResponse->difficulty_rating}}';
-            var enjoyment_rating = '{{$projectSurveyResponse->enjoyment_rating}}';
+            //// Fake click event on the ratings of the users last response
+            //var difficulty_rating = '{{$projectSurveyResponse->difficulty_rating}}';
+            //var enjoyment_rating = '{{$projectSurveyResponse->enjoyment_rating}}';
 
-            selectRating("difficulty", difficulty_rating, 9);
-            selectRating("enjoyment", enjoyment_rating, 9);
-        </script>
-    @endsection
+            // moved this up top to reuse existing functions
+</script>
 @endif
+    @endsection

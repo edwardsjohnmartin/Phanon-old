@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\ObjectTools;
 use Spatie\Permission\Models\Role;
 use App\Enums\Roles;
 use Illuminate\Support\Facades\DB;
@@ -17,17 +18,20 @@ use DateTime;
  * @property \datetime $created_at The date the Course was created.
  * @property \datetime $updated_at The date the Course was last updated.
  */
- 
+
 class Course extends Model
 {
     // Table Name
     public $table = 'courses';
-    
+
     // Primary Key
     public $primaryKey = 'id';
 
     // Timestamps
     public $timestamps = true;
+
+// Toggle whether to use Eager loading
+    public $eagerLoading = false;
 
     /**
      * Relationship function
@@ -67,6 +71,7 @@ class Course extends Model
         }
     }
 
+
     /**
      * Returns an array of the concepts within the course in their correct order
      */
@@ -78,27 +83,45 @@ class Course extends Model
         // Create the array that will store the concepts in the correct order
         $ordered_concepts = array();
 
-        if(count($concepts) > 0){
-            // Get the first concept (its previous_concept_id is null) and put it into the array
-            $concept = $this->unorderedConcepts()->whereNull('previous_concept_id')->get()[0];
-            array_push($ordered_concepts, $concept);
+        if($this->eagerLoading){
+            // this approach should use the eager loaded and not do additional DB calls.
+            // saved ~100 ms in the test cases.
+            foreach($concepts as $concept){
+                $prevId = $concept->previous_concept_id;
+                $index = ObjectTools::getIndex($ordered_concepts, $prevId);
+                if($index > -1){
+                    // add after previous
+                    array_splice($ordered_concepts,$index+1,0,[$concept]);
+                }else{
+                    // add at end
+                    $ordered_concepts[] = $concept;
+                }
 
-            $done = false;
-            while($done == false){
-                $next_concept = self::nextConcept($concept->id);
+            }
+        }else{
+            // uses lazy loading
+            if(count($concepts) > 0){
+                // Get the first concept (its previous_concept_id is null) and put it into the array
+                $concept = $this->unorderedConcepts()->whereNull('previous_concept_id')->get()[0];
+                array_push($ordered_concepts, $concept);
 
-                if(!is_null($next_concept)){
-                    $concept = $next_concept;
+                $done = false;
+                while($done == false){
+                    $next_concept = self::nextConcept($concept->id);
 
-                    array_push($ordered_concepts, $concept);
-                } else {
-                    $done = true;
-                } 
+                    if(!is_null($next_concept)){
+                        $concept = $next_concept;
+
+                        array_push($ordered_concepts, $concept);
+                    } else {
+                        $done = true;
+                    }
+                }
             }
         }
-
         return $ordered_concepts;
     }
+
 
     /**
      * Returns an array of all projects within the course.
@@ -182,7 +205,7 @@ class Course extends Model
     }
 
     /**
-     * 
+     *
      */
     public function deepCopy()
     {
@@ -253,4 +276,36 @@ class Course extends Model
 
         return false;
     }
+
+
+    /**
+     * Summary of ExerciseProgress
+     * @param mixed $userID
+     * @return object containing (Completed, ExerciseCount, PercComplete)
+     */
+    public function ExerciseProgress($userID){
+        $idParsed = intval($userID);
+        //$progress = DB::table('exercise_progress')->
+        //    join('exercises', 'exercise_progress.exercise_id','=','exercises.id')->
+        //    join('lessons', 'exercises.lesson_id','=','lessons.id')->
+        //    join('modules', 'lessons.module_id','=','modules.id')->
+        //    join('concepts', 'modules.concept_id','=','concepts.id')->
+        //    select('exercise_progress.*')->
+        //    where([
+        //        ['concepts.course_id', $this->id],
+        //        ['exercise_progress.user_id',$idParsed]
+        //    ])->get();
+        $progress = ExerciseProgress::
+            join('exercises', 'exercise_progress.exercise_id','=','exercises.id')->
+            join('lessons', 'exercises.lesson_id','=','lessons.id')->
+            join('modules', 'lessons.module_id','=','modules.id')->
+            join('concepts', 'modules.concept_id','=','concepts.id')->
+            select('exercise_progress.*')->
+            where([
+                ['concepts.course_id', $this->id],
+                ['exercise_progress.user_id',$idParsed]
+            ])->get();
+        return $progress;
+    }
+
 }

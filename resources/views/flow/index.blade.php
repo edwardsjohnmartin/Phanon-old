@@ -12,11 +12,11 @@
 @endsection
 
 @section('content')
-
+<?php $startTime = microtime(true); ?>
 <div class="container">
     <div class="row">
         <section id="courseFlow" class="col-md-8 col-md-offset-2">
-            @component("flow.course",["course" => $course, "role" => $role])
+            @component("flow.course",["course" => $course, "role" => $role, 'eagered' => $eagered])
             @endcomponent
         </section>
     </div>
@@ -24,12 +24,18 @@
     <div class="row create-button-div hidden">
         <button class="center-block" onclick="createConcept({{$course->id}}, '{{url('/ajax/conceptcreate')}}')">Create New Concept</button>
     </div>
-</div>
+</div> 
 @endsection
-
+<?php
+$endTime = microtime(true);
+?>
+<div id="debug">
+    <p>Time: {{round($endTime-$startTime,2)}} seconds</p>
+    <a href="{{url("flow/".$course->id."?eager=true")}}">Eager On</a>
+    <a href="{{url("flow/".$course->id."?eager=false")}}">Eager Off</a>
+    </div>
 @section("scripts-end")
-@parent
-<script>
+    @parent></div><script>
     $(".sortableConcept").sortable({ items: ".module" });
     $(".module").disableSelection();
     var didAction = handleContentControllers("#courseFlow",".components",true);

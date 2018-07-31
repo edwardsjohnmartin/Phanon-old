@@ -8,6 +8,16 @@
 }
 /* From: https://themify.me/themify-icons */
 
+#debug{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    position:fixed;
+    top: 100px;
+    left: 25px;
+    border: 2px solid #333;
+    background-color: #FFF;
+    padding: .3em;
+}
+
 body {
     padding-top: 70px;
 }

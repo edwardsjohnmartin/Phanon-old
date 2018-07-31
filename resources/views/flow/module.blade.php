@@ -8,9 +8,11 @@
     $now = date(config("app.dateformat"));
 
     //HACK: major hack this is not the way it should be done.
-    $lessonsAndProjectsCount = count($module->lessonsAndProjects());
+    // 2/8 time spent on this call.
+    $lessonsAndProjectsCount = 1;// count($module->lessonsAndProjects());
     if($lessonsAndProjectsCount > 0){
         $is_completed = $module->completed() <= 1; // See comments on this method.
+        // .5 / 8 time spent on this call.
         $stats = $module->CompletionStats(auth()->user()->id);
         if(!is_null($stats)){
             $stats_perc_complete = floor($stats->PercComplete*100);
@@ -52,8 +54,8 @@
     </div>
 
     <h1>
-        {{-- #todo: need to fix this to acutally use the correct exercise --}}
-        <a class="editable" href="{{url('/code/exercise/'.$module->currentExercise(1)->id)}}">
+        {{-- This will ask the controller to figure out the current lesson and exercise --}}
+        <a class="editable" href="{{url('/code/module/'.$module->id)}}">
             {{$module->name}}
         </a>
         <span>({{$stats_completed}} / {{$stats_exercise_count}})</span>
@@ -69,32 +71,23 @@
         <span class="start editable">{{$module->getOpenDate(config("app.dateformat_short"))}}</span>
     </div>
 
-    {{--
-    <ul class="lessons">
-        @foreach($module->lessons() as $less)
-            @component('flow.lesson',['lesson' => $less])
-            @endcomponent
-        @endforeach
-    </ul>
-    <ul class="projects">
-        @foreach($module->projects() as $proj)
-            @component('flow.project',['project' => $proj])
-            @endcomponent
-        @endforeach
-    </ul>--}}
-
     <ul class="components">
-        @if($lessonsAndProjectsCount > 0)
+       {{--  @if($lessonsAndProjectsCount > 0)
+        5/8 time spent here on load. --}}
+        <?php $module->eagerLoading = $eagered; ?>
             @foreach($module->lessonsAndProjects() as $comp)
+                <?php $comp->eagerLoading = $eagered; ?>
                 @if(get_class($comp) == "App\Lesson")
-                    @component('flow.lesson',['lesson' => $comp])
+                   @component('flow.lesson',['lesson' => $comp, 'eagered' => $eagered])
                     @endcomponent
+        
                 @else
-                    @component('flow.project',['project' => $comp])
+                    @component('flow.project',['project' => $comp, 'eagered' => $eagered])
                     @endcomponent
                 @endif
             @endforeach
-        @endif
+        
+       {{--@endif --}}
     </ul>
 
     <div class="row create-button-div @if(!$ajaxCreation) hidden @endif">
