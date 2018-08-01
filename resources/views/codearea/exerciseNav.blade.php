@@ -26,16 +26,19 @@
                     }
                 }
             @endphp
-
-            <li class="exercise mini {{$class}}">
-                @if($is_active) 
-                    <a href="{{url('code/exercise/' . $exercise->id)}}">{{$exercise_count++}}</a>
-                @endif
-            </li>
+        @component('codearea.exerciseNavItem',[
+        'exercise' => $exercise,
+        'exercise_count' => $exercise_count++,
+        'is_active' => $is_active,
+        'class' => $class
+        ])
+        @endcomponent
         @endforeach
-
-        <li id="addExerciseBtn" class="exercise mini hidden">
-            <button onclick="addNewExerciseToLesson('{{url('/ajax/exercisecreate')}}');">+</button>
+    @if($role->hasPermissionTo(Permissions::EXERCISE_EDIT))
+        <li class="exercise addNew mini active">
+            <a id="addExercise" href="#" data-count="{{$exercise_count}}"
+               onclick="addNewExerciseToLesson('{{url('/ajax/exercisecreate')}}');return false;">+</a>
         </li>
+        @endif
     </ol>
 </div>

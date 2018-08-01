@@ -42,10 +42,36 @@ function makeResetButton(buttonId) {
     btnReset.onclick = function () {
         var resetCode = btnReset.attributes["data-reset-code"].value;
         replaceEditorText("ideCodeWindow", resetCode);
-        addPopup("Code reset to starter code.","reset");
+        addPopup("Code reset to starter code.", "reset");
     };
 }
 
+
+//TODO: this do not technically make the button; should consider renaming to a
+//     more accurate name like - setSaveButtonEvents
+/**
+ * 
+ * @param {*} buttonId 
+ */
+function makeSaveButton(buttonId) {
+    var btnSave = document.getElementById(buttonId);
+    var divName = getCurrentCodeWindowId();
+    var itemType = btnSave.attributes["data-item-type"].value;
+    var itemId = btnSave.attributes["data-item-id"].value;
+    var url = btnSave.attributes["data-save-url"].value;
+
+    btnSave.onclick = function () {
+        var codeEditor = getCodeMirrorByParentNode(divName);
+
+        if (itemType == "project") {
+            saveProjectCode(itemId, codeEditor.getValue(), url)
+        } else if (itemType == "exercise") {
+            saveExerciseCode(itemId, codeEditor.getValue(), url, false);
+        } else {
+            addPopup("Save failed; type not known.", "error");
+        }
+    };
+}
 /**
  * 
  * @param {*} prompt 
@@ -158,9 +184,9 @@ function runCode(codeToRun, outputArea, userCode = "") {
 
                     toggleCurrentStep("btnRunCode", "btnNext");
 
-                    saveExerciseCode(itemId, userCode, true, url);
+                    saveExerciseCode(itemId, userCode, url, true);
                 } else {
-                    saveExerciseCode(itemId, userCode, false, url);
+                    saveExerciseCode(itemId, userCode, url, false);
                 }
             }
 
@@ -179,7 +205,7 @@ function runCode(codeToRun, outputArea, userCode = "") {
             }
 
             if (itemType == "exercise") {
-                saveExerciseCode(itemId, userCode, false, url);
+                saveExerciseCode(itemId, userCode, url, false);
             }
             addPopup(msg, "error");
 
@@ -266,20 +292,14 @@ function getCodeFromEditor(editor, includeTestCode = false) {
  * Compiles the Python code from the various sources and sends it to Skulpt to be ran.
  */
 function run() {
-    var divName = "ideCodeWindow";
-
-    // This will only be true when the user had edit permissions and tabs were created
-    // It will run the code of the active tab
-    var activeli = $('li.nav-item.active');
-    if(activeli.length > 0){
-        var alink = activeli.find('a');
-        divName = alink.attr('href').substring(1);
-    }
+    var divName = getCurrentCodeWindowId();
 
     // Get Python code to run from the various CodeMirror editors that exist
     var codeToRun = "";
     var codeEditor = getCodeMirrorByParentNode(divName);
 
+    // Why are we expecting preexisting/global variables from codeWindow.blade.php?
+    // This is dangerous.
     if (hasPreCode) {
         var preCodeEditor = getCodeMirrorByParentNode("idePreCode");
         codeToRun += getCodeFromEditor(preCodeEditor);
@@ -312,6 +332,20 @@ function run() {
     runCode(codeToRun, outputArea, codeEditor.getValue());
 }
 
+function getCurrentCodeWindowId() {
+    var divName = "ideCodeWindow"; // use codeWindow as default.
+
+    // This will only be true when the user had edit permissions and tabs were created
+    // It will run the code of the active tab
+    var activeli = $('#ideCodeWindow li.nav-item.active');
+    if (activeli.length > 0) {
+        var alink = activeli.find('a');
+        divName = alink.attr('href').substring(1);
+    }
+
+    return divName;
+}
+
 /**
  * 
  * @param {*} exercise_id The id of the exercise being attempted.
@@ -319,13 +353,16 @@ function run() {
  * @param {*} success Indicates whether the exercise was completed correctly or not.
  * @param {*} url  The url of the route to save the exercise to the database.
  */
-function saveExerciseCode(exercise_id, contents, success, url) {
+function saveExerciseCode(exercise_id, contents, url, success = false) {
     $.ajax({
         type: "POST",
         url: url,
         data: { contents: contents, exercise_id: exercise_id, success: success, _token: $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             addPopup("Code saved!", "save")
+        },
+        error: function () {
+            addPopup("Error saving Code!", "save")
         }
     });
 }
@@ -338,6 +375,9 @@ function saveProjectCode(project_id, contents, url) {
         data: { contents: contents, project_id: project_id, _token: $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             addPopup("Project Code saved!", "save")
+        },
+        error: function () {
+            addPopup("Error saving Code!", "error")
         }
     });
 }
@@ -384,12 +424,12 @@ function getLinkFromButton(btnId) {
     if (btn != null) {
         url = btn.getAttribute("data-url");
     }
-    
+
     return url
 }
 
 function toggleAddExerciseVisibility() {
-    if($('#addExerciseBtn').hasClass('hidden')){
+    if ($('#addExerciseBtn').hasClass('hidden')) {
         $('#addExerciseBtn').removeClass('hidden');
     } else {
         $('#addExerciseBtn').addClass('hidden');
@@ -403,7 +443,7 @@ function toggleAddExerciseVisibility() {
  * @param {*} url 
  */
 function toggleEditMode(editBtn, itemType, url) {
-    if(itemType == "exercise"){
+    if (itemType == "exercise") {
         toggleAddExerciseVisibility();
 
         toggleDivVisibility('#ideTestCode');
@@ -425,12 +465,12 @@ function toggleEditMode(editBtn, itemType, url) {
     toggleDivVisibility('#ideTeamsSetting');
 
     // If edit mode is being turned off, save to database through AJAX call
-    if($(editBtn).text() == "Turn Off Edit Mode"){
-        if(itemType == "project"){
+    if ($(editBtn).text() == "Turn Off Edit Mode") {
+        if (itemType == "project") {
             saveProjectEdit(url);
-        } else if(itemType == "exercise"){
+        } else if (itemType == "exercise") {
             saveExerciseEdit(url);
-        } 
+        }
     }
 
     // Change edit button text
@@ -441,7 +481,7 @@ function toggleEditMode(editBtn, itemType, url) {
  * Toggles the contentEditable attribute of any elements with the editable class.
  */
 function toggleEditableElements() {
-    if($('.editable').attr('contentEditable') == 'true'){
+    if ($('.editable').attr('contentEditable') == 'true') {
         $('.editable').attr('contentEditable', 'false');
     } else {
         $('.editable').attr('contentEditable', 'true');
@@ -456,10 +496,15 @@ function toggleEditableElements() {
  * @param {*} editBtn 
  */
 function toggleButtonText(editBtn) {
-    if($(editBtn).text() == "Enable Edit Mode"){
-        $(editBtn).text("Turn Off Edit Mode");
+    var btn = $(editBtn);
+    if (btn.text() == "Enable Edit Mode") {
+        btn.text("Turn Off Edit Mode");
+        btn.attr("title", "Turn Off Edit Mode");
+        btn.addClass("selected");
     } else {
-        $(editBtn).text("Enable Edit Mode");
+        btn.text("Enable Edit Mode");
+        btn.attr("title", "Enable Edit Mode");
+        btn.removeClass("selected");
     }
 }
 
@@ -468,7 +513,7 @@ function toggleButtonText(editBtn) {
  * @param {*} promptSection 
  */
 function togglePromptText(promptSection) {
-    if($(promptSection).hasClass("edit-on")){
+    if ($(promptSection).hasClass("edit-on")) {
         // Change the text shown for the prompt to its raw html
         $(promptSection).text($(promptSection).data("raw-prompt"));
     } else {
@@ -484,7 +529,7 @@ function togglePromptText(promptSection) {
  */
 function toggleDivVisibility(divName) {
     var myDiv = $(divName);
-    if($(myDiv).hasClass('hidden')){
+    if ($(myDiv).hasClass('hidden')) {
         // Make div visible
         $(myDiv).removeClass('hidden');
     } else {
@@ -535,7 +580,7 @@ function saveExerciseEdit(url) {
     var prompt = $('#promptInstructions').data("raw-prompt");
     var pre_code = $('#idePreCode').find('.CodeMirror')[0].CodeMirror.getValue();
     var test_code = $('#ideTestCode').find('.CodeMirror')[0].CodeMirror.getValue();
-    
+
     $.ajax({
         type: "POST",
         url: url,
@@ -557,7 +602,7 @@ function createProjectSurveyResponse(difficultyRating, enjoymentRating) {
     var project_id = $('#projectId').text();
 
     // Validate response amounts are between 0 and 9 before making AJAX call
-    if((difficultyRating >= 0 && difficultyRating <= 9) && (enjoymentRating >= 0 && enjoymentRating <= 9)){
+    if ((difficultyRating >= 0 && difficultyRating <= 9) && (enjoymentRating >= 0 && enjoymentRating <= 9)) {
         $.ajax({
             type: "POST",
             url: url,
@@ -578,17 +623,21 @@ function createProjectSurveyResponse(difficultyRating, enjoymentRating) {
 function addNewExerciseToLesson(url) {
     // Get lesson id of exercise
     var lesson_id = $("#exerciseList").data("lesson-id");
-
+    var number = $("#addExercise").attr("data-count");
     $.ajax({
         type: "POST",
         url: url,
         data: {
             lesson_id: lesson_id,
+            exercise_count: number,
             _token: $('meta[name="csrf-token"]').attr('content')
         },
         success: function (data) {
-            console.log(data);
-
+            //console.log(data);
+            var o = $("#addExercise");
+            o.parent().before(data);
+            var count = parseInt(o.attr("data-count"));
+            o.attr("data-count", count + 1);
             // Add tile icon for newly created exercise
         }
     });

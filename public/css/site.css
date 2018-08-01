@@ -82,11 +82,32 @@ body {
     margin-right: .5em;
 }
 
-.btn-copy:before, .copy:before { /* change to copy*/
+.btn-copy:before, .copy:before {
     font-family: themify;
     content: "\e6a3";
     margin-right: .5em;
 }
+
+.insert:before { 
+    font-family: themify;
+    content: "\e679";
+    margin-right: .5em;
+}
+
+.collapseAll:before {
+    font-family: themify;
+    content: "\e6F6";
+    margin-right: .5em;
+}
+
+.expandAll:before {
+    font-family: themify;
+    content: "\e712";
+    display: inline-block;
+    transform: rotate(90deg);
+    margin-right: .5em;
+}
+
 
 .flow:before {
     font-family: themify;
@@ -124,7 +145,7 @@ body {
 
 .save:before {
     font-family: themify;
-    content: "\e746";
+    content: "\e746"; /*disk*/
     margin-right: .5em;
 }
 
@@ -920,6 +941,7 @@ dl.dates dt, dl.dates dd {
             content: "\e61d"; /* edit pencil */
         }
 
+       
         #exerciseList .exercise.current a {
             /*color: #000;*/
         }
@@ -1147,26 +1169,30 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         padding: .3em;
         background-color: #6A6;
         color: #FFF;
-        width: 1.6em;
+        width: 1.7em;
         height: 1.6em;
         line-height: 1;
         position: relative;
         overflow: hidden;
     }
-
+    
         #ideControls button.currentStep {
             background-color: #080;
         }
 
+        #ideControls button.save {
+            background-color: #66A;
+        }
+
         #ideControls button:hover {
             font-size: 1.6em;
-            background-color: #66A;
+            background-color: #33A;
             margin: -.2em;
             /*width: auto;*/
             height: auto;
         }
 
-        #ideControls button.currentStep:hover {
+        #ideControls button.currentStep:hover, #ideControls button.selected {
             background-color: #00A;
         }
 

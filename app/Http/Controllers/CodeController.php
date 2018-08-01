@@ -39,7 +39,7 @@ class CodeController extends Controller
     }
 
     /**
-     * 
+     *
      */
     public function exercise($exercise_id = null)
     {
@@ -65,6 +65,7 @@ class CodeController extends Controller
     public function createExercise(Request $request)
     {
         $lesson_id = $request->all()['lesson_id'];
+        $exercise_count = $request->all()['exercise_count'];
 
         $lesson = Lesson::find($lesson_id);
         if(is_null($lesson) or empty($lesson)){
@@ -83,7 +84,16 @@ class CodeController extends Controller
         $exercise->owner_id = auth()->user()->id;
         $exercise->save();
 
-        return ['msg' => "Exercise was created successfully", 'exercise_id' => $exercise->id];
+        //return ['msg' => "Exercise was created successfully", 'exercise_id' => $exercise->id];
+        //<li class="exercise mini {{$class}}">
+        //        @if($is_active)
+        //            <a href="{{url('code/exercise/' . $exercise->id)}}">{{$exercise_count++}}</a>
+        //        @endif
+        //    </li>
+        return view('codearea.exerciseNavItem',['exercise' => $exercise,
+                                                'exercise_count' => $exercise_count,
+                                                'is_active' => true,
+                                                'class' => '']);
     }
 
     /**
@@ -116,9 +126,9 @@ class CodeController extends Controller
 
         return "The exercise was edited succesfully";
     }
-    
+
     /**
-     * Gets a project as well as the logged-in users progress on that project and directs them to the coding page for it. 
+     * Gets a project as well as the logged-in users progress on that project and directs them to the coding page for it.
      */
     public function project($project_id = null)
     {
@@ -155,13 +165,13 @@ class CodeController extends Controller
                 }
             }
         }
-        
+
         if(!$canViewProject){
             return redirect('/')->
                 with('error', 'You do not have permission to view that project');
         }
 
-        // Check that the current date is within the projects open and close dates. 
+        // Check that the current date is within the projects open and close dates.
         $now = date(config('app.dateformat'));
 
         // This is going to be commented out for now for testing purposes but it does work and will be used in release
@@ -271,8 +281,8 @@ class CodeController extends Controller
     //     foreach($myModule->lessons() as $lesson){
     //         $les_arr = array();
     //         foreach($lesson->exercises() as $exercise){
-    //             $cur_ex_progress = ExerciseProgress::where('user_id', auth()->user()->id)->where('exercise_id', $exercise->id)->first();;       
-                
+    //             $cur_ex_progress = ExerciseProgress::where('user_id', auth()->user()->id)->where('exercise_id', $exercise->id)->first();;
+
     //             if(!empty($cur_ex_progress)){
     //                 $ex_arr = $cur_ex_progress->completed();
     //             } else {
@@ -302,7 +312,7 @@ class CodeController extends Controller
     // public function project($id)
     // {
     //     $myProject = Project::find($id);
-        
+
     //     return view('codearea.project',['project' => $myProject]);
     // }
 

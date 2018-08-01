@@ -20,6 +20,13 @@
             <span class="buttonSpacer"> - </span>
     @endif
 
+    <button id="btnSave" type="button" title="Save code. (Ctrl+S)" class="btn btn-default save"
+        data-item-type="{{$item_type}}"
+        data-item-id="{{$item->id}}"
+        data-save-url="{{url('code/' . $item_type . '/save')}}">
+        Save
+    </button>
+
     <button id="btnRunCode" title="Run and Save code. (Ctrl+Enter)" type="button" class="btn btn-default run currentStep"
         data-item-type="{{$item_type}}"
         @if($item_type != 'sandbox')
@@ -65,7 +72,13 @@
             }
         @endphp
 
-        <button class="btn" style="width: auto" onclick="toggleEditMode(this, '{{$item_type}}', '{{$url}}');">Enable Edit Mode</button> 
+        <button class="btn edit" title="Turn Editing Mode On" onclick="toggleEditMode(this, '{{$item_type}}', '{{$url}}');">Enable Edit Mode</button> 
+    @if($item_type == "exercise")
+        <button class="btn copy" title="Copy this item." 
+                onclick="copyItem(this, '{{$item_type}}', '{{$url}}', {{$item->id}});">Copy</button> 
+        <button class="btn insert" title="Insert new after this item." 
+                onclick="insertItem(this, '{{$item_type}}', '{{$url}}', {{$item->id}});">Insert</button> 
+    @endif 
     @endif
 </div>
 
@@ -73,5 +86,6 @@
     @parent
     <script>
         makeResetButton("btnReset");
+        makeSaveButton("btnSave");
     </script>
 @endsection

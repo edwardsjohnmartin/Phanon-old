@@ -17,8 +17,6 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include=".vs\slnx.sqlite" />
-    <Compile Include=".vs\VSWorkspaceState.json" />
     <Compile Include="app\Concept.php" />
     <Compile Include="app\Console\Kernel.php" />
     <Compile Include="app\Enums\Enum.php" />
@@ -60,6 +58,7 @@
     <Compile Include="app\ObjectTools.php" />
     <Compile Include="app\Project.php" />
     <Compile Include="app\ProjectProgress.php" />
+    <Compile Include="app\ProjectSurveyResponse.php" />
     <Compile Include="app\Providers\AppServiceProvider.php" />
     <Compile Include="app\Providers\AuthServiceProvider.php" />
     <Compile Include="app\Providers\BroadcastServiceProvider.php" />
@@ -780,6 +779,7 @@
     <Compile Include="resources\views\codearea\messages.blade.php" />
     <Compile Include="resources\views\codearea\outputWindows.blade.php" />
     <Compile Include="resources\views\codearea\precode.blade.php" />
+    <Compile Include="resources\views\codearea\projectDetails.blade.php" />
     <Compile Include="resources\views\codearea\projectEditor.blade.php" />
     <Compile Include="resources\views\codearea\prompt.blade.php" />
     <Compile Include="resources\views\codearea\sandbox.blade.php" />
@@ -794,6 +794,7 @@
     <Compile Include="resources\views\courses\edit.blade.php" />
     <Compile Include="resources\views\courses\fullview.blade.php" />
     <Compile Include="resources\views\courses\index.blade.php" />
+    <Compile Include="resources\views\courses\teams.blade.php" />
     <Compile Include="resources\views\flow\authoring\create.blade.php" />
     <Compile Include="resources\views\flow\authoring\store.blade.php" />
     <Compile Include="resources\views\flow\concept.blade.php" />
@@ -832,6 +833,7 @@
     <Compile Include="resources\views\flow\project.blade.php" />
     <Compile Include="resources\views\projects\index.blade.php" />
     <Compile Include="resources\views\projects\show.blade.php" />
+    <Compile Include="resources\views\projects\teams.blade.php" />
     <Compile Include="resources\views\roles\create.blade.php" />
     <Compile Include="resources\views\roles\edit.blade.php" />
     <Compile Include="resources\views\roles\index.blade.php" />
@@ -895,9 +897,6 @@
     <Compile Include="webpack.mix.js" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include=".vs\phanon\v15" />
-    <Folder Include=".vs\phanon" />
-    <Folder Include=".vs" />
     <Folder Include="app\Console" />
     <Folder Include="app\Enums\" />
     <Folder Include="app\Exceptions" />
@@ -1323,5 +1322,6 @@
     <Content Include="public\js\actions.js" />
     <Content Include="resources\assets\js\bootstrap-multiselect.js" />
     <Content Include="resources\assets\js\jquery-ui.min.js" />
+    <Content Include="resources\views\codearea\exerciseNavItem.blade.php" />
   </ItemGroup>
 </Project>

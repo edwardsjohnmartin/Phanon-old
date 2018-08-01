@@ -15,6 +15,7 @@
 
 @section('content')
     @component('codearea.exerciseNav', [
+        'role' => $role,
         'exercises' => $exercise->lesson->exercises(),
         'current_exercise_id' => $exercise->id,
         'lesson_id' => $exercise->lesson->id
