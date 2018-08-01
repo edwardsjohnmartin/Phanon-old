@@ -36,7 +36,7 @@ $endTime = microtime(true);
     </div>
 @section("scripts-end")
     @parent></div><script>
-    $(".sortableConcept").sortable({ items: ".module" });
+    $(".sortableConcept").sortable({ items: ".module", handle: ".dragHandle",placeholder:"ui-state-highlight" });
     $(".module").disableSelection();
     var didAction = handleContentControllers("#courseFlow",".components",true);
 
@@ -46,6 +46,10 @@ $endTime = microtime(true);
                 + parseInt($("#courseDetails").css("height")) + 10)
         }, 2000
         );
-    });
+        });
+
+        $(".dates .datepicker").on("focus", function () {
+            $(this).datepicker("show");
+        });
 </script>
 @endsection

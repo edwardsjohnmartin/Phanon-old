@@ -50,10 +50,24 @@ body {
     margin-right: .5em; /* plus and space */
 }
 
-.btn-edit:before, .edit:before {
+.btn-edit:before, .edit:before{
     font-family: themify;
-    content: "\e61c";
+    content: "\e61c"; /*pencil*/
     margin-right: .5em;
+}
+[contenteditable="true"]:after {
+    font-family: themify;
+    content: "\e61c"; /*pencil*/
+}
+.dates [contenteditable="true"]:after {
+    font-family: themify;
+    content: "\e6b6"; /*calendar*/
+    margin-left: .25em;
+}
+.dragHandle:before {
+    font-family: themify;
+    content: "\e657"; /*vertical arrows*/
+    margin-left: .25em;
 }
 
 .btn-view:before, .view:before {
@@ -344,12 +358,26 @@ body {
     position: sticky;
     top: 100px;
     z-index: 991;
+    width: 70%;
 }
 
 #courseFlow .module h1 {
     position: sticky;
     top: 125px;
     z-index: 991;
+    width: 70%;
+}
+
+#courseFlow .module .dragHandle {
+    position:absolute;
+    top: 0;
+    left:-2em;
+    font-size: 2em;
+    display:inline-block;
+    width: 1em;
+    height: 1.5em;
+    overflow:hidden;
+    cursor:ns-resize;
 }
 
 /*#courseFlow .module * {
@@ -1426,9 +1454,25 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     margin: .1em .5em .3em 1em;
 }
 
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus {
+    border: none;
+    outline: none;
+}
+
+[contenteditable="true"]{
+    border-bottom: 2px dotted #334;
+}
+
+[contenteditable="true"]:focus {
+    z-index: 999;
+    background-color: #FFF;
+    border: 1px solid #333;
+}
+
+
 .editable.edit-on {
-    outline-style: dashed;
-    outline-width: 2px;
+
 }
 
 #ideProjectName {

@@ -19,6 +19,16 @@ function actionVerify(action, e, url) {
     return answer;
 }
 
+function expandCollapseAll(expand, collapsable) {
+
+    if (expand) {
+
+    } else {
+
+    }
+}
+
+
 /**
  * Set contentController Events and handle bubbled events.
  * @param containerId parent element that contains all elements.
@@ -33,32 +43,36 @@ function handleContentControllers(containerId, collapsingChildSelector, scrollTo
         var t = e.target || e.srcElement;
         if (t.tagName === "BUTTON") {
             // had to name these expander and collapser because of BootStrap
-            wasAction = true;
-            if (t.classList.contains("expander")) {
-                // only handle content Controls
-                $(t).removeClass("expander").addClass("collapser");
-            } else if (t.classList.contains("collapser")) {
-                $(t).removeClass("collapser").addClass("expander");
-            } else {
-                // other buttons we are not handling here.
-                wasAction = false;
-            }
-            if (wasAction) {
-                $(t).parent().find(collapsingChildSelector).animate({ height: "toggle" });
-                if (scrollToParent) {
-                    $("html,body").animate({
-                        scrollTop: $(t).parent().offset().top - (parseInt($("body").css("padding-top")))
-                    }, 2000
-                    );
-
-                }
-                if (event != undefined) {
-                    // This was commented out because it kept giving the following error
-                    // "Uncaught TypeError: success is not a function"
-                    //success();
-                }
-            }
+            expandCollapse(t,collapsingChildSelector,success);
         }
     });
     return wasAction;
+}
+
+function expandCollapse(ele,collapsable,success) {
+    wasAction = true;
+    var t = $(ele);
+    if (t.hasClass("expander")) {
+        // only handle content Controls
+        t.removeClass("expander").addClass("collapser");
+    } else if (t.hasClass("collapser")) {
+        t.removeClass("collapser").addClass("expander");
+    } else {
+        // other buttons we are not handling here.
+        wasAction = false;
+    }
+    if (wasAction) {
+        t.parent().find(collapsable).animate({ height: "toggle" });
+        if (scrollToParent) {
+            $("html,body").animate({
+                scrollTop: t.parent().offset().top - (parseInt($("body").css("padding-top")))
+            }, 2000
+            );
+
+        }
+        if (event != undefined) {
+            if (success != undefined)
+                success();
+        }
+    }
 }

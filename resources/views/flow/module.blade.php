@@ -36,6 +36,7 @@
 <article 
    class="module sortable{{$is_completed  ? ' expired' : '' }}{{
             !$is_completed  ? ' current' : '' }}">
+    <div class="dragHandle">Move Me</div>
    <div class="completion tiny p{{$stats_perc_complete}}">
         <span>
             @if(!is_null($stats))

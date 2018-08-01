@@ -47,6 +47,6 @@ if ($eagered){
                 <div class="fill"></div>
             </div>
         </div>
-        <span class="name">{{$lesson->name}}</span>
+        <span class="name editable">{{$lesson->name}}</span>
     </a>
 </li>

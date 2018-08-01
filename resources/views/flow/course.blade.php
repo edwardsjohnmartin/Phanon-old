@@ -3,9 +3,9 @@
     <aside class="dates">
         <!--TODO: these dates should come preformatted-->
         <!--Not sure why we are parsing them then reformatting them again.-->
-        <span id="courseOpenDate" class="start editable">{{$course->getOpenDate(config('app.dateformat_short'))}}</span>
+        <span id="courseOpenDate" class="start datepicker editable">{{$course->getOpenDate(config('app.dateformat_short'))}}</span>
         <span> - </span>
-        <span id="courseCloseDate" class="end editable">{{$course->getCloseDate(config('app.dateformat_short'))}}</span>
+        <span id="courseCloseDate" class="end datepicker editable">{{$course->getCloseDate(config('app.dateformat_short'))}}</span>
     </aside>
     
     <aside class="actions">
@@ -26,10 +26,13 @@
             <a href="{{url('/courses/' . $course->id . '/teams')}}" class="btn">View Teams</a>
         @endcan
     </aside>
-
+    <aside>
     @if($role->hasPermissionTo(Permissions::COURSE_EDIT))
-        <button class="pull-right" onclick="toggleEditMode(this);">Enable Edit Mode</button>
+        <button class="edit" onclick="toggleEditMode(this);">Enable Edit Mode</button>
     @endif
+        <button class="expandAll" onclick="expandCollapseAll(true,'.components');">Expand</button>
+        <button class="collapseAll" onclick="expandCollapseAll(false,'.components');">Collapse</button>
+        </aside>
 </div>
 <?php $course->eagerLoading = $eagered; ?>
 @foreach($course->concepts() as $concept)
