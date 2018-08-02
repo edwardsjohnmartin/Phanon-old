@@ -4,6 +4,7 @@ namespace App;
 use App\ObjectTools;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
@@ -48,7 +49,7 @@ class Concept extends Model
      */
     public function unorderedModules()
     {
-        return $this->hasMany('App\Module')->orderBy('previous_module_id');
+        return $this->hasMany('App\Module');
     }
 
     /**
@@ -178,5 +179,43 @@ class Concept extends Model
         }
 
         return $completed;
+    }
+
+    public function modulesCollection()
+    {
+        $modules = array();
+
+        $module = $this->unorderedModules->where('previous_module_id', null)->first();
+
+        if(is_null($module)){
+            return $this->unorderedModules;
+        }
+
+        $module->components = $module->componentsCollection();
+        unset($module->unorderedLessons);
+        unset($module->unorderedProjects);
+        array_push($modules, $module);
+
+        $done = false;
+
+        while(!$done){
+            $next_module = $this->unorderedModules->where('previous_module_id', $module->id)->first();
+
+            if(!is_null($next_module)){
+                $module = $next_module;
+                $module->components = $module->componentsCollection();
+                unset($module->unorderedLessons);
+                unset($module->unorderedProjects);
+                array_push($modules, $module);
+            } else {
+                $done = true;
+            }
+        }
+
+        if(count($modules) > 0){
+            return collect($modules);
+        } else {
+            return null;
+        }
     }
 }

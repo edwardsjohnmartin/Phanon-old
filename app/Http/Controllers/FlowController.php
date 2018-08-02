@@ -55,17 +55,19 @@ class FlowController extends Controller
         //    }]);
         //}])->first();
 
-        $course = Course::where('id', $id)->
-         select('id', 'name', 'open_date', 'close_date', 'owner_id')->
-         with(['unorderedConcepts' => function($concepts){
-             $concepts->select('id', 'name', 'course_id', 'previous_concept_id')->
-             with(['unorderedModules' => function($modules){
-                 $modules->select('id', 'name', 'concept_id', 'previous_module_id', 'open_date')->
-                 with(['unorderedLessons' => function($lessons){
-                     $lessons->with('unorderedExercises');
-                 },'unorderedProjects']);
-             }]);
-         }])->first();
+        // $course = Course::where('id', $id)->
+        //  select('id', 'name', 'open_date', 'close_date', 'owner_id')->
+        //  with(['unorderedConcepts' => function($concepts){
+        //      $concepts->select('id', 'name', 'course_id', 'previous_concept_id')->
+        //      with(['unorderedModules' => function($modules){
+        //          $modules->select('id', 'name', 'concept_id', 'previous_module_id', 'open_date')->
+        //          with(['unorderedLessons' => function($lessons){
+        //              $lessons->with('unorderedExercises');
+        //          },'unorderedProjects']);
+        //      }]);
+        //  }])->first();
+
+        $course = Course::getCourse($id);
 
         $eagered = false;
         if (isset($_GET['eager'])) 

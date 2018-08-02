@@ -35,7 +35,7 @@
         </aside>
 </div>
 <?php $course->eagerLoading = $eagered; ?>
-@foreach($course->concepts() as $concept)
+@foreach($course->concepts as $concept)
     @component("flow.concept",["concept" => $concept, 'eagered' => $eagered])
     @endcomponent
 @endforeach

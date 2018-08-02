@@ -4,6 +4,7 @@ namespace App;
 use App\ObjectTools;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
@@ -47,7 +48,7 @@ class Lesson extends Model
      */
     public function unorderedExercises()
     {
-        return $this->hasMany('App\Exercise')->orderBy('previous_exercise_id');
+        return $this->hasMany('App\Exercise');
     }
 
     /**
@@ -108,6 +109,36 @@ class Lesson extends Model
             }
         }
         return $ordered_exercises;
+    }
+
+    public function exercisesCollection()
+    {
+        if($this->unorderedExercises->count() > 0){
+            $exercises = array();
+
+            $exercise = $this->unorderedExercises->where('previous_exercise_id', null)->first();
+            
+            array_push($exercises, $exercise);
+    
+            $done = false;
+    
+            while(!$done){
+                $next_exercise = $this->unorderedExercises->where('previous_exercise_id', $exercise->id)->first();
+    
+                if(!is_null($next_exercise)){
+                    $exercise = $next_exercise;
+                    array_push($exercises, $exercise);
+                } else {
+                    $done = true;
+                }
+            }
+    
+            if(count($exercises) > 0){
+                return collect($exercises);
+            } else {
+                return null;
+            }
+        }
     }
 
     /**
@@ -209,16 +240,19 @@ class Lesson extends Model
      */
     public function nextIncompleteExercise()
     {
-     //HACK: this is really slow. Many many database calls.
-        // We need to get this into a single database call.
-        foreach($this->exercises() as $exercise){
+        $exercises = $this->exercisesCollection();
 
-            if($exercise->getProgressForUser()->completed() != true){
-                return $exercise;
+        if(count($exercises) > 0){
+            foreach($exercises as $exercise){
+                if($exercise->exerciseProgress->first()->completion_date == null){
+                    return $exercise;
+                }
             }
+
+            return $exercises->first();
         }
 
-        return $this->exercises()[0];
+        return null;
     }
 
     public function nextExerciseToDo($coll,$userId)
@@ -233,4 +267,15 @@ class Lesson extends Model
         return $this->exercises()[0];
     }
 
+    public static function getLessonWithExerciseProgress($lesson_id)
+    {
+        $lesson = Lesson::where('id', $lesson_id)->
+        with(['unorderedExercises' => function($exercises){
+            $exercises->with(['exerciseProgress' => function($exerciseProgress){
+                $exerciseProgress->where('user_id', auth()->user()->id);
+            }]);
+        }])->first();
+
+        return $lesson;
+    }
 }

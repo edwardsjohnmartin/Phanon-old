@@ -41,6 +41,9 @@ Route::post('/code/exercise/save', 'ExerciseProgressController@save')->name('exe
 Route::get('/code/project/{project_id?}', 'CodeController@project')->name('project.code');
 Route::post('/code/project/save', 'ProjectProgressController@save')->name('project.save');
 
+Route::get('/code/lesson/{lesson_id}', 'CodeController@lesson');
+Route::get('/code/module/{module_id}', 'CodeController@module');
+
 Route::get('/projects/{id}/teams', 'ProjectsController@teams')->name('project.teams');
 Route::get('/courses/{id}/teams', 'CoursesController@teams')->name('course.teams');
 Route::post('/teams', 'TeamsController@createTeam')->name('teams.create');

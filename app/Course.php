@@ -6,6 +6,7 @@ use App\ObjectTools;
 use Spatie\Permission\Models\Role;
 use App\Enums\Roles;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use DateTime;
 
  /** Property Identification for Intellisense help.
@@ -277,6 +278,57 @@ class Course extends Model
         return false;
     }
 
+    public static function getCourse($course_id)
+    {
+        $course = Course::where('id', $course_id)->
+        with(['unorderedConcepts' => function($concepts){
+            $concepts->with(['unorderedModules' => function($modules){
+                $modules->with(['unorderedLessons', 'unorderedProjects']);
+            }]);
+        }])->first();
+
+        
+        $course->concepts = $course->conceptsCollection();
+        unset($course->unorderedConcepts);
+
+        return $course;
+    }
+
+    public function conceptsCollection()
+    {
+        $concepts = array();
+
+        $concept = $this->unorderedConcepts->where('previous_concept_id', null)->first();
+
+        if(is_null($concept)){
+            return "boo";
+        } else {
+            $concept->modules = $concept->modulesCollection();
+            unset($concept->unorderedModules);
+            array_push($concepts, $concept);
+
+            $done = false;
+
+            while(!$done){
+                $next_concept = $this->unorderedConcepts->where('previous_concept_id', $concept->id)->first();
+
+                if(!is_null($next_concept)){
+                    $concept = $next_concept;
+                    $concept->modules = $concept->modulesCollection();
+                    unset($concept->unorderedModules);
+                    array_push($concepts, $concept);
+                } else {
+                    $done = true;
+                }
+            }
+
+            if(count($concepts) > 0){
+                return collect($concepts);
+            } else {
+                return null;
+            }
+        }
+    }
 
     /**
      * Summary of ExerciseProgress

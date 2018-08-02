@@ -106,4 +106,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\ProjectSurveyResponse');
     }
+
+    public function exerciseProgress()
+    {
+        return $this->hasMany('App\ExerciseProgress');
+    }
 }

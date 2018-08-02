@@ -4,6 +4,7 @@ namespace App;
 use App\ObjectTools;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use DateTime;
 
 /** Property Identification for Intellisense help.
@@ -53,7 +54,7 @@ class Module extends Model
      */
     public function unorderedLessons()
     {
-        return $this->hasMany('App\Lesson')->orderBy('previous_lesson_id');
+        return $this->hasMany('App\Lesson');
     }
 
     /**
@@ -62,7 +63,7 @@ class Module extends Model
      */
     public function unorderedProjects()
     {
-        return $this->hasMany('App\Project')->orderBy('previous_lesson_id');
+        return $this->hasMany('App\Project')->orderBy('open_date');
     }
 
     public function testLessons()
@@ -435,5 +436,62 @@ class Module extends Model
         }
 
         return $module_completion;
+    }
+
+    public function componentsCollection()
+    {
+        $components = array();
+
+        // Make sure there is at least 1 component 
+        if($this->unorderedLessons->count() > 0 or $this->unorderedProjects->count() > 0){
+            $last_lesson_id = null;
+
+            // Find any projects with a null previous_lesson_id field and add them to array
+            $projects = $this->unorderedProjects->where('previous_lesson_id', null);
+            if(!is_null($projects) and $projects->count() > 0){
+                foreach($projects as $project){
+                    array_push($components, $project);
+                }
+            }
+
+            // Check for a lesson with a null previous_lesson_id field and add it to the array 
+            $lesson = $this->unorderedLessons->where('previous_lesson_id', null)->first();
+            if(!is_null($lesson)){
+                array_push($components, $lesson);
+
+                // Set last_lesson_id to the found lessons id
+                $last_lesson_id = $lesson->id;
+            }
+
+            // While last_lesson_id isn't null
+            while($last_lesson_id != null){
+                // Check for projects where previous_lesson_id = last_lesson_id and add them to array
+                $projects = $this->unorderedProjects->where('previous_lesson_id', $last_lesson_id);
+                if(!is_null($projects) and $projects->count() > 0){
+                    foreach($projects as $project){
+                        array_push($components, $project);
+                    }
+                }
+
+                // Check for a lesson where previous_lesson_id = last_lesson_id and add it to the array
+                $lesson = $this->unorderedLessons->where('previous_lesson_id', $last_lesson_id)->first();
+                if(!is_null($lesson)){
+                    array_push($components, $lesson);
+
+                    // Set last_lesson_id to the found lessons id
+                    $last_lesson_id = $lesson->id;
+                } else {
+                    $last_lesson_id = null;
+                }
+            }
+
+            if(count($components) > 0){
+                return collect($components);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 }

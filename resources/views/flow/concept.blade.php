@@ -26,7 +26,7 @@
         {{-- <span>({{$stats->Completed}}/{{$stats->ExerciseCount}})</span> --}}
     </h3>
     <?php $concept->eagerLoading = $eagered; ?>
-    @foreach($concept->modules() as $module)
+    @foreach($concept->modules as $module)
         @component('flow.module',['module' => $module, 'eagered' => $eagered])
         @endcomponent
     @endforeach

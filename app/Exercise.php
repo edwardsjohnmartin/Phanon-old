@@ -130,4 +130,9 @@ class Exercise extends Model
         $exerciseProgress = $this->getProgressForUser();
         return $exerciseProgress->completed();
     }
+
+    public function exerciseProgress()
+    {
+        return $this->hasMany('App\ExerciseProgress');
+    }
 }
