@@ -14,6 +14,7 @@ use App\Lesson;
 use App\Module;
 use App\Exercise;
 use App\Project;
+use App\Course;
 use App\ExerciseProgress;
 use App\ProjectProgress;
 use App\ProjectSurveyResponse;
@@ -330,5 +331,25 @@ class CodeController extends Controller
         return view('codearea.review')->
             with('module', $myModule)->
             with('exercise', $exercise);
+    }
+
+    public function module($module_id)
+    {
+        DB::connection()->enableQueryLog();
+
+        $course = Course::getCourse($module_id);
+
+        $queries = DB::getQueryLog();
+
+        return '<pre>' . print_r($queries, true) . '</pre>'; 
+    }
+
+    public function lesson($lesson_id)
+    {
+        $lesson = Lesson::getLessonWithExerciseProgress($lesson_id);
+
+        $exercise = $lesson->nextIncompleteExercise();
+
+        return redirect('/code/exercise/' . $exercise->id);
     }
 }

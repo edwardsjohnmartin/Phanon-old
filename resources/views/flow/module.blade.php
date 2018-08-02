@@ -11,9 +11,9 @@
     // 2/8 time spent on this call.
     $lessonsAndProjectsCount = 1;// count($module->lessonsAndProjects());
     if($lessonsAndProjectsCount > 0){
-        $is_completed = $module->completed() <= 1; // See comments on this method.
-        // .5 / 8 time spent on this call.
         $stats = $module->CompletionStats(auth()->user()->id);
+        $is_completed = ($stats->Completed == $stats->ExerciseCount);
+        
         if(!is_null($stats)){
             $stats_perc_complete = floor($stats->PercComplete*100);
             $stats_completed = $stats->Completed;
@@ -56,7 +56,7 @@
 
     <h1>
         {{-- This will ask the controller to figure out the current lesson and exercise --}}
-        <a class="editable" href="{{url('/code/module/'.$module->id)}}">
+        <a class="editable" href="{{url('/code/module/' . $module->id)}}">
             {{$module->name}}
         </a>
         <span>({{$stats_completed}} / {{$stats_exercise_count}})</span>
@@ -76,7 +76,7 @@
        {{--  @if($lessonsAndProjectsCount > 0)
         5/8 time spent here on load. --}}
         <?php $module->eagerLoading = $eagered; ?>
-            @foreach($module->lessonsAndProjects() as $comp)
+            @foreach($module->components as $comp)
                 <?php $comp->eagerLoading = $eagered; ?>
                 @if(get_class($comp) == "App\Lesson")
                    @component('flow.lesson',['lesson' => $comp, 'eagered' => $eagered])
