@@ -33,15 +33,30 @@
         'exercise' => $exercise,
         'exercise_count' => $exercise_count++,
         'is_active' => $is_active,
-        'class' => $class
+        'class' => $class,
+        'role' => $role
         ])
         @endcomponent
         @endforeach
     @if($role->hasPermissionTo(Permissions::EXERCISE_EDIT))
         <li id="addExercise" class="exercise addNew mini active" data-item-count="{{$exercise_count}}">
-            <a href="#" 
+            <a href="#" tooltip="Append new Exercise to list."
                onclick="addNewExerciseToLesson('{{url('/ajax/exercisecreate')}}','addExercise');return false;">+</a>
         </li>
         @endif
     </ol>
 </div>
+@section("scripts-end")
+@parent
+<script>
+    $("#exerciseList").sortable({ cancel: "#addExercise" })
+    $("#exerciseList").mouseover(function (e) {
+        e = e || window.event;
+        var tar = e.target || e.srcElement;
+        var content = tar.getAttribute("data-prompt");
+        if (content != undefined && content != "") {
+            displayMessage(content,e.clientX,e.clientY);
+        }
+    });
+</script>
+@endsection

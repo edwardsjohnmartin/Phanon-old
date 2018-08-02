@@ -94,15 +94,15 @@ class CodeController extends Controller
         $new_exercise->owner_id = auth()->user()->id;
         $new_exercise->save();
 
-        
+
             // place new exercise in the correct place in the line.
             if(!(is_null($next_exercise) && empty($next_exercise))){
                 // if no next exercise, must have been added to the end.
                 $next_exercise->previous_exercise_id = $new_exercise->id;
                 $next_exercise->save();
             }
-
-        //return ['msg' => "Exercise was created successfully", 'exercise_id' => $exercise->id];
+            $role = $course->getUsersRole(auth()->user()->id);
+            //return ['msg' => "Exercise was created successfully", 'exercise_id' => $exercise->id];
         //<li class="exercise mini {{$class}}">
         //        @if($is_active)
         //            <a href="{{url('code/exercise/' . $exercise->id)}}">{{$exercise_count++}}</a>
@@ -111,7 +111,8 @@ class CodeController extends Controller
         return view('codearea.exerciseNavItem',['exercise' => $new_exercise,
                                                 'exercise_count' => $exercise_count,
                                                 'is_active' => true,
-                                                'class' => '']);
+                                                'class' => 'new',
+                                                'role' => $role]);
     }
 
     /**
@@ -142,11 +143,12 @@ class CodeController extends Controller
             $next_exercise->previous_exercise_id = $new_exercise->id;
             $next_exercise->save();
         }
-
+        $role = $course->getUsersRole(auth()->user()->id);
         return view('codearea.exerciseNavItem',['exercise' => $new_exercise,
                                                 'exercise_count' => -1,
                                                 'is_active' => true,
-                                                'class' => '']);
+                                                'class' => 'new',
+                                                'role' => $role]);
     }
 
 

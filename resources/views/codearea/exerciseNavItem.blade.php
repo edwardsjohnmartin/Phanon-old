@@ -1,5 +1,7 @@
-<li id="exercise_{{$exercise->id}}" data-item-count="{{$exercise_count}}" class="exercise mini {{$class}}">
+<li id="exercise_{{$exercise->id}}" data-item-count="{{$exercise_count}}" class="exercise mini {{$class}}"
+    @if($role->hasPermissionTo(Permissions::EXERCISE_EDIT)) tooltip="{{$exercise->prompt}}" @endif>
     @if($is_active) 
-        <a href="{{url('code/exercise/' . $exercise->id)}}">{{$exercise_count}}</a>
+        <a title="Open this exercise {{$exercise_count}} in the editor."
+           href="{{url('code/exercise/' . $exercise->id)}}">{{$exercise_count}}</a>
     @endif
 </li>

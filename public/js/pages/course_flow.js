@@ -1,3 +1,5 @@
+var turnScrollingOff = false;
+
 function toggleEditMode(editBtn) {
     // Toggle visibility of all divs that contain a create object button
     var allDivs = $('.creation');
@@ -96,16 +98,20 @@ function expandModules() {
     //    $(btn).parent().find('.components').animate({ height: "toggle" });
     //});
     // just call the click event, it already expands everything.
+    turnScrollingOff = true;
     $.each(btns, function (e, btn) {
         btn.click();
     });
+    turnScrollingOff = false;
 }
 
 function collapseModules() {
     var btns = $('.collapser');
+    turnScrollingOff = true;
     $.each(btns, function (e, btn) {
         btn.click();
     });
+    turnScrollingOff = false;
 }
 
 

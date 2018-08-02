@@ -8,9 +8,9 @@
 }
 /* From: https://themify.me/themify-icons */
 
-#debug{
+#debug {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    position:fixed;
+    position: fixed;
     top: 100px;
     left: 25px;
     border: 2px solid #333;
@@ -50,20 +50,23 @@ body {
     margin-right: .5em; /* plus and space */
 }
 
-.btn-edit:before, .edit:before{
+.btn-edit:before, .edit:before {
     font-family: themify;
     content: "\e61c"; /*pencil*/
     margin-right: .5em;
 }
+
 [contenteditable="true"]:after {
     font-family: themify;
     content: "\e61c"; /*pencil*/
 }
+
 .dates [contenteditable="true"]:after {
     font-family: themify;
     content: "\e6b6"; /*calendar*/
     margin-left: .25em;
 }
+
 .dragHandle:before {
     font-family: themify;
     content: "\e657"; /*vertical arrows*/
@@ -88,7 +91,7 @@ body {
     margin-right: .5em;
 }
 
-.insert:before { 
+.insert:before {
     font-family: themify;
     content: "\e632";
     margin-right: .5em;
@@ -279,9 +282,15 @@ body {
     margin-right: .5em;
 }
 
-
-
-
+.new:after {
+    font-family: themify;
+    content: "\e60a"; /*star*/
+    margin-right: .5em;
+    position: absolute;
+    top: -.35em;
+    left: 0;
+    color: rgba(120, 120, 120, 0.5);
+}
 /* -- End Icons --*/
 
 /* Rating systems */
@@ -311,19 +320,20 @@ body {
         margin-right: 1em;
     }
 
-    #projectRatings .selected {
-        background-color: #FF9;
-    }
+#projectRatings .selected {
+    background-color: #FF9;
+}
 
 #projectRatings li:hover,
 #projectRatings li:hover ~ li {
     background-color: #FF0;
-    cursor:pointer;
+    cursor: pointer;
 }
-        #projectRatings li:hover:before,
-        #projectRatings li:hover ~ li:before {
-            color: #000;
-        }
+
+    #projectRatings li:hover:before,
+    #projectRatings li:hover ~ li:before {
+        color: #000;
+    }
 
 
 /* End - Rating systems */
@@ -390,20 +400,20 @@ body {
 }
 
 #courseFlow .module .dragHandle {
-    position:absolute;
+    position: absolute;
     top: 0;
-    left:-2em;
+    left: -2em;
     font-size: 2em;
-    display:inline-block;
+    display: inline-block;
     width: 1em;
     height: 1.5em;
-    overflow:hidden;
-    cursor:ns-resize;
+    overflow: hidden;
+    cursor: ns-resize;
 }
 
-#courseFlow .creation{
-    border:solid 1px #F0F;
-    text-align:center;
+#courseFlow .creation {
+    border: solid 1px #F0F;
+    text-align: center;
 }
 
 /*#courseFlow .module * {
@@ -771,7 +781,6 @@ dl.dates dt, dl.dates dd {
 }
 
     #courseFlow .completion.p100 .bar {
-        
     }
 
     #courseFlow .completion.p100 .bar, #courseFlow .completion.p100 .fill {
@@ -902,6 +911,15 @@ dl.dates dt, dl.dates dd {
                 content: "\e62b"; /*lock*/
             }
 
+        #exerciseList .exercise.mini.new {
+            background-color: #FC3;
+            color: #000;
+            border-color: #860;
+        }
+
+            #exerciseList .exercise.mini.new a {
+            }
+
     #exerciseList .exercise.completed, #exerciseList .exercise.current.completed {
         background-color: #BFB;
     }
@@ -946,7 +964,7 @@ dl.dates dt, dl.dates dd {
             content: "\e61d"; /* edit pencil */
         }
 
-       
+
         #exerciseList .exercise.current a {
             /*color: #000;*/
         }
@@ -969,6 +987,47 @@ dl.dates dt, dl.dates dd {
         width: 1em;
         line-height: 1em;
     }
+
+/*Tooltips
+    based on: https://stackoverflow.com/questions/7117073/how-to-add-a-tooltip-to-a-div
+*/
+[tooltip]:after {
+    /* needed - do not touch */
+    content: attr(tooltip);
+    position: fixed;
+    opacity: 0;
+    /* customizable */
+    transition: all 0.15s ease;
+    font-size: .5em;
+    z-index: 999;
+    padding: 10px;
+    color: #333;
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px #333;
+    pointer-events: none;
+    display: inline-block;
+    width: 10em;
+}
+
+[tooltip]:hover:after {
+    /* needed - do not touch */
+    opacity: 1;
+    /* customizable */
+    background: #EEE;
+    margin-top: -50px;
+    margin-left: 20px;
+}
+
+button[tooltip]:hover:after {
+    /* customizable */
+    font-size: .6em;
+    margin-top: 3em;
+    margin-left: -10em;
+    display: inline;
+    width: auto;
+}
+
 
 #codeWindow {
     width: 100%;
@@ -1026,105 +1085,106 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         margin-right: 1em;
         color: #AAA;
     }
-    #ideLog h3{
-        float:none;
-    }
 
-    #codeIde #idePrompt {
-        max-height: 50%;
-        min-height: 5%;
-        border: 1px solid #333;
-        border-radius: 0 0 1em 1em;
+#ideLog h3 {
+    float: none;
+}
+
+#codeIde #idePrompt {
+    max-height: 50%;
+    min-height: 5%;
+    border: 1px solid #333;
+    border-radius: 0 0 1em 1em;
+    margin: 0;
+    top: -20px;
+    background-color: #FFF;
+    transition: height ease 2s;
+    padding: .5em;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+    #codeIde #idePrompt h4 {
+        vertical-align: top;
         margin: 0;
-        top: -20px;
-        background-color: #FFF;
-        transition: height ease 2s;
-        padding: .5em;
-        position: relative;
-        display: flex;
-        flex-direction: column;
+        font-size: 1em;
+        margin-left: 1em;
     }
 
-        #codeIde #idePrompt h4 {
-            vertical-align: top;
-            margin: 0;
-            font-size: 1em;
-            margin-left: 1em;
-        }
+#codeIde #promptContainer {
+    margin: 1em;
+    overflow: auto;
+}
 
-    #codeIde #promptContainer {
-        margin: 1em;
-        overflow: auto;
-    }
+#codeIde .teams {
+    display: inline-block;
+    position: relative;
+}
 
-    #codeIde .teams {
-        display: inline-block;
-        position: relative;
-    }
-
-        #codeIde .teams ul {
-            list-style: none;
-            position: absolute;
-            top: -2em;
-            right: 0;
-            padding: 0;
-        }
-
-            #codeIde .teams ul li {
-                border: 1px solid #333;
-                background-color: #EEE;
-                border-radius: .3em;
-                list-style: none;
-                display: inline-block;
-                padding: .3em;
-            }
-
-                #codeIde .teams ul li.activeMember {
-                    background-color: #EFE;
-                    font-weight: bold;
-                }
-
-                #codeIde .teams ul li:hover {
-                    background-color: #CEC;
-                }
-
-                #codeIde .teams ul li a:before {
-                    margin-right: 0;
-                }
-
-    #codeIde #loginModal {
-        border: 1px solid #333;
-        border-radius: 1em;
-        background-color: #EEE;
+    #codeIde .teams ul {
+        list-style: none;
         position: absolute;
-        z-index: 999;
+        top: -2em;
         right: 0;
-        transition: height 4s ease;
-        overflow: hidden;
-        padding: 1em;
-        display: none;
+        padding: 0;
     }
 
-    #codeIde #fader {
-        border: 1px solid #333;
-        height: 100%;
-        position: absolute;
-        width: 110%;
-        z-index: 990;
-        margin: 0 -5% 0 -5%;
-        background-color: rgba(0, 0, 0, 0.40);
-        cursor: not-allowed;
-    }
-
-        #codeIde #fader .message {
+        #codeIde .teams ul li {
             border: 1px solid #333;
             background-color: #EEE;
-            text-align: center;
-            margin: 40px auto;
-            z-index: 999;
-            padding: 1em;
+            border-radius: .3em;
+            list-style: none;
+            display: inline-block;
+            padding: .3em;
         }
-    /*#codeIde #idePrompt:after {
+
+            #codeIde .teams ul li.activeMember {
+                background-color: #EFE;
+                font-weight: bold;
+            }
+
+            #codeIde .teams ul li:hover {
+                background-color: #CEC;
+            }
+
+            #codeIde .teams ul li a:before {
+                margin-right: 0;
+            }
+
+#codeIde #loginModal {
+    border: 1px solid #333;
+    border-radius: 1em;
+    background-color: #EEE;
+    position: absolute;
+    z-index: 999;
+    right: 0;
+    transition: height 4s ease;
+    overflow: hidden;
+    padding: 1em;
+    display: none;
+}
+
+#codeIde #fader {
+    border: 1px solid #333;
+    height: 100%;
+    position: absolute;
+    width: 110%;
+    z-index: 990;
+    margin: 0 -5% 0 -5%;
+    background-color: rgba(0, 0, 0, 0.40);
+    cursor: not-allowed;
+}
+
+    #codeIde #fader .message {
+        border: 1px solid #333;
+        background-color: #EEE;
+        text-align: center;
+        margin: 40px auto;
+        z-index: 999;
+        padding: 1em;
+    }
+/*#codeIde #idePrompt:after {
             font-family: themify;
             content: "\e663";
             position: absolute;
@@ -1157,13 +1217,13 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         transform: rotate(180deg);
     }
 }*/
-    #codeIde #ideControls {
-        height: 40px;
-    }
+#codeIde #ideControls {
+    height: 40px;
+}
 
-    #codeIde #ideMainEditor {
-        height: 80%;
-    }
+#codeIde #ideMainEditor {
+    height: 80%;
+}
 
 #ideControls {
     position: relative;
@@ -1180,7 +1240,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         position: relative;
         overflow: hidden;
     }
-    
+
         #ideControls button.currentStep {
             background-color: #080;
         }
@@ -1188,6 +1248,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         #ideControls button.save {
             background-color: #66A;
         }
+
         #ideControls button.modifying {
             background-color: #B84;
         }
@@ -1203,10 +1264,11 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         #ideControls button.currentStep:hover, #ideControls button.selected {
             background-color: #00A;
         }
+
         #ideControls button.modifying:hover, #ideControls button.modifying.selected {
             background-color: #851;
         }
-   
+
         #ideControls button.disabled {
             background-color: #AAA;
             pointer-events: none;
@@ -1267,13 +1329,40 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 #ideButtons {
 }
 
-#ideButtons .buttonSpacer {
-    display: inline-block;
-    height: 2em;
-    width: 2em;
-    color: transparent;
-}
+    #ideButtons .buttonSpacer {
+        display: inline-block;
+        height: 2em;
+        width: 2em;
+        color: transparent;
+    }
 
+    .toggleSwitchHolder, .toggleSwitchHolder div{
+        display:inline-block;
+    }
+        .toggleSwitchHolder span {
+            background-color: #888;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            padding: .2em .5em;
+            color: #FFF;
+            cursor: pointer;
+        }
+            .toggleSwitchHolder span:first-child {
+                border-radius: .5em 0 0 .5em;
+                border-left: 1px solid #333;
+            }
+            .toggleSwitchHolder span:last-child {
+                border-radius: 0 .5em .5em 0;
+                border-right: 1px solid #333;
+            }
+            .toggleSwitchHolder span.selected {
+                background-color: #080;
+                font-weight: bold;
+            }
+                .toggleSwitchHolder input{
+                    display:none;
+        
+}
 
 #ideMessages {
     z-index: 990;
@@ -1324,34 +1413,41 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     }
 
 
-    #ideMessages #ideLog dt {
-        padding-left: .5em;
-        border-bottom: 1px solid #000;
-        text-align: right;
-    }
-        #ideMessages #ideLog dt:before {
-         content:"";
+        #ideMessages #ideLog dt {
+            padding-left: .5em;
+            border-bottom: 1px solid #000;
+            text-align: right;
         }
+
+            #ideMessages #ideLog dt:before {
+                content: "";
+            }
+
         #ideMessages #ideLog dd {
             padding-left: .3em;
         }
-            #ideMessages #ideLog ol {
-        padding-left: 4em;
-    }
-        #ideMessages #ideLog .save{
+
+        #ideMessages #ideLog ol {
+            padding-left: 4em;
+        }
+
+        #ideMessages #ideLog .save {
             background-color: #DDF;
         }
+
         #ideMessages #ideLog .success {
             background-color: #EFE;
         }
+
         #ideMessages #ideLog .reset {
             background-color: #FFE;
         }
+
         #ideMessages #ideLog .error {
             background-color: #FEE;
         }
-        
-            #popups {
+
+#popups {
     position: absolute;
     top: 3em;
     left: 10%;
@@ -1497,24 +1593,23 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     outline: none;
 }
 
-[contenteditable="true"]{
+[contenteditable="true"] {
     border-bottom: 2px dotted #334;
 }
 
-[contenteditable="true"]:focus {
-    z-index: 999;
-    background-color: #FFF;
-    border: 1px solid #333;
-}
+    [contenteditable="true"]:focus {
+        z-index: 999;
+        background-color: #FFF;
+        border: 1px solid #333;
+    }
 
 
 .editable.edit-on {
-
 }
 
 #ideProjectName {
-    margin-top: -20px; 
-    margin-bottom: 20px; 
+    margin-top: -20px;
+    margin-bottom: 20px;
 }
 /*Flow Authoring End*/
 
