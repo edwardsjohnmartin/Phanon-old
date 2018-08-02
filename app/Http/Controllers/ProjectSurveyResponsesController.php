@@ -23,6 +23,7 @@ class ProjectSurveyResponsesController extends Controller
         $project_id = $all['project_id'];
         $difficulty_rating = $request->all()['difficulty_rating'];
         $enjoyment_rating = $request->all()['enjoyment_rating'];
+        $retObject = (object)["success" => false, "errors" => [], "warnings" =>[], "successes" =>[]];
 
         // Retrieve project if it exists
         $project = Project::find($project_id);
@@ -34,26 +35,29 @@ class ProjectSurveyResponsesController extends Controller
 
             // Validate difficulty rating is within range
             if(!($difficulty_rating >= 0 and $difficulty_rating <= 9)){
-                return "The difficulty rating was not within range";
+                $retObject->errors[] = "The difficulty rating was not within range";
             }
 
             // Validate enjoyment rating is within range
             if(!($enjoyment_rating >= 0 and $enjoyment_rating <= 9)){
-                return "The enjoyment rating was not within range";
+                $retObject->errors[] = "The enjoyment rating was not within range";
             }
 
             //TODO: Write the logic to save the survey response for every logged in member of a team 
 
-            //if($project->teamsEnabled()){
-                // Save the projectSurveyResponse for any members of the team that are logged in
-            //} else {
-                // Create response and save to the database
                 ProjectSurveyResponse::createResponse($project->id, auth()->user()->id, $difficulty_rating, $enjoyment_rating);
-                
-                return "Project survey response created successfully";
-            //}
+                $retObject->successes[] = "Project Ratings saved for ".auth()->user()->name;
+            if($project->teams_enabled &&  session()->exists('members')){
+                $members = session('members');
+                    foreach ($members as $member){
+                        ProjectSurveyResponse::createResponse($project->id, $member->id, $difficulty_rating, $enjoyment_rating);
+                $retObject->successes[] = "Project Ratings saved for ".$member->name;
+                $retObject->success = true;
+                    }
+            }
         } else {
-            return "Project does not exist";
+            $retObject->errors[] = "Project does not exist";
         }
+        return response()->json($retObject);
     }
 }

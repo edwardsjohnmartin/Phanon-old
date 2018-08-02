@@ -501,10 +501,12 @@ function toggleButtonText(editBtn) {
         btn.text("Turn Off Edit Mode");
         btn.attr("title", "Turn Off Edit Mode");
         btn.addClass("selected");
+        btn.removeClass("edit").addClass("save");
     } else {
         btn.text("Enable Edit Mode");
         btn.attr("title", "Enable Edit Mode");
         btn.removeClass("selected");
+        btn.removeClass("save").addClass("edit");
     }
 }
 
@@ -597,15 +599,17 @@ function saveExerciseEdit(url) {
     });
 }
 
-function createProjectSurveyResponse(difficultyRating, enjoymentRating) {
+function createProjectSurveyResponse(difficultyRating, enjoymentRating, maxDifficulty = 9, maxEnjoyment = 9) {
     var url = $('#projectRatings').data('survey-response-create-url');
     var project_id = $('#projectId').text();
 
     // Validate response amounts are between 0 and 9 before making AJAX call
-    if ((difficultyRating >= 0 && difficultyRating <= 9) && (enjoymentRating >= 0 && enjoymentRating <= 9)) {
+    if ((difficultyRating >= 0 && difficultyRating <= maxDifficulty)
+        && (enjoymentRating >= 0 && enjoymentRating <= maxEnjoyment)) {
         $.ajax({
             type: "POST",
             url: url,
+            cache: false,
             data: {
                 project_id: project_id,
                 difficulty_rating: difficultyRating,
@@ -613,8 +617,19 @@ function createProjectSurveyResponse(difficultyRating, enjoymentRating) {
                 _token: $('meta[name="csrf-token"]').attr('content')
             },
             success: function (data) {
-                addPopup("Project survey answered successfully!", "save")
-                console.log(data);
+                var i;
+                for (i = 0; i < data.successes.length; i++) {
+                addPopup(data.successes[i], "save");
+                }
+                for (i = 0; i < data.errors.length; i++) {
+                    addPopup(data.errors[i], "error");
+                }
+                //console.log(data);
+            },
+               error: function (data) {
+                
+                addPopup("Could not send ratings to server.", "error");
+                //console.log(data);
             }
         });
     }
@@ -642,3 +657,10 @@ function addNewExerciseToLesson(url) {
         }
     });
 }
+function copyItem(ele, item_type, url, id) {
+    alert('Not yet Implemented');
+}
+function insertItem(ele, item_type, url, id) {
+    alert('Not yet Implemented');
+}
+

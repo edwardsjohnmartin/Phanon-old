@@ -42,7 +42,8 @@
     @if($item_type == 'project' and $show_survey)
     <div id="projectRatings" data-survey-response-create-url="{{url('/ajax/projectsurveycreate')}}">
         <h3>Ratings</h3>
-        {{-- Projects have survey buttons.  --}}
+        {{-- Projects have survey buttons. 
+        These need to be in reverse order to work with style sheet approach. --}}
         <h4>Difficulty</h4>
         <ol id="projectDifficulty">
             <li id="difficulty_9">9</li>
@@ -100,7 +101,9 @@
     if (difficultRating >= 0) selectRating("difficulty", difficultRating, 9);
     if (enjoymentRating >= 0) selectRating("enjoyment", enjoymentRating, 9);
 
-    setInstructionsPaneControls();
+    if (difficultRating >= 0 && enjoymentRating >= 0) {
+        setInstructionsPaneControls();
+    }
 
     $("#projectRatings").click(function (evt) {
         evt = evt || window.event;
@@ -125,6 +128,7 @@
 
         if (difficultRating >= 0 && enjoymentRating >= 0) {
             setInstructionsPaneControls();
+            //$("#output").text("difficulty: " + difficultRating + " enjoyment: " + enjoymentRating);
             // Call function that makes AJAX call to save survey results to the database. It is located in codeeditor.js
             createProjectSurveyResponse(difficultRating, enjoymentRating);
         }

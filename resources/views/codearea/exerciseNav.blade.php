@@ -7,6 +7,7 @@
     <ol id="exerciseList" data-lesson-id="{{$lesson_id}}">
         @foreach($exercises as $exercise)
             @php
+                // Check each exercise
                 $is_active = true;
                 $class = "";
 
@@ -17,11 +18,13 @@
                 if($exercise->getProgressForUser()->completed()){
                     $class .= "active completed ";
                 } else {
-                    if(!$found_current){
+                    // not completed
+                    if(!$found_current || (isset($role) && $role.hasPermissionTo(Permissions::EXERCISE_EDIT))){
+                        // this should be just he first exercise after all completed.
                         $class .= "active ";
                         $found_current = true;
                     } else {
-                        $class .= "inactive ";
+                        $class .= "inactive "; // these are locked
                         $is_active = false;
                     }
                 }

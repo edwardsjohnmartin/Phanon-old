@@ -90,7 +90,7 @@ body {
 
 .insert:before { 
     font-family: themify;
-    content: "\e679";
+    content: "\e632";
     margin-right: .5em;
 }
 
@@ -1183,6 +1183,9 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         #ideControls button.save {
             background-color: #66A;
         }
+        #ideControls button.modifying {
+            background-color: #B84;
+        }
 
         #ideControls button:hover {
             font-size: 1.6em;
@@ -1195,7 +1198,10 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         #ideControls button.currentStep:hover, #ideControls button.selected {
             background-color: #00A;
         }
-
+        #ideControls button.modifying:hover, #ideControls button.modifying.selected {
+            background-color: #851;
+        }
+   
         #ideControls button.disabled {
             background-color: #AAA;
             pointer-events: none;

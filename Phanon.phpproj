@@ -40,6 +40,7 @@
     <Compile Include="app\Http\Controllers\PermissionsController.php" />
     <Compile Include="app\Http\Controllers\ProjectProgressController.php" />
     <Compile Include="app\Http\Controllers\ProjectsController.php" />
+    <Compile Include="app\Http\Controllers\ProjectSurveyResponsesController.php" />
     <Compile Include="app\Http\Controllers\RolesController.php" />
     <Compile Include="app\Http\Controllers\ImportController.php" />
     <Compile Include="app\Http\Controllers\TeamsController.php" />

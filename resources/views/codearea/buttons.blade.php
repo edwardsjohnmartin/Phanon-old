@@ -58,9 +58,8 @@
             data-url="{{url("code/".$item_type."/".$next_item_id)}}">
         Next
     </button>
-    @else
-    <span class="buttonSpacer"> - </span>
     @endif
+    <span class="buttonSpacer"> - </span>
 
     @if($item_type != "sandbox"){{--&& $role->hasPermissionTo(Permissions::PROJECT_EDIT)--}}
     @php
@@ -73,13 +72,13 @@
     }
     @endphp
 
-    <button class="btn edit" title="Turn Editing Mode On" onclick="toggleEditMode(this, '{{$item_type}}', '{{$url}}');">Enable Edit Mode</button>
+    <button class="btn edit modifying" title="Turn Editing Mode On" onclick="toggleEditMode(this, '{{$item_type}}', '{{$url}}');">Enable Edit Mode</button>
     @if($item_type == "exercise")
-    <button class="btn copy" title="Copy this item."
+    <button class="btn copy modifying" title="Copy this item."
             onclick="copyItem(this, '{{$item_type}}', '{{$url}}', {{$item->id}});">
         Copy
     </button>
-    <button class="btn insert" title="Insert new after this item."
+    <button class="btn insert modifying" title="Insert new after this item."
             onclick="insertItem(this, '{{$item_type}}', '{{$url}}', {{$item->id}});">
         Insert
     </button>
