@@ -1,4 +1,4 @@
-@if($role->hasPermissionTo(Permissions::PROJECT_EDIT) or $role->hasPermissionTo(Permissions::EXERCISE_EDIT))
+@if(isset($role) && ($role->hasPermissionTo(Permissions::PROJECT_EDIT) or $role->hasPermissionTo(Permissions::EXERCISE_EDIT)))
     <div id="ideCodeWindow">
         <ul class="nav nav-tabs">
             <li class="nav-item active"><a data-toggle="tab" href="#code">Code</a></li>
@@ -27,7 +27,7 @@
 @section("scripts-end")
     @parent
     <script type="text/javascript">
-        @if($role->hasPermissionTo(Permissions::PROJECT_EDIT) or $role->hasPermissionTo(Permissions::EXERCISE_EDIT))
+        @if(isset($role) and ($role->hasPermissionTo(Permissions::PROJECT_EDIT) or $role->hasPermissionTo(Permissions::EXERCISE_EDIT)))
             makeCodeMirror("codeWindow1");
             makeCodeMirror("codeWindow2");
             makeCodeMirror("codeWindow3");

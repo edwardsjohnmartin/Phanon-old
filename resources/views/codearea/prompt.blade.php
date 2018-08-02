@@ -138,13 +138,6 @@
         //$("#output").text("difficulty: " + difficultRating + " enjoyment: " + enjoymentRating);
         $(".contentControl").attr("disabled", false);
     }
-
-
-            //// Fake click event on the ratings of the users last response
-            //var difficulty_rating = '{{$projectSurveyResponse->difficulty_rating}}';
-            //var enjoyment_rating = '{{$projectSurveyResponse->enjoyment_rating}}';
-
-            // moved this up top to reuse existing functions
 </script>
 @endif
     @endsection
