@@ -20,10 +20,6 @@
             @endcomponent
         </section>
     </div>
-
-    <div class="row create-button-div hidden">
-        <button class="center-block" onclick="createConcept({{$course->id}}, '{{url('/ajax/conceptcreate')}}')">Create New Concept</button>
-    </div>
 </div> 
 @endsection
 <?php

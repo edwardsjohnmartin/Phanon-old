@@ -1,6 +1,6 @@
 function toggleEditMode(editBtn) {
     // Toggle visibility of all divs that contain a create object button
-    var allDivs = $('div').find('.create-button-div');
+    var allDivs = $('.creation');
     $(allDivs).each(function(index, d){
         toggleDivVisibility(d);
     });
@@ -90,12 +90,24 @@ function toggleEditButtonText(editBtn) {
 }
 
 function expandModules() {
-    var expandButtons = $('.expander');
-    $.each(expandButtons, function(e, btn){
-        $(btn).addClass('collapser').removeClass('expander');
-        $(btn).parent().find('.components').animate({ height: "toggle" });
+    var btns = $('.expander');
+    //$.each(expandButtons, function(e, btn){
+    //    $(btn).addClass('collapser').removeClass('expander');
+    //    $(btn).parent().find('.components').animate({ height: "toggle" });
+    //});
+    // just call the click event, it already expands everything.
+    $.each(btns, function (e, btn) {
+        btn.click();
     });
 }
+
+function collapseModules() {
+    var btns = $('.collapser');
+    $.each(btns, function (e, btn) {
+        btn.click();
+    });
+}
+
 
 function addBlurEvent(element, blurFunction) {
     if($(element).hasClass('edit-on')){

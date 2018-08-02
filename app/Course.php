@@ -301,7 +301,9 @@ class Course extends Model
         $concept = $this->unorderedConcepts->where('previous_concept_id', null)->first();
 
         if(is_null($concept)){
-            return "boo";
+            // caused the code to go Boom!
+            //return "boo";
+            return [];
         } else {
             $concept->modules = $concept->modulesCollection();
             unset($concept->unorderedModules);

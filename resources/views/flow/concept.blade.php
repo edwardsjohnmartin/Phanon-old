@@ -31,7 +31,7 @@
         @endcomponent
     @endforeach
     
-    <div class="row create-button-div @if(!$ajaxCreation) hidden @endif">
-        <button class="center-block" onclick="createModule(this, {{$concept->id}}, '{{url('/ajax/modulecreate')}}')">Create New Module</button>
+    <div class="creation {{$ajaxCreation ? '' : 'hidden'}}">
+        <button class="module add new" onclick="createModule(this, {{$concept->id}}, '{{url('/ajax/modulecreate')}}')">Create New Module</button>
     </div>
 </article>

@@ -91,9 +91,9 @@
        {{--@endif --}}
     </ul>
 
-    <div class="row create-button-div @if(!$ajaxCreation) hidden @endif">
-        <button class="center-block" onclick="createLesson(this, {{$module->id}}, '{{url('/ajax/lessoncreate')}}')">Create New Lesson</button>
-        <button class="center-block" onclick="createProject(this, {{$module->id}}, '{{url('/ajax/projectcreate')}}')">Create New Project</button>
+    <div class="creation {{$ajaxCreation ? '' : 'hidden'}}">
+        <button class="lesson add new" onclick="createLesson(this, {{$module->id}}, '{{url('/ajax/lessoncreate')}}')">Create New Lesson</button>
+        <button class="project add new" onclick="createProject(this, {{$module->id}}, '{{url('/ajax/projectcreate')}}')">Create New Project</button>
     </div>
 
     <button class="contentControl {{$moduleOpen ? "collapser":"expander"}}">

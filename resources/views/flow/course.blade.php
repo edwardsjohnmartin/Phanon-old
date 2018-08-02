@@ -30,12 +30,20 @@
     @if($role->hasPermissionTo(Permissions::COURSE_EDIT))
         <button class="edit" onclick="toggleEditMode(this);">Enable Edit Mode</button>
     @endif
-        <button class="expandAll" onclick="expandCollapseAll(true,'.components');">Expand</button>
-        <button class="collapseAll" onclick="expandCollapseAll(false,'.components');">Collapse</button>
+        <button class="expandAll" onclick="expandModules();">Expand</button>
+        <button class="collapseAll" onclick="collapseModules();">Collapse</button>
         </aside>
 </div>
-<?php $course->eagerLoading = $eagered; ?>
-@foreach($course->concepts as $concept)
-    @component("flow.concept",["concept" => $concept, 'eagered' => $eagered])
-    @endcomponent
-@endforeach
+<?php $course->eagerLoading = $eagered;
+?>
+@if(count($course->concepts) > 0)
+    @foreach($course->concepts as $concept)
+        @component("flow.concept",["concept" => $concept, 'eagered' => $eagered])
+        @endcomponent
+    @endforeach
+@else
+    <div class="placeholder">No Concepts found</div>
+@endif
+<div class="creation hidden">
+        <button class="concept add new" onclick="createConcept({{$course->id}}, '{{url('/ajax/conceptcreate')}}')">Create New Concept</button>
+    </div>

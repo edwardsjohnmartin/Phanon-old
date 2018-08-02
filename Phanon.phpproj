@@ -423,7 +423,6 @@
     <Compile Include="public\css\app.css" />
     <Compile Include="public\jquery\jquery-3.2.1.min.js" />
     <Compile Include="public\js\app.js" />
-    <Compile Include="public\js\codewindow.js" />
     <Compile Include="public\skulpt\skulpt-stdlib.js" />
     <Compile Include="public\skulpt\skulpt.min.js" />
     <Compile Include="public\.htaccess" />
