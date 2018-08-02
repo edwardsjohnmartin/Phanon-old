@@ -66,6 +66,7 @@ class CodeController extends Controller
     public function createExercise(Request $request)
     {
         $lesson_id = $request->all()['lesson_id'];
+        $exercise_id = $request->all()['exercise_id']; // should only be set if being inserted in list.
         $exercise_count = $request->all()['exercise_count'];
 
         $lesson = Lesson::find($lesson_id);
@@ -74,16 +75,32 @@ class CodeController extends Controller
         }
 
         $exercises = $lesson->exercises();
-        $last_exercise_id = end($exercises)->id;
+        $pre_exercise_id = end($exercises)->id; //set to last exercise ID
+
+        // hold next exercise if added to middle of list.
+        $next_exercise = null;
+        if(!(is_null($exercise_id) && empty($exercise_id)) && $exercise_id > 0){
+            $pre_exercise_id = $exercise_id; // set to after specified exercise
+            $next_exercise = Exercise::where('previous_exercise_id',$exercise_id)->first();
+        }
+
 
         // Create an exercise in the database to put into the lesson
-        $exercise = new Exercise();
-        $exercise->prompt = "Empty Prompt";
-        $exercise->test_code = "";
-        $exercise->previous_exercise_id = $last_exercise_id;
-        $exercise->lesson_id = $lesson->id;
-        $exercise->owner_id = auth()->user()->id;
-        $exercise->save();
+        $new_exercise = new Exercise();
+        $new_exercise->prompt = "Empty Prompt";
+        $new_exercise->test_code = "";
+        $new_exercise->previous_exercise_id = $pre_exercise_id;
+        $new_exercise->lesson_id = $lesson->id;
+        $new_exercise->owner_id = auth()->user()->id;
+        $new_exercise->save();
+
+        
+            // place new exercise in the correct place in the line.
+            if(!(is_null($next_exercise) && empty($next_exercise))){
+                // if no next exercise, must have been added to the end.
+                $next_exercise->previous_exercise_id = $new_exercise->id;
+                $next_exercise->save();
+            }
 
         //return ['msg' => "Exercise was created successfully", 'exercise_id' => $exercise->id];
         //<li class="exercise mini {{$class}}">
@@ -91,11 +108,47 @@ class CodeController extends Controller
         //            <a href="{{url('code/exercise/' . $exercise->id)}}">{{$exercise_count++}}</a>
         //        @endif
         //    </li>
-        return view('codearea.exerciseNavItem',['exercise' => $exercise,
+        return view('codearea.exerciseNavItem',['exercise' => $new_exercise,
                                                 'exercise_count' => $exercise_count,
                                                 'is_active' => true,
                                                 'class' => '']);
     }
+
+    /**
+     * Create a copy of the object related to the given object.
+     * @param $request \Illuminate\Http\Request
+     * @return \Illuminate\Http\Response
+     */
+    public function copyExercise(Request $request){
+
+        $lesson_id = $request->all()['lesson_id'];
+        $exercise_id = $request->all()['exercise_id'];
+
+        $old_exercise = Exercise::find($exercise_id);
+        if(is_null($old_exercise) || empty($old_exercise)){
+            return "Cannot create a new exercise in this lesson";
+        }
+        $next_exercise = Exercise::where('previous_exercise_id',$old_exercise->id)->first();
+
+        $new_exercise = $old_exercise->deepCopy();
+        $new_exercise->owner_id = auth()->user()->id;
+        $new_exercise->lesson_id = $lesson_id;
+        $new_exercise->previous_exercise_id = $old_exercise->id;
+        $new_exercise->save();
+
+        // place new exercise in the correct place in the line.
+        if(!(is_null($next_exercise) && empty($next_exercise))){
+            // if no next exercise, must have been added to the end.
+            $next_exercise->previous_exercise_id = $new_exercise->id;
+            $next_exercise->save();
+        }
+
+        return view('codearea.exerciseNavItem',['exercise' => $new_exercise,
+                                                'exercise_count' => -1,
+                                                'is_active' => true,
+                                                'class' => '']);
+    }
+
 
     /**
      * Takes in a request from an AJAX call and edits an exercise in the database.
@@ -178,7 +231,7 @@ class CodeController extends Controller
         // This is going to be commented out for now for testing purposes but it does work and will be used in release
         if($now < $project->open_date){
             //return redirect('/flow/' . $course_id)->
-                //with('error', 'That project is not open yet.');
+            //with('error', 'That project is not open yet.');
         }
 
         //TODO: Add a check to see if the project is past due. The project code page should have some kind of flag that dictates whether or not it can save.
@@ -341,7 +394,7 @@ class CodeController extends Controller
 
         $queries = DB::getQueryLog();
 
-        return '<pre>' . print_r($queries, true) . '</pre>'; 
+        return '<pre>' . print_r($queries, true) . '</pre>';
     }
 
     public function lesson($lesson_id)

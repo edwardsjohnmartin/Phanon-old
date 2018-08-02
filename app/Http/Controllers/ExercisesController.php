@@ -158,7 +158,7 @@ class ExercisesController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function copy($id)
+    public function cloneMe($id)
     {
         $exercise = Exercise::find($id);
 

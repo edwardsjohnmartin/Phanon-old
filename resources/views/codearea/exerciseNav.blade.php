@@ -19,7 +19,7 @@
                     $class .= "active completed ";
                 } else {
                     // not completed
-                    if(!$found_current || (isset($role) && $role.hasPermissionTo(Permissions::EXERCISE_EDIT))){
+                    if(!$found_current || (isset($role) && $role->hasPermissionTo(Permissions::EXERCISE_EDIT))){
                         // this should be just he first exercise after all completed.
                         $class .= "active ";
                         $found_current = true;
@@ -38,9 +38,9 @@
         @endcomponent
         @endforeach
     @if($role->hasPermissionTo(Permissions::EXERCISE_EDIT))
-        <li class="exercise addNew mini active">
-            <a id="addExercise" href="#" data-count="{{$exercise_count}}"
-               onclick="addNewExerciseToLesson('{{url('/ajax/exercisecreate')}}');return false;">+</a>
+        <li id="addExercise" class="exercise addNew mini active" data-item-count="{{$exercise_count}}">
+            <a href="#" 
+               onclick="addNewExerciseToLesson('{{url('/ajax/exercisecreate')}}','addExercise');return false;">+</a>
         </li>
         @endif
     </ol>

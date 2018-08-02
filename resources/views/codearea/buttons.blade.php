@@ -74,12 +74,12 @@
 
     <button class="btn edit modifying" title="Turn Editing Mode On" onclick="toggleEditMode(this, '{{$item_type}}', '{{$url}}');">Enable Edit Mode</button>
     @if($item_type == "exercise")
-    <button class="btn copy modifying" title="Copy this item."
-            onclick="copyItem(this, '{{$item_type}}', '{{$url}}', {{$item->id}});">
+    <button class="btn copy modifying" title="Create a copy of this item and insert it right after this item."
+            onclick="copyItem('{{$item_type}}', '{{url("/ajax/".$item_type."copy/")}}', {{$item->id}});">
         Copy
     </button>
-    <button class="btn insert modifying" title="Insert new after this item."
-            onclick="insertItem(this, '{{$item_type}}', '{{$url}}', {{$item->id}});">
+    <button class="btn insert modifying" title="Create a new item and insert new after this item."
+            onclick="insertItem('{{$item_type}}', '{{url("/ajax/".$item_type."create/")}}', {{$item->id}});">
         Insert
     </button>
     @endif

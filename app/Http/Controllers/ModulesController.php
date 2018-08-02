@@ -284,7 +284,7 @@ class ModulesController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function copy($id)
+    public function cloneMe($id)
     {
         // Get the module to be copied
         $module = Module::find($id);

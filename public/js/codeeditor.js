@@ -619,15 +619,15 @@ function createProjectSurveyResponse(difficultyRating, enjoymentRating, maxDiffi
             success: function (data) {
                 var i;
                 for (i = 0; i < data.successes.length; i++) {
-                addPopup(data.successes[i], "save");
+                    addPopup(data.successes[i], "save");
                 }
                 for (i = 0; i < data.errors.length; i++) {
                     addPopup(data.errors[i], "error");
                 }
                 //console.log(data);
             },
-               error: function (data) {
-                
+            error: function (data) {
+
                 addPopup("Could not send ratings to server.", "error");
                 //console.log(data);
             }
@@ -635,32 +635,51 @@ function createProjectSurveyResponse(difficultyRating, enjoymentRating, maxDiffi
     }
 }
 
-function addNewExerciseToLesson(url) {
+function addNewExerciseToLesson(url, associatedID, exerciseId = -1) {
     // Get lesson id of exercise
-    var lesson_id = $("#exerciseList").data("lesson-id");
-    var number = $("#addExercise").attr("data-count");
+    var lessonId = $("#exerciseList").data("lesson-id");
+    var number = $("#" + associatedID).attr("data-item-count");
     $.ajax({
         type: "POST",
         url: url,
         data: {
-            lesson_id: lesson_id,
+            lesson_id: lessonId,
+            exercise_id: exerciseId,
             exercise_count: number,
             _token: $('meta[name="csrf-token"]').attr('content')
         },
         success: function (data) {
             //console.log(data);
-            var o = $("#addExercise");
-            o.parent().before(data);
-            var count = parseInt(o.attr("data-count"));
-            o.attr("data-count", count + 1);
-            // Add tile icon for newly created exercise
+            var o = $("#" + associatedID);
+            var count = parseInt(o.attr("data-item-count"));
+            count++; // increment before setting
+
+            if (parseInt(exerciseId) === -1) {
+                // Add tile icon for newly created exercise to end.
+                o.before(data);
+                o.attr("data-item-count", count);
+            } else {
+                // add to next place in line
+                o.after(data);
+                // shift all in list.
+                var nn = o.nextAll();
+                nn.each(function (i, obj) {
+                    // should include newly added item.
+                    var n = $(obj);
+                    n.attr("data-item-count", count);
+                    if (!n.hasClass("addNew")) {
+                        n.find("a").text(count);
+                    }
+                    count++; // advance for next item.
+                });
+            }
         }
     });
 }
-function copyItem(ele, item_type, url, id) {
-    alert('Not yet Implemented');
+function copyItem(itemType, url, itemId) {
+    addNewExerciseToLesson(url, itemType + "_" + itemId, itemId);
 }
-function insertItem(ele, item_type, url, id) {
-    alert('Not yet Implemented');
+function insertItem(itemType, url, itemId) {
+    addNewExerciseToLesson(url, itemType + "_" + itemId, itemId);
 }
 
