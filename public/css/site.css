@@ -893,7 +893,7 @@ dl.dates dt, dl.dates dd {
         overflow: hidden;
     }
 
-        #exerciseList .exercise.mini.inactive {
+        #exerciseList .exercise.mini.inactive, #exerciseList .exercise.ui-sortable-placeholder {
             background-color: #DDD;
             cursor: not-allowed;
             color: #333;
@@ -963,6 +963,11 @@ dl.dates dt, dl.dates dd {
             font-family: themify;
             content: "\e61d"; /* edit pencil */
         }
+    #exerciseList .exercise.ui-sortable-placeholder:before {
+        font-family: themify;
+        content: "\e6f4";
+        margin-right: .5em;
+    }
 
 
         #exerciseList .exercise.current a {
@@ -1336,33 +1341,37 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         color: transparent;
     }
 
-    .toggleSwitchHolder, .toggleSwitchHolder div{
-        display:inline-block;
-    }
-        .toggleSwitchHolder span {
-            background-color: #888;
-            border-top: 1px solid #333;
-            border-bottom: 1px solid #333;
-            padding: .2em .5em;
-            color: #FFF;
-            cursor: pointer;
-        }
-            .toggleSwitchHolder span:first-child {
-                border-radius: .5em 0 0 .5em;
-                border-left: 1px solid #333;
-            }
-            .toggleSwitchHolder span:last-child {
-                border-radius: 0 .5em .5em 0;
-                border-right: 1px solid #333;
-            }
-            .toggleSwitchHolder span.selected {
-                background-color: #080;
-                font-weight: bold;
-            }
-                .toggleSwitchHolder input{
-                    display:none;
-        
+.toggleSwitchHolder, .toggleSwitchHolder div {
+    display: inline-block;
 }
+
+    .toggleSwitchHolder span {
+        background-color: #888;
+        border-top: 1px solid #333;
+        border-bottom: 1px solid #333;
+        padding: .2em .5em;
+        color: #FFF;
+        cursor: pointer;
+    }
+
+        .toggleSwitchHolder span:first-child {
+            border-radius: .5em 0 0 .5em;
+            border-left: 1px solid #333;
+        }
+
+        .toggleSwitchHolder span:last-child {
+            border-radius: 0 .5em .5em 0;
+            border-right: 1px solid #333;
+        }
+
+        .toggleSwitchHolder span.selected {
+            background-color: #080;
+            font-weight: bold;
+        }
+
+    .toggleSwitchHolder input {
+        display: none;
+    }
 
 #ideMessages {
     z-index: 990;

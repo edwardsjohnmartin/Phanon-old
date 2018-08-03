@@ -4,7 +4,7 @@
 @endphp
 
 <div id="exercisePanel">
-    <ol id="exerciseList" data-lesson-id="{{$lesson_id}}">
+    <ol id="exerciseList" data-url="{{url("/ajax/exercisemove"}}" data-lesson-id="{{$lesson_id}}">
         @foreach($exercises as $exercise)
             @php
                 // Check each exercise
@@ -49,7 +49,19 @@
 @section("scripts-end")
 @parent
 <script>
-    $("#exerciseList").sortable({ cancel: "#addExercise" })
+    $("#exerciseList").sortable({
+        cancel: "#addExercise",
+        placeholder: "exercise mini",
+        stop: function (evt, ui) {
+            var t = ui.item;
+            var p = t.prev();
+            var n = t.next();
+
+            
+            
+
+        }
+    })
     $("#exerciseList").mouseover(function (e) {
         e = e || window.event;
         var tar = e.target || e.srcElement;

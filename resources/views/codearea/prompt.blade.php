@@ -89,6 +89,9 @@
 
 @section("scripts-end")
     @parent
+<script>
+   handleContentControllers("#idePrompt", "#promptInstructions");
+</script>
     @if($show_survey)
 <script>
    handleContentControllers("#idePrompt", "#promptInstructions");

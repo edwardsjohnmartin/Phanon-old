@@ -1,5 +1,3 @@
-var turnScrollingOff = false;
-
 function toggleEditMode(editBtn) {
     // Toggle visibility of all divs that contain a create object button
     var allDivs = $('.creation');

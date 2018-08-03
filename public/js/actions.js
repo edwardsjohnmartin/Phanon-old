@@ -1,4 +1,6 @@
-﻿/** 
+﻿var turnScrollingOff = false; // Chrome requires this here.
+
+/**
  * Verify that action is what is intended. Proper use for this funciton 
  *      is /return action(eventObj, stringDescribingAction, URIToCallOnSuccess)
  * @param {string} action What text you intend to do.
@@ -70,31 +72,36 @@ function expandCollapse(ele, collapsable, scrollToParent, success) {
     }
 }
 
-function handleToggleSwitches(selector,yesText,noText) {
+function handleToggleSwitches(selector, yesText, noText) {
     buildYesNoToggle(selector, yesText, noText);
     $("div.yesNo span").click(function () {
         //$(this).css("border", "2px dashed #0A0");
-        var chk = $(this).parent().parent().find("input")[0];
+        var chk = $(this).parent().parent().find("input").eq(0);
         $(this).parent().find("span").removeClass("selected");
         $(this).addClass("selected");
         if (this.classList.contains("spanShowYes")) {
-            $(chk).attr("checked", "checked");
+            chk.attr("checked", "checked");
         } else {
-            $(chk).attr("checked", null);
+            chk.attr("checked", null);
         }
+        setToggleSelection(chk);
     });
 }
-function buildYesNoToggle(selector, yesText = "Yes", noText= "No") {
+function buildYesNoToggle(selector, yesText = "Yes", noText = "No") {
     //$(selector).css("display", "none");
     $(selector).each(function (indexI, chk) {
         var box = $(chk);
-        box.attr("data-storage-key", selector + "_" + indexI);
+        var storageKey = box[0].id || selector + "_" + indexI;
+        box.attr("data-storage-key", storageKey);
         var yesClass, noClass;
-        var isSelected = getSelection(box)
+
+        var isSelected = getToggleSelection(box)
         if (isSelected) {
+            box.attr("checked", "checked");
             yesClass = "spanShowYes selected";
             noClass = "spanShowNo";
         } else {
+            box.attr("checked", null);
             yesClass = "spanShowYes";
             noClass = "spanShowNo selected";
         }
@@ -105,10 +112,21 @@ function buildYesNoToggle(selector, yesText = "Yes", noText= "No") {
     });
 }
 
-function getSelection(jEle) {
+function getToggleSelection(jEle) {
     var storageKey = jEle.attr("data-storage-key");
-    if (localStorage.getItem(storageKey)) {
+    var isSelected = jEle.is(":checked");
+    if (localStorage.getItem(storageKey) === null) {
+        // does not exist in storage
         // store value in local storage.
-    }
-    return jEle.is("checked");
+        localStorage.setItem(storageKey, isSelected);
+    } 
+    isSelected = localStorage.getItem(storageKey);
+    
+    return isSelected == "true";
+}
+
+function setToggleSelection(jEle) {
+    var storageKey = jEle.attr("data-storage-key");
+    var isSelected = jEle.is(":checked");
+    localStorage.setItem(storageKey, isSelected);
 }

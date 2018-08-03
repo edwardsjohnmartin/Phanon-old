@@ -388,11 +388,16 @@ function saveProjectCode(project_id, contents, url) {
  * @param {string} className additional classname(s) to add to the popup.
  */
 function addPopup(msg, className) {
-    var popHolder = document.getElementById("popups");
-    var popUp = document.createElement("p");
-    popUp.innerHTML = msg;
-    popUp.className = "popup " + className;
-    popHolder.appendChild(popUp);
+    var showPopups = localStorage.getItem("popupsToggle");
+    if (showPopups == "true") {
+        // add to popup
+        var popHolder = document.getElementById("popups");
+        var popUp = document.createElement("p");
+        popUp.innerHTML = msg;
+        popUp.className = "popup " + className;
+        popHolder.appendChild(popUp);
+    }
+    // append to Log
     var logBook = document.getElementById("ideLog");
     var newEntryTitle = document.createElement("dt");
     newEntryTitle.innerText = (new Date()).toLocaleTimeString();
@@ -499,12 +504,14 @@ function toggleButtonText(editBtn) {
     var btn = $(editBtn);
     if (btn.text() == "Enable Edit Mode") {
         btn.text("Turn Off Edit Mode");
-        btn.attr("title", "Turn Off Edit Mode");
+        btn.attr("title", "Turn Off Edit Mode and Save");
+        btn.attr("tooltip", "Turn Off Edit Mode and Save");
         btn.addClass("selected");
         btn.removeClass("edit").addClass("save");
     } else {
         btn.text("Enable Edit Mode");
         btn.attr("title", "Enable Edit Mode");
+        btn.attr("tooltip", "Enable Edit Mode");
         btn.removeClass("selected");
         btn.removeClass("save").addClass("edit");
     }
@@ -567,8 +574,13 @@ function saveProjectEdit(url) {
             _token: $('meta[name="csrf-token"]').attr('content')
         },
         success: function (data) {
-            addPopup("Project Edited Successfully!", "save");
+            addPopup("Project changes saved!", "save");
             console.log(data);
+        },
+        error: function (x,d,o,p) {
+            addPopup("Could not save project", "error");
+            console.log(x);
+            console.log(d);
         }
     });
 }
@@ -579,9 +591,10 @@ function saveProjectEdit(url) {
  */
 function saveExerciseEdit(url) {
     var exercise_id = $('#exerciseId').text();
-    var prompt = $('#promptInstructions').data("raw-prompt");
-    var pre_code = $('#idePreCode').find('.CodeMirror')[0].CodeMirror.getValue();
-    var test_code = $('#ideTestCode').find('.CodeMirror')[0].CodeMirror.getValue();
+    // cannot have null texts in these defaulting to empty string.
+    var prompt = $('#promptInstructions').data("raw-prompt") || "";
+    var pre_code = $('#idePreCode').find('.CodeMirror')[0].CodeMirror.getValue() || "";
+    var test_code = $('#ideTestCode').find('.CodeMirror')[0].CodeMirror.getValue() || " ";
 
     $.ajax({
         type: "POST",
@@ -594,7 +607,12 @@ function saveExerciseEdit(url) {
             _token: $('meta[name="csrf-token"]').attr('content')
         },
         success: function (data) {
-            addPopup("Exercise Edited Successfully!", "save");
+            addPopup("Exercise changes saved!", "save");
+        },
+        error: function (x, d, o, p) {
+            console.log(x);
+            console.log(d);
+            addPopup("Could not save exercise", "error");
         }
     });
 }

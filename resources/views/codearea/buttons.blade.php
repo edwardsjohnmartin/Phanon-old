@@ -62,7 +62,7 @@
     <span class="buttonSpacer"> - </span>
     <div class="toggleSwitchHolder">
         <label for="popupsToggle">Popups</label>
-        <input id="popupsToggle" class="toggleSwitch" type="checkbox" />
+        <input id="popupsToggle" checked="checked" class="toggleSwitch" type="checkbox" />
     </div>
     <span class="buttonSpacer"> - </span>
 
