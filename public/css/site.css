@@ -1032,9 +1032,11 @@ button[tooltip]:hover:after {
     display: inline;
     width: auto;
 }
-
-
-#codeWindow {
+label[tooltip]:hover:after {
+    font-size: .9em;
+    font-weight: normal;
+}
+    #codeWindow {
     width: 100%;
     height: 50%;
 }

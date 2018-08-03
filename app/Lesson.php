@@ -117,14 +117,14 @@ class Lesson extends Model
             $exercises = array();
 
             $exercise = $this->unorderedExercises->where('previous_exercise_id', null)->first();
-            
+
             array_push($exercises, $exercise);
-    
+
             $done = false;
-    
+
             while(!$done){
                 $next_exercise = $this->unorderedExercises->where('previous_exercise_id', $exercise->id)->first();
-    
+
                 if(!is_null($next_exercise)){
                     $exercise = $next_exercise;
                     array_push($exercises, $exercise);
@@ -132,7 +132,7 @@ class Lesson extends Model
                     $done = true;
                 }
             }
-    
+
             if(count($exercises) > 0){
                 return collect($exercises);
             } else {
@@ -264,7 +264,8 @@ class Lesson extends Model
 
         if(count($exercises) > 0){
             foreach($exercises as $exercise){
-                if($exercise->exerciseProgress->first()->completion_date == null){
+                if($exercise->exerciseProgress->first() != null &&
+                    $exercise->exerciseProgress->first()->completion_date == null){
                     return $exercise;
                 }
             }

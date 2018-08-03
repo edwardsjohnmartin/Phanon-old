@@ -79,7 +79,7 @@ class Exercise extends Model
         }
     }
 
-    public function deepCopy($lesson_id, $previous_exercise_id)
+    public function deepCopy($lesson_id = null, $previous_exercise_id= null)
     {
         $new_exercise = new Exercise();
         $new_exercise->prompt = $this->prompt;

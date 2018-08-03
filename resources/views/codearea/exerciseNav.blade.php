@@ -4,7 +4,7 @@
 @endphp
 
 <div id="exercisePanel">
-    <ol id="exerciseList" data-url="{{url("/ajax/exercisemove"}}" data-lesson-id="{{$lesson_id}}">
+    <ol id="exerciseList" data-url="{{url("/ajax/exercisemove")}}" data-lesson-id="{{$lesson_id}}">
         @foreach($exercises as $exercise)
             @php
                 // Check each exercise

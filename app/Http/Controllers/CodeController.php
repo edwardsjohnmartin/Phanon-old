@@ -101,7 +101,7 @@ class CodeController extends Controller
                 $next_exercise->previous_exercise_id = $new_exercise->id;
                 $next_exercise->save();
             }
-            $role = $course->getUsersRole(auth()->user()->id);
+            $role = $lesson->module->concept->course->getUsersRole(auth()->user()->id);
             //return ['msg' => "Exercise was created successfully", 'exercise_id' => $exercise->id];
         //<li class="exercise mini {{$class}}">
         //        @if($is_active)
@@ -131,11 +131,7 @@ class CodeController extends Controller
         }
         $next_exercise = Exercise::where('previous_exercise_id',$old_exercise->id)->first();
 
-        $new_exercise = $old_exercise->deepCopy();
-        $new_exercise->owner_id = auth()->user()->id;
-        $new_exercise->lesson_id = $lesson_id;
-        $new_exercise->previous_exercise_id = $old_exercise->id;
-        $new_exercise->save();
+        $new_exercise = $old_exercise->deepCopy($lesson_id, $old_exercise->id);
 
         // place new exercise in the correct place in the line.
         if(!(is_null($next_exercise) && empty($next_exercise))){
@@ -143,7 +139,7 @@ class CodeController extends Controller
             $next_exercise->previous_exercise_id = $new_exercise->id;
             $next_exercise->save();
         }
-        $role = $course->getUsersRole(auth()->user()->id);
+        $role = $old_exercise->lesson->module->concept->course->getUsersRole(auth()->user()->id);
         return view('codearea.exerciseNavItem',['exercise' => $new_exercise,
                                                 'exercise_count' => -1,
                                                 'is_active' => true,
@@ -188,14 +184,14 @@ class CodeController extends Controller
     }
 
     /**
-     * Takes in a request from an AJAX call and moves the nodes. 
+     * Takes in a request from an AJAX call and moves the nodes.
      */
     public function moveExercise(Request $request)
     {
         $all = $request->all();
         $exercise_id = $all['exercise_id'];
-     
-        //TODO:Move the nodes. 
+
+        //TODO:Move the nodes.
 
         return "The exercise was edited succesfully";
     }

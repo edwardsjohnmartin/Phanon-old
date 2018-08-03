@@ -61,7 +61,7 @@
     @endif
     <span class="buttonSpacer"> - </span>
     <div class="toggleSwitchHolder">
-        <label for="popupsToggle">Popups</label>
+        <label for="popupsToggle" tooltip="Enable/Disable whether popup messages show. They will always appear in the log regardless">Popups</label>
         <input id="popupsToggle" checked="checked" class="toggleSwitch" type="checkbox" />
     </div>
     <span class="buttonSpacer"> - </span>
