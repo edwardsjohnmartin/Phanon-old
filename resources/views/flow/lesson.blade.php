@@ -2,7 +2,7 @@
     //use App\Lesson;
     //$lesson = new Lesson();
 
-    $numberFound = count($lesson->unorderedExercises());
+    $numberFound = count($lesson->unorderedExercises);
 
     if($numberFound > 0){
         $stats = $lesson->CompletionStats(auth()->user()->id);

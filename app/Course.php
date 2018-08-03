@@ -210,10 +210,24 @@ class Course extends Model
      */
     public function deepCopy()
     {
+        $old_course = Course::getCourse($this->id);
+
+        // Copy the existing course
         $new_course = new Course();
-        $new_course->name = $this->name;
-        $new_course->open_date = $this->open_date;
-        $new_course->close_date = $this->close_date;
+        $new_course->name = $old_course->name;
+        $new_course->open_date = $old_course->open_date;
+        $new_course->close_date = $old_course->close_date;
+        $new_course->owner_id = auth()->user()->id;
+        $new_course->save();
+
+        // Copy any concepts in the course to be cloned
+        if(count($old_course->concepts) > 0){
+            $previous_concept_id = null;
+            foreach($old_course->concepts as $concept){
+                $new_concept = $concept->deepCopy($new_course->id, $previous_concept_id);
+                $previous_concept_id = $new_concept->id;
+            }
+        }
 
         return $new_course;
     }
@@ -287,7 +301,6 @@ class Course extends Model
             }]);
         }])->first();
 
-        
         $course->concepts = $course->conceptsCollection();
         unset($course->unorderedConcepts);
 

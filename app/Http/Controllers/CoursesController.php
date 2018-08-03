@@ -285,89 +285,9 @@ class CoursesController extends Controller
 
         // Clone the course
         $new_course = $course->deepCopy();
-        $new_course->owner_id = auth()->user()->id;
 
-        // Save the copy of the course to the database
-        $new_course->save();
-
-        if(!empty($course->modules)){
-            $modules = array();
-
-            foreach($course->modules as $module){
-                // Clone the module
-                $new_module = $module->deepCopy();
-                $new_module->owner_id = auth()->user()->id;
-    
-                // Save the copy of the module to the database
-                $new_module->save();
-    
-                if(!empty($module->lessons)){
-                    $lessons = array();
-    
-                    foreach($module->lessons as $lesson){
-                        // Clone the lesson
-                        $new_lesson = $lesson->deepCopy();
-                        $new_lesson->owner_id = auth()->user()->id;
-        
-                        // Save the copy of the lesson to the database
-                        $new_lesson->save();
-        
-                        if(!empty($lesson->exercises)){
-                            $exercises = array();
-        
-                            foreach($lesson->exercises as $exercise){
-                                // Clone the exercise
-                                $new_exercise = $exercise->deepCopy();
-                                $new_exercise->owner_id = auth()->user()->id;
-            
-                                // Save the copy of the exercise to the database
-                                $new_exercise->save();
-        
-                                // Push the new exercise to the exercises array
-                                array_push($exercises, $new_exercise);
-                            }
-        
-                            // Attach the new exercises to the new lesson
-                            $new_lesson->exercises()->saveMany($exercises);
-    
-                            // Push the new lesson to the lessons array
-                            array_push($lessons, $new_lesson);
-                        }
-                    }
-    
-                    // Attach the new lessons to the module
-                    $new_module->lessons()->saveMany($lessons);
-                }
-    
-                if(!empty($module->projects)){
-                    $projects = array();
-    
-                    foreach($module->projects as $project){
-                        // Clone the project
-                        $new_project = $project->deepCopy();
-                        $new_project->owner_id = auth()->user()->id;
-    
-                        // Save the copy of the project to the database
-                        $new_project->save();
-    
-                        // Push the new project to the projects array
-                        array_push($projects, $new_project);
-                    }
-    
-                    // Attach the new projects to the module
-                    $new_module->projects()->saveMany($projects);
-                }
-
-                // Push the new module to the modules array
-                array_push($modules, $new_module);
-            }
-
-            // Attach the new modules to the course
-            $new_course->modules()->saveMany($modules);
-        }
-
-        return redirect('/courses/' . $new_course->id . '/fullview')->
-            with('success', 'Course Cloned');
+        return redirect('/courses/')->
+            with('success', 'Course copied successful.');
     }
 
     public function teams($id)

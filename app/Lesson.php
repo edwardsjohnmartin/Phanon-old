@@ -185,7 +185,11 @@ class Lesson extends Model
                             GROUP BY lesson_id "), array('userID' => $idParsed, 'lessonID' =>$this->id));
 
         //print_r($results);
-        return $results[0];
+        if(!is_null($results) and !empty($results)){
+            return $results[0];
+        }
+
+        return null;
     }
 
     /**
@@ -205,10 +209,26 @@ class Lesson extends Model
     /**
      *
      */
-    public function deepCopy()
+    public function deepCopy($module_id, $previous_lesson_id)
     {
+        $old_lesson = Lesson::getLesson($this->id);
+
+        // Copy the existing lesson
         $new_lesson = new Lesson();
-        $new_lesson->name = $this->name;
+        $new_lesson->name = $old_lesson->name;
+        $new_lesson->module_id = $module_id;
+        $new_lesson->previous_lesson_id = $previous_lesson_id;
+        $new_lesson->owner_id = auth()->user()->id;
+        $new_lesson->save();
+
+        // Copy any exercises in the lesson to be copied
+        if(count($old_lesson->exercises) > 0){
+            $previous_exercise_id = null;
+            foreach($old_lesson->exercises as $exercise){
+                $new_exercise = $exercise->deepCopy($new_lesson->id, $previous_exercise_id);
+                $previous_exercise_id = $new_exercise->id;
+            }
+        }
 
         return $new_lesson;
     }
@@ -265,6 +285,16 @@ class Lesson extends Model
         }
 
         return $this->exercises()[0];
+    }
+
+    public static function getLesson($lesson_id)
+    {
+        $lesson = Lesson::where('id', $lesson_id)->
+        with('unorderedExercises')->first();
+
+        $lesson->exercises = $lesson->exercisesCollection();
+
+        return $lesson;
     }
 
     public static function getLessonWithExerciseProgress($lesson_id)

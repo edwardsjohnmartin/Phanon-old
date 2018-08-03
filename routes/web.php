@@ -73,3 +73,5 @@ Route::post('/ajax/exerciseedit', 'CodeController@editExercise');
 Route::post('/ajax/courseedit', 'FlowController@editCourse');
 
 Route::post('/ajax/projectsurveycreate', 'ProjectSurveyResponsesController@createResponse');
+
+Route::get('/courses/{course_id}/copy', 'CoursesController@copy')->name('courses.copy');

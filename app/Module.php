@@ -361,13 +361,39 @@ class Module extends Model
         return $results[0]->LessonCount;
     }
 
-    public function deepCopy()
+    public function deepCopy($concept_id, $previous_module_id)
     {
+        $old_module = Module::getModule($this->id);
+
+        // Copy the existing module
         $new_module = new Module();
-        $new_module->name = $this->name;
-        $new_module->open_date = $this->open_date;
+        $new_module->name = $old_module->name;
+        $new_module->open_date = $old_module->open_date;
+        $new_module->concept_id = $concept_id;
+        $new_module->previous_module_id = $previous_module_id;
+        $new_module->owner_id = auth()->user()->id;
+        $new_module->save();
+
+        // Copy any components in the module to be copied
+        if(count($old_module->components) > 0){
+            $previous_lesson_id = null;
+            foreach($old_module->components as $component){
+                $new_component = $component->deepCopy($new_module->id, $previous_lesson_id);
+                $previous_lesson_id = $new_component->id;
+            }
+        }
 
         return $new_module;
+    }
+
+    public static function getModule($module_id)
+    {
+        $module = Module::where('id', $module_id)->
+        with(['unorderedLessons', 'unorderedProjects'])->first();
+
+        $module->components = $module->componentsCollection();
+
+        return $module;
     }
 
     /**

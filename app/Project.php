@@ -111,7 +111,7 @@ class Project extends Model
         return $this->hasMany('App\ProjectSurveyResponse');
     }
 
-    public function deepCopy()
+    public function deepCopy($module_id, $previous_lesson_id)
     {
         $new_project = new Project();
         $new_project->name = $this->name;
@@ -120,6 +120,11 @@ class Project extends Model
         $new_project->prompt = $this->prompt;
         $new_project->pre_code = $this->pre_code;
         $new_project->start_code = $this->start_code;
+        $new_project->solution = $this->solution;
+        $new_project->module_id = $module_id;
+        $new_project->previous_lesson_id = $previous_lesson_id;
+        $new_project->owner_id = auth()->user()->id;
+        $new_project->save();
 
         return $new_project;
     }

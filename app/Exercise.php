@@ -79,13 +79,18 @@ class Exercise extends Model
         }
     }
 
-    public function deepCopy()
+    public function deepCopy($lesson_id, $previous_exercise_id)
     {
         $new_exercise = new Exercise();
         $new_exercise->prompt = $this->prompt;
         $new_exercise->pre_code = $this->pre_code;
         $new_exercise->start_code = $this->start_code;
         $new_exercise->test_code = $this->test_code;
+        $new_exercise->solution = $this->solution;
+        $new_exercise->lesson_id = $lesson_id;
+        $new_exercise->previous_exercise_id = $previous_exercise_id;
+        $new_exercise->owner_id = auth()->user()->id;
+        $new_exercise->save();
 
         return $new_exercise;
     }

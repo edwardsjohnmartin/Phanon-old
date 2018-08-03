@@ -218,4 +218,41 @@ class Concept extends Model
             return null;
         }
     }
+
+    public function deepCopy($course_id, $previous_concept_id)
+    {
+        $old_concept = Concept::getConcept($this->id);
+
+        // Copy the existing concept
+        $new_concept = new Concept();
+        $new_concept->name = $old_concept->name;
+        $new_concept->course_id = $course_id;
+        $new_concept->previous_concept_id = $previous_concept_id;
+        $new_concept->owner_id = auth()->user()->id;
+        $new_concept->save();
+
+        // Copy any modules in the concept to be cloned
+        if(count($old_concept->modules) > 0){
+            $previous_module_id = null;
+            foreach($old_concept->modules as $module){
+                $new_module = $module->deepCopy($new_concept->id, $previous_module_id);
+                $previous_module_id = $new_module->id;
+            }
+        }
+
+        return $new_concept;
+    }
+
+    public static function getConcept($concept_id)
+    {
+        $concept = Concept::where('id', $concept_id)->
+        with(['unorderedModules' => function($modules){
+            $modules->with(['unorderedLessons', 'unorderedProjects']);
+        }])->first();
+
+        $concept->modules = $concept->modulesCollection();
+        unset($concept->unorderedModules);
+
+        return $concept;
+    }
 }

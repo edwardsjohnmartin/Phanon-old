@@ -12,13 +12,14 @@
     $lessonsAndProjectsCount = 1;// count($module->lessonsAndProjects());
     if($lessonsAndProjectsCount > 0){
         $stats = $module->CompletionStats(auth()->user()->id);
-        $is_completed = ($stats->Completed == $stats->ExerciseCount);
         
         if(!is_null($stats)){
+            $is_completed = ($stats->Completed == $stats->ExerciseCount);
             $stats_perc_complete = floor($stats->PercComplete*100);
             $stats_completed = $stats->Completed;
             $stats_exercise_count = $stats->ExerciseCount;
         } else {
+            $is_completed = false;
             $stats_perc_complete = 0;
             $stats_completed = 0;
             $stats_exercise_count = 0;
@@ -75,7 +76,10 @@
     <ul class="components">
        {{--  @if($lessonsAndProjectsCount > 0)
         5/8 time spent here on load. --}}
-        <?php $module->eagerLoading = $eagered; ?>
+        <?php 
+            $module->eagerLoading = $eagered;
+        ?>
+        @if(count($module->components) > 0)
             @foreach($module->components as $comp)
                 <?php $comp->eagerLoading = $eagered; ?>
                 @if(get_class($comp) == "App\Lesson")
@@ -87,6 +91,7 @@
                     @endcomponent
                 @endif
             @endforeach
+        @endif
         
        {{--@endif --}}
     </ul>
