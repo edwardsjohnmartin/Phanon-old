@@ -167,6 +167,10 @@ class CodeController extends Controller
             return "Exercise does not exist.";
         }
 
+        // prompt cannnot be null in DB.
+        if(is_null($prompt)) $prompt = "";
+
+
         // test code cannnot be null in DB.
         if(is_null($test_code)) $test_code = "";
 
@@ -183,18 +187,6 @@ class CodeController extends Controller
         return "The exercise was edited succesfully";
     }
 
-    /**
-     * Takes in a request from an AJAX call and moves the nodes.
-     */
-    public function moveExercise(Request $request)
-    {
-        $all = $request->all();
-        $exercise_id = $all['exercise_id'];
-
-        //TODO:Move the nodes.
-
-        return "The exercise was edited succesfully";
-    }
 
     /**
      * Gets a project as well as the logged-in users progress on that project and directs them to the coding page for it.

@@ -7,7 +7,7 @@ use App\Exercise;
 use App\Lesson;
 use DB;
 
-class ExercisesController extends Controller 
+class ExercisesController extends Controller
 {
     public function __construct()
     {
@@ -15,13 +15,13 @@ class ExercisesController extends Controller
         // Use the 'clearance' middleware to check if a user has permission to access each function
         $this->middleware(['auth', 'clearance']);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() 
+    public function index()
     {
         $exercises = Exercise::paginate(10);
 
@@ -34,7 +34,7 @@ class ExercisesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() 
+    public function create()
     {
         return view('exercises.create');
     }
@@ -45,7 +45,7 @@ class ExercisesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $this->validate($request, [
             'prompt' => 'required',
@@ -59,10 +59,10 @@ class ExercisesController extends Controller
         $exercise->start_code = $request->input('start_code');
         $exercise->test_code = $request->input('test_code');
         $exercise->owner_id = auth()->user()->id;
-        
+
         // Save exercise to the database
         $exercise->save();
-        
+
         return redirect(url('/exercises'))->
             with('success', 'Exercise Created');
     }
@@ -73,7 +73,7 @@ class ExercisesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show($id)
     {
         $exercise = Exercise::find($id);
 
@@ -87,7 +87,7 @@ class ExercisesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) 
+    public function edit($id)
     {
         $exercise = Exercise::find($id);
 
@@ -108,7 +108,7 @@ class ExercisesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) 
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'prompt' => 'required',
@@ -137,7 +137,7 @@ class ExercisesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy($id)
     {
         $exercise = Exercise::find($id);
 
@@ -154,7 +154,7 @@ class ExercisesController extends Controller
 
     /**
      * Show the form for deep copying a specific exercise
-     * 
+     *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
@@ -168,7 +168,7 @@ class ExercisesController extends Controller
 
     /**
      * Create a deep copy of an exercise
-     * 
+     *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -179,4 +179,62 @@ class ExercisesController extends Controller
         return redirect('/exercises')->
             with('success', 'Exercise Cloned');
     }
+
+    /**
+     * Takes in a request from an AJAX call and moves the nodes.
+     */
+    public function move(Request $request)
+    {
+        $retObj = (Object)["success" => false, "message" => ""];
+        $all = $request->all();
+        $exercise_id = $all['exercise_id'];
+        $new_previous_exercise_id = $all['previous_id'];
+
+        //TODO:Move the nodes.
+        if($new_previous_exercise_id == "-1" || $new_previous_exercise_id == ""){
+            $new_previous_exercise_id = null;
+        }
+
+        // get needed objects
+        //   A -- B -- C -- D -- E
+        //   A -- D -- B -- C -- E
+        //   nP - c - nN -- oP -- oN
+        $current = Exercise::find($exercise_id);
+        $new_next = Exercise::where(["previous_exercise_id"=>$new_previous_exercise_id,
+                                     "lesson_id"=>$current->lesson_id])->first();
+        $old_next = Exercise::where(["previous_exercise_id"=>$exercise_id,
+                                     "lesson_id"=>$current->lesson_id])->first();
+
+        $next_id = null;
+        // these must happen in this order.
+        if(!is_null($old_next)){
+            $old_next->previous_exercise_id = $current->previous_exercise_id;
+        }
+        if(!is_null($new_next)){
+            $current->previous_exercise_id = $new_next->previous_exercise_id;
+            $new_next->previous_exercise_id = $current->id;
+            $next_id = $new_next->id;
+        }else{
+            // place at end of list
+            $current->previous_exercise_id = $new_previous_exercise_id;
+        }
+
+        // save changes
+        if(!is_null($new_next)) $new_next->save();
+        if(!is_null($old_next)) $old_next->save();
+        $current->save();
+
+        if ($new_previous_exercise_id == null)
+            $new_previous_exercise_id = "start";
+
+        if ($next_id == null)
+            $next_id = "end";
+
+        $retObj->success = true;
+        $retObj->message = "Exercise moved. ".$new_previous_exercise_id
+            ." > ".$current->id." > ".$next_id;
+
+        return response()->json($retObj);
+    }
+
 }

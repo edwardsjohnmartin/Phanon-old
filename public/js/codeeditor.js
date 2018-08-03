@@ -680,16 +680,7 @@ function addNewExerciseToLesson(url, associatedID, exerciseId = -1) {
                 // add to next place in line
                 o.after(data);
                 // shift all in list.
-                var nn = o.nextAll();
-                nn.each(function (i, obj) {
-                    // should include newly added item.
-                    var n = $(obj);
-                    n.attr("data-item-count", count);
-                    if (!n.hasClass("addNew")) {
-                        n.find("a").text(count);
-                    }
-                    count++; // advance for next item.
-                });
+                shiftExerciseNumbers(o,count);
             }
         }
     });
@@ -699,5 +690,27 @@ function copyItem(itemType, url, itemId) {
 }
 function insertItem(itemType, url, itemId) {
     addNewExerciseToLesson(url, itemType + "_" + itemId, itemId);
+}
+/**
+ * 
+ * @param {any} sEle starting element
+ */
+function shiftExerciseNumbers(sEle,count,includesEle = false) {
+    if (!(sEle instanceof jQuery || 'jquery' in Object(sEle)))
+        sEle = $(sEle); // make sure is jQuery Object
+
+    var nn = sEle.nextAll();
+    if (includesEle) {
+        nn.splice(0, 0, sEle);
+    } 
+    nn.each(function (i, obj) {
+        // should include newly added item.
+        var n = $(obj);
+        n.attr("data-item-count", count);
+        if (!n.hasClass("addNew")) {
+            n.find("a").text(count);
+        }
+        count++; // advance for next item.
+    });
 }
 

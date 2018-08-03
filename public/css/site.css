@@ -992,6 +992,18 @@ dl.dates dt, dl.dates dd {
         width: 1em;
         line-height: 1em;
     }
+    #exerciseList .nodeDetails {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-left: .2em;
+        font-size: .4em;
+    }
+    #exerciseList .nodeDetails:before {
+        font-family: themify;
+        content: "\e61b";
+        margin-left: .2em;
+    }
 
 /*Tooltips
     based on: https://stackoverflow.com/questions/7117073/how-to-add-a-tooltip-to-a-div
