@@ -22,7 +22,7 @@
     
     @yield('scripts')
 </head>
-<body class="@yield("bodyCSSClass")">
+<body id="@yield('bodyID')" class="@yield('bodyCSSClass')">
     <div id="app">
         @include('inc.navbar')
         <div class="container-fluid">

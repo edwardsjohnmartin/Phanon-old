@@ -25,12 +25,12 @@
     }
 //@endphp
 ?>
-<li class="lesson sortable{{$percComplete == 100?" completed":""}}">
-    <a href="{{url('/code/lesson/' . $lesson->id)}}">
-        {{--
-        <span>Lesson </span>
-        <span class="itemCount"></span> --}}
-
+<li class="lesson editable {{$percComplete == 100?" completed":""}}" data-lesson-id="{{$lesson->id}}">
+    @if($role->hasPermissionTo(Permissions::LESSON_EDIT))
+     <button class="edit" data-item-type="lesson" data-item-id="{{$lesson->id}}"
+             >Edit</button>
+    @endif
+    <a contenteditable="false" href="{{url('/code/lesson/' . $lesson->id)}}">
         <div class="completion p{{$percComplete}}">
             <span>
                 @if($stats_completed < $stats_exercise_count)
@@ -44,6 +44,6 @@
                 <div class="fill"></div>
             </div>
         </div>
-        <span class="name editable">{{$lesson->name}}</span>
+        <span class="name">{{$lesson->name}}</span>
     </a>
 </li>

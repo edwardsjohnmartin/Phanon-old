@@ -814,6 +814,7 @@
     <Compile Include="resources\views\import\reader.blade.php" />
     <Compile Include="resources\views\import\index.blade.php" />
     <Compile Include="resources\views\lessons\clone.blade.php" />
+    <Compile Include="resources\views\lessons\editMini.blade.php" />
     <Compile Include="resources\views\lessons\create.blade.php" />
     <Compile Include="resources\views\lessons\edit.blade.php" />
     <Compile Include="resources\views\flow\lesson.blade.php" />
@@ -829,6 +830,7 @@
     <Compile Include="resources\views\permissions\index.blade.php" />
     <Compile Include="resources\views\projects\clone.blade.php" />
     <Compile Include="resources\views\projects\create.blade.php" />
+    <Compile Include="resources\views\projects\editMini.blade.php" />
     <Compile Include="resources\views\projects\edit.blade.php" />
     <Compile Include="resources\views\flow\project.blade.php" />
     <Compile Include="resources\views\projects\index.blade.php" />

@@ -269,4 +269,17 @@ class ProjectsController extends Controller
             with('role', $role)->
             with('team', $team);
     }
+
+        /**
+     * Get the miniEdit form for this project
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function miniEditForm($id)
+    {
+        $project = Project::find($id);
+
+        return view("projects.editMini",["project"=>$project]);
+    }
 }

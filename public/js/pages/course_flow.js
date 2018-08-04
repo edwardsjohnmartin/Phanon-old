@@ -1,7 +1,7 @@
 function toggleEditMode(editBtn) {
     // Toggle visibility of all divs that contain a create object button
     var allDivs = $('.creation');
-    $(allDivs).each(function(index, d){
+    $(allDivs).each(function (index, d) {
         toggleDivVisibility(d);
     });
 
@@ -14,7 +14,7 @@ function toggleEditMode(editBtn) {
     // Toggle edit mode for all elements relating to modules
     toggleModuleEditMode();
 
-    if($(editBtn).text() == "Enable Edit Mode"){
+    if ($(editBtn).text() == "Enable Edit Mode") {
         // Expand all the modules so their contents can be seen
         expandModules();
     }
@@ -31,9 +31,9 @@ function toggleCourseEditMode() {
     // close date
 
     var allFields = $('#courseDetails').find('.editable');
-    $(allFields).each(function(index, f){
+    $(allFields).each(function (index, f) {
         toggleContentEditable(f);
-        addBlurEvent(f, function() {
+        addBlurEvent(f, function () {
             saveCourseEdit();
         });
     });
@@ -45,7 +45,7 @@ function toggleConceptEditMode() {
     // name
 
     var allFields = $('article.concept').find('.editable');
-    $(allFields).each(function(index, f){
+    $(allFields).each(function (index, f) {
         toggleContentEditable(f);
     });
 }
@@ -58,13 +58,28 @@ function toggleModuleEditMode() {
 }
 
 function toggleContentEditable(element) {
-    if($(element).hasClass('edit-on')){
-        $(element).removeClass('edit-on');
-        $(element).attr('contentEditable', false);
+    var ele = $(element); // calling this first and only once is more optimized.
+    var par = ele.parent();
+    if (ele.attr("contenteditable") != null) {
+        ele.removeClass('edit-on');
+        ele.attr('contentEditable', false);
+        var oldLink = par.attr("data-old-link");
+        par.attr("href", oldLink);
+        par.attr("data-old-link", null);
+        if (p.hasClass("dates"))
+            addDateButton(ele);
     } else {
-        $(element).addClass('edit-on');
-        $(element).attr('contentEditable', true);
+        ele.addClass('edit-on');
+        ele.attr('contentEditable', true);
+        var oldLink = par.attr("href");
+        par.attr("data-old-link", oldLink);
+        par.attr("href", "#");
     }
+}
+
+function addDateButton(obj) {
+    //var dateBtn = $("<button>").text("Set Date");
+    //obj.after(dateBtn);
 }
 
 /**
@@ -72,7 +87,7 @@ function toggleContentEditable(element) {
  * @param {*} divName 
  */
 function toggleDivVisibility(myDiv) {
-    if($(myDiv).hasClass('hidden')){
+    if ($(myDiv).hasClass('hidden')) {
         // Make div visible
         $(myDiv).removeClass('hidden');
     } else {
@@ -82,7 +97,7 @@ function toggleDivVisibility(myDiv) {
 }
 
 function toggleEditButtonText(editBtn) {
-    if($(editBtn).text() == "Enable Edit Mode"){
+    if ($(editBtn).text() == "Enable Edit Mode") {
         $(editBtn).text("Turn Off Edit Mode");
     } else {
         $(editBtn).text("Enable Edit Mode");
@@ -114,7 +129,7 @@ function collapseModules() {
 
 
 function addBlurEvent(element, blurFunction) {
-    if($(element).hasClass('edit-on')){
+    if ($(element).hasClass('edit-on')) {
         $(element).blur(blurFunction);
     } else {
         $(element).off('blur');
@@ -129,6 +144,9 @@ function createConcept(course_id, url) {
         success: function (data) {
             var courseFlow = document.getElementById('courseFlow');
             courseFlow.innerHTML += data;
+        },
+        error: function () {
+            alert("Could not create a new Concept.");
         }
     });
 }
@@ -148,6 +166,9 @@ function createModule(ele, concept_id, url) {
 
             var conceptArticle = buttonDiv.parentNode;
             conceptArticle.insertBefore(moduleArticle, buttonDiv);
+        },
+        error: function () {
+            alert("Could not create a new Module.");
         }
     });
 }
@@ -169,6 +190,9 @@ function createLesson(ele, module_id, url) {
 
             var componentsList = moduleArticle.getElementsByTagName('ul')[0];
             componentsList.appendChild(listItem);
+        },
+        error: function () {
+            alert("Could not create a new Lesson.");
         }
     });
 }
@@ -190,6 +214,9 @@ function createProject(ele, module_id, url) {
 
             var componentsList = moduleArticle.getElementsByTagName('ul')[0];
             componentsList.appendChild(listItem);
+        },
+        error: function () {
+            alert("Could not create a new Project.");
         }
     });
 }
@@ -214,6 +241,71 @@ function saveCourseEdit() {
         },
         success: function (data) {
             console.log(data);
+        },
+        error: function () {
+            alert("Could not edit course.");
         }
     });
+}
+
+function showEditForm(btn) {
+    var itemType = btn.getAttribute("data-item-type");
+    var itemId = btn.getAttribute("data-item-id");
+
+    if (itemType == "lesson") {
+        //load lesson edit form
+    } else if (itemType == "project") {
+        //load project edit form
+    } else {
+        // type not yet defined.
+    }
+
+    $.ajax({
+        type: "GET",
+        url: "../" + itemType + "s/miniEditForm/" + itemId,
+        success: function (data) {
+            $("#modal").html(data);
+            $("#fader").css("display", "block");
+            $("#modalContent form").on('submit', overriddeFormSave);
+        },
+        error: function () {
+            alert("Could not get edit form.");
+        }
+    });
+
+}
+
+/**
+* Overrides the save form behavior to allow AJAX behavior
+* --This will keep the need from reloading the page to log in.
+* @param evt document event for form submission
+*/
+function overriddeFormSave(evt) {
+    evt.preventDefault(); // stop the form from officially submitting,
+    // return false did not work below.
+    var frm = $(this);
+    var url = frm.attr("action");
+    $.ajax({
+        url: url
+        , method: 'POST'
+        , cache: false
+        , data: frm.serialize()
+        , success: function (mess) {
+            if (mess.type == "success") {
+                addPopup(mess.message, "success");
+                // update visuals
+
+                // clear form
+                $("#modal").empty();
+                $("#fader").css("display", "none");
+            } else {
+                alert("Error: "+mess.message);
+            }
+        }
+        , error: function () {
+            alert("oopsy");
+        }
+    });
+
+    return false;
 }

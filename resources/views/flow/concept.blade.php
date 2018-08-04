@@ -27,11 +27,12 @@
     </h3>
     <?php $concept->eagerLoading = $eagered; ?>
     @foreach($concept->modules as $module)
-        @component('flow.module',['module' => $module, 'eagered' => $eagered])
+        @component('flow.module',['module' => $module, 'eagered' => $eagered,
+                                    'role'=>$role])
         @endcomponent
     @endforeach
     
     <div class="creation {{$ajaxCreation ? '' : 'hidden'}}">
-        <button class="module add new" onclick="createModule(this, {{$concept->id}}, '{{url('/ajax/modulecreate')}}')">Create New Module</button>
+        <button class="module add" onclick="createModule(this, {{$concept->id}}, '{{url('/ajax/modulecreate')}}')">Add New Module</button>
     </div>
 </article>

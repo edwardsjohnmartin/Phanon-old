@@ -59,6 +59,10 @@ body {
 [contenteditable="true"]:after {
     font-family: themify;
     content: "\e61c"; /*pencil*/
+    font-size: .5em;
+    text-align: right;
+    bottom: .8em;
+    position: relative;
 }
 
 .dates [contenteditable="true"]:after {
@@ -201,11 +205,19 @@ body {
     content: "\e75a";
     margin-right: .5em;
 }
+.module.add:before {
+    content: "\e61a\e618";
+    letter-spacing: -.2em;
+}
 
 .project:before, .project .completion span:before {
     font-family: themify;
     content: "\e618";
     margin-right: .5em;
+}
+.project.add:before {
+    content: "\e61a\e618";
+    letter-spacing: -.2em;
 }
 
 .open .projectStatus:before {
@@ -233,7 +245,12 @@ body {
     margin-right: .5em;
 }
 
-.exercise:before {
+.lesson.add:before {
+    content: "\e61a\e617";
+    letter-spacing: -.2em;
+}
+
+    .exercise:before {
     font-family: themify;
     content: "\e61d";
     margin-right: .5em;
@@ -252,7 +269,15 @@ body {
     margin-right: .5em;
 }
 
-.login:before {
+.teams:before {
+    font-family: themify;
+    content: "\e602\e602"; /* person */
+    letter-spacing: -.35em;
+    font-stretch:ultra-expanded;
+    margin-right: .5em;
+}
+
+    .login:before {
     font-family: themify;
     content: "\e62d"; /* link */
     margin-right: .5em;
@@ -348,7 +373,7 @@ body {
     top: 50px;
     text-align: center;
     position: sticky;
-    z-index: 990;
+    z-index: 900;
 }
 
     #courseFlow #courseDetails h1 {
@@ -385,17 +410,23 @@ body {
     opacity: .15;
 }
 
+#courseFlow .module.add:before, #courseFlow .concept.add:before {
+    position: static;
+    font-size: 1em;
+    opacity: 1;
+}
+
 #courseFlow .concept h3 {
     position: sticky;
     top: 100px;
-    z-index: 991;
+    z-index: 911;
     width: 70%;
 }
 
 #courseFlow .module h1 {
     position: sticky;
     top: 125px;
-    z-index: 991;
+    z-index: 911;
     width: 70%;
 }
 
@@ -412,11 +443,17 @@ body {
 }
 
 #courseFlow .creation {
-    border: solid 1px #F0F;
     text-align: center;
 }
+    #courseFlow .creation .concept:hover,
+    #courseFlow .creation .module:hover,
+    #courseFlow .creation .project:hover,
+    #courseFlow .creation .lesson:hover {
+        box-shadow: 0 0 7px #333;
+        border-color: #FFF;
+    }
 
-/*#courseFlow .module * {
+   /*#courseFlow .module * {
     padding: 0;
     margin: 0;
 }*/
@@ -435,9 +472,20 @@ body {
     /*animation: hideModule 1s ease 0s forwards;*/
 }
 
-    #courseFlow .module .dates, .course .actions .dates {
-        margin-bottom: 1em;
+    #courseFlow .module.add{
+        border-radius: .3em;
+        padding: .3em;
+        margin: .5em;
     }
+    #courseFlow .module.ui-sortable-placeholder {
+        background-color: #DDD;
+        height: 8em;
+    }
+
+
+#courseFlow .module .dates, .course .actions .dates {
+    margin-bottom: 1em;
+}
 
     /*#courseFlow .module:hover {
         animation: showModule 1s ease 0s forwards;
@@ -462,7 +510,7 @@ body {
         background-color: #DDD;
         overflow: hidden;
         border-radius: 1em 1em 0 0;
-        z-index: 980;
+        z-index: 910;
     }
 
         #courseFlow .module .contentControl:disabled, #codeIde .contentControl:disabled {
@@ -569,7 +617,7 @@ body {
 
     #courseFlow .module .actions a, #courseFlow #courseDetails .actions a, .course .actions a {
         display: block;
-        line-height: 1em;
+        line-height: 1.5em;
     }
 
         #courseFlow .module .actions a:hover, #courseFlow #courseDetails .actions a:hover, .course .actions a:hover {
@@ -580,9 +628,9 @@ body {
 
     #courseFlow .module .actions:hover, #courseFlow #courseDetails .actions:hover, .course .actions:hover {
         width: 10em;
-        height: 7em;
+        height: auto;
         border: solid 1px #AAA;
-        z-index: 999;
+        z-index: 950;
         background-color: #FFF;
     }
 
@@ -701,7 +749,20 @@ body {
     float: left;
 }
 
-dl.dates {
+#courseFlow .project .teams {
+    font-size: .5em;
+    position: absolute;
+    left: 3em;
+    bottom: .5em;
+    font-weight: bold;
+}
+
+    #courseFlow .project .teams.disabled, #courseFlow .project .teams.disabled:before {
+        color: #888;
+        font-weight:normal;
+    }
+
+    dl.dates {
     font-size: .5em;
     position: absolute;
     bottom: -.5em;
@@ -828,7 +889,7 @@ dl.dates dt, dl.dates dd {
         background-color: #ACA;
     }
 
-    #courseFlow .lesson:hover {
+    #courseFlow .lesson:hover, #courseFlow .lesson.add {
         background-color: #6A6;
     }
 
@@ -837,14 +898,14 @@ dl.dates dt, dl.dates dd {
     background-color: #DDE;
 }
 
-#courseFlow .project:hover {
+#courseFlow .project:hover, #courseFlow .project.add {
     background-color: #AAC;
 }
 
 /*flow - end*/
 
 #exercisePanel {
-    width: 15%;
+    width: 23.5em;
     height: 90%;
     min-width: 100px;
     position: relative;
@@ -862,8 +923,40 @@ dl.dates dt, dl.dates dd {
     }
 
 #codeIde {
-    margin-left: 15%;
+    margin-left: 23.5em;
     height: 100%;
+}
+
+@media (max-width: 1200px) {
+
+    #exercisePanel {
+        width: 18.5em;
+    }
+
+    #codeIde {
+        margin-left: 18.5em;
+    }
+}
+
+@media (max-width: 900px) {
+
+    #exercisePanel {
+        width: 13.5em;
+    }
+    #codeIde {
+        margin-left: 13.5em;
+    }
+}
+
+@media (max-width: 600px) {
+
+    #exercisePanel {
+        width: 8em;
+    }
+
+    #codeIde {
+        margin-left: 8em;
+    }
 }
 
     #codeIde.fullIDE {
@@ -893,7 +986,8 @@ dl.dates dt, dl.dates dd {
         overflow: hidden;
     }
 
-        #exerciseList .exercise.mini.inactive, #exerciseList .exercise.ui-sortable-placeholder {
+        #exerciseList .exercise.mini.inactive,
+        #exerciseList .exercise.ui-sortable-placeholder{
             background-color: #DDD;
             cursor: not-allowed;
             color: #333;
@@ -1016,7 +1110,7 @@ dl.dates dt, dl.dates dd {
     /* customizable */
     transition: all 0.15s ease;
     font-size: .5em;
-    z-index: 999;
+    z-index: 980;
     padding: 10px;
     color: #333;
     border: 1px solid #333;
@@ -1184,7 +1278,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     display: none;
 }
 
-#codeIde #fader {
+#fader {
     border: 1px solid #333;
     height: 100%;
     position: absolute;
@@ -1195,7 +1289,23 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     cursor: not-allowed;
 }
 
-    #codeIde #fader .message {
+#flowPage #fader{
+    top: 0;
+    position: fixed;
+    display:none;
+}
+#fader #modal{
+    background-color: #FFF;
+    padding: 1em;
+    border-radius: 1em;
+    border: 4px solid #333;
+    width: 40%;
+    min-width: 300px;
+    margin:auto;
+    margin-top: 200px;
+}
+
+#fader .message {
         border: 1px solid #333;
         background-color: #EEE;
         text-align: center;
@@ -1388,7 +1498,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     }
 
 #ideMessages {
-    z-index: 990;
+    z-index: 950;
     position: relative;
     /*top: 2.5em;*/
     top: 0;
@@ -1477,7 +1587,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     pointer-events: none;
     width: 20em;
     text-align: center;
-    z-index: 999;
+    z-index: 970;
     /*display:flex;
     flex-direction:column-reverse;*/
 }
@@ -1618,18 +1728,25 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
 
 [contenteditable="true"] {
     border-bottom: 2px dotted #334;
+    z-index: 990;
 }
 
     [contenteditable="true"]:focus {
-        z-index: 999;
+        z-index: 991;
         background-color: #FFF;
         border: 1px solid #333;
     }
 
-
-.editable.edit-on {
-}
-
+    .project .edit, .lesson .edit{
+        position:absolute; 
+        top: 0;
+        right: 2em;
+        font-size: .5em;
+        width: 2em;
+        overflow:hidden;
+        height: 2em;
+    }
+    
 #ideProjectName {
     margin-top: -20px;
     margin-bottom: 20px;

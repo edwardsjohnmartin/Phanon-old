@@ -27,17 +27,22 @@ if($project->open_date > $now){
 }
 ?>
 <li class="project {{$css_class}}">
+    @if($role->hasPermissionTo(Permissions::PROJECT_EDIT))
+        <button class="edit" data-item-type="project" data-item-id="{{$project->id}}"
+             >Edit</button>
+    @endif
     <a href="{{url('/code/project/' . $project->id)}}">
         <div class="projectStatus">
             <span>{{$status_text}}</span>
         </div>
         <span class="name">{{$project->name}}</span>
+        <span class="teams{{$project->teams_enabled ? " enabled": " disabled"}}"
+              >{{$project->teams_enabled ? "Enabled": "Disabled"}}</span>
         <dl class="dates">
             <dt>Open{{$status_open_tense}}</dt>
             <dd>{{$project->getOpenDate(config("app.dateformat_short"))}}</dd>
             <dt>Clos{{$status_close_tense}}</dt>
             <dd>{{$project->getCloseDate(config("app.dateformat_short"))}}</dd>
-
         </dl>
     </a>
 </li>

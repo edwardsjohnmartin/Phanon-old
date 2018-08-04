@@ -11,6 +11,8 @@
     @endcomponent
 @endsection
 
+@section("bodyID", "flowPage")
+
 @section('content')
 <?php $startTime = microtime(true); ?>
 <div class="container">
@@ -21,6 +23,9 @@
         </section>
     </div>
 </div> 
+<div id="fader">
+    <div id="modal"></div>
+</div>
 @endsection
 <?php
 $endTime = microtime(true);
@@ -31,8 +36,9 @@ $endTime = microtime(true);
     <a href="{{url("flow/".$course->id."?eager=false")}}">Eager Off</a>
     </div>
 @section("scripts-end")
-    @parent></div><script>
-    $(".sortableConcept").sortable({ items: ".module", handle: ".dragHandle",placeholder:"ui-state-highlight" });
+    @parent
+<script>
+    $(".sortableConcept").sortable({ items: ".module", handle: ".dragHandle",placeholder:"module" });
     $(".module").disableSelection();
     var didAction = handleContentControllers("#courseFlow",".components",true);
 

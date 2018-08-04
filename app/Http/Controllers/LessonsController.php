@@ -153,6 +153,12 @@ class LessonsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // form keeps posting here.
+        $mode = $request->input('_mode');
+        if(!is_null($mode)&& $mode == "simple"){
+            return $this->updateSimple($request,$id);
+        }
+
         $this->validate($request, [
             'name' => 'required',
             'exercises' => 'required'
@@ -205,6 +211,31 @@ class LessonsController extends Controller
 
         return redirect(url('/lessons'))->
             with('success', 'Lesson Updated');
+    }
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateSimple(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
+
+        // Get the lesson to be updated
+        $lesson = Lesson::find($id);
+
+        // Update its fields
+        $lesson->name = $request->input('name');
+
+        // Save the lesson to the database
+        $lesson->save();
+
+        return "Success";
     }
 
     /**
@@ -263,4 +294,18 @@ class LessonsController extends Controller
         return redirect('/lessons')->
             with('success', 'Lesson Cloned');
     }
+
+    /**
+     * Get the miniEdit form for this lesson
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function miniEditForm($id)
+    {
+        $lesson = Lesson::find($id);
+
+        return view("lessons.editMini",["lesson"=>$lesson]);
+    }
+
 }

@@ -34,9 +34,12 @@ function handleContentControllers(containerId, collapsingChildSelector, scrollTo
         e = e || window.event;
         var t = e.target || e.srcElement;
         if (t.tagName === "BUTTON") {
-
-            // had to name these expander and collapser because of BootStrap
-            expandCollapse(t, collapsingChildSelector, scrollToParent, success);
+            if (t.classList.contains("edit")) {
+                showEditForm(t);
+            } else {
+                // had to name these expander and collapser because of BootStrap
+                expandCollapse(t, collapsingChildSelector, scrollToParent, success);
+            }
         }
     });
     return wasAction;

@@ -80,3 +80,7 @@ Route::get('/courses/{course_id}/copy', 'CoursesController@copy')->name('courses
 // this uses the new routes system where we do everything
 //   via the associated Objects controller
 Route::post('/exercises/move', 'ExercisesController@move');
+Route::get('/lessons/miniEditForm/{id}', 'LessonsController@miniEditForm');
+Route::get('/projects/miniEditForm/{id}', 'ProjectsController@miniEditForm');
+Route::post('/lessons/updateSimple/', 'LessonsController@updateSimple')->name("lesson.updateSimple");
+

@@ -9,21 +9,21 @@
     </aside>
     
     <aside class="actions">
-        <a href="{{url('/courses/' . $course->id)}}" class="btn btn-view">View</a>
+        <a href="{{url('/courses/' . $course->id)}}" class="view">View</a>
 
         @can(Permissions::COURSE_EDIT)
-            <a href="{{url('/courses/' . $course->id . '/edit')}}" class="btn btn-edit">Edit</a>
+            <a href="{{url('/courses/' . $course->id . '/edit')}}" class="edit">Edit</a>
         @endcan
 
         @can(Permissions::COURSE_DELETE)
             <a href="{{url('/courses/' . $course->id . '/delete')}}"
-                onclick="return actionVerify(event,'{{'delete '.$course->name}}');" class="btn btn-delete">
+                onclick="return actionVerify(event,'{{'delete '.$course->name}}');" class="delete">
                 Delete
             </a>
         @endcan
         
         @can(Permissions::TEAM_CREATE)
-            <a href="{{url('/courses/' . $course->id . '/teams')}}" class="btn">View Teams</a>
+            <a href="{{url('/courses/' . $course->id . '/teams')}}" class="teams">View Teams</a>
         @endcan
     </aside>
     <aside>
@@ -38,12 +38,13 @@
 ?>
 @if(count($course->concepts) > 0)
     @foreach($course->concepts as $concept)
-        @component("flow.concept",["concept" => $concept, 'eagered' => $eagered])
+        @component("flow.concept",["concept" => $concept, 'eagered' => $eagered,
+                                    'role'=>$role])
         @endcomponent
     @endforeach
 @else
     <div class="placeholder">No Concepts found</div>
 @endif
 <div class="creation hidden">
-        <button class="concept add new" onclick="createConcept({{$course->id}}, '{{url('/ajax/conceptcreate')}}')">Create New Concept</button>
+        <button class="concept add" onclick="createConcept({{$course->id}}, '{{url('/ajax/conceptcreate')}}')">Add New Concept</button>
     </div>

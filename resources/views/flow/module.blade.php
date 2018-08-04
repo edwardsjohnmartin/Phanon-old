@@ -83,11 +83,13 @@
             @foreach($module->components as $comp)
                 <?php $comp->eagerLoading = $eagered; ?>
                 @if(get_class($comp) == "App\Lesson")
-                   @component('flow.lesson',['lesson' => $comp, 'eagered' => $eagered])
+                   @component('flow.lesson',['lesson' => $comp, 'eagered' => $eagered,
+                                    'role'=>$role])
                     @endcomponent
         
                 @else
-                    @component('flow.project',['project' => $comp, 'eagered' => $eagered])
+                    @component('flow.project',['project' => $comp, 'eagered' => $eagered,
+                                    'role'=>$role])
                     @endcomponent
                 @endif
             @endforeach
@@ -97,8 +99,8 @@
     </ul>
 
     <div class="creation {{$ajaxCreation ? '' : 'hidden'}}">
-        <button class="lesson add new" onclick="createLesson(this, {{$module->id}}, '{{url('/ajax/lessoncreate')}}')">Create New Lesson</button>
-        <button class="project add new" onclick="createProject(this, {{$module->id}}, '{{url('/ajax/projectcreate')}}')">Create New Project</button>
+        <button class="lesson add" onclick="createLesson(this, {{$module->id}}, '{{url('/ajax/lessoncreate')}}')">Add New Lesson</button>
+        <button class="project add" onclick="createProject(this, {{$module->id}}, '{{url('/ajax/projectcreate')}}')">Add New Project</button>
     </div>
 
     <button class="contentControl {{$moduleOpen ? "collapser":"expander"}}">
