@@ -383,32 +383,6 @@ function saveProjectCode(project_id, contents, url) {
 }
 
 /**
- * Display a popup message over the IDE to the user.
- * @param {string} msg message to give the user
- * @param {string} className additional classname(s) to add to the popup.
- */
-function addPopup(msg, className) {
-    var showPopups = localStorage.getItem("popupsToggle");
-    if (showPopups == "true") {
-        // add to popup
-        var popHolder = document.getElementById("popups");
-        var popUp = document.createElement("p");
-        popUp.innerHTML = msg;
-        popUp.className = "popup " + className;
-        popHolder.appendChild(popUp);
-    }
-    // append to Log
-    var logBook = document.getElementById("ideLog");
-    var newEntryTitle = document.createElement("dt");
-    newEntryTitle.innerText = (new Date()).toLocaleTimeString();
-    var newEntry = document.createElement("dd");
-    newEntry.innerHTML = msg;
-    newEntry.className = className;
-    logBook.appendChild(newEntryTitle);
-    logBook.appendChild(newEntry);
-}
-
-/**
  * Replaces the contents of a CodeMirror editor to the passed-in string.
  * @param {*} parentNode The id of the element the CodeMirror is contained in.
  * @param {*} text The text to change the contents of the CodeMirror editor to.

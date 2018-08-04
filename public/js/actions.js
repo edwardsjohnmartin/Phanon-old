@@ -34,7 +34,8 @@ function handleContentControllers(containerId, collapsingChildSelector, scrollTo
         e = e || window.event;
         var t = e.target || e.srcElement;
         if (t.tagName === "BUTTON") {
-            if (t.classList.contains("edit")) {
+            var itemId = t.getAttribute("data-item-id");
+            if (itemId != undefined && t.classList.contains("edit")) {
                 showEditForm(t);
             } else {
                 // had to name these expander and collapser because of BootStrap
@@ -113,6 +114,34 @@ function buildYesNoToggle(selector, yesText = "Yes", noText = "No") {
             + '<span class="' + noClass + '">' + noText + '</span>'
             + '</div>').insertAfter(box);
     });
+}
+
+/**
+ * Display a popup message over the IDE to the user.
+ * @param {string} msg message to give the user
+ * @param {string} className additional classname(s) to add to the popup.
+ */
+function addPopup(msg, className) {
+    var showPopups = localStorage.getItem("popupsToggle");
+    if (showPopups == "true") {
+        // add to popup
+        var popHolder = document.getElementById("popups");
+        var popUp = document.createElement("p");
+        popUp.innerHTML = msg;
+        popUp.className = "popup " + className;
+        popHolder.appendChild(popUp);
+    }
+    // append to Log
+    var logBook = document.getElementById("ideLog");
+    if (logBook != undefined) {
+        var newEntryTitle = document.createElement("dt");
+        newEntryTitle.innerText = (new Date()).toLocaleTimeString();
+        var newEntry = document.createElement("dd");
+        newEntry.innerHTML = msg;
+        newEntry.className = className;
+        logBook.appendChild(newEntryTitle);
+        logBook.appendChild(newEntry);
+    }
 }
 
 function getToggleSelection(jEle) {

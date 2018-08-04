@@ -1,5 +1,6 @@
     <h1>Edit Project</h1>
-    {!! Form::open(['action' => ['ProjectsController@update', $project->id], 'method' => 'POST']) !!}
+        {!! Form::open(['route' => array('project.modify',$project->id)]) !!}
+        {{Form::hidden('project_id',$project->id)}}
         <div class="form-group">
             {{Form::label('name', 'Name')}}
             {{Form::text('name', $project->name, ['class' => 'form-control', 'placeholder' => 'Name'])}}
@@ -18,6 +19,5 @@
             {{Form::date('close_date', new \Carbon\Carbon($project->close_date))}}
             {{Form::time('close_time', date("H:i:s", strtotime($project->close_date)))}}
         </div>
-        {{FORM::hidden('_method', 'PUT')}}
         {{Form::submit('Save', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}

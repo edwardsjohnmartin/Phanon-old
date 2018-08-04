@@ -6,9 +6,8 @@
         <ol id="ideLog"></ol>
     </div>
 
-    <div id="popups">
-        {{$slot}}
-    </div>
+    @component("shared/popups",['slot'=>$slot])
+    @endcomponent
 </div>
 
 @section("scripts-end")

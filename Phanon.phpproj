@@ -860,6 +860,7 @@
     <Compile Include="resources\views\pages\dashboard.blade.php" />
     <Compile Include="resources\views\pages\index.blade.php" />
     <Compile Include="resources\views\pages\sandbox.blade.php" />
+    <Compile Include="resources\views\shared\popups.blade.php" />
     <Compile Include="resources\views\shared\user.blade.php" />
     <Compile Include="resources\views\teams\login.blade.php" />
     <Compile Include="resources\views\teams\loginform.blade.php" />

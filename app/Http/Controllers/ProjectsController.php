@@ -76,7 +76,7 @@ class ProjectsController extends Controller
 
         // Save project to the database
         $project->save();
-        
+
         return redirect(url('/projects'))->
             with('success', 'Project Created');
     }
@@ -139,7 +139,7 @@ class ProjectsController extends Controller
 
         // Get the project to be updated
         $project = Project::find($id);
-        
+
         // Update its fields
         $project->name = $request->input('name');
         $project->open_date = $request->input('open_date') . ' ' . $request->input('open_time');
@@ -155,9 +155,55 @@ class ProjectsController extends Controller
 
         // Save the project to the database
         $project->save();
-        
+
         return redirect(url('/projects'))->
             with('success', 'Project Updated');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Project  $project
+     * @return \Illuminate\Http\Response
+     */
+    public function modify(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'open_date' => 'required',
+            'open_time' => 'required',
+            'close_date' => 'required',
+            'close_time' => 'required',
+        ]);
+
+        $retObject = (Object)["type"=>"error","identifier"=>"","message"=>"","html"=>""];
+        $all = $request->all();
+        $id = $all["project_id"];
+
+        // Get the project to be updated
+        $project = Project::find($id);
+
+        // Update its fields
+        $project->name = $request->input('name');
+        $project->open_date = $request->input('open_date') . ' ' . $request->input('open_time');
+        $project->close_date = $request->input('close_date') . ' ' . $request->input('close_time');
+        if($request->input('teams_enabled') == 'yes'){
+            $project->teams_enabled = true;
+        } else {
+            $project->teams_enabled = false;
+        }
+
+        // Save the project to the database
+        $project->save();
+  $retObject->type = "success";
+        $retObject->message = "Project ".$id." was successfully modified.";
+        $retObject->identifier = "project_".$project->id;
+            $role = $project->module->concept->course->getUsersRole(auth()->user()->id);
+        $retObject->html = view("flow/project",['project' => $project,
+         'role' => $role])->render();
+
+        return response()->json($retObject);
     }
 
     /**
@@ -181,7 +227,7 @@ class ProjectsController extends Controller
 
     /**
      * Show the form for deep copying a specific project
-     * 
+     *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
@@ -195,7 +241,7 @@ class ProjectsController extends Controller
 
     /**
      * Create a deep copy of an project
-     * 
+     *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -208,7 +254,7 @@ class ProjectsController extends Controller
     }
 
     /**
-     * 
+     *
      */
     public function teams($id)
     {
@@ -270,9 +316,9 @@ class ProjectsController extends Controller
             with('team', $team);
     }
 
-        /**
+    /**
      * Get the miniEdit form for this project
-     * 
+     *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */

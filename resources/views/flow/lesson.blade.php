@@ -8,29 +8,22 @@
         $stats = $lesson->CompletionStats(auth()->user()->id);
         $percComplete = $stats->PercComplete;
         $percComplete = floor($percComplete * 100);
-        //if ($eagered){
-        //    $next_incomplete_exercise_id = $lesson->nextExerciseToDo($progress,auth()->user()->id)->id;
-        //}else{
-        //    $next_incomplete_exercise_id = $lesson->nextIncompleteExercise()->id;
-        //}
-        $next_incomplete_exercise_id = 0;
         $stats_completed = $stats->Completed;
         $stats_exercise_count = $stats->ExerciseCount;
     } else {
         $stats = null;
         $percComplete = 0;
-        $next_incomplete_exercise_id = 0;
         $stats_completed = 0;
         $stats_exercise_count = 0;
     }
 //@endphp
 ?>
-<li class="lesson editable {{$percComplete == 100?" completed":""}}" data-lesson-id="{{$lesson->id}}">
+<li id="lesson_{{$lesson->id}}" class="lesson {{$percComplete == 100?" completed":""}}">
     @if($role->hasPermissionTo(Permissions::LESSON_EDIT))
      <button class="edit" data-item-type="lesson" data-item-id="{{$lesson->id}}"
              >Edit</button>
     @endif
-    <a contenteditable="false" href="{{url('/code/lesson/' . $lesson->id)}}">
+    <a href="{{url('/code/lesson/' . $lesson->id)}}">
         <div class="completion p{{$percComplete}}">
             <span>
                 @if($stats_completed < $stats_exercise_count)

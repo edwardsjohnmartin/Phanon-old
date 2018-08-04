@@ -162,6 +162,18 @@ body {
     margin-right: .5em;
 }
 
+.minimizer:before {
+    font-family: themify;
+    content: "\e622";
+    margin-right: .5em;
+}
+
+.closer:before {
+    font-family: themify;
+    content: "\e646";
+    margin-right: .5em;
+}
+
 .success:before {
     font-family: themify;
     content: "\e670"; /* -- thumbs up*/
@@ -373,7 +385,7 @@ body {
     top: 50px;
     text-align: center;
     position: sticky;
-    z-index: 900;
+    z-index: 910;
 }
 
     #courseFlow #courseDetails h1 {
@@ -510,7 +522,7 @@ body {
         background-color: #DDD;
         overflow: hidden;
         border-radius: 1em 1em 0 0;
-        z-index: 910;
+        z-index: 900;
     }
 
         #courseFlow .module .contentControl:disabled, #codeIde .contentControl:disabled {
@@ -1109,7 +1121,7 @@ dl.dates dt, dl.dates dd {
     opacity: 0;
     /* customizable */
     transition: all 0.15s ease;
-    font-size: .5em;
+    font-size: 12px;
     z-index: 980;
     padding: 10px;
     color: #333;
@@ -1130,16 +1142,15 @@ dl.dates dt, dl.dates dd {
     margin-left: 20px;
 }
 
-button[tooltip]:hover:after {
+#codeIde button[tooltip]:hover:after {
     /* customizable */
-    font-size: .6em;
     margin-top: 3em;
     margin-left: -10em;
+    margin-top: 1em;
     display: inline;
     width: auto;
 }
 label[tooltip]:hover:after {
-    font-size: .9em;
     font-weight: normal;
 }
     #codeWindow {
@@ -1283,7 +1294,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     height: 100%;
     position: absolute;
     width: 110%;
-    z-index: 990;
+    z-index: 995;
     margin: 0 -5% 0 -5%;
     background-color: rgba(0, 0, 0, 0.40);
     cursor: not-allowed;
@@ -1294,6 +1305,16 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     position: fixed;
     display:none;
 }
+
+button.closer{
+    width: 2em;
+    height: 2em;
+    overflow:hidden;
+    position:absolute;
+    top: .5em;
+    right: .5em;
+}
+
 #fader #modal{
     background-color: #FFF;
     padding: 1em;
@@ -1303,6 +1324,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
     min-width: 300px;
     margin:auto;
     margin-top: 200px;
+    position:relative;
 }
 
 #fader .message {
@@ -1579,15 +1601,16 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         #ideMessages #ideLog .error {
             background-color: #FEE;
         }
-
+        /* Popups start */
 #popups {
     position: absolute;
-    top: 3em;
-    left: 10%;
+    top: 6em;
+    left: 50%;
     pointer-events: none;
     width: 20em;
     text-align: center;
-    z-index: 970;
+    z-index: 999;
+    margin-left: -10em;
     /*display:flex;
     flex-direction:column-reverse;*/
 }
@@ -1647,6 +1670,7 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         left: 0;
     }
 }
+/*Popups End*/
 
 #ideMessages #ideMessageList {
     width: 100%;
@@ -1684,17 +1708,6 @@ html, body, #app, .container-fluid, #codeIde, #ideCodeWindow, #ideCodeWindow tex
         text-decoration: none;
     }
 
-    .messageControls a.minimizer:before {
-        font-family: themify;
-        content: "\e622";
-        margin-right: .5em;
-    }
-
-    .messageControls a.closer:before {
-        font-family: themify;
-        content: "\e646";
-        margin-right: .5em;
-    }
 
 #ideMessages > div .showMessage {
     height: 3em;

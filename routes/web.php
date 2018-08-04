@@ -82,5 +82,6 @@ Route::get('/courses/{course_id}/copy', 'CoursesController@copy')->name('courses
 Route::post('/exercises/move', 'ExercisesController@move');
 Route::get('/lessons/miniEditForm/{id}', 'LessonsController@miniEditForm');
 Route::get('/projects/miniEditForm/{id}', 'ProjectsController@miniEditForm');
-Route::post('/lessons/updateSimple/', 'LessonsController@updateSimple')->name("lesson.updateSimple");
+Route::post('/lessons/modify/', 'LessonsController@modify')->name("lesson.modify");
+Route::post('/projects/modify/', 'ProjectsController@modify')->name("project.modify");
 

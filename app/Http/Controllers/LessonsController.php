@@ -153,12 +153,6 @@ class LessonsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // form keeps posting here.
-        $mode = $request->input('_mode');
-        if(!is_null($mode)&& $mode == "simple"){
-            return $this->updateSimple($request,$id);
-        }
-
         $this->validate($request, [
             'name' => 'required',
             'exercises' => 'required'
@@ -220,11 +214,14 @@ class LessonsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateSimple(Request $request, $id)
+    public function modify(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
         ]);
+        $retObject = (Object)["type"=>"error","identifier"=>"","message"=>"","html"=>""];
+        $all = $request->all();
+        $id = $all["lesson_id"];
 
         // Get the lesson to be updated
         $lesson = Lesson::find($id);
@@ -234,8 +231,14 @@ class LessonsController extends Controller
 
         // Save the lesson to the database
         $lesson->save();
+        $retObject->type = "success";
+        $retObject->message = "Lesson ".$id." was successfully modified.";
+        $retObject->identifier = "lesson_".$lesson->id;
+            $role = $lesson->module->concept->course->getUsersRole(auth()->user()->id);
+        $retObject->html = view("flow/lesson",['lesson' => $lesson,
+         'role' => $role])->render();
 
-        return "Success";
+     return response()->json($retObject);
     }
 
     /**

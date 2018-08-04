@@ -1,10 +1,10 @@
     <h1>Edit Lesson</h1>
-    {!! Form::open(['route' => array('lesson.updateSimple',$lesson->id)]) !!}
+    {!! Form::open(['route' => array('lesson.modify',$lesson->id)]) !!}
+        {{Form::hidden('lesson_id',$lesson->id)}}
         <div class="form-group">
             {{Form::label('name', 'Name')}}
             {{Form::text('name', $lesson->name, ['class' => 'form-control', 'placeholder' => 'Name'])}}
         </div>
-        {{Form::hidden('_mode', 'simple')}}
-        {{Form::hidden('_method', 'PUT')}}
         {{Form::submit('Save', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
+        <button class="closer" tooltip="Close Form" onclick="closeModal()" >Close Form</button>

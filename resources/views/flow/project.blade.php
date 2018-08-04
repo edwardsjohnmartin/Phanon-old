@@ -26,7 +26,7 @@ if($project->open_date > $now){
     $status_open_tense = "ed";
 }
 ?>
-<li class="project {{$css_class}}">
+<li id="project_{{$project->id}}" class="project {{$css_class}}">
     @if($role->hasPermissionTo(Permissions::PROJECT_EDIT))
         <button class="edit" data-item-type="project" data-item-id="{{$project->id}}"
              >Edit</button>

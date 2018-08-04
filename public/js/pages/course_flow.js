@@ -266,7 +266,7 @@ function showEditForm(btn) {
         success: function (data) {
             $("#modal").html(data);
             $("#fader").css("display", "block");
-            $("#modalContent form").on('submit', overriddeFormSave);
+            $("#modal form").on('submit', overriddeFormSave);
         },
         error: function () {
             alert("Could not get edit form.");
@@ -294,18 +294,22 @@ function overriddeFormSave(evt) {
             if (mess.type == "success") {
                 addPopup(mess.message, "success");
                 // update visuals
-
+                $("#" + mess.identifier).replaceWith(mess.html);
                 // clear form
-                $("#modal").empty();
-                $("#fader").css("display", "none");
+                closeModal();
             } else {
-                alert("Error: "+mess.message);
+                addPopup(mess.message, "error");
             }
         }
         , error: function () {
-            alert("oopsy");
+            appPopup("I am sorry we ran into a problem", "error");
         }
     });
 
     return false;
+}
+
+function closeModal() {
+    $("#modal").empty();
+    $("#fader").css("display", "none");
 }
