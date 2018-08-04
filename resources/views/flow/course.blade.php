@@ -34,11 +34,10 @@
         <button class="collapseAll" onclick="collapseModules();">Collapse</button>
         </aside>
 </div>
-<?php $course->eagerLoading = $eagered;
 ?>
 @if(count($course->concepts) > 0)
     @foreach($course->concepts as $concept)
-        @component("flow.concept",["concept" => $concept, 'eagered' => $eagered,
+        @component("flow.concept",["concept" => $concept,
                                     'role'=>$role])
         @endcomponent
     @endforeach

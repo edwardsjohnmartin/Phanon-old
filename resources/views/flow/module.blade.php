@@ -76,19 +76,15 @@
     <ul class="components">
        {{--  @if($lessonsAndProjectsCount > 0)
         5/8 time spent here on load. --}}
-        <?php 
-            $module->eagerLoading = $eagered;
-        ?>
         @if(count($module->components) > 0)
             @foreach($module->components as $comp)
-                <?php $comp->eagerLoading = $eagered; ?>
                 @if(get_class($comp) == "App\Lesson")
-                   @component('flow.lesson',['lesson' => $comp, 'eagered' => $eagered,
+                   @component('flow.lesson',['lesson' => $comp,
                                     'role'=>$role])
                     @endcomponent
         
                 @else
-                    @component('flow.project',['project' => $comp, 'eagered' => $eagered,
+                    @component('flow.project',['project' => $comp,
                                     'role'=>$role])
                     @endcomponent
                 @endif

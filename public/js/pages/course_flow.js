@@ -146,7 +146,7 @@ function createConcept(course_id, url) {
             courseFlow.innerHTML += data;
         },
         error: function () {
-            alert("Could not create a new Concept.");
+            addPopup("Could not create a new Concept.","error");
         }
     });
 }
@@ -168,7 +168,7 @@ function createModule(ele, concept_id, url) {
             conceptArticle.insertBefore(moduleArticle, buttonDiv);
         },
         error: function () {
-            alert("Could not create a new Module.");
+            addPopup("Could not create a new Module.","error");
         }
     });
 }
@@ -192,7 +192,7 @@ function createLesson(ele, module_id, url) {
             componentsList.appendChild(listItem);
         },
         error: function () {
-            alert("Could not create a new Lesson.");
+            addPopup("Could not create a new Lesson.","error");
         }
     });
 }
@@ -216,7 +216,7 @@ function createProject(ele, module_id, url) {
             componentsList.appendChild(listItem);
         },
         error: function () {
-            alert("Could not create a new Project.");
+            addPopup("Could not create a new Project.","error");
         }
     });
 }

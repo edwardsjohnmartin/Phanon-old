@@ -18,7 +18,7 @@
     <div class="container">
         <div class="row">
             <section id="courseFlow" class="col-md-8 col-md-offset-2">
-                @component("flow.course",["course" => $course, "role" => $role, 'eagered' => $eagered])
+                @component("flow.course",["course" => $course, "role" => $role])
                 @endcomponent
             </section>
         </div>
@@ -32,8 +32,6 @@
 <?php $endTime = microtime(true); ?>
 <div id="debug">
     <p>Time: {{round($endTime-$startTime,2)}} seconds</p>
-    <a href="{{url("flow/".$course->id."?eager=true")}}">Eager On</a>
-    <a href="{{url("flow/".$course->id."?eager=false")}}">Eager Off</a>
     <button onclick="addPopup('test message','error');">Add Popup</button>
 </div>
 @section("scripts-end")

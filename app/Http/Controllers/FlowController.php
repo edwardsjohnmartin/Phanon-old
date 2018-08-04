@@ -69,10 +69,6 @@ class FlowController extends Controller
 
         $course = Course::getCourse($id);
 
-        $eagered = false;
-        if (isset($_GET['eager'])) 
-            $eagered = $_GET['eager'] == 'true';
-
         if(empty($course) or is_null($course)){
             return redirect('/dashboard')->
                 with('error', 'That course does not exist');
@@ -84,8 +80,7 @@ class FlowController extends Controller
 
         return view('flow.index')->
             with('course', $course)->
-            with('role', $role)->
-            with('eagered',$eagered);
+            with('role', $role);
     }
 
     /**
@@ -140,8 +135,10 @@ class FlowController extends Controller
         $module->owner_id = auth()->user()->id;
         $module->save();
 
+        $role = $concept->course->getUsersRole(auth()->user()->id);
         return view('flow.module')->
             with('module', $module)->
+            with('role', $role)->
             with('ajaxCreation', true);
     }
 
@@ -182,8 +179,10 @@ class FlowController extends Controller
         $exercise->owner_id = auth()->user()->id;
         $exercise->save();
 
+        $role = $module->concept->course->getUsersRole(auth()->user()->id);
         return view('flow.lesson')->
-            with('lesson', $lesson);
+            with('lesson', $lesson)->
+            with('role', $role);
     }
 
     /**
@@ -218,8 +217,11 @@ class FlowController extends Controller
         $project->owner_id = auth()->user()->id;
         $project->save();
 
+        $role = $module->concept->course->getUsersRole(auth()->user()->id);
+
         return view('flow.project')->
-            with('project', $project);
+            with('project', $project)->
+            with('role', $role);
     }
 
     public function editCourse(Request $request)
