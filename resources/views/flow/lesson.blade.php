@@ -20,8 +20,10 @@
 ?>
 <li id="lesson_{{$lesson->id}}" class="lesson {{$percComplete == 100?" completed":""}}">
     @if($role->hasPermissionTo(Permissions::LESSON_EDIT))
+    <div class="actions">
      <button class="edit" data-item-type="lesson" data-item-id="{{$lesson->id}}"
              >Edit</button>
+        </div>
     @endif
     <a href="{{url('/code/lesson/' . $lesson->id)}}">
         <div class="completion p{{$percComplete}}">

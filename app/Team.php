@@ -48,10 +48,10 @@ class Team extends Model
         }
     }
 
-    public static function makeTeam($course_id, $members)
+    public static function makeTeam($course_id, $members,$team_name = "New Team")
     {
         $team = new Team();
-        $team->name = "New Team";
+        $team->name = $team_name;
         $team->course_id = $course_id;
         $team->save();
 

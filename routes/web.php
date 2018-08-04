@@ -84,4 +84,5 @@ Route::get('/lessons/miniEditForm/{id}', 'LessonsController@miniEditForm');
 Route::get('/projects/miniEditForm/{id}', 'ProjectsController@miniEditForm');
 Route::post('/lessons/modify/', 'LessonsController@modify')->name("lesson.modify");
 Route::post('/projects/modify/', 'ProjectsController@modify')->name("project.modify");
+Route::get('/teams/showForProject/{id}', 'TeamsController@showForProject');
 

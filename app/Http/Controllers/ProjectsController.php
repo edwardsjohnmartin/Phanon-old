@@ -196,10 +196,10 @@ class ProjectsController extends Controller
 
         // Save the project to the database
         $project->save();
-  $retObject->type = "success";
+        $retObject->type = "success";
         $retObject->message = "Project ".$id." was successfully modified.";
         $retObject->identifier = "project_".$project->id;
-            $role = $project->module->concept->course->getUsersRole(auth()->user()->id);
+        $role = $project->module->concept->course->getUsersRole(auth()->user()->id);
         $retObject->html = view("flow/project",['project' => $project,
          'role' => $role])->render();
 
@@ -259,6 +259,7 @@ class ProjectsController extends Controller
     public function teams($id)
     {
         $project = Project::find($id);
+        $version = request()->query("version");
 
         // Validate project exists
         if(empty($project) or is_null($project)){
@@ -308,12 +309,20 @@ class ProjectsController extends Controller
             }
         }
 
-        return view('projects.teams')->
-            with('project', $project)->
-            with('course', $course)->
-            with('students', $course->getUsersByRole(Roles::id(Roles::STUDENT)))->
-            with('role', $role)->
-            with('team', $team);
+        if($version == "modal"){
+            return view('projects.teamMembersForm')->
+                    with('project', $project)->
+                    with('course', $course)->
+                    with('students', $course->getUsersByRole(Roles::id(Roles::STUDENT)))->
+                    with('role', $role);
+        }else{
+            return view('projects.teams')->
+                    with('project', $project)->
+                    with('course', $course)->
+                    with('students', $course->getUsersByRole(Roles::id(Roles::STUDENT)))->
+                    with('role', $role)->
+                    with('team', $team);
+        }
     }
 
     /**

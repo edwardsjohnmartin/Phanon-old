@@ -285,7 +285,6 @@ body {
     font-family: themify;
     content: "\e602\e602"; /* person */
     letter-spacing: -.35em;
-    font-stretch:ultra-expanded;
     margin-right: .5em;
 }
 
@@ -499,6 +498,7 @@ body {
     margin-bottom: 1em;
 }
 
+
     /*#courseFlow .module:hover {
         animation: showModule 1s ease 0s forwards;
         cursor: pointer;
@@ -607,7 +607,7 @@ body {
     font-weight: bold;
 }
 
-#courseFlow .module .details, #courseFlow #courseDetails .actions, .module .actions, .course .actions {
+#courseFlow .module .details, .actions {
     position: absolute;
     right: 2em;
     width: 16em;
@@ -618,7 +618,7 @@ body {
     bottom: 0;
 }
 
-#courseFlow .module .actions, #courseFlow #courseDetails .actions, .course .actions {
+ .actions {
     top: 0;
     width: 2em;
     overflow: hidden;
@@ -627,26 +627,43 @@ body {
     text-align: center;
 }
 
-    #courseFlow .module .actions a, #courseFlow #courseDetails .actions a, .course .actions a {
+    .actions a {
         display: block;
         line-height: 1.5em;
     }
 
-        #courseFlow .module .actions a:hover, #courseFlow #courseDetails .actions a:hover, .course .actions a:hover {
+        .actions a:hover{
             text-decoration: none;
             background-color: #AAA;
             color: #FFF;
         }
 
-    #courseFlow .module .actions:hover, #courseFlow #courseDetails .actions:hover, .course .actions:hover {
+    .actions:hover{
         width: 10em;
         height: auto;
         border: solid 1px #AAA;
         z-index: 950;
         background-color: #FFF;
     }
+    .lesson .actions, .project .actions{
+        font-size: .5em;
+        height: 2em;
+        width:auto;
+    }
 
-#courseFlow .expired {
+.actions button {
+    width: 2em;
+    overflow: hidden;
+    height: 2em;
+}
+.actions button.teams {
+    letter-spacing: normal;
+    line-height: 2em;
+}
+    .actions button.teams:before {
+        font-size: .8em;
+    }
+        #courseFlow .expired {
     background-color: #DED;
 }
 
@@ -761,7 +778,7 @@ body {
     float: left;
 }
 
-#courseFlow .project .teams {
+#courseFlow .project span.teams {
     font-size: .5em;
     position: absolute;
     left: 3em;
@@ -769,7 +786,7 @@ body {
     font-weight: bold;
 }
 
-    #courseFlow .project .teams.disabled, #courseFlow .project .teams.disabled:before {
+    #courseFlow .project span.teams.disabled, #courseFlow .project span.teams.disabled:before {
         color: #888;
         font-weight:normal;
     }
@@ -1325,6 +1342,7 @@ button.closer{
     margin:auto;
     margin-top: 200px;
     position:relative;
+    cursor:default;
 }
 
 #fader .message {
@@ -1486,8 +1504,43 @@ button.closer{
         width: 2em;
         color: transparent;
     }
+    .toggleList, .teamsList{
+        list-style:none;
+        padding: 0;
+        text-align:center;
+        max-height: 50%;
+        overflow:auto;
+    }
+.toggleList li, .teamsList li{
+    width: 11em;
+    display:inline-block;
+    border: 2px solid #333;
+    padding: .5em;
+    border-radius: 1em;
+    margin: .5em;
+}
 
-.toggleSwitchHolder, .toggleSwitchHolder div {
+    .teamsList li {
+        background-color: #080;
+        margin: .5em;
+    }
+        .teamsList li ul{
+            padding: 0;
+        }
+
+            .teamsList li ul li {
+                padding: 0;
+                background-color: #FFF;
+                margin-left: -.5em;
+            }
+        .teamsList li span.name{
+            display:block;
+            background-color: #DFD;
+            border-radius: .5em;
+            padding: .5em;
+        }
+
+            .toggleSwitchHolder, .toggleSwitchHolder div {
     display: inline-block;
 }
 
@@ -1510,8 +1563,12 @@ button.closer{
             border-right: 1px solid #333;
         }
 
-        .toggleSwitchHolder span.selected {
+        .toggleSwitchHolder span.spanShowYes.selected {
             background-color: #080;
+            font-weight: bold;
+        }
+        .toggleSwitchHolder span.spanShowNo.selected {
+            background-color: #800;
             font-weight: bold;
         }
 
@@ -1750,15 +1807,6 @@ button.closer{
         border: 1px solid #333;
     }
 
-    .project .edit, .lesson .edit{
-        position:absolute; 
-        top: 0;
-        right: 2em;
-        font-size: .5em;
-        width: 2em;
-        overflow:hidden;
-        height: 2em;
-    }
     
 #ideProjectName {
     margin-top: -20px;

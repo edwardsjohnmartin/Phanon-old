@@ -28,8 +28,14 @@ if($project->open_date > $now){
 ?>
 <li id="project_{{$project->id}}" class="project {{$css_class}}">
     @if($role->hasPermissionTo(Permissions::PROJECT_EDIT))
+    <div class="actions">
         <button class="edit" data-item-type="project" data-item-id="{{$project->id}}"
              >Edit</button>
+        @if($project->teams_enabled)
+            <button class="teams" onclick="displayTeamsList({{$project->id}})"
+                    tooltip="Show teams for this project">Show Teams</button>
+        @endif
+        </div>
     @endif
     <a href="{{url('/code/project/' . $project->id)}}">
         <div class="projectStatus">

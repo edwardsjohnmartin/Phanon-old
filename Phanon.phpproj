@@ -835,6 +835,7 @@
     <Compile Include="resources\views\flow\project.blade.php" />
     <Compile Include="resources\views\projects\index.blade.php" />
     <Compile Include="resources\views\projects\show.blade.php" />
+    <Compile Include="resources\views\projects\teamMembersForm.blade.php" />
     <Compile Include="resources\views\projects\teams.blade.php" />
     <Compile Include="resources\views\roles\create.blade.php" />
     <Compile Include="resources\views\roles\edit.blade.php" />
@@ -866,6 +867,7 @@
     <Compile Include="resources\views\teams\loginform.blade.php" />
     <Compile Include="resources\views\teams\manage.blade.php" />
     <Compile Include="resources\views\teams\teamNavLinks.blade.php" />
+    <Compile Include="resources\views\teams\teamsList.blade.php" />
     <Compile Include="resources\views\teams\teamsTable.blade.php" />
     <Compile Include="resources\views\tests\test.blade.php" />
     <Compile Include="resources\views\users\create.blade.php" />

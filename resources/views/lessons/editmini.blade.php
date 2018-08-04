@@ -7,4 +7,3 @@
         </div>
         {{Form::submit('Save', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
-        <button class="closer" tooltip="Close Form" onclick="closeModal()" >Close Form</button>

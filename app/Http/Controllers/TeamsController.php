@@ -71,20 +71,27 @@ class TeamsController extends Controller
         shuffle($student_ids);
 
         $count = count($student_ids);
-
         $teams = [];
+        // default name based on students; this is easier for tracking.
+        // might be better in the future to make name based of student's 
+        // real names.
+        $teamName = "New Team";
+
 
         if($count % 2 == 0){
             for($i = 0; $i < $count; $i+=2){
                 $newMembers = [];
                 array_push($newMembers, $student_ids[$i]);
                 array_push($newMembers, $student_ids[$i+1]);
+                $teamName = "Team: ".$student_ids[$i]."-"
+                    .$student_ids[$i+1];
 
                 $team = Team::checkIfTeamExistsInCourse($newMembers, $course_id);
 
                 if(!$team){
                     $team = new Team();
-                    $team->name = 'New Team';
+                    // default name based on students; this is easier for tracking.
+                    $team->name = $teamName ;
                     $team->course_id = $course_id;
                     $team->save();
 
@@ -101,15 +108,23 @@ class TeamsController extends Controller
                     array_push($newMembers, $student_ids[$i]);
                     array_push($newMembers, $student_ids[$i+1]);
                     array_push($newMembers, $student_ids[$i+2]);
+                    // default name based on students; this is easier for tracking.
+                    $teamName = "Team: ".$student_ids[$i]."-"
+                    .$student_ids[$i+1]."-".$student_ids[$i+2];
                 } else {
                     array_push($newMembers, $student_ids[$i]);
                     array_push($newMembers, $student_ids[$i+1]);
+                    // default name based on students; this is easier for tracking.
+                    $teamName = "Team: ".$student_ids[$i]."-"
+                    .$student_ids[$i+1];
                 }
 
                 $team = Team::checkIfTeamExistsInCourse($newMembers, $course_id);
 
                 if(!$team){
-                    $team = Team::makeTeam($course_id, $newMembers);
+                    // increment default name; this is easier for tracking.
+                    $team = Team::makeTeam($course_id, $newMembers,
+                        $teamName);
                 }
 
                 array_push($teams, $team->id);
@@ -118,9 +133,36 @@ class TeamsController extends Controller
 
         $project = Project::find($project_id);
         $project->assignTeams($teams);
+                
+        $version =  $request->input('version');
+        if(is_null($version)) $version = "full";
 
-        return redirect(url('/projects/' . $project_id . '/teams'))->
-            with('success', 'The ids array shuffled is: ' . print_r($student_ids, true));
+        if($version == "modal"){
+            $retObject = (Object)["type"=>"error","identifier"=>"",
+                "message"=>"","html"=>""];
+             $retObject->type = "success";
+            $retObject->message = "Teams have been randomly assigned.";
+            $retObject->identifier = "modal"; // show results back in modal.
+            //$role = $project->module->concept->course->getUsersRole(auth()->user()->id);
+            
+            $retObject->html = view("teams/teamsList",['project' => $project])->render();
+            return response()->json($retObject);
+
+        }else{
+            return redirect(url('/projects/' . $project_id . '/teams'))->
+                with('success', 'The ids array shuffled is: ' . print_r($student_ids, true));
+        }
+    }
+
+    /**
+     * Shows the team members.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showForProject($id)
+    {
+        $project = Project::find($id);
+        return view('teams.teamsList',['project'=>$project]);
     }
 
     /**

@@ -264,8 +264,7 @@ function showEditForm(btn) {
         type: "GET",
         url: "../" + itemType + "s/miniEditForm/" + itemId,
         success: function (data) {
-            $("#modal").html(data);
-            $("#fader").css("display", "block");
+            showModal(data);
             $("#modal form").on('submit', overriddeFormSave);
         },
         error: function () {
@@ -294,22 +293,82 @@ function overriddeFormSave(evt) {
             if (mess.type == "success") {
                 addPopup(mess.message, "success");
                 // update visuals
-                $("#" + mess.identifier).replaceWith(mess.html);
+                if (mess.identifier == "modal") {
+                    //show results back in modal
+                    showModal(mess.html);
+                    // keep modal open
+                } else {
+                    // replace page element with content.
+                    $("#" + mess.identifier).replaceWith(mess.html);
+                    closeModal();
+                }
                 // clear form
-                closeModal();
             } else {
                 addPopup(mess.message, "error");
             }
         }
         , error: function () {
-            appPopup("I am sorry we ran into a problem", "error");
+            addPopup("I am sorry we ran into a problem", "error");
         }
     });
 
     return false;
 }
 
+/**
+ * Set modal content to the given html content and show the modal.
+ * @param {any} html - content to place in modal.
+ */
+function showModal(html) {
+    $("#modal").html(html);
+    $("#modal").append('<button class="closer" tooltip="Close Form" '
+        + 'onclick = "closeModal()" > Close Form</button >');
+    $("#fader").css("display", "block");
+}
+
+/**
+ * Clear modal content and hide the modal form.
+ */
 function closeModal() {
     $("#modal").empty();
     $("#fader").css("display", "none");
+}
+/**
+ * Display the form of team for the given project in the modal.
+ * @param {any} projId
+ */
+function displayTeamsForm(projId) {
+    var url = "../projects/"+projId+"/teams";
+    $.ajax({
+        url: url
+        , method: 'GET'
+        , cache: false
+        , data: {version: "modal"}
+        , success: function (data) {
+            showModal(data);
+            $("#modal form").on('submit', overriddeFormSave);
+        }
+        , error: function () {
+            addPopup("I am sorry we ran into a problem -- teams form", "error");
+        }
+    });
+}
+/**
+ * Display the form of team for the given project in the modal.
+ * @param {any} projId
+ */
+function displayTeamsList(projId) {
+    var url = "../teams/showForProject/" + projId;
+    $.ajax({
+        url: url
+        , method: 'GET'
+        , cache: false
+        , data: { version: "modal" }
+        , success: function (data) {
+            showModal(data);
+        }
+        , error: function () {
+            addPopup("I am sorry we ran into a problem - teams list", "error");
+        }
+    });
 }
