@@ -38,6 +38,7 @@
     @if($role->hasPermissionTo(Permissions::COURSE_EDIT))
         makeCourseContentSortable("#courseContent");
     @endif
+
     var didAction = handleContentControllers("#courseFlow", ".components", true);
 
     $().ready(function () {

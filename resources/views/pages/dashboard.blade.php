@@ -28,12 +28,6 @@
                         @foreach($courses as $course)
                             @component('pages.dashCourse',['course' => $course])
                             @endcomponent
-                            @component('pages.dashCourse',['course' => $course])
-                            @endcomponent
-                            @component('pages.dashCourse',['course' => $course])
-                            @endcomponent
-                            @component('pages.dashCourse',['course' => $course])
-                            @endcomponent
                         @endforeach
                     </ul>
                     {{--

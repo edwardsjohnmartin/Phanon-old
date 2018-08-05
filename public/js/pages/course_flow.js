@@ -480,8 +480,8 @@ function makeCourseContentSortable() {
                 nextId = -1; // no next; at end of list.
             }
             
-            alert("c: (" + currType + "|" + currId + ") p: (" + prevType + "|"
-                + prevId + ") r: " + newParId );
+            //alert("c: (" + currType + "|" + currId + ") p: (" + prevType + "|"
+            //    + prevId + ") r: " + newParId );
 
             $.ajax({
                 type: "POST",
