@@ -8,7 +8,7 @@ use App\Lesson;
 use App\Project;
 use DB;
 
-class ModulesController extends Controller 
+class ModulesController extends Controller
 {
     public function __construct()
     {
@@ -22,7 +22,7 @@ class ModulesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() 
+    public function index()
     {
         $modules = Module::paginate(10);
 
@@ -51,7 +51,7 @@ class ModulesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|unique:modules',
@@ -92,7 +92,7 @@ class ModulesController extends Controller
                     if(!is_null($lesson->module)){
                         $lesson->module->removeLesson($lesson);
                     }
-                
+
                     // Add the lesson to this module and set its previous_lesson_id field
                     $lesson->module_id = $module->id;
                     $lesson->previous_lesson_id = $previous_lesson_id;
@@ -115,7 +115,7 @@ class ModulesController extends Controller
                 }
             }
         }
-        
+
         return redirect('/modules')->
             with('success', 'Module Created');
     }
@@ -126,7 +126,7 @@ class ModulesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show($id)
     {
         $module = Module::find($id);
         $lessonsAndProjects = $module->lessonsAndProjects();
@@ -142,7 +142,7 @@ class ModulesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) 
+    public function edit($id)
     {
         $module = Module::find($id);
         $lessons = Lesson::all();
@@ -180,7 +180,7 @@ class ModulesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) 
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -263,7 +263,7 @@ class ModulesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy($id)
     {
         $module = Module::find($id);
 
@@ -278,9 +278,9 @@ class ModulesController extends Controller
         return redirect('/modules')->with('success', 'Module Deleted');
     }
 
-     /**
+    /**
      * Show the form for deep copying a specific module
-     * 
+     *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
@@ -315,7 +315,7 @@ class ModulesController extends Controller
 
     /**
      * Create a deep copy of an module
-     * 
+     *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -325,5 +325,70 @@ class ModulesController extends Controller
 
         return redirect('/modules')->
             with('success', 'Module Cloned');
+    }
+
+    /**
+     * Takes in a request from an AJAX call and moves the nodes.
+     */
+    public function move(Request $request)
+    {
+        $retObj = (Object)["success" => false, "message" => ""];
+
+        $all = $request->all();
+        $nodeToMove_id = $all['current_id'];
+        $new_previous_node_id = $all['previous_id'];
+        $new_concept_id = $all['concept_id'];
+
+        //TODO:Move the nodes.
+        if($new_previous_node_id == "-1" || $new_previous_node_id == ""){
+            $new_previous_node_id = null;
+        }
+
+        // get needed objects
+        //   A -- B -- C -- D -- E
+        //   A -- D -- B -- C -- E
+        //   nP - c - nN -- oP -- oN
+        $current = Module::find($nodeToMove_id);
+        $new_next = Module::where(["previous_module_id"=>$new_previous_node_id,
+                                     "concept_id"=>$new_concept_id])->first();
+        $old_next = Module::where(["previous_module_id"=>$nodeToMove_id,
+                                     "concept_id"=>$current->concept_id])->first();
+
+        $next_id = null;
+        if(!is_null($new_next) && $current->id == $new_next->id){
+            // module cannot be its own previous module.
+            $retObj->success = false;
+            $retObj->message = "Module was not moved. ";
+        }else{
+            // these must happen in this order.
+            if(!is_null($old_next)){
+                $old_next->previous_module_id = $current->previous_module_id;
+            }
+            $current->concept_id = $new_concept_id;
+            if(!is_null($new_next)){
+                $current->previous_module_id = $new_next->previous_module_id;
+                $new_next->previous_module_id = $current->id;
+                $next_id = $new_next->id;
+            }else{
+                // place at end of list
+                $current->previous_module_id = $new_previous_node_id;
+            }
+
+            // save changes
+            if(!is_null($new_next)) $new_next->save();
+            if(!is_null($old_next)) $old_next->save();
+            $current->save();
+
+            if ($new_previous_node_id == null)
+                $new_previous_node_id = "start";
+
+            if ($next_id == null)
+                $next_id = "end";
+
+            $retObj->success = true;
+            $retObj->message = "Module moved. ".$new_previous_node_id
+                ." > ".$current->id." > ".$next_id;
+        }
+        return response()->json($retObj);
     }
 }

@@ -26,15 +26,17 @@
             <a href="{{url('/courses/' . $course->id . '/teams')}}" class="teams">View Teams</a>
         @endcan
     </aside>
-    <aside>
+    <aside id="courseEditButtons">
     @if($role->hasPermissionTo(Permissions::COURSE_EDIT))
-        <button class="edit" onclick="toggleEditMode(this);">Enable Edit Mode</button>
+        <button class="edit" onclick="toggleEditMode(this);" tooltip="ToggleEditMode">Enable Edit Mode</button>
     @endif
-        <button class="expandAll" onclick="expandModules();">Expand</button>
-        <button class="collapseAll" onclick="collapseModules();">Collapse</button>
+        <button class="expandAll" onclick="expandModules();" tooltip="Expand All Modules">Expand</button>
+        <button class="collapseAll" onclick="collapseModules();" tooltip="Collapse All Modules">Collapse</button>
         </aside>
+        @component("shared/popups")
+    @endcomponent
 </div>
-?>
+<secion id="courseContent" data-module-move-url="{{url("modules/move/")}}" data-component-move-url="{{url("lessons/move/")}}"  >
 @if(count($course->concepts) > 0)
     @foreach($course->concepts as $concept)
         @component("flow.concept",["concept" => $concept,
@@ -44,6 +46,7 @@
 @else
     <div class="placeholder">No Concepts found</div>
 @endif
+    </secion>
 <div class="creation hidden">
         <button class="concept add" onclick="createConcept({{$course->id}}, '{{url('/ajax/conceptcreate')}}')">Add New Concept</button>
     </div>

@@ -60,7 +60,7 @@ function toggleModuleEditMode() {
 function toggleContentEditable(element) {
     var ele = $(element); // calling this first and only once is more optimized.
     var par = ele.parent();
-    if (ele.attr("contenteditable") != null) {
+    if (ele.hasClass('edit-on')) {
         ele.removeClass('edit-on');
         ele.attr('contentEditable', false);
         var oldLink = par.attr("data-old-link");
@@ -146,7 +146,7 @@ function createConcept(course_id, url) {
             courseFlow.innerHTML += data;
         },
         error: function () {
-            addPopup("Could not create a new Concept.","error");
+            addPopup("Could not create a new Concept.", "error");
         }
     });
 }
@@ -162,13 +162,19 @@ function createModule(ele, concept_id, url) {
 
             var moduleArticle = newEle.getElementsByTagName('article')[0];
 
-            var buttonDiv = ele.parentNode;
-
-            var conceptArticle = buttonDiv.parentNode;
-            conceptArticle.insertBefore(moduleArticle, buttonDiv);
+            var container = ele.parentNode.parentNode;
+            var possibleLists = container.getElementsByTagName("div");
+            var moduleList;
+            for (var i = 0; i < possibleLists.length; i++) {
+                if (possibleLists[i].classList.contains("moduleContainer")) {
+                    moduleList = possibleLists[i];
+                    break; // stop after first. It should be the right one.
+                }
+            }
+            moduleList.appendChild(moduleArticle);
         },
         error: function () {
-            addPopup("Could not create a new Module.","error");
+            addPopup("Could not create a new Module.", "error");
         }
     });
 }
@@ -192,7 +198,7 @@ function createLesson(ele, module_id, url) {
             componentsList.appendChild(listItem);
         },
         error: function () {
-            addPopup("Could not create a new Lesson.","error");
+            addPopup("Could not create a new Lesson.", "error");
         }
     });
 }
@@ -216,7 +222,7 @@ function createProject(ele, module_id, url) {
             componentsList.appendChild(listItem);
         },
         error: function () {
-            addPopup("Could not create a new Project.","error");
+            addPopup("Could not create a new Project.", "error");
         }
     });
 }
@@ -338,12 +344,12 @@ function closeModal() {
  * @param {any} projId
  */
 function displayTeamsForm(projId) {
-    var url = "../projects/"+projId+"/teams";
+    var url = "../projects/" + projId + "/teams";
     $.ajax({
         url: url
         , method: 'GET'
         , cache: false
-        , data: {version: "modal"}
+        , data: { version: "modal" }
         , success: function (data) {
             showModal(data);
             $("#modal form").on('submit', overriddeFormSave);
@@ -371,4 +377,149 @@ function displayTeamsList(projId) {
             addPopup("I am sorry we ran into a problem - teams list", "error");
         }
     });
+}
+
+// course sorting logic starts here
+function makeCourseContentSortable() {
+    //make modules sortable 
+    $(".moduleContainer").sortable({
+        items: ".module",
+        handle: ".dragHandleModule",
+        placeholder: "module",
+        connectWith: ".moduleContainer",
+        stop: function (evt, ui) {
+            var t = ui.item;
+            var p = t.prev();
+            var newParId = t.parent().attr("data-concept-id");
+            var url = $("#courseContent").attr("data-module-move-url");
+
+            var currId = t.attr("data-module-id");
+            var prevId;
+            var hasPrevious = p.length > 0;
+            if (hasPrevious)
+                prevId = p.attr("data-module-id");
+            else
+                prevId = -1; // no previous; at start of list.
+
+            //alert("c: " + currId + " p: " + prevId + " r: " + newParId);
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    current_id: currId,
+                    previous_id: prevId,
+                    concept_id: newParId,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (data) {
+                    if (data.success) {
+                        addPopup(data.message, "save");
+                        // reorder numbers
+                        var count;
+                        if (hasPrevious) {
+                            count = parseInt(p.attr("data-item-count"));
+                            count++; // increment to set to this element
+                        } else {
+                            count = 1; // start of list; start at 1
+                        }
+                    } else {
+                        addPopup(data.message, "error");
+                    }
+                },
+                error: function (x, d) {
+                    console.log(x);
+                    console.log(d);
+                    addPopup("Could not save exercise", "error");
+                }
+            });
+        }
+    });
+    $(".module").disableSelection();
+
+    //make components sortable 
+    $(".components").sortable({
+        items: ".component",
+        handle: ".dragHandleComponent",
+        placeholder: "component",
+        connectWith: ".components",
+        stop: function (evt, ui) {
+            var t = ui.item;
+            var p = t.prev();
+            var n = t.next();
+            var newParId = t.parents(".module").attr("data-module-id");
+            var url = $("#courseContent").attr("data-component-move-url");
+
+            var currParts = t[0].id.split("_");
+            var currType = currParts[0];
+            var currId = currParts[1];
+
+            if (currType == "project") {
+                url = url.replace("/lessons/", "/projects/");
+            }
+
+            var prevId;
+            var prevType = "";
+            var hasPrevious = p.length > 0;
+            if (hasPrevious) {
+                var prevParts = p[0].id.split("_");
+                prevType = prevParts[0];
+                prevId = prevParts[1];
+            } else {
+                prevId = -1; // no previous; at start of list.
+            }
+
+            var nextId;
+            var nextType = "";
+            var hasNext = n.length > 0;
+            if (hasNext) {
+                var nextParts = n[0].id.split("_");
+                nextType = nextParts[0];
+                nextId = nextParts[1];
+            } else {
+                nextId = -1; // no next; at end of list.
+            }
+            
+            alert("c: (" + currType + "|" + currId + ") p: (" + prevType + "|"
+                + prevId + ") r: " + newParId );
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    previous_id: prevId,
+                    previous_type: prevType,
+                    current_id: currId,
+                    current_type: currType,
+                    next_id: nextId,
+                    next_type: nextType,
+                    module_id: newParId,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (data) {
+                    if (data.success) {
+                        addPopup(data.message, "save");
+                        // reorder numbers
+                        var count;
+                        if (hasPrevious) {
+                            count = parseInt(p.attr("data-item-count"));
+                            count++; // increment to set to this element
+                        } else {
+                            count = 1; // start of list; start at 1
+                        }
+
+                    } else {
+                        addPopup(data.message, "error");
+                    }
+                },
+                error: function (x, d) {
+                    console.log(x);
+                    console.log(d);
+                    addPopup("Could not save component", "error");
+                }
+            });
+        }
+    });
+    $(".module").disableSelection();
+
 }

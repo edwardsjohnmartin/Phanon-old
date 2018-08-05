@@ -34,10 +34,11 @@
     $moduleOpen = !$is_completed;
 ?>
 
-<article 
-   class="module sortable{{$is_completed  ? ' expired' : '' }}{{
-            !$is_completed  ? ' current' : '' }}">
-    <div class="dragHandle">Move Me</div>
+<article data-module-id="{{$module->id}}"
+   class="module sortable{{$is_completed  ? ' expired' : ' current' }}">
+    @if($role->hasPermissionTo(Permissions::MODULE_EDIT))
+    <div class="dragHandleModule">Move Me</div>
+    @endif
    <div class="completion tiny p{{$stats_perc_complete}}">
         <span>
             @if(!is_null($stats))
@@ -55,20 +56,20 @@
         </div>
     </div>
 
-    <h1>
+    <h1>{{$module->id}}
         {{-- This will ask the controller to figure out the current lesson and exercise --}}
         <a class="editable" href="{{url('/code/module/' . $module->id)}}">
             {{$module->name}}
         </a>
         <span>({{$stats_completed}} / {{$stats_exercise_count}})</span>
     </h1>
-
+    @if($role->hasPermissionTo(Permissions::MODULE_EDIT))
     <aside class="actions">
         <a class="edit" href="{{url('/modules/' . $module->id . '/edit')}}">Edit</a>
         <a class="copy" href="{{url('/modules/' . $module->id . '/copy')}}">Copy</a>
         <a class="delete" href="{{url('/modules/' . $module->id . '/destroy')}}">Delete</a>
     </aside>
-
+@endif
     <div class="dates">
         <span class="start editable">{{$module->getOpenDate(config("app.dateformat_short"))}}</span>
     </div>

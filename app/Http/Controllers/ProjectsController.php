@@ -337,4 +337,73 @@ class ProjectsController extends Controller
 
         return view("projects.editMini",["project"=>$project]);
     }
+
+    /**
+     * Takes in a request from an AJAX call and moves the nodes.
+     */
+    public function move(Request $request)
+    {
+        $retObj = (Object)["success" => false, "message" => ""];
+
+        // this should be much simpler than a lesson. Because we basically just change the previous lesson id.
+
+        $all = $request->all();
+        $new_previous_component_id = $all['previous_id'];
+        $new_previous_component_type = $all['previous_type'];
+        $componentToMove_id = $all['current_id'];
+        $componentToMove_type = $all['current_type']; // this should always be lesson
+        $new_module_id = $all['module_id'];
+
+        // do not need these even though they are passed. but that is to keep the JavaScript
+        // consistent. 
+        $new_next_component_id = $all['next_id'];
+        $new_next_component_type = $all['next_type'];
+
+
+        if($componentToMove_type != "project"){
+            // wrong type
+            // lessons should be handled by the lesson controller.
+            $retObj->success = false;
+            $retObj->message = "Incorrect type, should be project and was ".$componentToMove_type;
+        }else{
+            if($new_previous_component_id == "-1" || $new_previous_component_id == ""){
+                // no previous component, at the start of the list.
+                $new_previous_component_id = null;
+            }
+
+            // get needed objects
+
+            // CurrentProject -- current component we are moving
+            $current = Project::find($componentToMove_id);
+
+            // NewPreviousLesson -- current lesson must point to this; just need the id
+            if($new_previous_component_type == "lesson"){
+                // easiest; leave as component id; because it is correct
+            }else if($new_previous_component_id != null){
+                // project; projects cannot be previous, so must get the correct id from the project
+                $tempProject = Project::find($new_previous_component_id);
+                // now get the real previous lesson id
+                $new_previous_component_id = $tempProject->previous_lesson_id;
+            }
+
+            // move project to new module, if module is the same, nothing will really happen.
+            $current->module_id = $new_module_id;
+
+            // place after most previous lesson
+            $current->previous_lesson_id = $new_previous_component_id;
+
+            //HACK: we may have to worry about dates here for ordering.
+
+            // save changes; all saves at the end to allow rollback
+            $current->save();
+
+            $retObj->success = true;
+            $retObj->message = "Project moved. ".$new_previous_component_id
+                ." > ".$current->id;
+
+        }
+        return response()->json($retObj);
+    }
+
+
 }

@@ -48,6 +48,7 @@
 </div>
 @section("scripts-end")
 @parent
+    @if($role->hasPermissionTo(Permissions::EXERCISE_EDIT))
 <script>
     $("#exerciseList").sortable({
         cancel: "#addExercise",
@@ -109,4 +110,5 @@
         }
     });
 </script>
+@endif
 @endsection

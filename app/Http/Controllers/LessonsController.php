@@ -7,6 +7,7 @@ use App\Lesson;
 use App\Exercise;
 use App\Module;
 use DB;
+use App\Project;
 
 class LessonsController extends Controller
 {
@@ -16,7 +17,7 @@ class LessonsController extends Controller
         // Use the 'clearance' middleware to check if a user has permission to access each function
         $this->middleware(['auth', 'clearance']);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -66,7 +67,7 @@ class LessonsController extends Controller
 
         // Get the order of exercises within the lesson as an array
         $exercise_order = $request->input('exercise_order');
-        
+
         // Variable used to keep track of the last exercise added to the lesson
         $previous_exercise_id = null;
 
@@ -207,7 +208,7 @@ class LessonsController extends Controller
             with('success', 'Lesson Updated');
     }
 
-     /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -234,11 +235,11 @@ class LessonsController extends Controller
         $retObject->type = "success";
         $retObject->message = "Lesson ".$id." was successfully modified.";
         $retObject->identifier = "lesson_".$lesson->id;
-            $role = $lesson->module->concept->course->getUsersRole(auth()->user()->id);
+        $role = $lesson->module->concept->course->getUsersRole(auth()->user()->id);
         $retObject->html = view("flow/lesson",['lesson' => $lesson,
          'role' => $role])->render();
 
-     return response()->json($retObject);
+        return response()->json($retObject);
     }
 
     /**
@@ -262,9 +263,9 @@ class LessonsController extends Controller
             with('success', 'Lesson Deleted');
     }
 
-     /**
+    /**
      * Show the form for deep copying a specific lesson.
-     * 
+     *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
@@ -286,7 +287,7 @@ class LessonsController extends Controller
 
     /**
      * Create a deep copy of an lesson.
-     * 
+     *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -300,7 +301,7 @@ class LessonsController extends Controller
 
     /**
      * Get the miniEdit form for this lesson
-     * 
+     *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -309,6 +310,135 @@ class LessonsController extends Controller
         $lesson = Lesson::find($id);
 
         return view("lessons.editMini",["lesson"=>$lesson]);
+    }
+
+    /**
+     * Takes in a request from an AJAX call and moves the nodes.
+     */
+    public function move(Request $request)
+    {
+        $retObj = (Object)["success" => false, "message" => ""];
+
+
+        $all = $request->all();
+        $new_previous_component_id = $all['previous_id'];
+        $new_previous_component_type = $all['previous_type'];
+        $componentToMove_id = $all['current_id'];
+        $componentToMove_type = $all['current_type']; // this should always be lesson
+        $new_next_component_id = $all['next_id'];
+        $new_next_component_type = $all['next_type'];
+        $new_module_id = $all['module_id'];
+
+        if($componentToMove_type != "lesson"){
+            // wrong type
+            // projects should be handled by the project controller.
+            $retObj->success = false;
+            $retObj->message = "Incorrect type, should be lesson and was ".$componentToMove_type;
+        }else{
+            if($new_previous_component_id == "-1" || $new_previous_component_id == ""){
+                // no previous component, at the start of the list.
+                $new_previous_component_id = null;
+            }
+
+            if($new_next_component_id == "-1" || $new_next_component_id == ""){
+                // no next component, at the end of the list.
+                $new_next_component_id = null;
+            }
+
+
+
+            // get needed objects
+
+            // CurrentLesson -- current component we are moving
+            $currentLesson = Lesson::find($componentToMove_id);
+
+            // NewPreviousLesson -- current lesson must point to this; just need the id
+            if($new_previous_component_type == "lesson"){
+                // easiest; leave as component id; because it is correct
+            }else if($new_previous_component_id != null){
+                // project; projects cannot be previous, so must get the correct id from the project
+                $tempProject = Project::find($new_previous_component_id);
+                // now get the real previous lesson id
+                $new_previous_component_id = $tempProject->previous_lesson_id;
+            }
+
+            // NewNextLesson -- needs to point to the new current
+            $new_next = Lesson::where(["previous_lesson_id"=>$new_previous_component_id,
+                                         "module_id"=>$new_module_id])->first();
+
+            // OldNextLesson -- needs to point to the old previous lesson (can get from current lesson)
+            $old_next = Lesson::where(["previous_lesson_id"=>$componentToMove_id,
+                                         "module_id"=>$currentLesson->module_id])->first();
+
+            $next_id = null;
+            if(!is_null($new_next) && $currentLesson->id == $new_next->id){
+                // lesson cannot be its own previous lesson.
+                $retObj->success = false;
+                $retObj->message = "Lesson was not moved. ";
+            }else{
+                // these must happen in this order.
+
+                // OldDependantProjects -- need to point to old previous lesson (can get from current lesson)
+                $old_projects = Project::where("previous_lesson_id",$currentLesson->id)->get();
+                foreach($old_projects as $proj){
+                    $proj->previous_lesson_id = $currentLesson->previous_lesson_id;
+                }
+
+                if(!is_null($old_next)){
+                    $old_next->previous_lesson_id = $currentLesson->previous_lesson_id;
+                }
+
+                // move lesson to new module, if module is the same, nothing will really happen.
+                $currentLesson->module_id = $new_module_id;
+
+
+                if(!is_null($new_next)){
+                    // has a next lesson.
+                    $currentLesson->previous_lesson_id = $new_next->previous_lesson_id;
+                    $new_next->previous_lesson_id = $currentLesson->id;
+                    $next_id = $new_next->id;
+                }else{
+                    // place at end of list
+                    $currentLesson->previous_lesson_id = $new_previous_component_id;
+                }
+
+                // even if did not have a next lesson, may have next projects.
+                $new_projects = [];
+
+                // NewNextProjects -- might or might not exist (need to point to current lesson)
+                if($new_next_component_type == "project"){
+                    // was moved infront of a project so will make projects originally dependent 
+                    // on the new previous, now dependant on this lesson.
+                    $new_projects = Project::where("previous_lesson_id",$new_previous_component_id)->get();
+                    foreach($new_projects as $proj){
+                        $proj->previous_lesson_id = $currentLesson->id;
+                    }
+                }
+
+
+                // save changes; all saves at the end to allow rollback
+                if(!is_null($new_next)) $new_next->save();
+                if(!is_null($old_next)) $old_next->save();
+                foreach($old_projects as $proj){
+                    $proj->save();
+                }
+                foreach($new_projects as $proj){
+                    $proj->save();
+                }
+                $currentLesson->save();
+
+                if ($new_previous_component_id == null)
+                    $new_previous_component_id = "start";
+
+                if ($next_id == null)
+                    $next_id = "end";
+
+                $retObj->success = true;
+                $retObj->message = "lesson moved. ".$new_previous_component_id
+                    ." > ".$currentLesson->id." > ".$next_id;
+            }
+        }
+        return response()->json($retObj);
     }
 
 }

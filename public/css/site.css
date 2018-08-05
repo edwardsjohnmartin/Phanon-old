@@ -71,7 +71,7 @@ body {
     margin-left: .25em;
 }
 
-.dragHandle:before {
+.dragHandleModule:before, .dragHandleComponent:before {
     font-family: themify;
     content: "\e657"; /*vertical arrows*/
     margin-left: .25em;
@@ -394,6 +394,14 @@ body {
     #courseFlow #courseDetails .dates {
         text-align: right;
     }
+    #courseFlow #courseDetails #courseEditButtons {
+        text-align:right;
+    }
+    #courseEditButtons button{
+        width: 2em;
+        height: 2em;
+        overflow:hidden;
+    }
 
 #courseFlow > article:nth-child(2) {
     margin-top: 40px;
@@ -406,6 +414,12 @@ body {
 
 #courseFlow .concept {
     position: relative;
+}
+
+#courseFlow .moduleContainer {
+    border: 1px solid #BBE;
+    min-height: 4em;
+    border-radius: 2em;
 }
 
 #courseFlow li.lesson:before, #courseFlow li.project:before {
@@ -441,7 +455,7 @@ body {
     width: 70%;
 }
 
-#courseFlow .module .dragHandle {
+#courseFlow .dragHandleModule, #courseFlow .dragHandleComponent {
     position: absolute;
     top: 0;
     left: -2em;
@@ -452,8 +466,12 @@ body {
     overflow: hidden;
     cursor: ns-resize;
 }
-
-#courseFlow .creation {
+#courseFlow .dragHandleComponent {
+    font-size: 1em;
+    line-height: 1.5em;
+    left: -2.5em;
+}
+    #courseFlow .creation {
     text-align: center;
 }
     #courseFlow .creation .concept:hover,
@@ -645,7 +663,7 @@ body {
         z-index: 950;
         background-color: #FFF;
     }
-    .lesson .actions, .project .actions{
+    .component .actions{
         font-size: .5em;
         height: 2em;
         width:auto;
@@ -711,7 +729,7 @@ body {
         }*/
 
 
-/*#courseFlow .lesson .name, #courseFlow .project .name {
+/*#courseFlow .component .name {
     display: inline-block;
     position: relative;
     top: -50px;
@@ -743,12 +761,12 @@ body {
     content: "";
 }
 
-#courseFlow li.lesson .completion, #courseFlow li.project .completion {
+#courseFlow li.component .completion {
     left: -.5em;
     margin-right: -.25em;
 }
 
-#courseFlow .lesson a, #courseFlow .project a {
+#courseFlow .component a {
     color: #000;
 }
 
@@ -883,7 +901,7 @@ dl.dates dt, dl.dates dd {
     }
 
 
-#courseFlow .lesson, #courseFlow .project {
+#courseFlow .component {
     border: solid 1px #888;
     background-color: #AAA;
     border-left: 0;
@@ -893,7 +911,7 @@ dl.dates dt, dl.dates dd {
     transition: background-color ease .5s;
 }
 
-    #courseFlow .lesson a:hover, #courseFlow .project a:hover {
+    #courseFlow .component a:hover {
         text-decoration: none;
     }
 
@@ -1115,14 +1133,14 @@ dl.dates dt, dl.dates dd {
         width: 1em;
         line-height: 1em;
     }
-    #exerciseList .nodeDetails {
+    .nodeDetails {
         position: absolute;
         bottom: 0;
         left: 0;
         margin-left: .2em;
         font-size: .4em;
     }
-    #exerciseList .nodeDetails:before {
+    .nodeDetails:before {
         font-family: themify;
         content: "\e61b";
         margin-left: .2em;
@@ -1149,8 +1167,10 @@ dl.dates dt, dl.dates dd {
     display: inline-block;
     width: 10em;
 }
-
-[tooltip]:hover:after {
+#courseDetails [tooltip]:after {
+    position:absolute;
+}
+    [tooltip]:hover:after {
     /* needed - do not touch */
     opacity: 1;
     /* customizable */

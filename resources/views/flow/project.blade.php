@@ -26,7 +26,7 @@ if($project->open_date > $now){
     $status_open_tense = "ed";
 }
 ?>
-<li id="project_{{$project->id}}" class="project {{$css_class}}">
+<li id="project_{{$project->id}}" class="project component {{$css_class}}">
     @if($role->hasPermissionTo(Permissions::PROJECT_EDIT))
     <div class="actions">
         <button class="edit" data-item-type="project" data-item-id="{{$project->id}}"
@@ -36,12 +36,16 @@ if($project->open_date > $now){
                     tooltip="Show teams for this project">Show Teams</button>
         @endif
         </div>
+    <div class="dragHandleComponent">Move Me</div>
     @endif
     <a href="{{url('/code/project/' . $project->id)}}">
         <div class="projectStatus">
             <span>{{$status_text}}</span>
         </div>
         <span class="name">{{$project->name}}</span>
+        @if($role->hasPermissionTo(Permissions::PROJECT_EDIT))
+            <span class="nodeDetails">{{$project->previous_lesson_id}}</span>
+        @endif
         <span class="teams{{$project->teams_enabled ? " enabled": " disabled"}}"
               >{{$project->teams_enabled ? "Enabled": "Disabled"}}</span>
         <dl class="dates">

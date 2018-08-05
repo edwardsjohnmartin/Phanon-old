@@ -7,7 +7,7 @@
     }
 @endphp
 
-<article class="concept sortableConcept">
+<article id="concept_{{$concept->id}}" class="concept">
 
     {{--
     <div class="completion tiny p{{floor($stats->PercComplete*100)}}">
@@ -23,14 +23,15 @@
 
     <h3 class="editable">
         {{$concept->name}}
-        {{-- <span>({{$stats->Completed}}/{{$stats->ExerciseCount}})</span> --}}
+        {{-- <span> ({{$stats->Completed}}/{{$stats->ExerciseCount}})</span> --}}
     </h3>
+    <div class="moduleContainer" data-concept-id="{{$concept->id}}">
     @foreach($concept->modules as $module)
         @component('flow.module',['module' => $module,
                                     'role'=>$role])
         @endcomponent
     @endforeach
-    
+    </div>
     <div class="creation {{$ajaxCreation ? '' : 'hidden'}}">
         <button class="module add" onclick="createModule(this, {{$concept->id}}, '{{url('/ajax/modulecreate')}}')">Add New Module</button>
     </div>

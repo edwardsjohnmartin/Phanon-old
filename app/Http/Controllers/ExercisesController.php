@@ -206,6 +206,11 @@ class ExercisesController extends Controller
                                      "lesson_id"=>$current->lesson_id])->first();
 
         $next_id = null;
+         if(!is_null($new_next) && $current->id == $new_next->id){
+            // module cannot be its own previous module.
+            $retObj->success = false;
+            $retObj->message = "Exercise was not moved. ";
+        }else{
         // these must happen in this order.
         if(!is_null($old_next)){
             $old_next->previous_exercise_id = $current->previous_exercise_id;
@@ -233,7 +238,7 @@ class ExercisesController extends Controller
         $retObj->success = true;
         $retObj->message = "Exercise moved. ".$new_previous_exercise_id
             ." > ".$current->id." > ".$next_id;
-
+         }
         return response()->json($retObj);
     }
 

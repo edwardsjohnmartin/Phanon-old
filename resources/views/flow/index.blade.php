@@ -26,8 +26,6 @@
     <div id="fader">
         <div id="modal"></div>
     </div>
-    @component("shared/popups")
-    @endcomponent
 @endsection
 <?php $endTime = microtime(true); ?>
 <div id="debug">
@@ -37,8 +35,9 @@
 @section("scripts-end")
     @parent
 <script>
-    $(".sortableConcept").sortable({ items: ".module", handle: ".dragHandle", placeholder: "module" });
-    $(".module").disableSelection();
+    @if($role->hasPermissionTo(Permissions::COURSE_EDIT))
+        makeCourseContentSortable("#courseContent");
+    @endif
     var didAction = handleContentControllers("#courseFlow", ".components", true);
 
     $().ready(function () {
