@@ -1,0 +1,56 @@
+Bug List
+
+-Editing of the module name and date needs to be able to occur on the course flow page.
+-The "Append Exercise" button on the exercise nav pane should only show while in edit mode.
+-If an exercise is completed, its tile color should be updated to green.
+-The "Next" link on the message popup when an exercise is completed should be corrected. It should point to the next exercise in the lesson, or if none exists, should say "Return" or something similar and return to the flow page.
+-The start code and solution are not being saved on the exercise coding page.
+-The "Code" tab should be removed from the exercise coding page.
+-The "Start Code" and "Solution" tabs should be rearranged so "Solution" comes first.
+-Should the message "Exercise not moved" message show when on failed move, should there only be a message when an exercise was moved, or should there be no message at all?
+-Exercise tile renumbering needs to be fixed. It should start from the first exercise and not from the exercise that was moved. 
+-Clicking anywhere on the "projectRatings" <div> element causes a click event to be fired that saves the project ratings to the database. This should only happen when the <ol> or <li> elements within it are clicked.
+-There needs to be date validation on the modal window for project editing on the course flow page.
+-Reordering of items should not be allowed on the course flow page when edit mode is not on.
+-Concepts need to be able to be reordered.
+-Possibly change the color of the "Edit Mode" button on the course flow page to green to show when edit mode is on.
+-Need a way to delete items from their parents: exercises from lessons, lessons/projects from modules, modules from concepts, and concepts from courses.
+-Should deleting be hard delete or soft delete?
+-Possibly revisit the links in the "actions" area of modules, lessons, and projects on the course flow. Are the links needed? How should the links work?
+-Possibly revisit the links in the "actions" area of courses on the dashboard. Are the links needed? How should the links work?
+-If a user is not in any courses, possibly remove the "Team" link from the nav bar.
+-Only users with adequate permissions should see the "Structure" link.
+-On the course index page, only users with adequate permissions should see the "Create Copy" button.
+-There needs to be a way for users to view a catalog of existing courses and have an option to register for them. They should only be able to see the course name, teachers, and possibly teaching assistants.
+-Reorder the "View Teams" and "View Participants" links on the course flow.
+-If a user creates a course, they should default to an Admin within that course (at minimum a Teacher).
+-Need a way to manually move students between teams for a project.
+-The Teams modal window should show any students not in a team.
+-The message popups from attempting to login a partner on the project coding page are blocked by the login window.
+-The "Instructions" and "Ratings" label elements on the project coding page should be aligned.
+-There is an icon of two people sitting in the bottom left portion of the project prompt area of the project coding page that isn't close enough to be visually related to anything.
+-There needs to be a check if a project is open before project ratings are saved.
+-How should a project appear to a Student if it isn't open? Should it be accessible or not?
+-The team member logout button did not work on the project coding page.
+-Code is not being saved for each member of a team member when its ran.
+-Team code is not being loaded when a team saves it then reloads the project page.
+-Project ratings are not being saved for each member of a team that are logged in.
+-Users without adequate permissions should not be able to see the "Edit Mode", "Copy Exercise", "Create New Exercise" buttons on the project/exercise coding pages.
+-If user is on an exercise where the next one is locked, completing the current exercise should unlock the next one.
+-Need better inital team names.
+-Need a way for students to be able to rename their team.
+-Delay on the tooltips for how long it takes them to show up.
+-Visual feedback for copying a course.
+-Use soft deletion of objects.
+-Speed up moving between exercises as much as possible.
+-Need hotkeys on coding pages.
+-Only care about last run message on exercise coding page.
+-Move popups option to navbar or something not specifially on the coding page.
+-Show single alert message after run to the right of the orange author buttons.
+-Bug on the project page where collapsing the instructions causes them to automatically expand.
+-Turn caching off on course flow, exercise coding, and project coding.
+-Turn automatic scrolling off.
+-Remove concept name staying up top.
+-Use better editor for instuctions/prompt.
+-A new user should have a default role set to them.
+-Buttons at the top right of a module to collapse/expand.
