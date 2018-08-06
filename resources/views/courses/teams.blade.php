@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section("navButtons")
+    <a class="flow" href="{{url('flow/' . $course->id)}}">Course Flow</a>
+@endsection
+
 @section('scripts')
     @component('scriptbundles.create-edit-form')
     @endcomponent

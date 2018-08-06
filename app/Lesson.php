@@ -258,19 +258,25 @@ class Lesson extends Model
      * Returns the first incomplete exercise in a lesson for the logged-in user.
      * If all exercises are complete, it returns the first exercise in the lesson.
      */
-    public function nextIncompleteExercise()
+    public function nextIncompleteExercise($returnFirstExercise = true)
     {
         $exercises = $this->exercisesCollection();
 
         if(count($exercises) > 0){
             foreach($exercises as $exercise){
-                if($exercise->exerciseProgress->first() != null &&
-                    $exercise->exerciseProgress->first()->completion_date == null){
-                    return $exercise;
+                $exerciseProgress = $exercise->exerciseProgress->first();
+                if(!is_null($exerciseProgress)){
+                    if($exerciseProgress->completion_date == null){
+                        return $exercise;
+                    }
                 }
             }
 
-            return $exercises->first();
+            if($returnFirstExercise){
+                return $exercises->first();
+            } else {
+                return null;
+            }
         }
 
         return null;

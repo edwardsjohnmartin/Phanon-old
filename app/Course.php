@@ -205,6 +205,14 @@ class Course extends Model
         }
     }
 
+    public function removeUser($user_id)
+    {
+        $user = $this->users->where('id', $user_id);
+        if(!is_null($user)){
+            $this->users()->detach($user);
+        }
+    }
+
     /**
      *
      */
@@ -290,6 +298,20 @@ class Course extends Model
         }
 
         return false;
+    }
+
+    public function isUserEnrolled($user_id)
+    {
+        $user = User::find($user_id);
+        if(!is_null($user)){
+            if($this->users->contains($user)){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     public static function getCourse($course_id)

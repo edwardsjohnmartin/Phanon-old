@@ -106,6 +106,8 @@ class FlowController extends Controller
         $concept->owner_id = auth()->user()->id;
         $concept->save();
 
+        $concept = Concept::getConcept($concept->id);
+
         return view('flow.concept')->
             with('concept', $concept)->
             with('ajaxCreation', true);
@@ -268,5 +270,28 @@ class FlowController extends Controller
         $course->save();
 
         return "Course Edited Successfully";
+    }
+
+    public function editConcept(Request $request)
+    {
+        $all = $request->all();
+        $concept_id = $all['concept_id'];
+        $name = $all['name'];
+
+        // Find existing concept from the concept_id
+        $concept = Concept::find($concept_id);
+
+        // Validate the concept does exist
+        if(is_null($concept) or empty($concept)){
+            return "Concept Not Found";
+        }
+
+        // Modify the concept details using the data from the AJAX call
+        $concept->name = $name;
+
+        // Save the concept to the database
+        $concept->save();
+
+        return "Concept Edited Successfully";
     }
 }

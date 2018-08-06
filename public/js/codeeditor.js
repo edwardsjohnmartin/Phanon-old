@@ -569,6 +569,8 @@ function saveExerciseEdit(url) {
     var prompt = $('#promptInstructions').data("raw-prompt") || "";
     var pre_code = $('#idePreCode').find('.CodeMirror')[0].CodeMirror.getValue() || "";
     var test_code = $('#ideTestCode').find('.CodeMirror')[0].CodeMirror.getValue() || " ";
+    var start_code = $('#startcode').find('.CodeMirror')[0].CodeMirror.getValue() || " ";
+    var solution = $('#solution').find('.CodeMirror')[0].CodeMirror.getValue() || " ";
 
     $.ajax({
         type: "POST",
@@ -578,6 +580,8 @@ function saveExerciseEdit(url) {
             prompt: prompt,
             pre_code: pre_code,
             test_code: test_code,
+            start_code: start_code,
+            solution: solution,
             _token: $('meta[name="csrf-token"]').attr('content')
         },
         success: function (data) {

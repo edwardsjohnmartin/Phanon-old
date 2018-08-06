@@ -158,6 +158,8 @@ class CodeController extends Controller
         $prompt = $all['prompt'];
         $pre_code = $all['pre_code'];
         $test_code = $all['test_code'];
+        $start_code = $all['start_code'];
+        $solution = $all['solution'];
 
         // Retrieve exercise from id
         $exercise = Exercise::find($exercise_id);
@@ -179,6 +181,8 @@ class CodeController extends Controller
         $exercise->prompt = $prompt;
         $exercise->pre_code = $pre_code;
         $exercise->test_code = $test_code;
+        $exercise->start_code = $start_code;
+        $exercise->solution = $solution;
         $exercise->updated_by = auth()->user()->id;
 
         // Save exercise to the database
@@ -395,13 +399,30 @@ class CodeController extends Controller
 
     public function module($module_id)
     {
-        DB::connection()->enableQueryLog();
+        $module = Module::find($module_id);
 
-        $course = Course::getCourse($module_id);
+        if($module->unorderedLessons->count() == 0){
+            return redirect('/flow/' . $module->concept->course->id)->
+                with('error', 'That module does not contain any lessons');
+        } else {
+            $lessons = $module->lessons();
+            foreach($lessons as $lesson){
+                $l = Lesson::getLessonWithExerciseProgress($lesson->id);
+                $exercise = $l->nextIncompleteExercise(false);
+                if(!is_null($exercise)){
+                    return redirect('/code/exercise/' . $exercise->id);
+                }
+            }
 
-        $queries = DB::getQueryLog();
-
-        return '<pre>' . print_r($queries, true) . '</pre>';
+            if(count($module->lessons()[0]->exercises()) > 0){
+                $exercise = $module->lessons()[0]->exercises()[0];
+        
+                return redirect('/code/exercise/' . $exercise->id);
+            } else {
+                return redirect('/flow/' . $module->concept->course->id)->
+                    with('error', 'There is no suitable exercise to show');
+            }
+        }
     }
 
     public function lesson($lesson_id)

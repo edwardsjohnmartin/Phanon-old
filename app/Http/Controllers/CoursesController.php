@@ -307,4 +307,89 @@ class CoursesController extends Controller
                 with('error', 'That course does not exist.');
         }
     }
+
+    public function participants($id)
+    {
+        $course = Course::getCourse($id);
+
+        $users = User::all();
+
+        $roles = Role::all();
+
+        return view('courses.participants')->
+            with('course', $course)->
+            with('users', $users)->
+            with('roles', $roles);
+    }
+
+    public function addUser(Request $request, $id, $user_id)
+    {
+        // Create return array
+        $ret = array();
+
+        // Validate user exists
+        $user = User::find($user_id);
+        if(is_null($user)){
+            $ret['message'] = "User doesn't exist";
+            return $ret;
+        }
+
+        // Validate role was passed in
+        if(isset($request->role_id)){
+            // Validate role exists
+            $role = Role::find($request->role_id);
+            if(is_null($role)){
+                $ret['message'] = "Role doesn't exist";
+                return $ret;
+            }
+        } else {
+            $ret['message'] = "Role doesn't exist";
+            return $ret;
+        }
+
+        // Validate course exists
+        $course = Course::find($id);
+        if(is_null($course)){
+            $ret['message'] = "Course doesn't exist";
+            return $ret;
+        }
+
+        // Add user to course
+        $course->addUserAsRole($user_id, $request->role_id);
+        $ret['message'] = $user->name . " successfully added to course as " . $role->name;
+
+        return $ret;
+    }
+
+    public function removeUser($id, $user_id)
+    {
+        // Create return array
+        $ret = array();
+
+        // Validate course exists
+        $course = Course::find($id);
+        if(is_null($course)){
+            $ret['message'] = "Course doesn't exist";
+            return $ret;
+        }
+
+        // Validate user exists
+        $user = User::find($user_id);
+        if(is_null($user)){
+            $ret['message'] = "User doesn't exist";
+            return $ret;
+        }
+
+        // Validate user is in course
+        if(!$course->isUserEnrolled($user_id)){
+            $ret['message'] = "User is not in this course";
+            return $ret;
+        }
+
+        // Remove user from course
+        $course->removeUser($user_id);
+        $ret['message'] = $user->name . " successfully removed from course";
+
+        return $ret;
+    }
 }

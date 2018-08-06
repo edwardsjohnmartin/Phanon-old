@@ -71,7 +71,7 @@ Route::post('/ajax/exercisecopy', 'CodeController@copyExercise');
 Route::post('/ajax/projectedit', 'CodeController@editProject');
 Route::post('/ajax/exerciseedit', 'CodeController@editExercise');
 Route::post('/ajax/courseedit', 'FlowController@editCourse');
-
+Route::post('/ajax/conceptedit', 'FlowController@editConcept');
 
 Route::post('/ajax/projectsurveycreate', 'ProjectSurveyResponsesController@createResponse');
 
@@ -92,3 +92,6 @@ Route::post('/projects/modify/', 'ProjectsController@modify')->name("project.mod
 
 Route::get('/teams/showForProject/{id}', 'TeamsController@showForProject');
 
+Route::get('/courses/{id}/participants', 'CoursesController@participants');
+Route::post('/courses/{id}/adduser/{user_id}', 'CoursesController@addUser');
+Route::post('/courses/{id}/removeuser/{user_id}', 'CoursesController@removeUser');

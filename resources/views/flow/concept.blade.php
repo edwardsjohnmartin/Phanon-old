@@ -7,7 +7,7 @@
     }
 @endphp
 
-<article id="concept_{{$concept->id}}" class="concept">
+<article id="concept_{{$concept->id}}" class="concept" data-concept-url="{{url('/ajax/conceptedit')}}">
 
     {{--
     <div class="completion tiny p{{floor($stats->PercComplete*100)}}">
@@ -21,7 +21,7 @@
         </div>
     </div>--}}
 
-    <h3 class="editable">
+    <h3 class="editable @if($ajaxCreation) edit-on @endif" @if($ajaxCreation) contentEditable="true" @endif>
         {{$concept->name}}
         {{-- <span> ({{$stats->Completed}}/{{$stats->ExerciseCount}})</span> --}}
     </h3>

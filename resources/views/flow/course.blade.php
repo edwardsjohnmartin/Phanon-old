@@ -25,6 +25,10 @@
         @can(Permissions::TEAM_CREATE)
             <a href="{{url('/courses/' . $course->id . '/teams')}}" class="teams">View Teams</a>
         @endcan
+
+        @if($role->hasPermissionTo(Permissions::COURSE_EDIT))
+            <a href="{{url('/courses/' . $course->id . '/participants')}}" class="teams">View Participants</a>
+        @endif
     </aside>
     <aside id="courseEditButtons">
     @if($role->hasPermissionTo(Permissions::COURSE_EDIT))
@@ -36,7 +40,7 @@
         @component("shared/popups")
     @endcomponent
 </div>
-<secion id="courseContent" data-module-move-url="{{url("modules/move/")}}" data-component-move-url="{{url("lessons/move/")}}"  >
+<section id="courseContent" data-module-move-url="{{url("modules/move/")}}" data-component-move-url="{{url("lessons/move/")}}"  >
 @if(count($course->concepts) > 0)
     @foreach($course->concepts as $concept)
         @component("flow.concept",["concept" => $concept,
@@ -46,7 +50,8 @@
 @else
     <div class="placeholder">No Concepts found</div>
 @endif
-    </secion>
+    </section>
 <div class="creation hidden">
         <button class="concept add" onclick="createConcept({{$course->id}}, '{{url('/ajax/conceptcreate')}}')">Add New Concept</button>
     </div>
+    

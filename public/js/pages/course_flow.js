@@ -44,9 +44,12 @@ function toggleConceptEditMode() {
 
     // name
 
-    var allFields = $('article.concept').find('.editable');
+    var allFields = $('article.concept').find('h3.editable');
     $(allFields).each(function (index, f) {
         toggleContentEditable(f);
+        addBlurEvent(f, function () {
+            saveConceptEdit(f);
+        });
     });
 }
 
@@ -55,6 +58,11 @@ function toggleModuleEditMode() {
 
     // name
     // open date
+    
+    var allFields = $('article.module').find('.editable');
+    $(allFields).each(function (index, f) {
+        toggleContentEditable(f);
+    });
 }
 
 function toggleContentEditable(element) {
@@ -66,7 +74,7 @@ function toggleContentEditable(element) {
         var oldLink = par.attr("data-old-link");
         par.attr("href", oldLink);
         par.attr("data-old-link", null);
-        if (p.hasClass("dates"))
+        if (par.hasClass("dates"))
             addDateButton(ele);
     } else {
         ele.addClass('edit-on');
@@ -142,8 +150,8 @@ function createConcept(course_id, url) {
         url: url,
         data: { course_id: course_id, _token: $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            var courseFlow = document.getElementById('courseFlow');
-            courseFlow.innerHTML += data;
+            var courseContent = document.getElementById('courseContent');
+            courseContent.innerHTML += data;
         },
         error: function () {
             addPopup("Could not create a new Concept.", "error");
@@ -250,6 +258,29 @@ function saveCourseEdit() {
         },
         error: function () {
             alert("Could not edit course.");
+        }
+    });
+}
+
+function saveConceptEdit(conceptNameElement) {
+    var url = conceptNameElement.parentElement.dataset.conceptUrl;
+
+    var concept_id = conceptNameElement.parentElement.id.split('_')[1];
+    var name = conceptNameElement.innerText;
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            concept_id: concept_id,
+            name: name,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            console.log(data);
+        },
+        error: function () {
+            alert("Could not edit concept.");
         }
     });
 }
