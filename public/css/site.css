@@ -1184,13 +1184,20 @@ dl.dates dt, dl.dates dd {
 }
     [tooltip]:hover:after {
     /* needed - do not touch */
-    opacity: 1;
+    animation: tooltipShow 400ms ease 800ms forwards;
     /* customizable */
     background: #EEE;
     margin-top: -50px;
     margin-left: 20px;
 }
-
+    @keyframes tooltipShow{
+        0%{
+            opacity: 0;
+        }
+        100%{
+            opacity: 1;
+        }
+    }
 #codeIde button[tooltip]:hover:after {
     /* customizable */
     margin-top: 3em;
