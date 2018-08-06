@@ -1,4 +1,4 @@
-﻿var turnScrollingOff = false; // Chrome requires this here.
+﻿var turnScrollingOff = true; // Chrome requires this here.; for now turning off all scrolling.
 
 /**
  * Verify that action is what is intended. Proper use for this funciton 

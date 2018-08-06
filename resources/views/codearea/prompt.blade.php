@@ -90,11 +90,10 @@
 @section("scripts-end")
     @parent
 <script>
-   handleContentControllers("#idePrompt", "#promptInstructions");
+   handleContentControllers("#idePrompt", "#promptInstructions",false);
 </script>
     @if($show_survey)
 <script>
-   handleContentControllers("#idePrompt", "#promptInstructions");
 
     // These are now set using PHP variables
     var difficultRating = '{{$diffuculty_rating}}';

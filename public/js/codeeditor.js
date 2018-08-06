@@ -26,6 +26,9 @@ function makeCodeMirror(textarea) {
  */
 function setRunButtonEvent(button) {
     document.getElementById(button).onclick = function () {
+        // clear previous messages. 
+        var logBook = document.getElementById("ideLog");
+        logBook.innerText = ""; 
         run();
     };
 }

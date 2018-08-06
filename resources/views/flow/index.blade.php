@@ -14,6 +14,11 @@
 @section("bodyID", "flowPage")
 
 @section('content')
+{{-- //HACK: These meta tags really should be in the header. It is here as a quick hack. --}}
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="pragma" content="no-cache" />
+
     <?php $startTime = microtime(true); ?>
     <div class="container">
         <div class="row">
@@ -39,7 +44,7 @@
         makeCourseContentSortable("#courseContent");
     @endif
 
-    var didAction = handleContentControllers("#courseFlow", ".components", true);
+    var didAction = handleContentControllers("#courseFlow", ".components", false);
 
     $().ready(function () {
         $("html,body").animate({

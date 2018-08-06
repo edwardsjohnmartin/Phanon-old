@@ -97,7 +97,8 @@ body {
 
 .insert:before {
     font-family: themify;
-    content: "\e632";
+    content: "\e679";
+    content: "\e715";
     margin-right: .5em;
 }
 
@@ -530,16 +531,24 @@ body {
 
     #courseFlow .module .contentControl, #codeIde .contentControl {
         position: absolute;
-        bottom: 0;
+        /*bottom: 0;
         left: 50%;
-        margin-left: -2.5em;
-        width: 5em;
-        padding: .1em 2em;
-        height: 1.5em;
         border: 1px solid #333;
         background-color: #DDD;
+        border-radius: 0 0 1em 1em;
+        width: 5em;
+        margin-left: -2.5em;
+        padding: .1em 2em;
+        */
+        top: 0;
+        right: 5em;
+        background: none;
+        border: none;
+        font-size: 1.25em;
+        width: 1.5em;
+
+        height: 1.5em;
         overflow: hidden;
-        border-radius: 1em 1em 0 0;
         z-index: 900;
     }
 
@@ -552,18 +561,21 @@ body {
 
 .expander:before {
     font-family: themify;
-    content: "\e663";
+    content: "\e663"; /* double arrow */
+    content: "\e65f"; /* circle arrow */
     margin-right: 6em;
+    font-weight: bold;
 }
 
-#courseFlow .module .collapser, #codeIde .collapser {
+/*#courseFlow .module .collapser, #codeIde .collapser {
     bottom: -1.5em;
     border-radius: 0 0 1em 1em;
-}
+}*/
 
 .collapser:before {
     font-family: themify;
-    content: "\e660";
+    content: "\e660"; /* double arrow */
+    content: "\e65c"; /* circle arrow */
     margin-right: 6em;
 }
 
