@@ -8,6 +8,9 @@
 
     @component('scriptbundles.codeeditor')
     @endcomponent
+
+    @component('scriptbundles.stattracker')
+    @endcomponent
 @endsection
 
 @php

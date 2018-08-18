@@ -1,5 +1,6 @@
 <div class="hidden">
     <p id="projectId">{{$project->id}}</p>
+    <p id="projectStatsSaveUrl">{{url('code/stats/save')}}<p>
 </div>
 
 <div id="ideProjectName">

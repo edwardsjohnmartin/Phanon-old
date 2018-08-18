@@ -239,10 +239,9 @@ class CodeController extends Controller
         // Check that the current date is within the projects open and close dates.
         $now = date(config('app.dateformat'));
 
-        // This is going to be commented out for now for testing purposes but it does work and will be used in release
         if($now < $project->open_date){
-            //return redirect('/flow/' . $course_id)->
-            //with('error', 'That project is not open yet.');
+            return redirect('/flow/' . $course_id)->
+                with('error', 'That project is not open yet.');
         }
 
         //TODO: Add a check to see if the project is past due. The project code page should have some kind of flag that dictates whether or not it can save.

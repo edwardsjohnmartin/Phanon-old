@@ -22,7 +22,12 @@ class ProjectProgress extends Model
     // Timestamps
     public $timestamps = false;
 
-    function saveProgress($project_id, $contents)
+    public function stats()
+    {
+        return $this->hasOne('App\Stats');
+    }
+
+    public function saveProgress($project_id, $contents)
     {
         $this->user_id = auth()->user()->id;
         $this->project_id = $project_id;

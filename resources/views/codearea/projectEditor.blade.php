@@ -15,7 +15,7 @@
     <div id="codeIde" class="fullIDE">
         @section("navButtons")
             <a class="flow" href="{{url('flow/' . $project->module->concept->course_id)}}">Course Flow</a>
-        @endsection  
+        @endsection
 
         @component('codearea.projectDetails', [
             'project' => $project,

@@ -111,4 +111,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\ExerciseProgress');
     }
+
+    public function stats()
+    {
+        return $this->hasMany('App\Stats');
+    }
 }

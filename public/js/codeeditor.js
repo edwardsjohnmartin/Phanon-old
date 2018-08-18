@@ -49,7 +49,6 @@ function makeResetButton(buttonId) {
     };
 }
 
-
 //TODO: this do not technically make the button; should consider renaming to a
 //     more accurate name like - setSaveButtonEvents
 /**
@@ -144,6 +143,7 @@ function runCode(codeToRun, outputArea, userCode = "") {
 
     if (itemType == "project") {
         saveProjectCode(itemId, userCode, url);
+        saveProjectStats(itemId);
     }
 
     myPromise.then(
@@ -375,14 +375,46 @@ function saveProjectCode(project_id, contents, url) {
     $.ajax({
         type: "POST",
         url: url,
-        data: { contents: contents, project_id: project_id, _token: $('meta[name="csrf-token"]').attr('content') },
+        data: { 
+            contents: contents,
+            project_id: project_id,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
         success: function (data) {
-            addPopup("Project Code saved!", "save")
+            addPopup("Project Code saved!", "save");
         },
         error: function () {
-            addPopup("Error saving Code!", "error")
+            addPopup("Error saving Code!", "error");
         }
     });
+}
+
+function saveProjectStats(project_id) {
+    // Check for global mouseClicks variable initalized and set in stattacker.js
+    if(typeof mouseClicks !== 'undefined') {
+        // Get the stats url from the element on the page
+        var url = $('#projectStatsSaveUrl').text();
+
+        // Save mouseClicks to the database
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                project_id: project_id,
+                mouse_clicks: mouseClicks,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+                console.log(data);
+            },
+            error: function () {
+                console.log("Stats were unable to be saved");
+            }
+        });
+
+        // Reset mouseClicks
+        resetStats();
+    }
 }
 
 /**
@@ -666,12 +698,15 @@ function addNewExerciseToLesson(url, associatedID, exerciseId = -1) {
         }
     });
 }
+
 function copyItem(itemType, url, itemId) {
     addNewExerciseToLesson(url, itemType + "_" + itemId, itemId);
 }
+
 function insertItem(itemType, url, itemId) {
     addNewExerciseToLesson(url, itemType + "_" + itemId, itemId);
 }
+
 /**
  * 
  * @param {any} sEle starting element
@@ -694,4 +729,3 @@ function shiftExerciseNumbers(sEle,count,includesEle = false) {
         count++; // advance for next item.
     });
 }
-

@@ -40,6 +40,7 @@ Route::post('/code/exercise/save', 'ExerciseProgressController@save')->name('exe
 
 Route::get('/code/project/{project_id?}', 'CodeController@project')->name('project.code');
 Route::post('/code/project/save', 'ProjectProgressController@save')->name('project.save');
+Route::post('/code/stats/save', 'StatsController@save')->name('stats.save');
 
 Route::get('/code/lesson/{lesson_id}', 'CodeController@lesson');
 Route::get('/code/module/{module_id}', 'CodeController@module');

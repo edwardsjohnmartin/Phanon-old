@@ -19,6 +19,8 @@ class FreshDatabaseSeeder extends Seeder
         self::createPermissions();
         self::createRoles();
         self::createAdminUser();
+        self::createTeacherUser();
+        self::createStudentUser();
     }
 
     public function createPermissions()
@@ -141,5 +143,24 @@ class FreshDatabaseSeeder extends Seeder
         ]);
 
         $aUser->assignRole(Role::where('name', Roles::ADMIN)->first());
+    }
+
+    public function createTeacherUser()
+    {
+        $tUser = User::create([
+            'name' => 'Teacher 1',
+            'email' => 'teacher1@test.com',
+            'password' => bcrypt('tester'),
+        ]);
+         $tUser->assignRole(Role::where('name', Roles::TEACHER)->first());
+    }
+     public function createStudentUser()
+    {
+        $sUser = User::create([
+            'name' => 'Student 1',
+            'email' => 'teststudent1@test.com',
+            'password' => bcrypt('tester'),
+        ]);
+         $sUser->assignRole(Role::where('name', Roles::STUDENT)->first());
     }
 }
