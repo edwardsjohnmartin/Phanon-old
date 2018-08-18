@@ -10,22 +10,59 @@
             <p>Not contained in a lesson</p>
         @endif
     </div>
-    <div>
-        <label>Prompt</label>
-        <label class="form-control rounded-0" readonly>{{$exercise->prompt}}</textarea>
-    </div>
-    <div>
-        <label>Pre-Code</label>
-        <label class="form-control rounded-0" readonly>{{$exercise->pre_code}}</textarea>
-    </div>
-    <div>
-        <label>Start Code</label>
-        <label class="form-control rounded-0" readonly>{{$exercise->start_code}}</textarea>
-    </div>
-    <div>
-        <label>Test Code</label>
-        <label class="form-control rounded-0">{{$exercise->test_code}}</textarea>
-    </div>
+
+    @if(get_class($exercise->type) == "App\Code")
+        <div>
+            <label>Prompt</label>
+            <p class="form-control rounded-0">{{$exercise->type->prompt}}</p>
+        </div>
+        <div>
+            <label>Pre-Code</label>
+            <p class="form-control rounded-0">{{$exercise->type->pre_code}}</p>
+        </div>
+        <div>
+            <label>Start Code</label>
+            <p class="form-control rounded-0">{{$exercise->type->start_code}}</p>
+        </div>
+        <div>
+            <label>Test Code</label>
+            <p class="form-control rounded-0">{{$exercise->type->test_code}}</p>
+        </div>
+        <div>
+            <label>Solution</label>
+            <p class="form-control rounded-0">{{$exercise->type->solution}}</p>
+        </div>
+    @elseif(get_class($exercise->type) == "App\Choice")
+        <div>
+            <label>Prompt</label>
+            <p class="form-control rounded-0">{{$exercise->type->prompt}}</p>
+        </div>
+        <div>
+            <label>Choices</label>
+            @foreach($exercise->type->choicesAsArray() as $choice)
+                <label class="form-control rounded-0" readonly>{{$choice}}</label>
+            @endforeach
+        </div>
+        <div>
+            <label>Solution</label>
+            <p class="form-control rounded-0">{{$exercise->type->solutionText()}}</p>
+        </div>
+    @elseif(get_class($exercise->type) == "App\Scale")
+        <div>
+            <label>Prompt</label>
+            <p class="form-control rounded-0">{{$exercise->type->prompt}}</p>
+        </div>
+        <div>
+            <label>Number of Options</label>
+            <p class="form-control rounded-0">{{$exercise->type->num_options}}</p>
+        </div>
+        <div>
+            <label>Labels</label>
+            @foreach($exercise->type->labelsAsArray() as $label)
+                <label class="form-control rounded-0">{{$label}}</label>
+            @endforeach
+        </div>
+    @endif
     <div>
         <small>Author: {{$exercise->owner->name}}</small>
     </div>

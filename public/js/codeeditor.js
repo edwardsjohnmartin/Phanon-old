@@ -20,6 +20,20 @@ function makeCodeMirror(textarea) {
     return myCodeMirror;
 }
 
+function makeFormCodeMirror(textarea) {
+    var myTextArea = document.getElementById(textarea);
+
+    var myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
+        value: myTextArea.value,
+        lineNumbers: true,
+        cursorBlinkRate: 0,
+        autoCloseBrackets: true,
+        tabSize: 4,
+        indentUnit: 4,
+        matchBrackets: true
+    });
+}
+
 /**
  * Updates the onclick event of the button element to run the Python code in a CodeMirror editor.
  * @param {*} button The id of the button element who's onclick will be used for the run function.
@@ -430,6 +444,19 @@ function toggleEditMode(editBtn, itemType, url) {
 
         toggleDivVisibility('#ideTestCode');
     }
+    if(itemType == "choice_exercise") {
+        toggleDivVisibility('#btnAddChoice');
+
+        var allChoiceSpans = $('#choices_div').find('span');
+        $(allChoiceSpans).each(function (index, f) {
+            toggleDivVisibility(f);
+        });
+
+        var allChoiceInputs = $('#choices_div').find('input:text');
+        $(allChoiceInputs).each(function (index, f) {
+            toggleDivVisibility(f);
+        });
+    }
 
     // Change the contentEditable attribute of all elements with the editable class
     toggleEditableElements();
@@ -452,6 +479,12 @@ function toggleEditMode(editBtn, itemType, url) {
             saveProjectEdit(url);
         } else if (itemType == "exercise") {
             saveExerciseEdit(url);
+        } else if (itemType == "choice_exercise") {
+            saveChoiceExerciseEdit(url);
+
+            for(var i = 0; i < allChoiceInputs.length; i++){
+                allChoiceSpans[i].innerText = allChoiceInputs[i].value;
+            }
         }
     }
 
@@ -638,6 +671,16 @@ function addNewExerciseToLesson(url, associatedID, exerciseId = -1) {
     // Get lesson id of exercise
     var lessonId = $("#exerciseList").data("lesson-id");
     var number = $("#" + associatedID).attr("data-item-count");
+    var type;
+
+    if(associatedID == "addExercise"){
+        type = "code";
+    } else if(associatedID == "addChoiceExercise"){
+        type = "choice";
+    } else if(associatedID == "addScaleExercise"){
+        type = "scale";
+    }
+
     $.ajax({
         type: "POST",
         url: url,
@@ -645,10 +688,10 @@ function addNewExerciseToLesson(url, associatedID, exerciseId = -1) {
             lesson_id: lessonId,
             exercise_id: exerciseId,
             exercise_count: number,
+            type: type,
             _token: $('meta[name="csrf-token"]').attr('content')
         },
         success: function (data) {
-            //console.log(data);
             var o = $("#" + associatedID);
             var count = parseInt(o.attr("data-item-count"));
             count++; // increment before setting
@@ -666,12 +709,15 @@ function addNewExerciseToLesson(url, associatedID, exerciseId = -1) {
         }
     });
 }
+
 function copyItem(itemType, url, itemId) {
     addNewExerciseToLesson(url, itemType + "_" + itemId, itemId);
 }
+
 function insertItem(itemType, url, itemId) {
     addNewExerciseToLesson(url, itemType + "_" + itemId, itemId);
 }
+
 /**
  * 
  * @param {any} sEle starting element
@@ -695,3 +741,30 @@ function shiftExerciseNumbers(sEle,count,includesEle = false) {
     });
 }
 
+function saveChoiceExerciseEdit(url) {
+    var exercise_id = $('#exerciseId').text();
+    var prompt = $('#promptInstructions').data("raw-prompt") || "";
+
+    var choices = [];
+    var allChoiceInputs = $('#choices_div').find('input:text');
+    $(allChoiceInputs).each(function (index, f) {
+        choices.push(f.value);
+    });
+
+    var solution = $('#choices_div').find('input[name=choice_selection]:checked').val();
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            exercise_id: exercise_id,
+            prompt: prompt,
+            choices: choices,
+            solution: solution,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            console.log(data);
+        }
+    });
+}

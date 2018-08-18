@@ -9,6 +9,8 @@ use App\Module;
 use App\Lesson;
 use App\Exercise;
 use App\Project;
+use App\Code;
+use App\Choice;
 use App\Enums\Roles;
 use DB;
 use Session;
@@ -43,30 +45,6 @@ class FlowController extends Controller
      */
     public function show($id)
     {
-        //$course = Course::where('id', $id)->
-        //select('id', 'name', 'open_date', 'close_date', 'owner_id')->
-        //with(['unorderedConcepts' => function($concepts){
-        //    $concepts->select('id', 'name', 'course_id', 'previous_concept_id')->
-        //    with(['unorderedModules' => function($modules){
-        //        $modules->select('id', 'name', 'concept_id', 'previous_module_id', 'open_date')->
-        //        with(['components' => function($components){
-        //            $components->orderBy('previous_lesson_id')->orderBy('type_ordering');
-        //        }]);
-        //    }]);
-        //}])->first();
-
-        // $course = Course::where('id', $id)->
-        //  select('id', 'name', 'open_date', 'close_date', 'owner_id')->
-        //  with(['unorderedConcepts' => function($concepts){
-        //      $concepts->select('id', 'name', 'course_id', 'previous_concept_id')->
-        //      with(['unorderedModules' => function($modules){
-        //          $modules->select('id', 'name', 'concept_id', 'previous_module_id', 'open_date')->
-        //          with(['unorderedLessons' => function($lessons){
-        //              $lessons->with('unorderedExercises');
-        //          },'unorderedProjects']);
-        //      }]);
-        //  }])->first();
-
         $course = Course::getCourse($id);
 
         if(empty($course) or is_null($course)){
@@ -76,7 +54,17 @@ class FlowController extends Controller
 
         // Get users role within the course
         $role = $course->getUsersRole(auth()->user()->id);
-        //$progress = $course->ExerciseProgress(auth()->user()->id);
+
+        if(is_null($role)){
+            $role = auth()->user()->roles->first();
+        }
+        
+        if($role->name == Roles::STUDENT){
+            if(!$course->isCourseOpen()){
+                return redirect('/dashboard')->
+                    with('error', 'That course is not open yet');
+            }
+        }
 
         return view('flow.index')->
             with('course', $course)->
@@ -173,13 +161,18 @@ class FlowController extends Controller
         $lesson->owner_id = auth()->user()->id;
         $lesson->save();
 
-        // Create an exercise in the database to put into the lesson
+        // Create an empty coding exercise in the database to put into the lesson
         $exercise = new Exercise();
-        $exercise->prompt = "Empty Prompt";
-        $exercise->test_code = "";
         $exercise->lesson_id = $lesson->id;
         $exercise->owner_id = auth()->user()->id;
         $exercise->save();
+
+        $code_exercise = new Code();
+        $code_exercise->prompt = "Empty Prompt";
+        $code_exercise->test_code = "#No Test Code Give";
+        $code_exercise->save();
+
+        $exercise->type()->associate($code_exercise)->save();
 
         $role = $module->concept->course->getUsersRole(auth()->user()->id);
         return view('flow.lesson')->

@@ -15,12 +15,10 @@ class CreateExercisesTable extends Migration
     {
         Schema::create('exercises', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('prompt');
-            $table->text('pre_code')->nullable();
-            $table->text('start_code')->nullable();
-            $table->text('test_code');
-            $table->text('solution')->nullable();
-            
+
+            $table->integer('type_id')->unsigned()->index()->nullable();
+            $table->string('type_type')->nullable();
+
             $table->integer('lesson_id')->unsigned()->index()->nullable();
             $table->foreign('lesson_id')->references('id')->on('lessons');
 
@@ -34,6 +32,7 @@ class CreateExercisesTable extends Migration
 
             $table->integer('updated_by')->unsigned()->nullable();
             $table->foreign('updated_by')->references('id')->on('users');
+            $table->softDeletes();
         });
     }
 

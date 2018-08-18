@@ -6,6 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Choice' => $baseDir . '/app/Choice.php',
+    'App\\Code' => $baseDir . '/app/Code.php',
     'App\\Concept' => $baseDir . '/app/Concept.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Course' => $baseDir . '/app/Course.php',
@@ -75,6 +77,8 @@ return array(
     'Collective\\Html\\HtmlFacade' => $vendorDir . '/laravelcollective/html/src/HtmlFacade.php',
     'Collective\\Html\\HtmlServiceProvider' => $vendorDir . '/laravelcollective/html/src/HtmlServiceProvider.php',
     'CourseUser' => $baseDir . '/database/migrations/2018_06_06_001035_course_user.php',
+    'CreateChoiceTable' => $baseDir . '/database/migrations/2018_08_08_092351_create_choice_table.php',
+    'CreateCodeTable' => $baseDir . '/database/migrations/2018_08_08_092326_create_code_table.php',
     'CreateConceptsTable' => $baseDir . '/database/migrations/2018_05_07_164607_create_concepts_table.php',
     'CreateCoursesTable' => $baseDir . '/database/migrations/2018_05_07_164606_create_courses_table.php',
     'CreateExercisesTable' => $baseDir . '/database/migrations/2018_05_08_213417_create_exercises_table.php',
@@ -85,6 +89,7 @@ return array(
     'CreateProjectSurveyResponses' => $baseDir . '/database/migrations/2018_07_28_202111_create_project_survey_responses.php',
     'CreateProjectTeams' => $baseDir . '/database/migrations/2018_07_06_201131_create_project_teams.php',
     'CreateProjectsTable' => $baseDir . '/database/migrations/2018_05_12_081516_create_projects_table.php',
+    'CreateScaleTable' => $baseDir . '/database/migrations/2018_08_10_004514_create_scale_table.php',
     'CreateTeamProjectProgress' => $baseDir . '/database/migrations/2018_07_06_201151_create_team_project_progress.php',
     'CreateTeamUsers' => $baseDir . '/database/migrations/2018_07_06_201121_create_team_users.php',
     'CreateTeams' => $baseDir . '/database/migrations/2018_07_06_201101_create_teams.php',
@@ -569,7 +574,6 @@ return array(
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',
     'FreshDatabaseSeeder' => $baseDir . '/database/seeds/FreshDatabaseSeeder.php',
-    'FreshSeeder' => $baseDir . '/database/seeds/FreshSeeder.php',
     'Hamcrest\\Arrays\\IsArray' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php',
     'Hamcrest\\Arrays\\IsArrayContaining' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContaining.php',
     'Hamcrest\\Arrays\\IsArrayContainingInAnyOrder' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContainingInAnyOrder.php',

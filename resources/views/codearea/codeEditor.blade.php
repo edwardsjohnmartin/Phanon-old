@@ -25,7 +25,7 @@
 
     if($is_completed){
         $messages[]  = "Your solution was loaded.|load";
-    } else if(!is_null($item) and $initial_editor_code != $item->start_code){
+    } else if(!is_null($item) and $initial_editor_code != $item->type->start_code){
         array_push($messages, "Your latest code was loaded.|load");
     }
 @endphp

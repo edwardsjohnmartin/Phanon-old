@@ -34,7 +34,7 @@
 <div id="idePrompt">
     <div id="promptContainer">
         <h3>Instructions</h3>
-        <section  class="editable" id="promptInstructions" data-raw-prompt="{{$prompt}}">{!!$prompt !!}</section>
+        <section class="editable" id="promptInstructions" data-raw-prompt="{{$prompt}}">{!!$prompt !!}</section>
     </div>
     {{-- needs to start open on the first approach  --}}
     <button class="contentControl collapser" {{$show_survey?'disabled="disabled"':''}}>Show/Hide Contents</button>
@@ -78,72 +78,70 @@
         @endcomponent
     @endif
 </div>
-    @if($item_type == 'project' and $blockCodeWindow)
-        <div id="fader">
-            <div class="message">
-                <h1>Please rate your first impression of this project.</h1>
-                <p>Don't worry, you will be still be able modify your ratings as you work on the project.</p>
-            </div>
+
+@if($item_type == 'project' and $blockCodeWindow)
+    <div id="fader">
+        <div class="message">
+            <h1>Please rate your first impression of this project.</h1>
+            <p>Don't worry, you will be still be able modify your ratings as you work on the project.</p>
         </div>
-    @endif
+    </div>
+@endif
 
 @section("scripts-end")
     @parent
-<script>
-   handleContentControllers("#idePrompt", "#promptInstructions",false);
-</script>
-    @if($show_survey)
-<script>
+    <script>
+        handleContentControllers("#idePrompt", "#promptInstructions", false);
+        @if($show_survey)
+            // These are now set using PHP variables
+            var difficultRating = '{{$diffuculty_rating}}';
+            var enjoymentRating = '{{$enjoyment_rating}}';
 
-    // These are now set using PHP variables
-    var difficultRating = '{{$diffuculty_rating}}';
-    var enjoymentRating = '{{$enjoyment_rating}}';
+            // set visibility of controls for doing project as needed.
+            if (difficultRating >= 0) selectRating("difficulty", difficultRating, 9);
+            if (enjoymentRating >= 0) selectRating("enjoyment", enjoymentRating, 9);
 
-    // set visibility of controls for doing project as needed.
-    if (difficultRating >= 0) selectRating("difficulty", difficultRating, 9);
-    if (enjoymentRating >= 0) selectRating("enjoyment", enjoymentRating, 9);
-
-    if (difficultRating >= 0 && enjoymentRating >= 0) {
-        setInstructionsPaneControls();
-    }
-
-    $("#projectRatings").click(function (evt) {
-        evt = evt || window.event;
-        var target = evt.target || evt.srcElement;
-        if (target.tagName == "LI") {
-            // only handle scale clicks
-            var tarId = target.id;
-            var idParts = tarId.split("_");
-            var selType = idParts[0];
-            var selIndex = parseInt(idParts[1]);
-            if (selType == "difficulty") {
-                // difficulty rating
-                difficultRating = selIndex;
-            } else if (selType == "enjoyment") {
-                // enjoyment rating
-                enjoymentRating = selIndex;
-            } else {
-                // should not hit this
+            if (difficultRating >= 0 && enjoymentRating >= 0) {
+                setInstructionsPaneControls();
             }
-            selectRating(selType, selIndex, 9); // baking 9 for now.
-        }
 
-        if (difficultRating >= 0 && enjoymentRating >= 0) {
-            setInstructionsPaneControls();
-            //$("#output").text("difficulty: " + difficultRating + " enjoyment: " + enjoymentRating);
-            // Call function that makes AJAX call to save survey results to the database. It is located in codeeditor.js
-            createProjectSurveyResponse(difficultRating, enjoymentRating);
-        }
-    });
+            $("#projectRatings").click(function (evt) {
+                evt = evt || window.event;
+                var target = evt.target || evt.srcElement;
+                if (target.tagName == "LI") {
+                    // only handle scale clicks
+                    var tarId = target.id;
+                    var idParts = tarId.split("_");
+                    var selType = idParts[0];
+                    var selIndex = parseInt(idParts[1]);
+                    if (selType == "difficulty") {
+                        // difficulty rating
+                        difficultRating = selIndex;
+                    } else if (selType == "enjoyment") {
+                        // enjoyment rating
+                        enjoymentRating = selIndex;
+                    } else {
+                        // should not hit this
+                    }
+                    selectRating(selType, selIndex, 9); // baking 9 for now.
+                }
 
-    function setInstructionsPaneControls() {
-        $("#fader").animate({ height: 0 }, 400, function () {
-            $(this).hide();
-        });
-        // for debugging you can uncomment the next line.
-        //$("#output").text("difficulty: " + difficultRating + " enjoyment: " + enjoymentRating);
-        $(".contentControl").attr("disabled", false);
-    }
-</script>
-@endif
-    @endsection
+                if (difficultRating >= 0 && enjoymentRating >= 0) {
+                    setInstructionsPaneControls();
+                    //$("#output").text("difficulty: " + difficultRating + " enjoyment: " + enjoymentRating);
+                    // Call function that makes AJAX call to save survey results to the database. It is located in codeeditor.js
+                    createProjectSurveyResponse(difficultRating, enjoymentRating);
+                }
+            });
+
+            function setInstructionsPaneControls() {
+                $("#fader").animate({ height: 0 }, 400, function () {
+                    $(this).hide();
+                });
+                // for debugging you can uncomment the next line.
+                //$("#output").text("difficulty: " + difficultRating + " enjoyment: " + enjoymentRating);
+                $(".contentControl").attr("disabled", false);
+            }
+        @endif
+    </script>
+@endsection

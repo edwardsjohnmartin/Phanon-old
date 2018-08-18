@@ -36,25 +36,32 @@
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
                 <li>@yield("navButtons")</li>
+                @if(!Auth::guest())
+                    <li>
+                        <a href="{{url('/dashboard')}}">Dashboard</a>
+                    </li>
+                @endif
                 <li>
                     <a class="sandbox" href="{{url('/sandbox')}}">Sandbox</a>
                 </li>
-                <li class="dropdown">
-                    <a data-toggle="dropdown" role="button" aria-expanded="false">
-                        Structure
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        @foreach($paths as $pathString)
-                        @php
-                        $pathParts = explode("|",$pathString);
-                        $path = $pathParts[0];
-                        $css = count($pathParts) > 1? $pathParts[1]: "";
-                        @endphp
-                        <li><a {{$css !="" ?"class=$css ":" "}} href="{{url('/' . strtolower($path))}}">{{$path}}</a></li>
-                        @endforeach
-                    </ul>
-                </li>
+                @if(auth()->user() and auth()->user()->hasAnyRole([Roles::TEACHER, Roles::ADMIN]))
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" role="button" aria-expanded="false">
+                            Structure
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            @foreach($paths as $pathString)
+                            @php
+                            $pathParts = explode("|",$pathString);
+                            $path = $pathParts[0];
+                            $css = count($pathParts) > 1? $pathParts[1]: "";
+                            @endphp
+                            <li><a {{$css !="" ?"class=$css ":" "}} href="{{url('/' . strtolower($path))}}">{{$path}}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endif
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -73,7 +80,7 @@
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{Auth::user()->name}} ({{Auth::user()->id}})
+                            {{Auth::user()->name}}
                             <span class="caret"></span>
                         </a>
 

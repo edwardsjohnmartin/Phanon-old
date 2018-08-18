@@ -13,6 +13,11 @@
     }
 @endphp
 
+@section('scripts')
+    @parent
+    @component('scriptbundles.codeeditor')
+    @endcomponent
+@endsection
 @section('content')
     @component('codearea.exerciseNav', [
         'role' => $role,
@@ -24,7 +29,7 @@
 
     <div id="codeIde">
         @section("navButtons")
-        <a class="flow" href="{{url('flow/' . $exercise->lesson->module->concept->course_id)}}">Course Flow</a>
+            <a class="flow" href="{{url('flow/' . $exercise->lesson->module->concept->course_id)}}">Course Flow</a>
         @endsection
 
         <div class="hidden">
@@ -32,26 +37,35 @@
         </div>
         
         @component('codearea.prompt', [
-            'prompt' => $exercise->prompt,
+            'prompt' => $exercise->type->prompt,
             'show_survey' => false,
             'team' => null,
             'item_type' => 'exercise'
         ])
         @endcomponent
 
-        @component('codearea.precode', ['pre_code' => $exercise->pre_code])
-        @endcomponent
+        @if($exercise->getType() == "code")
+            @component('codearea.precode', ['pre_code' => $exercise->type->pre_code])
+            @endcomponent
 
-        @component('codearea.testcode', ['test_code' => $exercise->test_code])
-        @endcomponent
+            @component('codearea.testcode', ['test_code' => $exercise->type->test_code])
+            @endcomponent
 
-        @component('codearea.codeEditor',
-        [
-            'role' => $role,
-            'item' => $exercise,
-            'item_type' => 'exercise',
-            'initial_editor_code' => $initial_editor_code
-        ])
-        @endcomponent
+            @component('codearea.codeEditor', [
+                'role' => $role,
+                'item' => $exercise,
+                'item_type' => 'exercise',
+                'initial_editor_code' => $initial_editor_code
+            ])
+            @endcomponent
+        @elseif($exercise->getType() == "choice")
+            <button class="btn edit modifying" tooltip="Turn Editing Mode On" onclick="toggleEditMode(this, 'choice_exercise', '{{url('/ajax/choiceexerciseedit')}}');">Enable Edit Mode</button>
+
+            @component('codearea.choices', ['exercise' => $exercise])
+            @endcomponent
+        @elseif($exercise->getType() == "scale")
+            @component('codearea.scales', ['exercise' => $exercise])
+            @endcomponent
+        @endif
     </div>
 @endsection

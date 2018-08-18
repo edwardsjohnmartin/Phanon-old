@@ -40,6 +40,7 @@ class CreateProjectsTable extends Migration
 
             $table->integer('updated_by')->unsigned()->nullable();
             $table->foreign('updated_by')->references('id')->on('users');
+            $table->softDeletes();
         });
     }
 

@@ -63,6 +63,26 @@ function toggleModuleEditMode() {
     $(allFields).each(function (index, f) {
         toggleContentEditable(f);
     });
+
+    var dateSpans = $('article.module').find('.datespan');
+    $(dateSpans).each(function (index, f) {
+        toggleDivVisibility(f);
+    });
+
+    var dateInputs = $('article.module').find('.dateinput');
+    $(dateInputs).each(function (index, f) {
+        toggleDivVisibility(f);
+    });
+
+    var nameSpans = $('article.module').find('.namespan');
+    $(nameSpans).each(function (index, f) {
+        toggleDivVisibility(f);
+    });
+
+    var nameInputs = $('article.module').find('.nameinput');
+    $(nameInputs).each(function (index, f) {
+        toggleDivVisibility(f);
+    });
 }
 
 function toggleContentEditable(element) {

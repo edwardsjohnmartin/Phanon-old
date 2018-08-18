@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\ObjectTools;
 use Spatie\Permission\Models\Role;
 use App\Enums\Roles;
@@ -22,6 +23,8 @@ use DateTime;
 
 class Course extends Model
 {
+    use SoftDeletes;
+
     // Table Name
     public $table = 'courses';
 
@@ -31,8 +34,12 @@ class Course extends Model
     // Timestamps
     public $timestamps = true;
 
-// Toggle whether to use Eager loading
-    public $eagerLoading = false;
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * Relationship function
@@ -71,7 +78,6 @@ class Course extends Model
             return $this->users()->wherePivot('role_id', $role_id)->get();
         }
     }
-
 
     /**
      * Returns an array of the concepts within the course in their correct order
@@ -122,7 +128,6 @@ class Course extends Model
         }
         return $ordered_concepts;
     }
-
 
     /**
      * Returns an array of all projects within the course.
@@ -397,4 +402,14 @@ class Course extends Model
         return $progress;
     }
 
+    public function isCourseOpen()
+    {
+        $now = time();
+
+        if($now > $this->getOpenDate('U') and $now < $this->getCloseDate('U')){
+            return true;
+        }
+
+        return false;
+    }
 }

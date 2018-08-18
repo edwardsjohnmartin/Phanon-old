@@ -7,9 +7,7 @@
     $startdate = $module->open_date;
     $now = date(config("app.dateformat"));
 
-    //HACK: major hack this is not the way it should be done.
-    // 2/8 time spent on this call.
-    $lessonsAndProjectsCount = 1;// count($module->lessonsAndProjects());
+    $lessonsAndProjectsCount = 1;
     if($lessonsAndProjectsCount > 0){
         $stats = $module->CompletionStats(auth()->user()->id);
         
@@ -34,11 +32,11 @@
     $moduleOpen = !$is_completed;
 ?>
 
-<article data-module-id="{{$module->id}}"
-   class="module sortable{{$is_completed  ? ' expired' : ' current' }}">
+<article data-module-id="{{$module->id}}" class="module sortable{{$is_completed  ? ' expired' : ' current' }}">
     @if($role->hasPermissionTo(Permissions::MODULE_EDIT))
-    <div class="dragHandleModule">Move Me</div>
+        <div class="dragHandleModule">Move Me</div>
     @endif
+
    <div class="completion tiny p{{$stats_perc_complete}}">
         <span>
             @if(!is_null($stats))
@@ -56,11 +54,10 @@
         </div>
     </div>
 
-    <h1>{{$module->id}}
-        {{-- This will ask the controller to figure out the current lesson and exercise --}}
-        <a class="editable" href="{{url('/code/module/' . $module->id)}}">
-            {{$module->name}}
-        </a>
+    <h1>
+        <a class="namespan" href="{{url('/code/module/' . $module->id)}}">{{$module->name}}</a>
+        <input class="hidden nameinput" type="text" value="{{$module->name}}"/>
+
         <span>({{$stats_completed}} / {{$stats_exercise_count}})</span>
     </h1>
     @if($role->hasPermissionTo(Permissions::MODULE_EDIT))
@@ -71,28 +68,29 @@
     </aside>
 @endif
     <div class="dates">
-        <span class="start editable">{{$module->getOpenDate(config("app.dateformat_short"))}}</span>
+        <span class="start datespan">{{$module->getOpenDate(config("app.dateformat_short"))}}</span>
+        <input class="hidden dateinput" type="datetime-local" value="{{$module->getOpenDate('Y-m-d\TH:i:s')}}"/>
     </div>
 
     <ul class="components">
-       {{--  @if($lessonsAndProjectsCount > 0)
-        5/8 time spent here on load. --}}
         @if(count($module->components) > 0)
             @foreach($module->components as $comp)
                 @if(get_class($comp) == "App\Lesson")
-                   @component('flow.lesson',['lesson' => $comp,
-                                    'role'=>$role])
+                    @component('flow.lesson', [
+                        'lesson' => $comp,
+                        'role'=>$role
+                    ])
                     @endcomponent
         
                 @else
-                    @component('flow.project',['project' => $comp,
-                                    'role'=>$role])
+                    @component('flow.project', [
+                        'project' => $comp,
+                        'role'=>$role
+                    ])
                     @endcomponent
                 @endif
             @endforeach
         @endif
-        
-       {{--@endif --}}
     </ul>
 
     <div class="creation {{$ajaxCreation ? '' : 'hidden'}}">

@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use DateTime;
 use DB;
 use Spatie\Permission\Models\Role;
@@ -25,6 +26,8 @@ use Spatie\Permission\Models\Role;
  */
 class Project extends Model
 {
+    use SoftDeletes;
+
     // Table Name
     public $table = 'projects';
     
@@ -33,6 +36,13 @@ class Project extends Model
 
     // Timestamps
     public $timestamps = true;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * Returns whether or not the project has teams enabled.

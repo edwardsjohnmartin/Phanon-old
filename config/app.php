@@ -286,6 +286,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Permissions' => 'App\Enums\Permissions',
+        'Roles' => 'App\Enums\Roles',
     ],
 
 ];

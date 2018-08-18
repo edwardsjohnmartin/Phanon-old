@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /** Property Identification for Intellisense help.
  * @property int $id Unique Database Identifier
@@ -21,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Exercise extends Model
 {
+    use SoftDeletes;
+
     // Table Name
     public $table = 'exercises';
 
@@ -29,6 +32,13 @@ class Exercise extends Model
 
     // Timestamps
     public $timestamps = true;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * Relationship function
@@ -139,5 +149,28 @@ class Exercise extends Model
     public function exerciseProgress()
     {
         return $this->hasMany('App\ExerciseProgress');
+    }
+
+    public function type()
+    {
+        return $this->morphTo();
+    }
+
+    public static function types()
+    {
+        return ['code' => 'Code', 'choice' => 'Choice', 'scale' => 'Scale'];
+    }
+
+    public function getType()
+    {
+        if(get_class($this->type) == "App\Code"){
+            return "code";
+        } elseif(get_class($this->type) == "App\Choice"){
+            return "choice";
+        } elseif(get_class($this->type) == "App\Scale"){
+            return "scale";
+        } else {
+            return null;
+        }
     }
 }

@@ -3,6 +3,7 @@ namespace App;
 
 use App\ObjectTools;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 
@@ -18,6 +19,8 @@ use Illuminate\Support\Collection;
  */
 class Concept extends Model
 {
+    use SoftDeletes;
+
     // Table Name
     public $table = 'concepts';
 
@@ -33,6 +36,12 @@ class Concept extends Model
     // Toggle whether to use Eager loading
     public $eagerLoading = false;
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * Relationship function

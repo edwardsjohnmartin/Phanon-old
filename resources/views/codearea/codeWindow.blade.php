@@ -11,10 +11,10 @@
                 <textarea id="codeWindow1" class="code">{{$initial_editor_code}}</textarea>
             </div>
             <div id="startcode" class="tab-pane fade active">
-                <textarea id="codeWindow2" class="code">{{$item->start_code}}</textarea>
+                <textarea id="codeWindow2" class="code">{{$item->type->start_code}}</textarea>
             </div>
             <div id="solution" class="tab-pane fade active">
-                <textarea id="codeWindow3" class="code">{{$item->solution}}</textarea>
+                <textarea id="codeWindow3" class="code">{{$item->type->solution}}</textarea>
             </div>
         </div>
     </div>

@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Exercise;
 use App\Lesson;
+use App\Code;
+use App\Scale;
+use App\Choice;
 use DB;
 
 class ExercisesController extends Controller
@@ -36,7 +39,10 @@ class ExercisesController extends Controller
      */
     public function create()
     {
-        return view('exercises.create');
+        $types = Exercise::types();
+
+        return view('exercises.create')->
+            with('types', $types);
     }
 
     /**
@@ -48,20 +54,81 @@ class ExercisesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'prompt' => 'required',
-            'test_code' => 'required'
+            'type' => 'required'
         ]);
 
         // Create Exercise
         $exercise = new Exercise();
-        $exercise->prompt = $request->input('prompt');
-        $exercise->pre_code = $request->input('pre_code');
-        $exercise->start_code = $request->input('start_code');
-        $exercise->test_code = $request->input('test_code');
         $exercise->owner_id = auth()->user()->id;
 
         // Save exercise to the database
         $exercise->save();
+        
+        if($request->input('type') == 'code'){
+            $code_prompt = $request->input('code_prompt');
+            if(is_null($code_prompt)){
+                $code_prompt = "Empty Prompt";
+            }
+            $test_code = $request->input('test_code');
+            if(is_null($test_code)){
+                $test_code = "#No Test Code Given";
+            }
+
+            $code_exercise = new Code();
+            $code_exercise->prompt = $code_prompt;
+            $code_exercise->pre_code = $request->input('pre_code');
+            $code_exercise->start_code = $request->input('start_code');
+            $code_exercise->test_code = $test_code;
+            $code_exercise->solution = $request->input('code_solution');
+            $code_exercise->save();
+
+            $exercise->type()->associate($code_exercise)->save();
+        } elseif($request->input('type') == 'choice'){
+            $choice_prompt = $request->input('choice_prompt');
+            if(is_null($choice_prompt)){
+                $choice_prompt = "Empty Prompt";
+            }
+
+            $choices = "none";
+            if(!is_null($request->input('choice_names'))){
+                $choices = json_encode($request->input('choice_names'));
+            }
+
+            $solution = $request->input('choice_solution');
+            if(is_null($solution)){
+                $solution = "none";
+            }
+
+            $choice_exercise = new Choice();
+            $choice_exercise->prompt = $choice_prompt;
+            $choice_exercise->choices = $choices;
+            $choice_exercise->solution = $solution;
+            $choice_exercise->save();
+            
+            $choice_exercise->exercise()->save($exercise);
+            $exercise->type()->associate($choice_exercise)->save();
+        } elseif($request->input('type') == 'scale'){
+            $scale_prompt = $request->input('scale_prompt');
+            if(is_null($scale_prompt)){
+                $scale_prompt = "Empty Prompt";
+            }
+
+            $num_options = $request->input('num_options');
+            
+            $labels = "none";
+            if(!is_null($request->input('labels'))){
+                $labels = json_encode($request->input('labels'));
+            }
+
+            $scale_exercise = new Scale();
+            $scale_exercise->prompt = $scale_prompt;
+            $scale_exercise->num_options = $num_options;
+            $scale_exercise->labels = $labels;
+            $scale_exercise->save();
+            
+            $scale_exercise->exercise()->save($exercise);
+            $exercise->type()->associate($scale_exercise)->save();
+        }
 
         return redirect(url('/exercises'))->
             with('success', 'Exercise Created');
@@ -90,6 +157,7 @@ class ExercisesController extends Controller
     public function edit($id)
     {
         $exercise = Exercise::find($id);
+        $types = Exercise::types();
 
         // Check for correct user
         if(auth()->user()->id != $exercise->owner_id){
@@ -98,7 +166,8 @@ class ExercisesController extends Controller
         }
 
         return view('exercises.edit')->
-            with('exercise', $exercise);
+            with('exercise', $exercise)->
+            with('types', $types);
     }
 
     /**

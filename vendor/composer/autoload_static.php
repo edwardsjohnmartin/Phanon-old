@@ -289,6 +289,8 @@ class ComposerStaticInit9282e3a70c8f89461a161b14282d036f
     );
 
     public static $classMap = array (
+        'App\\Choice' => __DIR__ . '/../..' . '/app/Choice.php',
+        'App\\Code' => __DIR__ . '/../..' . '/app/Code.php',
         'App\\Concept' => __DIR__ . '/../..' . '/app/Concept.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Course' => __DIR__ . '/../..' . '/app/Course.php',
@@ -358,6 +360,8 @@ class ComposerStaticInit9282e3a70c8f89461a161b14282d036f
         'Collective\\Html\\HtmlFacade' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlFacade.php',
         'Collective\\Html\\HtmlServiceProvider' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlServiceProvider.php',
         'CourseUser' => __DIR__ . '/../..' . '/database/migrations/2018_06_06_001035_course_user.php',
+        'CreateChoiceTable' => __DIR__ . '/../..' . '/database/migrations/2018_08_08_092351_create_choice_table.php',
+        'CreateCodeTable' => __DIR__ . '/../..' . '/database/migrations/2018_08_08_092326_create_code_table.php',
         'CreateConceptsTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_07_164607_create_concepts_table.php',
         'CreateCoursesTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_07_164606_create_courses_table.php',
         'CreateExercisesTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_08_213417_create_exercises_table.php',
@@ -368,6 +372,7 @@ class ComposerStaticInit9282e3a70c8f89461a161b14282d036f
         'CreateProjectSurveyResponses' => __DIR__ . '/../..' . '/database/migrations/2018_07_28_202111_create_project_survey_responses.php',
         'CreateProjectTeams' => __DIR__ . '/../..' . '/database/migrations/2018_07_06_201131_create_project_teams.php',
         'CreateProjectsTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_12_081516_create_projects_table.php',
+        'CreateScaleTable' => __DIR__ . '/../..' . '/database/migrations/2018_08_10_004514_create_scale_table.php',
         'CreateTeamProjectProgress' => __DIR__ . '/../..' . '/database/migrations/2018_07_06_201151_create_team_project_progress.php',
         'CreateTeamUsers' => __DIR__ . '/../..' . '/database/migrations/2018_07_06_201121_create_team_users.php',
         'CreateTeams' => __DIR__ . '/../..' . '/database/migrations/2018_07_06_201101_create_teams.php',
@@ -852,7 +857,6 @@ class ComposerStaticInit9282e3a70c8f89461a161b14282d036f
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
         'FreshDatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/FreshDatabaseSeeder.php',
-        'FreshSeeder' => __DIR__ . '/../..' . '/database/seeds/FreshSeeder.php',
         'Hamcrest\\Arrays\\IsArray' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php',
         'Hamcrest\\Arrays\\IsArrayContaining' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContaining.php',
         'Hamcrest\\Arrays\\IsArrayContainingInAnyOrder' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContainingInAnyOrder.php',
