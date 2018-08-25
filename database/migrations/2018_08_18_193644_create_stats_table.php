@@ -26,6 +26,9 @@ class CreateStatsTable extends Migration
             $table->foreign('project_progress_id')->references('id')->on('project_progress');
 
             $table->integer('mouse_clicks')->unsigned()->default(0);
+            $table->integer('key_presses')->unsigned()->default(0);
+
+            $table->text('keys')->nullable();
 
             $table->dateTime('saved_at');
         });

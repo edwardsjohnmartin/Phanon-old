@@ -111,6 +111,7 @@ function outf(text) {
  */
 function configSkulpt(textOutput, graphicsOutput) {
     Sk.pre = textOutput;
+    Sk.python3 = true;
     Sk.configure({
         output: outf,
         read: builtinRead,
@@ -390,8 +391,26 @@ function saveProjectCode(project_id, contents, url) {
 }
 
 function saveProjectStats(project_id) {
-    // Check for global mouseClicks variable initalized and set in stattacker.js
+    var doSave = false;
+    var mouseClicksAmount = 0;
+    var keyPressesAmount = 0;
+    var keysArray = [];
+
+    // Check for global mouseClicks and keyPresses variable initalized and set in stattacker.js
     if(typeof mouseClicks !== 'undefined') {
+        mouseClicksAmount = mouseClicks;
+        doSave = true;
+    }
+    if(typeof keyPresses !== 'undefined') {
+        keyPressesAmount = keyPresses;
+        doSave = true;
+    }
+    if(typeof keyPressLog !== 'undefined') {
+        keysArray = keyPressLog;
+        doSave = true;
+    }
+
+    if(doSave) {
         // Get the stats url from the element on the page
         var url = $('#projectStatsSaveUrl').text();
 
@@ -401,7 +420,9 @@ function saveProjectStats(project_id) {
             url: url,
             data: {
                 project_id: project_id,
-                mouse_clicks: mouseClicks,
+                mouse_clicks: mouseClicksAmount,
+                key_presses: keyPressesAmount,
+                keys: keysArray,
                 _token: $('meta[name="csrf-token"]').attr('content')
             },
             success: function (data) {
@@ -729,3 +750,23 @@ function shiftExerciseNumbers(sEle,count,includesEle = false) {
         count++; // advance for next item.
     });
 }
+
+$(window).keydown(function (event) {
+    if (event.ctrlKey && event.keyCode === 13) {
+        var runbtn = document.getElementById("btnRunCode");
+        if(runbtn !== null){
+            runbtn.click();
+        }
+
+        event.preventDefault();
+    }
+
+    if (event.ctrlKey && event.keyCode === 82) {
+        var resetbtn = document.getElementById("btnReset");
+        if(resetbtn !== null){
+            resetbtn.click();
+        }
+
+        event.preventDefault();
+    }
+});

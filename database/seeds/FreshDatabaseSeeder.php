@@ -6,6 +6,10 @@ use Spatie\Permission\Models\Role;
 use App\Enums\Permissions;
 use App\Enums\Roles;
 use App\User;
+use App\Course;
+use App\Concept;
+use App\Module;
+use App\Project;
 
 class FreshDatabaseSeeder extends Seeder
 {
@@ -21,6 +25,49 @@ class FreshDatabaseSeeder extends Seeder
         self::createAdminUser();
         self::createTeacherUser();
         self::createStudentUser();
+        self::createBasicCourse();
+    }
+
+    public function createBasicCourse()
+    {
+        $user = User::find(1);
+
+        $course = Course::create([
+            'name' => '1181 Test Course',
+            'open_date' => '2018-05-15 02:01:54',
+            'close_date' => '2018-10-15 02:01:54',
+            'owner_id' => $user->id,
+        ]);
+
+        $concept = Concept::create([
+            'name' => 'Test Concept',
+            'course_id' => $course->id,
+            'owner_id' => $user->id
+        ]);
+
+        $module = Module::create([
+            'name' => 'Test Module',
+            'open_date' => '2018-05-16 02:01:54',
+            'concept_id' => $concept->id,
+            'owner_id' => $user->id
+        ]);
+
+        $project = Project::create([
+            'name' => 'Test Project',
+            'open_date' => '2018-05-17 02:01:54',
+            'close_date' => '2018-05-19 02:01:54',
+            'prompt' => 'Sample prompt for a project',
+            'module_id' => $module->id,
+            'owner_id' => $user->id
+        ]);
+
+        $admin_role_id = DB::table('roles')->where('name', Roles::ADMIN)->first()->id;
+        $student_role_id = DB::table('roles')->where('name', Roles::STUDENT)->first()->id;
+
+        $course->users()->attach([
+            $user->id => ['role_id' => $admin_role_id],
+            DB::table('users')->where('name', 'Student 1')->first()->id => ['role_id' => $student_role_id]
+        ]);
     }
 
     public function createPermissions()

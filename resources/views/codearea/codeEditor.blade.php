@@ -11,6 +11,9 @@
 
     @component('scriptbundles.stattracker')
     @endcomponent
+
+    @component('scriptbundles/actions')
+    @endcomponent
 @endsection
 
 @php

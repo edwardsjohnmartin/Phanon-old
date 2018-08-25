@@ -19,9 +19,10 @@ class StatsController extends Controller
     public function save(Request $request)
     {
         // Parse request into variables
-        $all = $request->all();
-        $project_id = $all['project_id'];
-        $mouse_clicks = $all['mouse_clicks'];
+        $project_id = $request->input('project_id');
+        $mouse_clicks = $request->input('mouse_clicks');
+        $key_presses = $request->input('key_presses');
+        $keys = $request->input('keys');
 
         //TODO: Validation
         // Check if project exists
@@ -33,6 +34,8 @@ class StatsController extends Controller
         $newStats->user_id = auth()->user()->id;
         $newStats->project_id = $project_id;
         $newStats->mouse_clicks = $mouse_clicks;
+        $newStats->key_presses = $key_presses;
+        $newStats->keys = json_encode($keys);
         $newStats->saved_at = Carbon\Carbon::now();
         $newStats->save();
 
