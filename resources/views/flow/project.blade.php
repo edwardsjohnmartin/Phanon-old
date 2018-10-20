@@ -30,7 +30,7 @@ if($project->open_date > $now){
     @if($role->hasPermissionTo(Permissions::PROJECT_EDIT))
     <div class="tools">
         <button
-            class="toggleEditMode"
+            class="toggleEditMode edit"
             data-item-type="project"
             data-item-id="{{$project->id}}"
             title="Edit {{$project->name}}"

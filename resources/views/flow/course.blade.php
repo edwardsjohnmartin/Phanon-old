@@ -12,7 +12,7 @@
         <a href="{{url('/courses/' . $course->id)}}" class="view">View</a>
 
         @can(Permissions::COURSE_EDIT)
-            <a href="{{url('/courses/' . $course->id . '/edit')}}" class="edit">Edit</a>
+            <a href="{{url('/courses/' . $course->id . '/edit')}}" class="menu-edit">Edit</a>
         @endcan
 
         @can(Permissions::COURSE_DELETE)
