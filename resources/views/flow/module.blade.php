@@ -12,7 +12,7 @@
     $lessonsAndProjectsCount = 1;// count($module->lessonsAndProjects());
     if($lessonsAndProjectsCount > 0){
         $stats = $module->CompletionStats(auth()->user()->id);
-        
+
         if(!is_null($stats)){
             $is_completed = ($stats->Completed == $stats->ExerciseCount);
             $stats_perc_complete = floor($stats->PercComplete*100);
@@ -23,7 +23,7 @@
             $stats_perc_complete = 0;
             $stats_completed = 0;
             $stats_exercise_count = 0;
-        }    
+        }
     } else {
         $is_completed = false;
         $stats = null;
@@ -65,7 +65,7 @@
     </h1>
     @if($role->hasPermissionTo(Permissions::MODULE_EDIT))
     <aside class="actions">
-        <a class="edit" href="{{url('/modules/' . $module->id . '/edit')}}">Edit</a>
+        <a class="menu-edit" href="{{url('/modules/' . $module->id . '/edit')}}">Edit</a>
         <a class="copy" href="{{url('/modules/' . $module->id . '/copy')}}">Copy</a>
         <a class="delete" href="{{url('/modules/' . $module->id . '/destroy')}}">Delete</a>
     </aside>
@@ -83,7 +83,7 @@
                    @component('flow.lesson',['lesson' => $comp,
                                     'role'=>$role])
                     @endcomponent
-        
+
                 @else
                     @component('flow.project',['project' => $comp,
                                     'role'=>$role])
@@ -91,7 +91,7 @@
                 @endif
             @endforeach
         @endif
-        
+
        {{--@endif --}}
     </ul>
 

@@ -20,9 +20,8 @@
 ?>
 <li id="lesson_{{$lesson->id}}"  class="lesson component {{$percComplete == 100?" completed":""}}">
     @if($role->hasPermissionTo(Permissions::LESSON_EDIT))
-    <div class="actions">
-     <button class="edit" data-item-type="lesson" data-item-id="{{$lesson->id}}"
-             >Edit</button>
+    <div class="tools">
+     <button class="toggleEditMode edit" data-item-type="lesson" data-item-id="{{$lesson->id}}" title="Edit {{$lesson->name}}" aria-label="Edit {{$lesson->name}}"/>
         </div>
     <div class="dragHandleComponent">Move Me</div>
     @endif
