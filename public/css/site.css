@@ -40,6 +40,11 @@ body {
     margin-right: .5em;
 }
 
+.icon-button {
+  background: none;
+  border: none;
+}
+
 .btn-edit:hover, .edit:hover {
     border-color: #7ab2d1;
 }
@@ -50,10 +55,9 @@ body {
     margin-right: .5em; /* plus and space */
 }
 
-.btn-edit:before, .edit:before {
+.btn-edit:before, .edit:after {
     font-family: themify;
     content: "\e61c"; /*pencil*/
-    margin-right: .5em;
 }
 
 [contenteditable="true"]:after {
@@ -77,19 +81,17 @@ body {
     margin-left: .25em;
 }
 
-.btn-view:before, .view:before {
+.btn-view:before, .view:after {
     font-family: themify;
     content: "\e63d";
-    margin-right: .5em;
 }
 
-.btn-delete:before, .delete:before {
+.btn-delete:before, .delete:after {
     font-family: themify;
     content: "\e605";
-    margin-right: .5em;
 }
 
-.btn-copy:before, .copy:before {
+.btn-copy:before, .copy:after {
     font-family: themify;
     content: "\e6a3";
     margin-right: .5em;
@@ -105,7 +107,6 @@ body {
 .collapseAll:before {
     font-family: themify;
     content: "\e6F6";
-    margin-right: .5em;
 }
 
 .expandAll:before {
@@ -113,8 +114,13 @@ body {
     content: "\e712";
     display: inline-block;
     transform: rotate(90deg);
-    margin-right: .5em;
 }
+
+.toggleEditMode:before {
+  font-family: themify;
+  content: "\e61c"; /*pencil*/
+}
+
 
 
 .flow:before {
@@ -282,11 +288,9 @@ body {
     margin-right: .5em;
 }
 
-.teams:before {
+.teams:after {
     font-family: themify;
-    content: "\e602\e602"; /* person */
-    letter-spacing: -.35em;
-    margin-right: .5em;
+    content: "\e602"; /* person */
 }
 
     .login:before {
@@ -381,8 +385,9 @@ body {
     background-color: #DDD;
     border-bottom-width: 4px;
     height: 120px;
-    margin: -20px;
     top: 50px;
+    margin: -20px;
+    padding-right: 20px;
     text-align: center;
     position: sticky;
     z-index: 910;
@@ -398,11 +403,10 @@ body {
     #courseFlow #courseDetails #courseEditButtons {
         text-align:right;
     }
-    #courseEditButtons button{
+    /* #courseEditButtons button{
         width: 2em;
         height: 2em;
-        overflow:hidden;
-    }
+    } */
 
 #courseFlow > article:nth-child(2) {
     margin-top: 40px;
@@ -637,10 +641,10 @@ body {
     font-weight: bold;
 }
 
-#courseFlow .module .details, .actions {
+#courseFlow .module .details, .actions, .tools {
     position: absolute;
-    right: 2em;
-    width: 16em;
+    right: 20px;
+    width: auto;
 }
 
 #courseFlow .module .details {
@@ -648,13 +652,21 @@ body {
     bottom: 0;
 }
 
- .actions {
+.tools {
+    font-size: .5em;
+}
+
+.tools button {
+  padding: .5em;
+}
+
+.actions {
     top: 0;
     width: 2em;
     overflow: hidden;
     height: 1.5em;
-    transition: width ease-in-out 1s, height ease-in-out 1s;
-    text-align: center;
+    transition: width ease-in-out .3s, height ease-in-out .3s;
+    text-align: right;`
 }
 
     .actions a {
@@ -666,6 +678,10 @@ body {
             text-decoration: none;
             background-color: #AAA;
             color: #FFF;
+        }
+
+        .actions a:after {
+          margin: 0 .5em 0 .5em;
         }
 
     .actions:hover{
@@ -1846,10 +1862,9 @@ button.closer{
         border: 1px solid #333;
     }
 
-    
+
 #ideProjectName {
     margin-top: -20px;
     margin-bottom: 20px;
 }
 /*Flow Authoring End*/
-

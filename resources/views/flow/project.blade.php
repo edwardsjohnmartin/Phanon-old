@@ -28,9 +28,14 @@ if($project->open_date > $now){
 ?>
 <li id="project_{{$project->id}}" class="project component {{$css_class}}">
     @if($role->hasPermissionTo(Permissions::PROJECT_EDIT))
-    <div class="actions">
-        <button class="edit" data-item-type="project" data-item-id="{{$project->id}}"
-             >Edit</button>
+    <div class="tools">
+        <button
+            class="toggleEditMode"
+            data-item-type="project"
+            data-item-id="{{$project->id}}"
+            title="Edit {{$project->name}}"
+            aria-label="Edit {{$project->name}}"
+        />
         @if($project->teams_enabled)
             <button class="teams" onclick="displayTeamsList({{$project->id}})"
                     tooltip="Show teams for this project">Show Teams</button>
