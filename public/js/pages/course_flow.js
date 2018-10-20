@@ -58,7 +58,7 @@ function toggleModuleEditMode() {
 
     // name
     // open date
-    
+
     var allFields = $('article.module').find('.editable');
     $(allFields).each(function (index, f) {
         toggleContentEditable(f);
@@ -92,14 +92,12 @@ function addDateButton(obj) {
 
 /**
  * Toggles a div to be shown or hidden.
- * @param {*} divName 
+ * @param {*} divName
  */
 function toggleDivVisibility(myDiv) {
     if ($(myDiv).hasClass('hidden')) {
-        // Make div visible
         $(myDiv).removeClass('hidden');
     } else {
-        // Make div hidden
         $(myDiv).addClass('hidden');
     }
 }
@@ -114,25 +112,16 @@ function toggleEditButtonText(editBtn) {
 
 function expandModules() {
     var btns = $('.expander');
-    //$.each(expandButtons, function(e, btn){
-    //    $(btn).addClass('collapser').removeClass('expander');
-    //    $(btn).parent().find('.components').animate({ height: "toggle" });
-    //});
-    // just call the click event, it already expands everything.
-    turnScrollingOff = true;
     $.each(btns, function (e, btn) {
         btn.click();
     });
-    turnScrollingOff = false;
 }
 
 function collapseModules() {
     var btns = $('.collapser');
-    turnScrollingOff = true;
     $.each(btns, function (e, btn) {
         btn.click();
     });
-    turnScrollingOff = false;
 }
 
 
@@ -412,7 +401,7 @@ function displayTeamsList(projId) {
 
 // course sorting logic starts here
 function makeCourseContentSortable() {
-    //make modules sortable 
+    //make modules sortable
     $(".moduleContainer").sortable({
         items: ".module",
         handle: ".dragHandleModule",
@@ -468,7 +457,7 @@ function makeCourseContentSortable() {
     });
     $(".module").disableSelection();
 
-    //make components sortable 
+    //make components sortable
     $(".components").sortable({
         items: ".component",
         handle: ".dragHandleComponent",
@@ -510,7 +499,7 @@ function makeCourseContentSortable() {
             } else {
                 nextId = -1; // no next; at end of list.
             }
-            
+
             //alert("c: (" + currType + "|" + currId + ") p: (" + prevType + "|"
             //    + prevId + ") r: " + newParId );
 

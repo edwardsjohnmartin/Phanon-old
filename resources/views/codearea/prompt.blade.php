@@ -42,7 +42,7 @@
     @if($item_type == 'project' and $show_survey)
     <div id="projectRatings" data-survey-response-create-url="{{url('/ajax/projectsurveycreate')}}">
         <h3>Ratings</h3>
-        {{-- Projects have survey buttons. 
+        {{-- Projects have survey buttons.
         These need to be in reverse order to work with style sheet approach. --}}
         <h4>Difficulty</h4>
         <ol id="projectDifficulty">
@@ -90,7 +90,7 @@
 @section("scripts-end")
     @parent
 <script>
-   handleContentControllers("#idePrompt", "#promptInstructions",false);
+   handleContentControllers("#idePrompt", "#promptInstructions");
 </script>
     @if($show_survey)
 <script>
