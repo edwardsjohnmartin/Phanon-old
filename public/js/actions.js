@@ -1,13 +1,11 @@
-﻿var turnScrollingOff = true; // Chrome requires this here.; for now turning off all scrolling.
-
 /**
- * Verify that action is what is intended. Proper use for this funciton 
+ * Verify that action is what is intended. Proper use for this funciton
  *      is /return action(eventObj, stringDescribingAction, URIToCallOnSuccess)
  * @param {string} action What text you intend to do.
  * @param {event} e event object for click event.
- * @param {string} url URI that is meant to be called on success. 
+ * @param {string} url URI that is meant to be called on success.
  *      This will be used for AJAX calls when this part gets implemented.
- * 
+ *
  * @return {boolean} True if the action should happen, false if not.
  *      Make sure to return the returned value of this method to make
  *      sure that the event is cancelled when needed.
@@ -24,54 +22,44 @@ function actionVerify(action, e, url) {
 /**
  * Set contentController Events and handle bubbled events.
  * @param containerId parent element that contains all elements.
- * @param collapsingChildSelector css selector based as child of containterId 
+ * @param collapsingChildSelector css selector based as child of containterId
  * that will be the element that collapses and expands.
  * @param success event that will fire if collaps was successful.
  */
-function handleContentControllers(containerId, collapsingChildSelector, scrollToParent = false, success = undefined) {
+function handleContentControllers(containerId, collapsingChildSelector, successHandler) {
     var wasAction = false;
     $(containerId).click(function (e) {
         e = e || window.event;
-        var t = e.target || e.srcElement;
-        if (t.tagName === "BUTTON") {
-            var itemId = t.getAttribute("data-item-id");
-            if (itemId != undefined && t.classList.contains("edit")) {
-                showEditForm(t);
+        var target = e.target || e.srcElement;
+        if (target.tagName === "BUTTON") {
+            var itemId = target.getAttribute("data-item-id");
+            if (itemId && target.classList.contains("edit")) {
+                showEditForm(target);
             } else {
                 // had to name these expander and collapser because of BootStrap
-                expandCollapse(t, collapsingChildSelector, scrollToParent, success);
+                expandCollapse(target, collapsingChildSelector, successHandler);
             }
         }
     });
     return wasAction;
 }
 
-function expandCollapse(ele, collapsable, scrollToParent, success) {
+function expandCollapse(el, collapsable, successHandler) {
     wasAction = true;
-    var t = $(ele);
+    var t = $(el);
     if (t.hasClass("expander")) {
         // only handle content Controls
         t.removeClass("expander").addClass("collapser");
     } else if (t.hasClass("collapser")) {
         t.removeClass("collapser").addClass("expander");
     } else {
-        // other buttons we are not handling here.
         wasAction = false;
     }
-    if (turnScrollingOff != undefined) {
-        scrollToParent = !turnScrollingOff;
-    }
+
     if (wasAction) {
-        t.parent().find(collapsable).animate({ height: "toggle" });
-        if (scrollToParent) {
-            $("html,body").animate({
-                scrollTop: t.parent().offset().top - (parseInt($("body").css("padding-top")))
-            }, 2000
-            );
-        }
-        if (event != undefined) {
-            if (success != undefined)
-                success();
+        t.parent().find(collapsable).animate({ height: "toggle" }, 200);
+        if (event && successHandler) {
+          successHandler();
         }
     }
 }
@@ -133,7 +121,7 @@ function addPopup(msg, className) {
     }
     // append to Log
     var logBook = document.getElementById("ideLog");
-    if (logBook != undefined) {
+    if (logBook) {
         var newEntryTitle = document.createElement("dt");
         newEntryTitle.innerText = (new Date()).toLocaleTimeString();
         var newEntry = document.createElement("dd");
@@ -151,9 +139,9 @@ function getToggleSelection(jEle) {
         // does not exist in storage
         // store value in local storage.
         localStorage.setItem(storageKey, isSelected);
-    } 
+    }
     isSelected = localStorage.getItem(storageKey);
-    
+
     return isSelected == "true";
 }
 

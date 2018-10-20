@@ -1713,7 +1713,7 @@ button.closer{
 
 .popup {
     display: block;
-    animation: hidePopup 2s ease 800ms forwards;
+    animation: hidePopup .2s ease 4s forwards;
     background-color: #FAFAFA;
     border: 1px solid #333;
     overflow: hidden;
@@ -1846,10 +1846,9 @@ button.closer{
         border: 1px solid #333;
     }
 
-    
+
 #ideProjectName {
     margin-top: -20px;
     margin-bottom: 20px;
 }
 /*Flow Authoring End*/
-

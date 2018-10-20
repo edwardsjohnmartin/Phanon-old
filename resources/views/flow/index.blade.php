@@ -44,7 +44,7 @@
         makeCourseContentSortable("#courseContent");
     @endif
 
-    var didAction = handleContentControllers("#courseFlow", ".components", false);
+    var didAction = handleContentControllers("#courseFlow", ".components");
 
     $().ready(function () {
         $("html,body").animate({
